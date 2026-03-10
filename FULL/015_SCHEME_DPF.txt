@@ -1,0 +1,70 @@
+=== SECTION: SCHEME_DPF ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of dominant predictive frame (DPF) state. Defines core fields, prediction schema, registry rules, and invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_CORE_STATE ===
+
+CORE_ASSUMPTION:
+VALUE: STRING_DESCRIPTIVE
+SOURCE: STRING_DESCRIPTIVE
+
+EMOTIONAL_VALENCE:
+VALUE: ENUM [HOPEFUL, CAUTIOUS, ANXIOUS, DREAD, TERRIFIED, VENGEFUL, NUMB, GUILTY, ASHAMED, CRAVING]
+SOURCE: STRING_DESCRIPTIVE
+
+SOURCE_CAUSALITY:
+VALUE: ENUM [SCIENTIFIC, SUPERNATURAL, HUMAN_AGENCY, RANDOM]
+SOURCE: STRING_DESCRIPTIVE
+
+SOCIAL_STANCE:
+VALUE: ENUM [TRUSTING, NEUTRAL, SUSPICIOUS, HOSTILE]
+SOURCE: STRING_DESCRIPTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_METRICS ===
+
+CERTAINTY_LEVEL:
+VALUE: INTEGER_RANGE [0-100]
+
+PACE:
+VALUE: ENUM [SLOW, STEADY, ACCELERATING, URGENT]
+
+SOURCE: STRING_DESCRIPTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_RECORD_SCHEMA ===
+
+PREDICTION_ID: ID_TOKEN (PRD_XX)
+TARGET: STRING_DESCRIPTIVE
+HYPOTHESIS: STRING_DESCRIPTIVE
+PARENT_DPF: STRING_DESCRIPTIVE
+STATE: ENUM [ACTIVE, RESOLVED, RESOLVED_NEGATIVE, FALSIFIED]
+CERTAINTY: INTEGER_RANGE [0-100]
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_DPF][PREDICTION_REGISTRY] lists all PREDICTION_ID tokens.
+- Each listed PREDICTION_ID must have exactly one corresponding [STATE_DPF][PRD_XX] record.
+- PREDICTION_ID uses prefix PRD_.
+- No duplicate PREDICTION_ID.
+- Active predictions are governance-capped for focus.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- CERTAINTY_LEVEL should cohere with active prediction state distribution.
+- All DPF core fields must retain SOURCE traceability.
+- Prediction records marked RESOLVED/RESOLVED_NEGATIVE/FALSIFIED must not remain semantically active.
+- Major contradiction patterns require certainty recalibration behavior.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

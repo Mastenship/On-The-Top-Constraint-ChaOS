@@ -1,0 +1,60 @@
+=== SECTION: STATE_DPF ===
+
+[KEEP: Purpose & Role]
+Mutable dominant predictive frame container. Contains current core state, metrics, registry, and prediction records only.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_CORE_STATE ===
+
+CORE_ASSUMPTION:
+VALUE:
+SOURCE:
+
+EMOTIONAL_VALENCE:
+VALUE:
+SOURCE:
+
+SOURCE_CAUSALITY:
+VALUE:
+SOURCE:
+
+SOCIAL_STANCE:
+VALUE:
+SOURCE:
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_METRICS ===
+
+CERTAINTY_LEVEL:
+VALUE:
+
+PACE:
+VALUE:
+
+SOURCE:
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_REGISTRY ===
+
+PREDICTION_ID:
+- [NONE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_RECORDS ===
+
+[PRD_XX]
+PREDICTION_ID: [PRD_XX]
+
+TARGET:
+HYPOTHESIS:
+PARENT_DPF:
+STATE:
+CERTAINTY:
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

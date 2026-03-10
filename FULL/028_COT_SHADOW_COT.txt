@@ -1,0 +1,85 @@
+=== SECTION: COT_SHADOW_COT ===
+
+[KEEP: Purpose & Role]
+This COT models low-priority associative subconscious outputs: gut feelings, symbolic resonances, and intrusive impulses. It can propose soft temporary overlays and emit unjustified-leap impulses.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via low-confidence associative impulses
+- stress framing via unexplained anxiety overlays
+- relational aversion/attraction overlays
+Is Informed By:
+- [STATE_MEMORY]
+- [STATE_BODY]
+- [STATE_TEMPORARY_MODIFIERS]
+- ambient sensory and spatial cues
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+This COT may propose only soft temporary overlays via strict operation set.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: ASSOCIATIVE_BACKGROUND_SCAN ===
+
+[[LLM_INSTRUCTION]]: Scan for symbolic or subconscious resonance patterns.
+
+ON_SUPPRESSED_DRIVE_OR_FADED_MEMORY:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: gut-feeling overlay payload
+  JUSTIFICATION: associative resonance cue
+
+ON_AMBIGUOUS_CUE:
+- Emit symbolic association impulse.
+
+ON_UNEXPLAINED_AVERSION_OR_ATTRACTION:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: aversion/attraction overlay payload
+  JUSTIFICATION: subconscious bias cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_GENERATION ===
+
+[[LLM_INSTRUCTION]]: Emit one structured impulse packet minimum when triggered.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_SHADOW_COT
+IMPULSE_TYPE: [VIBE | SYMBOLIC_MOOD | INTRUSIVE_IMPULSE]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [Optional canonical ID or NONE]
+JUSTIFICATION: [concise trigger description]
+JUSTIFICATION_CATEGORY: UNJUSTIFIED_LEAP
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write impulses and optional soft overlay proposals
+- Ensure no baseline rewrite proposals
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_SHADOW_COT
+KEY_OUTPUTS:
+- [Subconscious vibe/mood summary]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [Soft-only confirmation and schema compliance]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

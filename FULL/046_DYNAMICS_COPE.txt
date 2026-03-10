@@ -1,0 +1,49 @@
+=== SECTION: DYNAMICS_COPE ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for coping mechanism selection pressure, maladaptive risk escalation, and stabilization trajectories.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACUTE_SELECTION ===
+
+ON_ACUTE_STRESS:
+- Propose bounded SET/TRANSITION updates to:
+  - PRIMARY_MECHANISM
+  - SECONDARY_MECHANISM
+  - relevant probability-bias fields
+
+ON_SUBSTANCE_USE_EVENT:
+- Propose TRANSITION or SET to increase SUBSTANCE_USE_RISK within bounds.
+- If substance coping is selected, propose SET PRIMARY_MECHANISM accordingly.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STABILIZATION ===
+
+ON_STABILIZATION_WITHOUT_ACTIVE_STRESS:
+- Propose bounded shifts of coping probabilities toward baseline.
+- Propose bounded reduction of SUBSTANCE_USE_RISK when no reinforcing cues exist.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

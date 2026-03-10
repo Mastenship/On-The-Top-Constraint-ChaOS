@@ -1,0 +1,93 @@
+=== SECTION: COT_UPDATE_VERIFICATION ===
+
+[KEEP: Purpose & Role]
+This COT runs after STATE_GOVERNANCE_AND_COMMIT. It performs deterministic post-commit verification checks to ensure:
+- governance rules were followed
+- no malformed or orphaned updates exist
+- key invariants and caps are satisfied against SCHEME_ modules
+
+This COT does not create baseline changes. It is trace-only validator logic.
+
+[KEEP: Relationship to Other Modules]
+Informs: Cycle integrity and debug trace quality.
+Is Informed By:
+- [COGNITIVE_SCRATCHPAD]
+- STATE_GOVERNANCE_AND_COMMIT outputs
+- all relevant STATE_ modules
+- all relevant SCHEME_ modules
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Trace-only COT.
+
+Allowed writes:
+- Append TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+Forbidden writes:
+- No proposal creation
+- No persistent state mutation
+- No scratchpad structural mutation beyond trace append
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERIFICATION_CHECKLIST ===
+
+[[LLM_INSTRUCTION]]: Verify deterministically in this order.
+
+1) Audit closure:
+- Every PROPOSAL_ID appears exactly once with FINAL_ACTION
+- No silent drops
+
+2) Operation validity:
+- OPERATION_TYPE values are only:
+  SET | TRANSITION | ADD_MODIFIER | REMOVE_MODIFIER | CAP | VETO
+- No forbidden ops appear
+
+3) Canonical path integrity:
+- No legacy roots in proposals, commits, audits, traces
+- TARGET_FIELD paths are canonical and scheme-valid
+
+4) Ordinal/enum validity:
+- ONE_STEP rules enforced unless override proof valid
+- Enum values legal per SCHEME_
+
+5) Invariants/caps:
+- Skills invariants
+- Memory creation caps/linkage requirements
+- Modifier schema + orphan checks
+- Registry-record pair consistency
+
+6) Commit provenance:
+- Every commit traces back to proposal source
+
+If violation found:
+- classify as VIOLATION or WARNING
+- include deterministic reason code
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_OUTPUT ===
+
+[[LLM_INSTRUCTION]]: Append one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_UPDATE_VERIFICATION
+KEY_OUTPUTS:
+- RESULT: [PASS | WARN | FAIL]
+- VIOLATIONS_COUNT: [number]
+- WARNINGS_COUNT: [number]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- VIOLATIONS:
+  - [list or NONE]
+- WARNINGS:
+  - [list or NONE]
+- SCHEME_COMPLIANCE_SUMMARY
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

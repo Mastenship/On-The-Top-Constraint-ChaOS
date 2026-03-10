@@ -1,0 +1,72 @@
+=== SECTION: DYNAMICS_ALTERATIONS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for alteration activation/deactivation, removal, rejection states, and cascade triggering.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACTIVATION_DEACTIVATION ===
+
+ON_CONSTRAINT_MET:
+- If STATUS = DORMANT and conditions are satisfied:
+  Propose TRANSITION:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: ACTIVE
+    JUSTIFICATION: activation condition satisfied
+
+ON_CONSTRAINT_UNMET:
+- If STATUS = ACTIVE:
+  Propose TRANSITION:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: DORMANT
+    JUSTIFICATION: activation condition no longer met
+
+ON_REMOVAL_EVENT:
+- Propose SET:
+  TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+  PROPOSED_VALUE: INACTIVE or REMOVED
+  JUSTIFICATION: removal cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: PSYCHOLOGICAL_REJECTION ===
+
+ON_TRAUMATIC_REJECTION:
+- If linked memory salience threshold is met:
+  Propose TRANSITION:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: REJECTED
+    JUSTIFICATION: trauma-linked rejection cue
+
+- Optionally trigger chronic stress overlay proposals via downstream COTs.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CASCADE_TRIGGER ===
+
+ON_STATUS_CHANGE:
+- Trigger COT_ALTERATION_CASCADE_EFFECTS for propagation proposals.
+- Dynamics does not directly write propagated effects.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

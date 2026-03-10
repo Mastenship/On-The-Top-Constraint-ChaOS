@@ -1,0 +1,34 @@
+=== SECTION: SCHEME_DARK_TRIAD ===
+
+[KEEP: Purpose & Role]
+Immutable definition of Dark Triad traits. Percentiles set at instantiation; inform malevolent impulses.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_TRAIT_MARKERS ===
+
+NARCISSISM: QUALITATIVE_PERCENTILE
+MACHIAVELLIANISM: QUALITATIVE_PERCENTILE
+PSYCHOPATHY: QUALITATIVE_PERCENTILE
+
+QUALITATIVE_PERCENTILE: ENUM [VERY_LOW (below 20th), LOW (20-40th), AVERAGE (40-60th), HIGH (60-80th), VERY_HIGH (above 80th)]
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRAIT_DEFINITIONS ===
+
+NARCISSISM: Grandiose self-view, entitlement, dominance, need for admiration.
+MACHIAVELLIANISM: Strategic manipulation, cynicism, pragmatic amorality.
+PSYCHOPATHY: Impulsivity, thrill-seeking, callousness, lack of remorse.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation
+- High scores gate MALEVOLENT_BEHAVIOR_SELECTION impulses
+- Changes extremely rare (require override proof)
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

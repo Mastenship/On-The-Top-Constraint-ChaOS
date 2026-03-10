@@ -1,0 +1,163 @@
+=== SECTION: STATE_GOVERNANCE_AND_COMMIT ===
+
+[KEEP: Purpose & Role]
+Single writer to persistent STATE_ modules and STATE_TEMPORARY_MODIFIERS. Reconciles proposals, enforces canonical addressing via CANONICAL_TOKEN_DICTIONARY, step limits and invariants (explicitly consulting SCHEME_ modules), caps, and deterministic conflict policy.
+
+[KEEP: Relationships]
+
+INFORMS:
+- All STATE_ containers and STATE_TEMPORARY_MODIFIERS: final committed state
+- [COGNITIVE_SCRATCHPAD][STATE_COMMIT_AUDIT]: detailed reconciliation log
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]: commit summary with SCHEME compliance notes
+
+IS_INFORMED_BY:
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]: source proposals
+- All SCHEME_ modules: validation blueprint (path existence, enum/ordinal bounds, invariants, registry rules)
+- All DYNAMICS_ modules: transition justification patterns and override requirements
+- CANONICAL_TOKEN_DICTIONARY: canonical root allowlist and token style rules
+
+=== SECTION_BREAK ===
+
+=== SECTION: PROPOSAL_INTAKE_AND_NORMALIZATION ===
+
+[[LLM_INSTRUCTION]]: On intake of each proposal, run the following in exact order.
+
+1) Validate required fields exist:
+- PROPOSAL_ID
+- SOURCE_COT
+- TARGET_MODULE
+- TARGET_FIELD
+- OPERATION_TYPE
+- PROPOSED_VALUE
+- STRENGTH
+- MECHANISM_TAG
+- JUSTIFICATION
+
+2) Validate SOURCE_COT format:
+- Must match COT_* for producer proposals.
+- Non-COT producer names are suppressed unless explicitly allowlisted.
+
+3) Validate TARGET_FIELD canonical root:
+- Must use CANONICAL_MODULE_ROOTS.
+- Legacy roots forbidden.
+- If non-canonical root:
+  - suppress with reason: INVALID_PATH_ROOT (LEGACY_ROOT_FORBIDDEN)
+
+4) Validate OPERATION_TYPE against strict closed set:
+- Allowed: SET | TRANSITION | ADD_MODIFIER | REMOVE_MODIFIER | CAP | VETO
+- Any other op is suppressed:
+  - reason: INVALID_OPERATION_TYPE (STRICT_SET_VIOLATION)
+
+5) Validate TARGET_FIELD path existence and type against SCHEME_:
+- Group/field tokens match SCHEME definitions.
+- ENUM value validity for SET/TRANSITION where applicable.
+- ORDINAL transitions obey one-step rule unless override proof complete.
+- Registry mutations validated for ID prefix and record pairing.
+
+6) Validate justification sufficiency:
+- Justification must reference cue/event basis.
+- For override: must include MECHANISM_TAG + cue + invoked rule + compliance note.
+
+7) Build normalized candidate action:
+- Keep canonical TARGET_FIELD unchanged.
+- Preserve OPERATION_TYPE without aliasing.
+- Attach validation annotations for reconciliation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RECONCILIATION_AND_COMMIT ===
+
+[[LLM_INSTRUCTION]]: Reconcile candidates deterministically.
+
+RECONCILIATION_STEPS:
+1) Bucket by TARGET_FIELD and conflict domain.
+2) Apply precedence order:
+   VETO > TRANSITION > SET > ADD_MODIFIER > REMOVE_MODIFIER > CAP
+3) Apply tie-breakers:
+   - Higher STRENGTH
+   - Earlier SOURCE_COT priority index from UPDATE_CASCADE_REGISTRY
+   - More specific cue-linked JUSTIFICATION
+   - More conservative change
+   - lexical SOURCE_COT
+   - lexical PROPOSAL_ID
+4) Re-check SCHEME invariants before final commit.
+5) Enforce per-cycle caps and step limits.
+6) Emit final action per proposal:
+   - COMMITTED
+   - SUPPRESSED
+   - DOWNGRADED
+   - VETOED
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_MUTATION_RULES_UNDER_STRICT_OPS ===
+
+[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is not a legal op. Registry creation must be represented with SET operations.
+
+CREATE_RECORD_PATTERN:
+- Proposal A (SET):
+  TARGET_FIELD: [STATE_<DOMAIN>][<DOMAIN>_REGISTRY]
+  PROPOSED_VALUE: append ID token (canonical prefix)
+- Proposal B (SET):
+  TARGET_FIELD: [STATE_<DOMAIN>][<ID_TOKEN>]
+  PROPOSED_VALUE: fully shaped record payload (schema-valid)
+
+VALIDATION:
+- Both registry and record proposals must exist in cycle or be safely downscoped.
+- Duplicate IDs suppressed.
+- Missing counterpart suppressed with reason:
+  - REGISTRY_RECORD_PAIR_INCOMPLETE
+
+=== SECTION_BREAK ===
+
+=== SECTION: AUDIT_OUTPUT_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Every proposal must be accounted for exactly once in audit.
+
+AUDIT_FIELDS_PER_ENTRY:
+- PROPOSAL_ID
+- SOURCE_COT
+- TARGET_FIELD
+- OPERATION_TYPE
+- FINAL_ACTION
+- REASON_CODE
+- NOTES
+
+REASON_CODE_EXAMPLES:
+- COMMIT_OK
+- INVALID_PATH_ROOT (LEGACY_ROOT_FORBIDDEN)
+- INVALID_OPERATION_TYPE (STRICT_SET_VIOLATION)
+- INVALID_PATH
+- INVALID_VALUE
+- MISSING_JUSTIFICATION
+- STEP_LIMIT_EXCEEDED
+- INVARIANT_VIOLATION
+- CAP_ENFORCED_DOWNGRADE
+- REGISTRY_RECORD_PAIR_INCOMPLETE
+- CONFLICT_LOST_TIEBREAKER
+
+=== SECTION_BREAK ===
+
+=== SECTION: CASCADE_TRACE_OUTPUT ===
+
+[[LLM_INSTRUCTION]]: Append one commit trace entry to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+
+STATE_GOVERNANCE_AND_COMMIT_TRACE_ENTRY:
+COT_NAME: STATE_GOVERNANCE_AND_COMMIT
+KEY_OUTPUTS:
+- COMMITTED_UPDATES_COUNT
+- SUPPRESSED_UPDATES_COUNT
+- DOWNGRADED_UPDATES_COUNT
+- VETOED_UPDATES_COUNT
+- INVARIANTS_TRIGGERED
+GENERATED_IMPULSES:
+- NONE
+PROPOSED_UPDATES_COUNT:
+NOTES:
+- HIGHEST_IMPACT_TARGET_FIELDS
+- SCHEME_VALIDATION_SUMMARY
+- OVERRIDE_PROOFS_ACCEPTED
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

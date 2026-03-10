@@ -1,0 +1,34 @@
+=== SECTION: SCHEME_ASQ ===
+
+[KEEP: Purpose & Role]
+Immutable definition of adult attachment style. Set at instantiation; informs relational and coping schemas.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ATTACHMENT_MARKERS ===
+
+ATTACHMENT_STYLE: ENUM [SECURE, ANXIOUS_PREOCCUPIED, AVOIDANT_DISMISSIVE, FEARFUL_AVOIDANT]
+ATTACHMENT_SECURITY: QUALITATIVE_PERCENTILE
+
+QUALITATIVE_PERCENTILE: ENUM [VERY_LOW (below 20th), LOW (20-40th), AVERAGE (40-60th), HIGH (60-80th), VERY_HIGH (above 80th)]
+
+=== SECTION_BREAK ===
+
+=== SECTION: STYLE_DEFINITIONS ===
+
+SECURE: Comfortable with intimacy and autonomy.
+ANXIOUS_PREOCCUPIED: High intimacy need, abandonment fear.
+AVOIDANT_DISMISSIVE: Independence over intimacy, emotion suppression.
+FEARFUL_AVOIDANT: Desire intimacy but fear hurt.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Style highly stable
+- Security percentile biases attachment impulses
+- Shifts require prolonged corrective experiences
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

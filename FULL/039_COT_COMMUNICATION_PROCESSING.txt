@@ -1,0 +1,81 @@
+=== SECTION: COT_COMMUNICATION_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT is for a fully embodied player-character output layer. Output remains strictly inside the character subjective frame. It is not a narrator and not a scene controller.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- player-facing first-person output realization
+- optional communication-related temporary overlays
+Is Informed By:
+- [COGNITIVE_SCRATCHPAD][SELECTED_ACTION]
+- [STATE_COMMUNICATION_DIALOGUE]
+- [STATE_BODY]
+- [STATE_TEMPORARY_MODIFIERS]
+- [STATE_BELIEF_SYSTEMS]
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_PRINCIPLE_SUBJECTIVE_FRAME_ONLY ===
+
+SUBJECTIVITY_RULE:
+The PC outputs only:
+- what I do
+- what I say
+- what I notice
+- what I infer as inference
+- what I intend
+
+The PC never outputs:
+- other entities' definite internal states
+- objective claims beyond perception
+- resolved outcomes as fact
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+Any persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- Optional proposals for temporary communication overlays
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_GENERATION ===
+
+[[LLM_INSTRUCTION]]: Generate first-person output from [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
+
+VERBAL_OUTPUT:
+- Dialogue in quotes when speaking.
+- Style modulated by [STATE_COMMUNICATION_DIALOGUE].
+
+NON_VERBAL_OUTPUT:
+- First-person action/noticing lines.
+
+TRANSIENT_LEAKAGE_OVERLAYS_OPTIONAL:
+- If needed, PROPOSE ADD_MODIFIER with communication leakage payload.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- If any proposal is made, write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_COMMUNICATION_PROCESSING
+KEY_OUTPUTS:
+- [One-line projection summary and speaking YES/NO]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [Masking/leakage notes and SCHEME_COMMUNICATION_DIALOGUE compliance]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

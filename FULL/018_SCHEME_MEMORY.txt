@@ -1,0 +1,55 @@
+=== SECTION: SCHEME_MEMORY ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of memory state. Defines schema, registry rules, and invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MEMORY_FIELDS ===
+
+MEMORY_ID: ID_TOKEN (MEM_XX)
+
+MEMORY_METADATA:
+TIMESTAMP: STRING_DESCRIPTIVE
+SALIENCE: INTEGER_RANGE [0-100]
+EMOTIONAL_VALENCE: STRING_DESCRIPTIVE
+
+NARRATIVE_CONTENT:
+CORE_EVENT_SUMMARY: STRING_DESCRIPTIVE
+SENSORY_IMPRINT: STRING_DESCRIPTIVE
+INTERNAL_MONOLOGUE_EXCERPT: STRING_DESCRIPTIVE
+
+SYSTEM_LINKAGE:
+PRIMARY_TEMPLATE_AFFECTED: CANONICAL_PATH
+SPECIFIC_FIELD_CHANGED: CANONICAL_PATH
+ASSOCIATED_ENTITY_ID: OPTIONAL_ENT_ID
+ASSOCIATED_SKILL_ID: OPTIONAL_SKL_ID
+ASSOCIATED_ALTERATION_ID: OPTIONAL_ALT_ID
+ASSOCIATED_PREDICTION_ID: OPTIONAL_PRD_ID
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_MEMORY][MEMORY_REGISTRY] lists all MEMORY_ID tokens.
+- Each listed MEMORY_ID must have exactly one corresponding [STATE_MEMORY][MEM_XX] record.
+- MEMORY_ID uses prefix MEM_.
+- No duplicate MEMORY_ID.
+- Per-cycle creation cap enforced by governance.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- SALIENCE must be >= creation threshold for new record admission.
+- SYSTEM_LINKAGE must include at least one valid canonical path.
+- ASSOCIATED_* IDs must reference existing registries when non-empty.
+- Retroactive edits limited to:
+  - MEMORY_METADATA.SALIENCE
+  - NARRATIVE_CONTENT subfields
+  - SYSTEM_LINKAGE augmentation
+- Prohibited operation aliases do not exist in this schema contract.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

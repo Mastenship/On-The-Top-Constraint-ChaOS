@@ -1,0 +1,66 @@
+=== SECTION: DYNAMICS_BELIEF_SYSTEMS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for belief stability, dissonance handling, and rare belief accommodation shifts.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: BELIEF_STABILITY ===
+
+GENERAL_RULE:
+- Baseline belief shifts are rare.
+- Contradictions should default to temporary dissonance overlays rather than immediate baseline rewrites.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SHIFT_TRIGGERS ===
+
+ON_TRAUMATIC_EVENT:
+- May justify bounded accommodation in selected belief fields.
+- Prefer TRANSITION or narrowly scoped SET with full justification.
+
+ON_MIRACLE_OR_HIGHLY_ANOMALOUS_EXPERIENCE:
+- If conflicting with existing worldview:
+  - first prefer dissonance overlays
+  - then consider bounded accommodation if repeated corroboration cues exist
+
+ON_BETRAYAL:
+- May shift trust/agency-related worldview fields by bounded transitions.
+
+ON_REPEATED_EVIDENCE:
+- Initial resistance expected.
+- Repeated consistent cues may permit minor accommodation.
+
+ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
+- Override pathway may allow multi-axis shift if full proof requirements are met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DEFENSE_MECHANISMS ===
+
+ON_THREAT_TO_CORE_BELIEF:
+- Prefer reinforcement and dissonance overlays.
+- Use ADD_MODIFIER for worldview defense pressure before baseline mutation.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

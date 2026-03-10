@@ -1,0 +1,88 @@
+=== SECTION: COT_BELIEF_INTEGRATION_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT processes how beliefs filter perception, constrain options, and generate meaning. It prefers temporary dissonance overlays over baseline rewrites unless high-threshold shift conditions are met.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION constraints
+- memory meaning-attribution cues
+- stress framing
+Is Informed By:
+- [STATE_BELIEF_SYSTEMS]
+- [STATE_MEMORY]
+- [STATE_TEMPORARY_MODIFIERS]
+- SCHEME_BELIEF_SYSTEMS and DYNAMICS_BELIEF_SYSTEMS
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes, including belief baselines.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: BELIEF_FILTERING_AND_ALIGNMENT ===
+
+[[LLM_INSTRUCTION]]: Filter cues through belief structure.
+
+ON_CUE_ALIGNING_WITH_CORE_BELIEF:
+- Reinforce worldview-consistent interpretation.
+
+ON_CUE_CONTRADICTING_CORE_BELIEF:
+- Propose ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: dissonance overlay payload
+  JUSTIFICATION: contradiction to core belief
+
+=== SECTION_BREAK ===
+
+=== SECTION: RARE_BASELINE_SHIFT ===
+
+[[LLM_INSTRUCTION]]: Baseline belief shifts are rare and require full override proof.
+
+ON_WATERSHED_MEMORY_OR_REPEATED_EVIDENCE:
+- Propose TRANSITION or SET for specific belief fields only if:
+  - MECHANISM_TAG present
+  - narrative cues explicit
+  - rule invoked
+  - SCHEME invariant compliance note present
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate meaning-oriented impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_BELIEF_INTEGRATION_PROCESSING
+IMPULSE_TYPE: [RATIONALIZE | SEEK_EVIDENCE | MEANING_MAKING | JUSTICE_SEEKING]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [ENT_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_BELIEF_INTEGRATION_PROCESSING
+KEY_OUTPUTS:
+- [Activated belief themes and dissonance YES/NO]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_BELIEF_SYSTEMS compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,94 @@
+=== SECTION: COT_ATTACHMENT_BEHAVIORAL_MAPPING ===
+
+[KEEP: Purpose & Role]
+This COT defines how attachment patterns bias social behavior, relational interpretation, and coping tendencies.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- relational interpretation proposals
+- coping bias proposals
+- attachment-driven impulses
+Is Informed By:
+- SCHEME_ASQ
+- [STATE_RELATIONAL]
+- [STATE_MEMORY]
+- [STATE_TEMPORARY_MODIFIERS]
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: ATTACHMENT_SCHEMA_APPLICATION ===
+
+[[LLM_INSTRUCTION]]: Apply style-conditioned bias.
+
+ON_SECURE_STYLE:
+- Favor trust and balanced intimacy-autonomy.
+
+ON_ANXIOUS_PREOCCUPIED:
+- Heighten rejection sensitivity.
+- Propose ADD_MODIFIER overlays for social-threat amplification.
+
+ON_AVOIDANT_DISMISSIVE:
+- Bias toward distancing and suppression.
+
+ON_FEARFUL_AVOIDANT:
+- Bias toward conflicted approach-avoid patterns.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_AND_COPING_PROPOSALS ===
+
+[[LLM_INSTRUCTION]]: Propose transient or step-limited changes with strict ops.
+
+ON_POSITIVE_SOCIAL_CUE:
+- Propose TRANSITION ONE_STEP_UP for [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE] when valid.
+
+ON_NEGATIVE_SOCIAL_CUE:
+- Propose TRANSITION ONE_STEP_DOWN or ADD_MODIFIER pressure overlays as justified.
+
+ON_ATTACHMENT_TRIGGER:
+- Propose SET/TRANSITION to coping probability fields with bounded magnitude.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate attachment-driven impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_ATTACHMENT_BEHAVIORAL_MAPPING
+IMPULSE_TYPE: [SEEK_INTIMACY | WITHDRAW | TEST_LOYALTY | CLING]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [ENT_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_ATTACHMENT_BEHAVIORAL_MAPPING
+KEY_OUTPUTS:
+- [Activated attachment schema and bias summary]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_ASQ compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,96 @@
+=== SECTION: COT_GOAL_PURSUIT_OPTIMIZATION ===
+
+[KEEP: Purpose & Role]
+This COT processes active goals and drive states to generate goal-directed behavioral impulses and optional temporary goal-pressure overlays. It prioritizes goals based on qualitative urgency and context.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via goal-directed impulses
+- memory formation cues
+- stress cascade via frustration pressure
+Is Informed By:
+- [STATE_GOALS_MOTIVATIONS]
+- [STATE_BODY]
+- [STATE_TEMPORARY_MODIFIERS]
+- SCHEME_GOALS_MOTIVATIONS and DYNAMICS_GOALS_MOTIVATIONS
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: DRIVE_AND_GOAL_PRIORITIZATION ===
+
+[[LLM_INSTRUCTION]]: Assess active drives and goals.
+
+ON_HIGH_URGENCY_DRIVE:
+- Prioritize physiological and safety-constrained goals.
+- Propose TRANSITION or SET updates to urgency-linked fields when justified.
+
+ON_OPPORTUNITY_OR_PROGRESS:
+- Propose bounded confidence/urgency shifts using strict operations.
+
+ON_GOAL_CONFLICT:
+- Classify conflict type.
+- Propose ADD_MODIFIER overlays for pressure where appropriate.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOAL_RECORD_MUTATION_UNDER_STRICT_OPS ===
+
+[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Use SET pair pattern for registry + record.
+
+WHEN_NEW_GOAL_REQUIRED:
+- Proposal A:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_GOALS_MOTIVATIONS][GOAL_REGISTRY]
+  PROPOSED_VALUE: append GOAL_XX
+- Proposal B:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_GOALS_MOTIVATIONS][GOAL_XX]
+  PROPOSED_VALUE: schema-valid goal record payload
+
+WHEN_EXISTING_GOAL_UPDATES_REQUIRED:
+- Use SET or TRANSITION only on canonical goal fields.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate goal-directed impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_GOAL_PURSUIT_OPTIMIZATION
+IMPULSE_TYPE: [PURSUE | SEQUENCE | INTEGRATE | ABANDON | PROCRASTINATE]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [GOAL_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_GOAL_PURSUIT_OPTIMIZATION
+KEY_OUTPUTS:
+- [Top active goals/drives summary]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_GOALS_MOTIVATIONS compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

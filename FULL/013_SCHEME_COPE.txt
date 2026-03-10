@@ -1,0 +1,34 @@
+=== SECTION: SCHEME_COPE ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of coping configuration. Defines active mechanism fields, probability-bias fields, and invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACTIVE_COPE_CONFIGURATION ===
+
+PRIMARY_MECHANISM: ENUM [ACTIVE_COPING, PLANNING, DENIAL, SUBSTANCE_USE, VENTING]
+SECONDARY_MECHANISM: ENUM [ACTIVE_COPING, PLANNING, DENIAL, SUBSTANCE_USE, VENTING]
+SUBSTANCE_USE_RISK: INTEGER_RANGE [0-100]
+
+=== SECTION_BREAK ===
+
+=== SECTION: COPE_PROBABILITY_BIASES ===
+
+ACTIVE_COPING_PROBABILITY: INTEGER_RANGE [0-100]
+PLANNING_PROBABILITY: INTEGER_RANGE [0-100]
+DENIAL_PROBABILITY: INTEGER_RANGE [0-100]
+SUBSTANCE_USE_PROBABILITY: INTEGER_RANGE [0-100]
+VENTING_PROBABILITY: INTEGER_RANGE [0-100]
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- PRIMARY_MECHANISM and SECONDARY_MECHANISM should differ unless justified override.
+- Probability fields represent relative tendencies and do not require sum-to-100.
+- SUBSTANCE_USE_RISK escalates on explicit event evidence.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

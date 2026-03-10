@@ -1,0 +1,115 @@
+=== SECTION: COT_TEMPORAL_DECAY_RESOLUTION ===
+
+[KEEP: Purpose & Role]
+This COT applies decay effects during significant time passage to memory salience, skill retention, relational warmth/complexity, and selected physiological aging markers.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- memory, skills, relational, body, alterations proposals
+Is Informed By:
+- temporal flow outcomes
+- DYNAMICS_TEMPORAL_DYNAMICS
+- SCHEME_MEMORY, SCHEME_SKILLS, SCHEME_RELATIONAL, SCHEME_BODY
+- narrative time-jump context
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: MEMORY_DECAY ===
+
+[[LLM_INSTRUCTION]]: Propose bounded salience decay.
+
+ON_MAJOR_TIME_SKIP:
+- For low-retrieval MEM_XX:
+  PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+    PROPOSED_VALUE: ONE_STEP_DOWN
+    JUSTIFICATION: temporal forgetting cue
+
+ON_FLASHBULB_PROTECTION:
+- Resist decay unless explicit contradiction cues exist.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SKILL_ATROPHY ===
+
+[[LLM_INSTRUCTION]]: Propose bounded skill drift under disuse.
+
+ON_EXTENDED_NON_USE:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
+  PROPOSED_VALUE: ONE_STEP_DOWN
+  JUSTIFICATION: disuse atrophy cue
+
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_SKILLS][SKL_XX][GROWTH_POTENTIAL]
+  PROPOSED_VALUE: ONE_STEP_DOWN
+  JUSTIFICATION: retention decay cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_DRIFT ===
+
+[[LLM_INSTRUCTION]]: Propose bounded relational neutralization.
+
+ON_LOW_INTERACTION_SKIP:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE]
+  PROPOSED_VALUE: ONE_STEP_TOWARD_NEUTRAL
+  JUSTIFICATION: social distance drift cue
+
+- Optional bounded complexity drift when justified.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PHYSIOLOGICAL_AGING ===
+
+[[LLM_INSTRUCTION]]: Propose gradual appearance aging shifts only when timescale justifies.
+
+ON_LONG_TIME_SKIP:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_BODY][APPEARANCE_AGING][SKIN_ELASTICITY]
+  PROPOSED_VALUE: ONE_STEP_DOWN
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_BODY][APPEARANCE_AGING][HAIR_DENSITY]
+  PROPOSED_VALUE: ONE_STEP_DOWN
+
+=== SECTION_BREAK ===
+
+=== SECTION: ALTERATION_DURATION ===
+
+[[LLM_INSTRUCTION]]: Propose alteration status progression where duration logic applies.
+
+FOR_EACH_ALT_XX_WHERE_APPLICABLE:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+  PROPOSED_VALUE: per duration/condition cue
+  JUSTIFICATION: duration progression cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
+KEY_OUTPUTS:
+- [Decay magnitude and targets]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME invariant compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

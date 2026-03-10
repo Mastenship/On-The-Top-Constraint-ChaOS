@@ -1,0 +1,66 @@
+=== SECTION: DYNAMICS_MEMORY ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for memory formation, reconsolidation, salience adjustment, and decay. This module defines lawful transition patterns and never performs direct writes.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: When record creation is needed, use SET pair pattern:
+- SET registry append
+- SET full record payload
+
+=== SECTION_BREAK ===
+
+=== SECTION: FORMATION_CRITERIA ===
+
+ON_SALIENCE_THRESHOLD_MET:
+- If emotional intensity + novelty + consequence meets threshold:
+  - Proposal pattern:
+    - SET [STATE_MEMORY][MEMORY_REGISTRY] append MEM_XX
+    - SET [STATE_MEMORY][MEM_XX] full schema-valid record
+  - Initial SALIENCE and linkage must be provided.
+
+ON_FLASHBULB_EVENT:
+- If SALIENCE >= high threshold:
+  - Override pathway may allow richer linkage or stronger initial salience if proof requirements are met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RECONSOLIDATION_RULES ===
+
+ON_RETRIEVAL_WITH_NEW_CONTEXT:
+- Propose SET for allowed mutable memory subfields:
+  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][CORE_EVENT_SUMMARY]
+  - [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+  - linkage augmentation fields where lawful
+- Must include MECHANISM_TAG and justification cue.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DECAY_AND_FORGETTING ===
+
+ON_TEMPORAL_DECAY_MAJOR:
+- Propose TRANSITION ONE_STEP_DOWN for memory salience where applicable.
+- If salience falls below retention threshold and no protected linkage remains:
+  - Propose SET to remove/deactivate memory record per governance policy.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

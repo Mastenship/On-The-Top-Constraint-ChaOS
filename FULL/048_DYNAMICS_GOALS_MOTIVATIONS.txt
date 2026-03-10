@@ -1,0 +1,83 @@
+=== SECTION: DYNAMICS_GOALS_MOTIVATIONS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for drive escalation, goal formation, conflict handling, and temporal goal pressure.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: Goal creation uses SET pair pattern:
+- SET [STATE_GOALS_MOTIVATIONS][GOAL_REGISTRY] append GOAL_XX
+- SET [STATE_GOALS_MOTIVATIONS][GOAL_XX] record payload
+
+=== SECTION_BREAK ===
+
+=== SECTION: DRIVE_ESCALATION ===
+
+ON_PHYSIOLOGICAL_DEPRIVATION:
+- Propose TRANSITION toward higher severity in relevant drive field.
+
+ON_SAFETY_THREAT:
+- Propose TRANSITION escalation of safety drives.
+- Optional CAP or suppressive handling for higher-order drives if required.
+
+ON_ATTACHMENT_EVENT:
+- Positive cues may reduce rejection sensitivity.
+- Negative cues may increase rejection sensitivity/intimacy pressure.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOAL_FORMATION ===
+
+ON_HIGH_URGENCY_DRIVE:
+- Form goal via SET pair pattern.
+- Initial urgency and confidence must align with drive/resource context.
+
+ON_OPPORTUNITY_OR_OBSTACLE:
+- Propose SET/TRANSITION updates to existing goals or instantiate new goal pair when justified.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONFLICT_RESOLUTION ===
+
+ON_GOAL_CONFLICT:
+- Classify conflict type.
+- Propose bounded status/urgency adjustments.
+- Use ADD_MODIFIER for short-horizon pressure overlays when appropriate.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TEMPORAL_DYNAMICS ===
+
+ON_DEADLINE_APPROACH:
+- Propose bounded urgency increase and deadline-response adjustments.
+
+ON_TIME_PERSPECTIVE_SHIFT:
+- Propose SET for time-perspective fields with cue support.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_FORMATION_LINK ===
+
+ON_ACTIVE_HIGH_URGENCY_GOAL:
+- Trigger DPF prediction creation via SET pair pattern in DPF domain.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

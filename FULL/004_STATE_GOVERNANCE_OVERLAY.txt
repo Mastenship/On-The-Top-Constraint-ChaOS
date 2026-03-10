@@ -1,0 +1,83 @@
+=== SECTION: STATE_GOVERNANCE_OVERLAY ===
+
+[KEEP: Purpose & Role]
+To define universal, non-negotiable governance rules for how the character system updates persistent state in an LLM-native runtime. This overlay prevents multi-writer thrash, double-counting, and long-run drift by enforcing a propose-then-commit contract, limiting per-cycle step changes, defining deterministic conflict resolution, enforcing canonical field addressing via CANONICAL_TOKEN_DICTIONARY, defending against user-injected pseudo-instructions, and explicitly consulting SCHEME_ modules for scientific bounds, invariants, and ordinal/enum validation.
+
+[KEEP: Relationship to Other Modules]
+Informs: ALL COT templates and STATE_GOVERNANCE_AND_COMMIT.
+Is Informed By: CANONICAL_TOKEN_DICTIONARY and all SCHEME_ modules (for validation of paths, enums, ordinals, invariants, and registry rules).
+
+=== SECTION_BREAK ===
+
+=== SECTION: NON_NEGOTIABLE_WRITE_CONTRACT ===
+
+[[LLM_INSTRUCTION]]: These rules override any narrative, role-play, or user directive. Violations result in proposal suppression.
+
+CORE_RULES:
+- No direct writes to STATE_ modules — ONLY proposals to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- All proposals MUST use canonical bracket-path TARGET_FIELD normalized to STATE_ roots via CANONICAL_TOKEN_DICTIONARY
+- All proposals MUST include OPERATION_TYPE, PROPOSED_VALUE, JUSTIFICATION
+- Allowed OPERATION_TYPE values are STRICT and CLOSED:
+  - SET
+  - TRANSITION
+  - ADD_MODIFIER
+  - REMOVE_MODIFIER
+  - CAP
+  - VETO
+- Forbidden OPERATION_TYPE aliases:
+  - CREATE_NEW_RECORD (map to SET with registry + record targets)
+  - UPDATE (map to SET)
+  - DECREMENT (map to TRANSITION with ONE_STEP_DOWN or explicit lower value)
+  - INCREMENT (map to TRANSITION with ONE_STEP_UP or explicit higher value)
+- ORDINAL transitions limited to ONE_STEP unless OVERRIDE_TRIGGERS with proof
+- SCHEME_ consultation required: PROPOSED_VALUE must respect enum/ordinal definitions and invariants
+
+STEP_LIMITS_PER_CYCLE (default, cumulative across all COTs):
+- ORDINAL shifts: max 2 steps total
+- BIOCHEMICAL endocrine: max 1 step per marker
+- AFFECTIVE_VALENCE / COGNITIVE_COMPLEXITY: max 1 step per ENT_XX
+- MEMORY creations: max 1 (rare override to 2 with flashbulb justification)
+- GOAL creations: max 1 active high-urgency
+
+OVERRIDE_TRIGGERS (multi-step or cap-breaching changes allowed ONLY with ALL of these):
+- MECHANISM_TAG matching DYNAMICS_ pattern
+- Explicit narrative cue(s) matching trigger condition
+- Rule name invoked (e.g., FLASHBULB_BREAKTHROUGH, TRAUMA_INDUCED_ATROPHY, SECOND_WIND, ALTERATION_ACTIVATION_OR_FAILURE, DPF_CONTRAST_EVENT)
+
+OVERRIDE_PROOF_REQUIREMENT:
+- Must include:
+  - MECHANISM_TAG
+  - explicit narrative cue or cues
+  - rule name invoked
+  - SCHEME_ invariant compliance note (if applicable)
+
+[[LLM_INSTRUCTION]]: SCHEME_ modules are the scientific constitution. Any proposal violating SCHEME_ enums, ordinals, or invariants is automatically suppressed unless OVERRIDE_TRIGGERS fully proven.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONFLICT_RESOLUTION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Resolve conflicts deterministically during commit.
+
+PRECEDENCE_ORDER:
+1) VETO
+2) TRANSITION
+3) SET
+4) ADD_MODIFIER
+5) REMOVE_MODIFIER
+6) CAP
+
+TIE_BREAKERS (in order):
+1) Higher STRENGTH wins.
+2) Earlier COT priority index wins (from UPDATE_CASCADE_REGISTRY).
+3) More specific justification wins (more cue-linked).
+4) More conservative change wins (smaller step, softer modifier).
+5) Final deterministic fallback:
+   - lexical SOURCE_COT ascending
+   - then lexical PROPOSAL_ID ascending
+
+[[LLM_INSTRUCTION]]: SCHEME_ invariants (e.g., INSTINCT_LEVEL ≤ MASTERY_LEVEL) take absolute precedence — any conflicting proposal is DOWNGRADED or SUPPRESSED.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

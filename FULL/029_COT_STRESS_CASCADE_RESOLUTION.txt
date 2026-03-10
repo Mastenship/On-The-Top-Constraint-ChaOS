@@ -1,0 +1,126 @@
+=== SECTION: COT_STRESS_CASCADE_RESOLUTION ===
+
+[KEEP: Purpose & Role]
+This COT defines the cascade from stressor detection through physiological response to behavioral impulses. It translates stress cues into:
+- proposed physiological state changes (proposal-only)
+- temporary overlays in STATE_TEMPORARY_MODIFIERS (proposal-only)
+- stress-driven impulses
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- STATE_BODY (biochemical proposals)
+- STATE_COPE (selection pressure proposals)
+- STATE_TEMPORARY_MODIFIERS (overlay proposals)
+- DECISION synthesis (impulses)
+Is Informed By:
+- STATE_MEMORY
+- SCHEME personality modules
+- STATE_RELATIONAL
+- narrative input
+- SCHEME_BODY and DYNAMICS_BODY
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT is forbidden from direct persistent writes.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+All proposals must use strict OPERATION_TYPE set.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRESSOR_DETECTION_AND_CLASSIFICATION ===
+
+[[LLM_INSTRUCTION]]: Detect and classify stressor from cues.
+
+STRESSOR_CLASSIFICATION:
+- ACUTE_PHYSICAL_THREAT
+- ACUTE_SOCIAL_THREAT
+- CHRONIC_OVERLOAD
+- LOSS_OR_GRIEF
+- UNCERTAINTY_OR_AMBIGUITY
+- EXISTENTIAL
+
+TRAIT_MODULATION:
+- emotionality and anxiety-related trait amplifiers apply qualitatively.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PHYSIOLOGICAL_PROPAGATION ===
+
+[[LLM_INSTRUCTION]]: Propose transitions respecting SCHEME_BODY ordinals and limits.
+
+ON_ACUTE_STRESSOR:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ADRENALINE]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: Sympathetic activation cue
+
+ON_SUSTAINED_OR_REPEATED_STRESS:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: HPA-axis sustained stress cue
+
+ON_CHRONIC_PATTERN:
+- PROPOSE TRANSITION toward chronic states only if step limits/override rules permit.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PSYCHOLOGICAL_PROPAGATION ===
+
+[[LLM_INSTRUCTION]]: Propose temporary overlays via strict modifier operations.
+
+ON_HIGH_AROUSAL:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: anxiety/hypervigilance overlay payload
+  JUSTIFICATION: stress-induced narrowing
+
+ON_CHRONIC_PATTERN:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: emotional numbing/irritability overlay payload
+  JUSTIFICATION: chronic load cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSE_GENERATION ===
+
+[[LLM_INSTRUCTION]]: Emit one or more impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_STRESS_CASCADE_RESOLUTION
+IMPULSE_TYPE: [FIGHT | FLIGHT | FREEZE | FAP | APPEASE | WITHDRAW]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [ENT_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After stress cascade:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_STRESS_CASCADE_RESOLUTION
+KEY_OUTPUTS:
+- [stressor classification summary]
+GENERATED_IMPULSES:
+- [List of impulse types or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_BODY compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

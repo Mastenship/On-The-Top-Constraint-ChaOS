@@ -1,0 +1,64 @@
+=== SECTION: DYNAMICS_DPF ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for DPF synthesis dynamics, prediction lifecycle, certainty drift, and recalc gating.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: Prediction creation uses SET pair pattern:
+- SET [STATE_DPF][PREDICTION_REGISTRY] append PRD_XX
+- SET [STATE_DPF][PRD_XX] record payload
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_ACCUMULATION ===
+
+ON_MINOR_CONTRADICTION:
+- Propose SET or TRANSITION to reduce certainty fields within bounded steps.
+- If prediction certainty crosses falsification threshold:
+  - Propose SET [STATE_DPF][PRD_XX][STATE] = FALSIFIED or RESOLVED_NEGATIVE.
+- If global certainty crosses recalc threshold:
+  - queue recalculation flag in scratchpad.
+
+ON_RESOLUTION_EVENT:
+- If prediction confirmed:
+  - Propose SET [STATE_DPF][PRD_XX][STATE] = RESOLVED
+  - Propose bounded certainty increase.
+
+ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
+- Create prediction via SET pair pattern.
+
+ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
+- Propose bounded shifts toward emotional and certainty baseline.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RECALCULATION_GUARD ===
+
+CYCLE_RECALC_GUARD:
+- Only one full DPF recalculation per cycle.
+- Additional contradictions queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE.
+
+ON_DPF_CONTRAST_EVENT:
+- Override pathway may permit multi-field DPF shifts if full proof provided.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

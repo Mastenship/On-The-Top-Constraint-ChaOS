@@ -1,0 +1,44 @@
+=== SECTION: SCHEME_RELATIONAL ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of relational state. Defines relational record schema, ordinals, registry rules, and invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_RECORD_SCHEMA ===
+
+ENTITY_ID: ID_TOKEN (ENT_XX)
+ENTITY_NAME: STRING_DESCRIPTIVE
+PERCEIVED_RELATIONSHIP_TYPE: STRING_DESCRIPTIVE
+AFFECTIVE_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED]
+COGNITIVE_COMPLEXITY: ORDINAL [ONE_DIMENSIONAL, SIMPLE, NUANCED, COMPLEX]
+INTERACTION_FREQUENCY_ESTIMATE: STRING_DESCRIPTIVE
+DEFINING_MEMORY_SUMMARY: STRING_DESCRIPTIVE
+ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
+CURRENT_CONCERN: STRING_DESCRIPTIVE
+
+ORDINALS:
+AFFECTIVE_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
+COGNITIVE_COMPLEXITY_ORDER: ONE_DIMENSIONAL < SIMPLE < NUANCED < COMPLEX
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_RELATIONAL][RELATIONAL_REGISTRY] lists all ENTITY_ID tokens.
+- Each listed ENTITY_ID must have exactly one corresponding [STATE_RELATIONAL][ENT_XX] record.
+- ENTITY_ID uses prefix ENT_.
+- No duplicate ENTITY_ID.
+- New entity insertion follows strict SET pair contract.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Ordinal transitions obey one-step policy unless override proof is valid.
+- COGNITIVE_COMPLEXITY must be supportable by interaction history and memory linkage.
+- CURRENT_CONCERN should clear on resolution unless refreshed by new cues.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

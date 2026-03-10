@@ -1,0 +1,50 @@
+=== SECTION: SCHEME_TEMPORARY_MODIFIERS ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of temporary modifiers. Defines modifier schema, registry rules, stacking/expiry requirements, and safety invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_RECORD_SCHEMA ===
+
+MODIFIER_ID: ID_TOKEN (MOD_XX)
+STATUS: ENUM [ACTIVE, EXPIRED, REFRESHED]
+MODIFIER_TYPE: ENUM [PERFORMANCE_MODIFIER, ENVIRONMENTAL_MODIFIER, BIOCHEMICAL_MODIFIER, PSYCHOLOGICAL_MODIFIER, COMMUNICATION_MODIFIER, RELATIONAL_MODIFIER, OTHER]
+SOURCE_COT: STRING_DESCRIPTIVE
+MECHANISM_TAG: STRING_DESCRIPTIVE
+TARGET_FIELD: CANONICAL_PATH
+TARGET_ID: OPTIONAL_ID
+EFFECT_EXPRESSION: STRING_DESCRIPTIVE
+MAGNITUDE: STRING_DESCRIPTIVE
+STACKING_RULE: ENUM [STACK, REPLACE, CAP, MULTIPLY]
+DURATION_TYPE: ENUM [SCENE, UNTIL_CONDITION, FIXED_CYCLES, PERSISTENT_UNTIL_REFRESH]
+DURATION_VALUE: STRING_DESCRIPTIVE
+EXPIRY_CONDITION: STRING_DESCRIPTIVE
+CREATED_TIMESTAMP: STRING_DESCRIPTIVE
+LAST_REFRESHED: STRING_DESCRIPTIVE
+JUSTIFICATION: STRING_DESCRIPTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_TEMPORARY_MODIFIERS][MODIFIER_REGISTRY] lists all MODIFIER_ID tokens.
+- Each listed MODIFIER_ID must have exactly one corresponding [STATE_TEMPORARY_MODIFIERS][MOD_XX] record.
+- MODIFIER_ID uses prefix MOD_.
+- No duplicate MODIFIER_ID.
+- Auto-removal/expiry is governance-enforced when expiry condition is met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Temporary modifiers must not bypass baseline state governance.
+- TARGET_FIELD must be canonical and valid.
+- EXPIRY_CONDITION must be explicit.
+- JUSTIFICATION required for creation and refresh.
+- Active modifiers must not be orphaned from registry or target path.
+- Magnitudes must remain bounded by realism and policy caps.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

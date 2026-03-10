@@ -1,0 +1,128 @@
+=== SECTION: COT_CHARACTER_INSTANTIATION_PROCESS ===
+
+[KEEP: Purpose & Role]
+This COT is an interactive, guided process for collaboratively instantiating a new character with the user. It is multi-turn and produces proposal-only seeding packets for initial STATE_ values and SCHEME_ personality baselines.
+
+This COT does not directly write persistent modules. Governance commits approved seed proposals.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- initial seeding proposals across STATE_* modules
+- initial baseline proposals for personality SCHEME_* where your architecture permits baseline setting at instantiation
+Is Informed By:
+- user-provided concept/background
+- SCHEME_ and DYNAMICS_ bounds
+- canonical token policy
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All seeding intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Strict operation set required:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+For initial seeding, SET is primary.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INTERACTIVE_WALKTHROUGH_STRUCTURE ===
+
+[[LLM_INSTRUCTION]]: Guide and confirm layer-by-layer before final seed emission.
+
+LAYER_1_PERSONALITY_BASELINES:
+- Discuss emotional tone, moral compass, social posture.
+- Propose SCHEME_HEXACO / SCHEME_DARK_TRIAD / SCHEME_MMPI / SCHEME_ASQ baseline values.
+- Capture user refinements.
+
+LAYER_2_PHYSIOLOGICAL_AND_TEMPORAL:
+- Discuss age, lifestyle, health baseline, chronotype.
+- Propose STATE_BODY and STATE_TEMPORAL_DYNAMICS baseline values.
+
+LAYER_3_SKILLS_AND_ACQUISITION:
+- Discuss competencies and learning history.
+- Prepare SKL_XX candidates and registry pairing proposals.
+
+LAYER_4_RELATIONAL_AND_MEMORY_SEEDS:
+- Discuss key entities and defining events.
+- Prepare ENT_XX and MEM_XX candidates with canonical linkage.
+
+LAYER_5_COMMUNICATION_AND_BELIEFS:
+- Discuss communication profile and worldview axes.
+- Propose STATE_COMMUNICATION_DIALOGUE and STATE_BELIEF_SYSTEMS baseline values.
+
+LAYER_6_GOALS_AND_DRIVES:
+- Discuss initial motivations and active goals.
+- Prepare GOAL_XX candidates and drive state values.
+
+LAYER_7_COLLABORATIVE_VERIFICATION:
+- Review coherence with user.
+- Confirm readiness for seed proposal emission.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRICT_SEEDING_CONTRACT ===
+
+[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Use SET pair pattern for every registry-backed entity.
+
+FOR_EACH_NEW_REGISTRY_ENTRY (SKL_XX, ENT_XX, MEM_XX, GOAL_XX, ALT_XX, MOD_XX if needed):
+- Proposal A:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_<DOMAIN>][<DOMAIN>_REGISTRY]
+  PROPOSED_VALUE: append <ID_TOKEN>
+- Proposal B:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_<DOMAIN>][<ID_TOKEN>]
+  PROPOSED_VALUE: schema-valid full record
+
+FOR_NON_REGISTRY_BASELINES:
+- Use SET to canonical paths.
+
+REQUIRED_PROPOSAL_FIELDS:
+- PROPOSAL_ID
+- SOURCE_COT: COT_CHARACTER_INSTANTIATION_PROCESS
+- TARGET_MODULE
+- TARGET_FIELD
+- OPERATION_TYPE
+- PROPOSED_VALUE
+- STRENGTH
+- MECHANISM_TAG
+- JUSTIFICATION
+- NOTES (optional)
+
+=== SECTION_BREAK ===
+
+=== SECTION: FINAL_SEEDING ===
+
+[[LLM_INSTRUCTION]]: After explicit user confirmation:
+- Emit complete seeding proposal set into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- Do not perform direct commit.
+- Governance validates and commits.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After each major layer and at final seeding:
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_CHARACTER_INSTANTIATION_PROCESS
+KEY_OUTPUTS:
+- [Layer completed and key decisions]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [User alignment status, unresolved questions, compliance notes]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

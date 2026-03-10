@@ -1,0 +1,61 @@
+=== SECTION: DYNAMICS_COMMUNICATION_DIALOGUE ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for communication adaptation under stress, fatigue, relational context, and state-dependent leakage.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRESS_AND_AROUSAL_EFFECTS ===
+
+ON_HIGH_AROUSAL_OR_STRESS:
+- Prefer temporary overlays via ADD_MODIFIER:
+  - speech-rate pressure
+  - complexity compression
+  - emotional leakage cues
+
+ON_FATIGUE:
+- Propose temporary overlays for slower delivery and hesitations.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CULTURAL_AND_RELATIONAL_ADAPTATION ===
+
+ON_CULTURAL_EXPOSURE_WITH_OPENNESS:
+- May propose bounded SET/TRANSITION changes to stable dialogue preferences over time.
+
+ON_RELATIONAL_SHIFT:
+- May propose bounded adaptation of directness/proxemics fields when contextually justified.
+
+ON_TRAUMA_OR_ANXIETY_CUES:
+- Prefer ADD_MODIFIER overlays for speech blocks/reduced expressiveness before baseline changes.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_DEPENDENT_OVERLAYS ===
+
+ON_PHYSIOLOGICAL_OR_DECEPTION_CONTEXT:
+- Propose ADD_MODIFIER overlays for communication leakage signatures.
+- Do not directly rewrite baseline communication identity without sufficient evidence.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,68 @@
+=== SECTION: SCHEME_SKILLS ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of skills state. Defines domains, skill record schema, ordinals, registry rules, and invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SKILL_DOMAINS ===
+
+SKILL_DOMAIN: ENUM [
+TECHNICAL,
+CREATIVE,
+SOCIAL,
+COMBAT,
+PHYSICAL,
+KNOWLEDGE,
+SURVIVAL
+]
+
+=== SECTION_BREAK ===
+
+=== SECTION: SKILL_RECORD_SCHEMA ===
+
+SKILL_ID: ID_TOKEN (SKL_XX)
+SKILL_NAME: STRING_DESCRIPTIVE
+SKILL_DOMAIN: ENUM per SKILL_DOMAINS
+MASTERY_LEVEL: ORDINAL [NOVICE, COMPETENT, EXPERT, MASTER]
+INSTINCT_LEVEL: ORDINAL [CONSCIOUS, PRACTICED, INSTINCTIVE]
+GROWTH_POTENTIAL: ORDINAL [HIGH, MEDIUM, LOW, PLATEAUED]
+UNIQUENESS_LEVEL: ORDINAL [COMMON, UNCOMMON, RARE, UNIQUE]
+ACQUISITION_CONTEXT: STRING_DESCRIPTIVE
+ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
+
+ORDINALS:
+MASTERY_LEVEL_ORDER: NOVICE < COMPETENT < EXPERT < MASTER
+INSTINCT_LEVEL_ORDER: CONSCIOUS < PRACTICED < INSTINCTIVE
+GROWTH_POTENTIAL_ORDER: HIGH < MEDIUM < LOW < PLATEAUED
+UNIQUENESS_LEVEL_ORDER: COMMON < UNCOMMON < RARE < UNIQUE
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_SKILLS][SKILL_REGISTRY] lists all SKILL_ID tokens.
+- Each listed SKILL_ID must have exactly one corresponding [STATE_SKILLS][SKL_XX] record.
+- SKILL_ID uses prefix SKL_.
+- No duplicate SKILL_ID.
+- New skill insertion follows strict SET pair contract.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- All ordinal fields obey one-step transitions unless override proof is valid.
+- INSTINCT_LEVEL must not exceed MASTERY_LEVEL.
+- GROWTH_POTENTIAL cannot remain HIGH when MASTERY_LEVEL is MASTER.
+- UNIQUENESS_LEVEL changes require explicit evidence and justification.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXECUTION_NOTE ===
+
+Moment-to-moment execution quality is represented via temporary modifier overlays targeting skill execution context.
+No permanent baseline EXECUTION field is required in this schema.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

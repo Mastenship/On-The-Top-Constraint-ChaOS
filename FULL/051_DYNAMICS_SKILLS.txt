@@ -1,0 +1,74 @@
+=== SECTION: DYNAMICS_SKILLS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for skill progression, automation, atrophy, and plateau behavior.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: New skill acquisition uses SET pair pattern:
+- SET [STATE_SKILLS][SKILL_REGISTRY] append SKL_XX
+- SET [STATE_SKILLS][SKL_XX] record payload
+
+=== SECTION_BREAK ===
+
+=== SECTION: MASTERY_PROGRESSION ===
+
+ON_DELIBERATE_PRACTICE_EVENT:
+- If growth potential allows:
+  - Propose TRANSITION ONE_STEP_UP for mastery.
+  - Propose TRANSITION ONE_STEP_DOWN for growth potential where lawful.
+  - MECHANISM_TAG should indicate SKILL_STATE_CHANGE.
+
+ON_BREAKTHROUGH_EVENT:
+- If memory linkage and salience threshold support:
+  - Propose TRANSITION mastery increase.
+  - Multi-step only via override proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INSTINCT_AUTOMATION ===
+
+ON_REPEATED_SUCCESSFUL_EXECUTION:
+- If mastery threshold met:
+  - Propose TRANSITION ONE_STEP_UP for instinct level.
+  - Must preserve invariant INSTINCT_LEVEL <= MASTERY_LEVEL.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ATROPHY_AND_PLATEAU ===
+
+ON_EXTENDED_NON_USE:
+- Propose TRANSITION ONE_STEP_DOWN for mastery (bounded).
+- Propose TRANSITION ONE_STEP_DOWN for growth potential where applicable.
+
+ON_PLATEAU_REACHED:
+- If mastery at top bound:
+  - Propose SET growth potential to PLATEAUED.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NEW_SKILL_ACQUISITION ===
+
+ON_EXPLICIT_LEARNING_EVENT:
+- Use SET pair pattern for SKL_XX creation with schema-valid defaults.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

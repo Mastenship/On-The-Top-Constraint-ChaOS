@@ -1,0 +1,76 @@
+=== SECTION: COT_DPF_SYNTHESIS_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT synthesizes the character DOMINANT_PREDICTIVE_FRAME (DPF) as integrated cycle state. It does not narrate and does not select actions. It produces:
+- current-cycle DPF snapshot in [COGNITIVE_SCRATCHPAD][CURRENT_DPF]
+- proposals for persistent DPF updates via strict operation set
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via current DPF snapshot
+- STATE_DPF updates through proposals
+Is Informed By:
+- narrative cues
+- active predictions
+- SCHEME_DPF and DYNAMICS_DPF
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT may not directly edit persistent modules.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][CURRENT_DPF]
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+All proposals must use strict OPERATION_TYPE set.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_SYNTHESIS ===
+
+[[LLM_INSTRUCTION]]: Build current snapshot and propose bounded updates.
+
+CORE_ASSUMPTION_SYNTHESIS:
+- Integrate cues, resolved predictions, drive urgency.
+- If contrast event detected, propose TRANSITION or SET to relevant DPF fields.
+
+EMOTIONAL_VALENCE_AND_PACE:
+- Derive from arousal, valence, time pressure.
+- Use TRANSITION for ordinal-like shifts, SET for direct enum placements.
+
+PREDICTION_HANDLING:
+- New prediction introduction:
+  - Use SET proposal for registry append and SET proposal for [PRD_XX] record payload.
+- Prediction certainty adjustment:
+  - Use TRANSITION (ONE_STEP_UP/ONE_STEP_DOWN) or SET to explicit value per governance allowances.
+- Resolution:
+  - Use SET for prediction STATE field.
+
+RECALC_GUARD:
+- One full recalc per cycle max.
+- If additional contradictions, set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] TRUE.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After synthesis:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_DPF_SYNTHESIS_PROCESSING
+KEY_OUTPUTS:
+- [CORE_ASSUMPTION summary, CERTAINTY_LEVEL, PACE]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [DPF_CONTRAST_EVENT YES/NO, DPF_RECALC_QUEUED, active PRD_XX list, SCHEME_DPF compliance]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

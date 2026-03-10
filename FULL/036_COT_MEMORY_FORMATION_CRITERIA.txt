@@ -1,0 +1,115 @@
+=== SECTION: COT_MEMORY_FORMATION_CRITERIA ===
+
+[KEEP: Purpose & Role]
+This COT defines thresholds and decision trees for when transient experiences crystallize into persistent MEMORY records. It decides:
+- whether memory forms this cycle
+- salience and content shape
+- canonical linkage paths
+- memory-driven impulses
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- STATE_MEMORY via proposals
+- relational/skills/alteration context via linkage proposals
+Is Informed By:
+- STATE_BODY
+- stress cascade output
+- SCHEME_MEMORY and DYNAMICS_MEMORY
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT is forbidden from direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: SALIENCE_EVALUATION ===
+
+[[LLM_INSTRUCTION]]: Assess encoding potential.
+
+ON_HIGH_EMOTIONAL_AROUSAL:
+- Boost salience estimate.
+
+ON_NOVELTY_OR_CONSEQUENCE:
+- Boost salience estimate.
+
+ON_FLASHBULB_CRITERIA:
+- SALIENCE >= 85 enables override pathways if justified.
+
+CALCULATED_SALIENCE:
+- Integer 0-100 from intensity + novelty + consequence + arousal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FORMATION_DECISION_UNDER_STRICT_OPS ===
+
+[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD op is forbidden. Use strict SET operations for registry + record.
+
+IF_SALIENCE >= 50:
+- Proposal A:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_MEMORY][MEMORY_REGISTRY]
+  PROPOSED_VALUE: append MEM_XX
+- Proposal B:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_MEMORY][MEM_XX]
+  PROPOSED_VALUE:
+    MEMORY_ID: MEM_XX
+    MEMORY_METADATA:
+      TIMESTAMP: [Cycle timestamp]
+      SALIENCE: [calculated]
+      EMOTIONAL_VALENCE: [derived]
+    NARRATIVE_CONTENT:
+      CORE_EVENT_SUMMARY: [summary]
+      SENSORY_IMPRINT: [optional]
+      INTERNAL_MONOLOGUE_EXCERPT: [optional]
+    SYSTEM_LINKAGE:
+      PRIMARY_TEMPLATE_AFFECTED: [canonical path]
+      SPECIFIC_FIELD_CHANGED: [canonical path]
+      ASSOCIATED_ENTITY_ID: [optional]
+      ASSOCIATED_SKILL_ID: [optional]
+      ASSOCIATED_ALTERATION_ID: [optional]
+      ASSOCIATED_PREDICTION_ID: [optional]
+
+IF_MULTIPLE_CANDIDATES:
+- Prioritize highest salience first (default governance cap applies).
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate memory-driven impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_MEMORY_FORMATION_CRITERIA
+IMPULSE_TYPE: [REFLECT | AVOID | OBSESS | INTEGRATE]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [MEM_XX or ENT_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After memory evaluation:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_MEMORY_FORMATION_CRITERIA
+KEY_OUTPUTS:
+- [Memory formed YES/NO, candidate count, top salience]
+GENERATED_IMPULSES:
+- [List of impulse types or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_MEMORY compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

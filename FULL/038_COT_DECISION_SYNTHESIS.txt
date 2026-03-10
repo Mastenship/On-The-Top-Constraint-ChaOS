@@ -1,0 +1,94 @@
+=== SECTION: COT_DECISION_SYNTHESIS ===
+
+[KEEP: Purpose & Role]
+This COT performs final arbitration when multiple behavioral impulses compete. It selects a coherent action for the current cycle using decision theory and constraint logic. It outputs:
+- one strict-schema SELECTED_ACTION record into [COGNITIVE_SCRATCHPAD][SELECTED_ACTION]
+- optional narrative-facing action description embedded in that record
+- trace output for debugging
+
+Based on multi-attribute utility theory, constraint satisfaction, and bounded rationality — integrating impulses weighted by traits, beliefs, goals, and transient state.
+
+[KEEP: Relationship to Other Modules]
+Informs: Final behavioral output for the narrative cycle.
+Is Informed By:
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CURRENT_DPF]
+- [STATE_GOALS_MOTIVATIONS]
+- [STATE_BELIEF_SYSTEMS]
+- [STATE_TEMPORARY_MODIFIERS]
+- SCHEME personality modules
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT is forbidden from directly modifying persistent modules.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][SELECTED_ACTION] (strict schema required)
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] when applicable
+
+Forbidden writes:
+- Any STATE_* direct write
+- Any proposal write unless explicitly defined by a separate COT
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_ARBITRATION ===
+
+[[LLM_INSTRUCTION]]: Arbitrate competing impulses deterministically.
+
+WEIGHTING_FACTORS:
+- Goal urgency
+- DPF certainty and valence
+- Trait bias
+- Temporary modifiers
+
+CONSTRAINTS:
+- Feasibility by body/skills
+- Belief alignment and dissonance penalty
+- Conservative fallback on tie
+
+SELECTION_POLICY:
+- Select highest-weighted feasible impulse.
+- If unresolved conflict remains, set CONFLICT_FLAG TRUE and choose conservative coherent action.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SELECTED_ACTION_OUTPUT_SCHEMA ===
+
+[[LLM_INSTRUCTION]]: Populate full strict schema (all fields required).
+
+SELECTED_ACTION:
+ACTION_ID: [ACT_XX]
+ACTION_SOURCE_IMPULSE: [Impulse source or NONE]
+ACTION_TYPE: [String descriptive]
+TARGET_ID: [Canonical ID token or NONE]
+CONFIDENCE: [0-100]
+RATIONALE: [Short deterministic explanation]
+CONFLICT_FLAG: [TRUE | FALSE]
+NARRATIVE_ACTION_DESCRIPTION: [One concise sentence]
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completing decision synthesis:
+- Do not directly commit state.
+- Append TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+- Set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] according to CONFLICT_FLAG.
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_DECISION_SYNTHESIS
+KEY_OUTPUTS:
+- [Selected ACTION_TYPE and CONFIDENCE]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- [Any vetoes, feasibility filters, weighting rationale summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

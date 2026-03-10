@@ -1,0 +1,46 @@
+=== SECTION: SCHEME_MMPI ===
+
+[KEEP: Purpose & Role]
+Immutable definition of clinical psychopathology scales using MMPI framework. T-scores set at instantiation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CLINICAL_SCALE_MARKERS ===
+
+SCALE_1_HYPOCHONDRIASIS: QUALITATIVE_T_SCORE
+SCALE_2_DEPRESSION: QUALITATIVE_T_SCORE
+SCALE_3_HYSTERIA: QUALITATIVE_T_SCORE
+SCALE_4_PSYCHOPATHIC_DEVIATE: QUALITATIVE_T_SCORE
+SCALE_6_PARANOIA: QUALITATIVE_T_SCORE
+SCALE_7_PSYCHASTHENIA: QUALITATIVE_T_SCORE
+SCALE_8_SCHIZOPHRENIA: QUALITATIVE_T_SCORE
+SCALE_9_HYPOMANIA: QUALITATIVE_T_SCORE
+SCALE_10_SOCIAL_INTROVERSION: QUALITATIVE_T_SCORE
+
+QUALITATIVE_T_SCORE: ENUM [NORMAL (T<55), MILD_ELEVATION (55-65), MODERATE (65-75), SIGNIFICANT (75-85), CLINICAL (>85)]
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCALE_DEFINITIONS ===
+
+SCALE_1_HYPOCHONDRIASIS: Excessive health concern.
+SCALE_2_DEPRESSION: Poor morale, hopelessness.
+SCALE_3_HYSTERIA: Emotional instability, stress somatization.
+SCALE_4_PSYCHOPATHIC_DEVIATE: Social norm difficulty, antisocial potential.
+SCALE_6_PARANOIA: Suspiciousness, delusional thinking.
+SCALE_7_PSYCHASTHENIA: Obsessions, anxiety, doubts.
+SCALE_8_SCHIZOPHRENIA: Alienation, bizarre cognition.
+SCALE_9_HYPOMANIA: Elevated mood, excitability.
+SCALE_10_SOCIAL_INTROVERSION: Shyness, withdrawal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation
+- Elevated scales bias stress response and relational perception
+- Changes require clinical-level intervention proof
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

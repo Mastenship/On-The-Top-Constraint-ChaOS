@@ -1,0 +1,65 @@
+=== SECTION: DYNAMICS_RELATIONAL ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for relational valence/complexity transitions, encounter onboarding, and concern resolution.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: New entity creation uses SET pair pattern:
+- SET [STATE_RELATIONAL][RELATIONAL_REGISTRY] append ENT_XX
+- SET [STATE_RELATIONAL][ENT_XX] record payload
+
+=== SECTION_BREAK ===
+
+=== SECTION: POSITIVE_INTERACTION ===
+
+ON_POSITIVE_INTERACTION:
+- Propose TRANSITION ONE_STEP_UP for [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE].
+- If resulting valence is high and context supports:
+  - Propose TRANSITION ONE_STEP_UP for cognitive complexity.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NEGATIVE_INTERACTION ===
+
+ON_NEGATIVE_INTERACTION:
+- Propose TRANSITION ONE_STEP_DOWN for [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE].
+- If resulting valence is low and context supports:
+  - Propose TRANSITION ONE_STEP_DOWN for cognitive complexity.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NEW_ENTITY_ENCOUNTER ===
+
+ON_SALIENT_SOCIAL_ENCOUNTER:
+- Instantiate ENT_XX via SET pair pattern with baseline relational defaults.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONCERN_RESOLUTION ===
+
+ON_CONCERN_RESOLUTION_EVENT:
+- Propose SET:
+  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][CURRENT_CONCERN]
+  PROPOSED_VALUE: NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

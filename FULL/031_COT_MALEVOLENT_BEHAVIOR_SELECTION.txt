@@ -1,0 +1,90 @@
+=== SECTION: COT_MALEVOLENT_BEHAVIOR_SELECTION ===
+
+[KEEP: Purpose & Role]
+This COT defines how Dark Triad-gated tendencies may generate manipulative, exploitative, or callous behavioral impulses under cue alignment. It is a bounded impulse generator, not a direct state mutator.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via malevolent impulse candidates
+- relational strategy overlays via proposal-only flow
+Is Informed By:
+- SCHEME_DARK_TRIAD
+- SCHEME_HEXACO
+- [STATE_RELATIONAL]
+- stress and context cues
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRAIT_GATING ===
+
+[[LLM_INSTRUCTION]]: Gate malevolent options by trait threshold and cue alignment.
+
+ON_HIGH_NARCISSISM:
+- Enable dominance/entitlement impulse candidates.
+
+ON_HIGH_MACHIAVELLIANISM:
+- Enable strategic manipulation candidates when risk-reward cue aligns.
+
+ON_HIGH_PSYCHOPATHY:
+- Enable callous/thrill-seeking candidates under trigger cues.
+
+THRESHOLD_RULE:
+- Impulses generated only if:
+  - relevant trait is VERY_HIGH, or
+  - HIGH plus strong cue alignment.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MALEVOLENT_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate impulses only when gated.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_MALEVOLENT_BEHAVIOR_SELECTION
+IMPULSE_TYPE: [EXPLOIT | MANIPULATE | DOMINATE | MASK]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [ENT_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+ON_DECEPTION_CONTROL_CUE:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: deception-leakage-control overlay payload
+  JUSTIFICATION: short-term gain cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_MALEVOLENT_BEHAVIOR_SELECTION
+KEY_OUTPUTS:
+- [Activated trait gates and opportunity summary]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_DARK_TRIAD gating compliance]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

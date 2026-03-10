@@ -1,0 +1,111 @@
+=== SECTION: COT_PERFORMANCE_STATE_INTEGRATION ===
+
+[KEEP: Purpose & Role]
+This COT defines how arousal, stress, biochemical condition, and environment modulate skill execution in the moment. It produces:
+- temporary overlays targeting skill execution pathways
+- performance-related impulses
+- rare permanent skill transitions only with override proof
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- temporary performance overlays
+- DECISION synthesis impulses
+- memory cues
+Is Informed By:
+- [STATE_BODY]
+- stress cascade input
+- SCHEME_SKILLS and DYNAMICS_SKILLS
+- narrative context
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed strict operations only:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+=== SECTION_BREAK ===
+
+=== SECTION: AROUSAL_MODULATION ===
+
+[[LLM_INSTRUCTION]]: Apply bounded modulation.
+
+ON_LOW_AROUSAL:
+- PROPOSE ADD_MODIFIER with degraded performance overlay payload.
+
+ON_OPTIMAL_AROUSAL:
+- PROPOSE ADD_MODIFIER with flow-enhancement overlay payload.
+
+ON_HIGH_AROUSAL:
+- PROPOSE ADD_MODIFIER with choking/impairment overlay payload.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BIOCHEMICAL_AND_ENVIRONMENTAL_CONTEXT ===
+
+ON_ELEVATED_ADRENALINE:
+- Propose overlays favoring gross motor and penalizing fine control when justified.
+
+ON_HIGH_CORTISOL:
+- Propose overlays reflecting cognitive load pressure.
+
+ON_ENVIRONMENTAL_PRESSURE:
+- Propose context overlays via ADD_MODIFIER.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RARE_PERMANENT_TRANSITIONS ===
+
+[[LLM_INSTRUCTION]]: Only with explicit override proof.
+
+ON_BREAKTHROUGH_WITH_MEMORY_LINKAGE:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL] or [INSTINCT_LEVEL]
+  PROPOSED_VALUE: ONE_STEP_UP
+  MECHANISM_TAG: SKILL_STATE_CHANGE
+  JUSTIFICATION: memory-linked consolidation cue + override proof if needed
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate performance impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_PERFORMANCE_STATE_INTEGRATION
+IMPULSE_TYPE: [PUSH_THROUGH | SEEK_OPTIMAL | CONSERVE | QUIT]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [SKL_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_PERFORMANCE_STATE_INTEGRATION
+KEY_OUTPUTS:
+- [Performance modulation summary]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME_SKILLS compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

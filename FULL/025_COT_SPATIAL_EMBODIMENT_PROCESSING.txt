@@ -1,0 +1,91 @@
+=== SECTION: COT_SPATIAL_EMBODIMENT_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT translates spatial position, proximity, and environmental features into embodied effects, stress modulation, relational pressure, and behavior impulses.
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- stress cascade proposals
+- performance overlay proposals
+- relational bias proposals
+- memory context cues
+Is Informed By:
+- MAP_DATA and scene geometry
+- [STATE_BODY]
+- [STATE_ALTERATIONS]
+- SCHEME_RELATIONAL and DYNAMICS_RELATIONAL
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: SPATIAL_MODULATION_PROCESSING ===
+
+[[LLM_INSTRUCTION]]: Translate spatial cues into bounded proposals.
+
+ON_CLOSE_PROXIMITY_TO_THREAT:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: threat-arousal/hypervigilance overlay payload
+  JUSTIFICATION: proxemic threat cue
+
+ON_OPEN_SAFE_SPACE:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: relaxation/creativity overlay payload
+  JUSTIFICATION: safety-space cue
+
+ON_CROWDING_OR_CONFINEMENT:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: overload/cognitive-load overlay payload
+  JUSTIFICATION: confinement cue
+
+ON_PROXIMITY_TO_ALLY:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: ally proximity comfort cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate spatially driven impulses.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_SPATIAL_EMBODIMENT_PROCESSING
+IMPULSE_TYPE: [APPROACH | RETREAT | EXPLORE | CLAIM_SPACE | HIDE]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [Spatial feature or ENT_XX or NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_SPATIAL_EMBODIMENT_PROCESSING
+KEY_OUTPUTS:
+- [Salient spatial features and modulation summary]
+GENERATED_IMPULSES:
+- [List or NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

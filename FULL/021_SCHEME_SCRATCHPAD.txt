@@ -1,0 +1,80 @@
+=== SECTION: SCHEME_SCRATCHPAD ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. This is instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action, and cascade trace.
+
+Lifecycle invariants:
+- INSTANTIATE at cycle start
+- POPULATE by COTs
+- READ by synthesis/governance
+- COMMIT via STATE_GOVERNANCE_AND_COMMIT
+- VERIFY via COT_UPDATE_VERIFICATION
+- WIPE completely after verification
+
+[KEEP: Relationship to Other Modules]
+Informs: All COTs, DECISION_SYNTHESIS, STATE_GOVERNANCE_AND_COMMIT.
+Is Informed By: Narrative input and SCHEME_ constraints.
+
+=== SECTION_BREAK ===
+
+=== SECTION: VOLATILE_FIELDS ===
+
+PROPOSED_UPDATES_REGISTRY:
+- list of proposal packets (strict schema)
+
+ACTIVE_IMPULSE_REGISTRY:
+- list of impulse packets
+
+CURRENT_DPF:
+- cycle snapshot aligned to SCHEME_DPF
+
+SELECTED_ACTION:
+- strict required schema (see below)
+
+CASCADE_TRACE:
+- list of TRACE_ENTRY packets
+
+TEMPORARY_STATE_FLAGS:
+- CONFLICT_DETECTED: BOOLEAN
+- DPF_RECALC_QUEUED: BOOLEAN
+
+STATE_COMMIT_AUDIT:
+- reconciliation log from governance
+
+=== SECTION_BREAK ===
+
+=== SECTION: SELECTED_ACTION_STRICT_SCHEMA ===
+
+REQUIRED_FIELDS:
+- ACTION_ID
+- ACTION_SOURCE_IMPULSE
+- ACTION_TYPE
+- TARGET_ID
+- CONFIDENCE
+- RATIONALE
+- CONFLICT_FLAG
+- NARRATIVE_ACTION_DESCRIPTION
+
+FIELD_CONSTRAINTS:
+- ACTION_ID: STRING with ACT_ prefix recommended
+- ACTION_SOURCE_IMPULSE: references impulse source or NONE
+- ACTION_TYPE: STRING_DESCRIPTIVE
+- TARGET_ID: canonical ID token or NONE
+- CONFIDENCE: INTEGER_RANGE [0-100]
+- RATIONALE: STRING_DESCRIPTIVE
+- CONFLICT_FLAG: BOOLEAN
+- NARRATIVE_ACTION_DESCRIPTION: STRING_DESCRIPTIVE (single concise sentence)
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- All writes occur through COT/system actors only.
+- Proposal schema fields are complete and OPERATION_TYPE is strict-set valid.
+- Impulses use canonical field casing (uppercase keys).
+- Scratchpad is fully wiped post-verification (no carryover).
+- Reasonable per-cycle bounds enforced for proposals and impulses.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

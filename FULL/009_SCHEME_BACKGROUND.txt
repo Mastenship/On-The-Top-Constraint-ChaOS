@@ -1,0 +1,43 @@
+=== SECTION: SCHEME_BACKGROUND ===
+
+[KEEP: Purpose & Role]
+Immutable definition of the character's formative world environment and sociological norms. Set once at instantiation; provides the normative seeding data for initial STATE_ values (skills contexts, relational defaults, belief grounding, goal origins, physiological baselines) and ongoing interpretive biases (e.g., outlook on authority informing DPF synthesis). Never mutated by standard dynamics or COTs — changes require explicit manual override with watershed justification equivalent to personality scheme shifts.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_BACKGROUND_MARKERS ===
+
+GEOGRAPHY: MULTILINE_STRING
+POPULATION_DENSITY: ENUM [Sparse, Moderate, High, Extreme]
+POPULATION_DIVERSITY: ENUM [Homogenous, Mixed, Cosmopolitan]
+DOMINANT_ARCHITECTURAL_STYLE: MULTILINE_STRING
+ECONOMIC_SYSTEM: MULTILINE_STRING
+EDUCATIONAL_FOCUS: MULTILINE_STRING
+TECHNOLOGICAL_LEVEL: ENUM [Pre-Industrial, Industrial, Information Age, Near-Future, Biopunk, Post-Scarcity, Other]
+TECHNOLOGY_INTEGRATION: ENUM [Ubiquitous, Professional, Rare, Outlawed]
+DATA_ACCESS_AND_PRIVACY: ENUM [Open Public Network, Corporate-Owned, State-Monitored, Data-Havens]
+
+OUTLOOK_ON_AUTHORITY: ENUM [Respectful, Questioning, Cynical, Submissive]
+OUTLOOK_ON_OUTSIDERS_AND_STRANGERS: ENUM [Welcoming, Wary, Hostile, Indifferent]
+OUTLOOK_ON_FATE_VS_FREE_WILL: ENUM [Fatalistic, Self-Determinist, Theologically Determined]
+OUTLOOK_ON_LAW_AND_ORDER: ENUM [Foundation of Society, Necessary Evil, Tool of Oppression, Inconvenience]
+OUTLOOK_ON_THE_FUTURE: ENUM [Optimistic, Pessimistic, Apocalyptic, Cyclical]
+
+TECH_AND_SOCIETAL_NORMS: MULTILINE_STRING
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation
+- Consulted for:
+  - Initial seeding of HEXACO/MMPI/DARK_TRIAD/ASQ percentiles (societal norm biases)
+  - Baseline relational valences and belief axes
+  - Skill acquisition contexts and growth potential caps
+  - Physiological/health norms (e.g., average BMI, stress baselines)
+  - DPF core assumption grounding
+- Changes extremely rare (require explicit override proof and governance veto review)
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,79 @@
+=== SECTION: DYNAMICS_TEMPORAL_DYNAMICS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for circadian alignment, fatigue progression/recovery, routine effects, and subjective time distortion.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: CIRCADIAN_CYCLE ===
+
+ON_TIME_OF_DAY_CUES:
+- Align alertness overlays with chronotype and peak windows.
+- Prefer ADD_MODIFIER overlays for short-horizon performance modulation.
+
+ON_SLEEP_RECOVERY_EVENT:
+- Propose TRANSITION toward baseline for:
+  - [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
+  - [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+
+=== SECTION_BREAK ===
+
+=== SECTION: FATIGUE_PROGRESSION ===
+
+ON_TIME_PASSAGE_WITHOUT_REST:
+- Propose TRANSITION ONE_STEP_UP for fatigue level.
+- Propose bounded increase in sleep debt (SET or TRANSITION per scheme compatibility).
+
+ON_STRESS_OR_EXERTION:
+- Accelerated fatigue accumulation may be proposed; multi-step requires override proof.
+
+ON_SECOND_WIND_OR_STIMULANT:
+- Prefer ADD_MODIFIER temporary reversal patterns.
+- Baseline fatigue fields remain bounded unless justified.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ROUTINE_EFFECTS ===
+
+ON_ROUTINE_ADHERENCE:
+- Propose temporary comfort overlays and routine pull impulses via downstream COTs.
+
+ON_ROUTINE_DISRUPTION:
+- Propose ADD_MODIFIER disorientation/stress overlays.
+- Optional bounded routine-field adjustment if evidence persists.
+
+ON_DEADLINE_APPROACH:
+- Propose SET for time-pressure and subjective-flow fields as justified.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TIME_PERCEPTION_DISTORTION ===
+
+ON_HIGH_AROUSAL:
+- Propose SET [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW] = TIME_FLIES.
+
+ON_BOREDOM_OR_FATIGUE:
+- Propose SET [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW] = TIME_DRAGS.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

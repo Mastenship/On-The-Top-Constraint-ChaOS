@@ -1,0 +1,78 @@
+=== SECTION: COT_ALTERATION_CASCADE_EFFECTS ===
+
+[KEEP: Purpose & Role]
+This COT defines how active alterations propagate through physiological, psychological, and skill systems.
+
+[KEEP: Relationships]
+INFORMS:
+- proposal generation targeting STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS
+IS_INFORMED_BY:
+- [STATE_ALTERATIONS]
+- SCHEME_ALTERATIONS and DYNAMICS_ALTERATIONS
+- SCHEME_BODY / DYNAMICS_BODY
+- SCHEME_SKILLS
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: PHYSIOLOGICAL_PROPAGATION ===
+
+[[LLM_INSTRUCTION]]: On ACTIVE alterations, propose bounded cascade effects.
+
+ON_INJURY_OR_ILLNESS_TYPE:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS]
+  PROPOSED_VALUE: COMPROMISED
+  JUSTIFICATION: active alteration effect
+
+ON_ENHANCEMENT_TYPE:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: skill-enhancement overlay payload
+  JUSTIFICATION: active enhancement effect
+
+ON_DEBILITATING_TYPE:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: skill-degradation overlay payload
+  JUSTIFICATION: active debilitating effect
+
+=== SECTION_BREAK ===
+
+=== SECTION: PSYCHOLOGICAL_PROPAGATION ===
+
+[[LLM_INSTRUCTION]]: Stress/rejection overlays.
+
+ON_REJECTED_ALTERATION:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: chronic stressor overlay payload
+  JUSTIFICATION: rejected alteration status
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_ALTERATION_CASCADE_EFFECTS
+KEY_OUTPUTS:
+- [Relevant ALT_XX list and effect summary]
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: [Number]
+NOTES:
+- [SCHEME/DYNAMICS compliance summary]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
