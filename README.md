@@ -193,7 +193,13 @@ LICENSE                      — CC BY-NC 4.0
 
 A quick note on voice and format:
 
-These documents were written for LLMs first. The models were the original teachers. The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremonial structure are not stylistic flourishes — they are deliberate DSL choices designed to be attention-head friendly so the constitution remains stable across thousands of tokens to enable collaborative interaction. Humans are welcome to read along; the protocol works for any long-horizon agent. If the ritual tone feels unusual at first, drop the files into an LLM’s persistent context and watch it parse the rectangle instantly — that is the point. By making the documents themselves attention head friendly, the LLMs can assist human readers in how to use OTTC properly and how to build their own OTTC complaint architectures.
+These documents were written for LLMs first. The models were the original teachers.
+
+The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremonial structure are not stylistic flourishes — they are deliberate DSL choices designed to be attention-head friendly. This keeps the constitution stable across thousands of tokens and long collaborative sessions.
+
+Humans are welcome to read along; the protocol works for any long-horizon agent. If the ritual tone feels unusual at first, drop the files into an LLM’s persistent context and watch it parse the rectangle instantly — that is the point.
+
+By writing the documents in this native format, the LLMs themselves can actively assist human readers in properly understanding OTTC and building their own OTTC-compliant architectures.
 
 ---
 
