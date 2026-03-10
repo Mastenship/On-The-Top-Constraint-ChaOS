@@ -213,6 +213,9 @@ Free to share and adapt for non-commercial purposes, with attribution. If you bu
 
 ## Status and Contact
 
+Commercial use & collaboration
+I am actively open to licensing discussions, consulting, or full-time roles where OTTC (or a custom square) can be applied to long-horizon agent systems. I recently applied to xAI and would welcome the chance to bring this protocol in-house or explore joint development. Reach out — I answer quickly.
+
 This is active work. The framework is stable; the demonstration architecture is functional; the external governance integration layer is the current frontier.
 
 Questions, observations, and collaboration inquiries can be directed through GitHub: [@Mastenship](https://github.com/Mastenship).
