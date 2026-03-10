@@ -1,3 +1,5 @@
+© 2025–2026 James J. Huff. All rights reserved for commercial use.
+
 # OTTC — On-The-Top Constraint
 ### A Governance Protocol for Stateful LLM Agents
 
