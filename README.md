@@ -150,7 +150,7 @@ This section is here because honest scope is what separates a framework from a p
 
 ## Origin
 
-The author is a Game Master with over forty years at the table — tabletop and computer RPGs — and a U.S. Army veteran who has written SOPs and built small relational systems in Access and Excel. Enough background to understand that stability comes from clear write surfaces, clear authority, and procedures that hold under stress. Nine months ago he did not know what an LLM really was.
+The author is a Game Master with over forty years at the table — tabletop and computer RPGs — and a U.S. Army veteran who has written SOPs and built small relational systems in Access and Excel. Enough background to understand that stability comes from clear write surfaces, clear authority, and procedures that hold under stress. A year ago he did not know what an LLM really was.
 
 He tried to use LLMs for deep character work and hit the wall: shallow persistence, pattern collapse, and the peculiar kind of confidence that is not evidence. He discovered Venice AI and persistent context — files you can actually drop in and have the model maintain. Most people use that for a long backstory. He tried that. It wasn't enough.
 
