@@ -1,0 +1,70 @@
+=== SECTION: OTTC_AXIOMS ===
+
+1) SUBSTRATE_AXIOM
+LLMs are meaning-generation systems; control enters through semantics before it enters through arithmetic.
+
+2) EXPLORATION_ADJUDICATION_AXIOM
+Exploration may be stochastic and plural; adjudication must be deterministic and rule-bound.
+
+3) ROLE_SEPARATION_AXIOM
+Separate ontology, transition law, mutable state, and governance authority into distinct layers.
+
+4) WRITE_AUTHORITY_AXIOM
+Most reasoning agents propose; exactly one authority commits.
+
+5) CANONICAL_ADDRESSING_AXIOM
+All state references must use canonical, machine-stable paths.
+
+6) LAWFUL_TRANSITION_AXIOM
+State may change only through a bounded operation vocabulary with explicit legality checks.
+
+7) INVARIANT_AXIOM
+Identity and continuity are preserved by invariants, not by style or narrative intention.
+
+8) TRANSIENT_OVERLAY_AXIOM
+Use temporary modifiers for short-horizon effects; do not rewrite baselines to express momentary states.
+
+9) STEP_BOUND_AXIOM
+Ordinal and enumerated shifts are step-limited unless override proof is provided.
+
+10) PROVENANCE_AXIOM
+Every committed change must trace to a proposal, a source, and a rationale.
+
+11) AUDITABILITY_AXIOM
+A system is governable only if its decisions can be replayed and inspected after the fact.
+
+12) VERIFICATION_AXIOM
+Post-commit verification is mandatory; no governance system is complete without a court of review.
+
+13) CONFLICT_RESOLUTION_AXIOM
+When proposals compete, apply explicit priority, tie-break, and veto policy before commit.
+
+14) RECEIVER_MEANING_AXIOM
+Meaning is completed in the receiver; transferability requires shared rules and stable protocol.
+
+15) HUMAN_PARALLEL_AXIOM
+The same governance pattern applies to human and machine cognition:
+free deliberation, constrained decision, accountable outcome.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OTTC_THEOREM_CANDIDATE ===
+
+When semantic generation is constrained by lawful transitions, bounded authority, and auditable commit,
+continuity emerges without requiring full observability of the generator’s internal manifold.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OTTC_PRACTICAL_TEST ===
+
+A system is OTTC-compliant if all are true:
+- Canonical paths only
+- Strict operation set only
+- Propose/commit separation enforced
+- Invariants checked before and after commit
+- Every commit has provenance
+- Verification pass can fail the cycle
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

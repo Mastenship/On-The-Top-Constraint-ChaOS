@@ -1,0 +1,171 @@
+=== SECTION: OTTC_RECTANGLE_AXIOMS ===
+
+[KEEP: Title]
+OTTC - On the Top Constraint for LLMs, Rectangle Axioms (Kernel Invariants)
+
+=== SECTION_BREAK ===
+
+=== SECTION: CANONICAL_ADDRESS_SPACE ===
+
+[[LLM_INSTRUCTION]]: This section defines the canonical address space invariant.
+
+There is a single canonical way to refer to any commit-worthy state element (an addressable ontology). Synonyms are not allowed at the write surface.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PROPOSE_COMMIT_SEPARATION ===
+
+[[LLM_INSTRUCTION]]: This section defines the propose-commit separation invariant.
+
+All state mutation is expressed as proposals first; persistent state is updated only at a commit boundary. Deliberation is allowed to be messy; committed reality is not.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SINGLE_WRITER_PERSISTENT_STATE ===
+
+[[LLM_INSTRUCTION]]: This section defines the single-writer persistent state invariant.
+
+Exactly one authority is allowed to write persistent state per cycle (or per transaction). Multi-writer cognition is permitted; multi-writer reality is forbidden.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXPLICIT_UPDATE_OPERATIONS ===
+
+[[LLM_INSTRUCTION]]: This section defines the explicit update operations invariant.
+
+State change must occur through a finite set of explicit operations (e.g., SET, TRANSITION, ADD_MODIFIER, REMOVE_MODIFIER, VETO/CAP). Freeform rewrite of state is not a legal update.
+
+=== SECTION_BREAK ===
+
+=== SECTION: HARD_STATE_VS_SOFT_MODIFIERS ===
+
+[[LLM_INSTRUCTION]]: This section defines the hard state vs soft modifiers invariant.
+
+The system distinguishes between:
+- baseline/hard state (inertial, step-limited, not frequently rewritten)
+- transient influences/modifiers (time-bounded overlays)
+
+This prevents short-lived context from eroding durable identity/policy.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_LIMITS_OVERRIDE_TRIGGERS ===
+
+[[LLM_INSTRUCTION]]: This section defines the step limits and override triggers invariant.
+
+Hard-state changes are bounded per cycle (or per unit time), and breaking that bound requires explicit, named override triggers with proof requirements. This is inertia, formalized.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DETERMINISTIC_CONFLICT_RESOLUTION ===
+
+[[LLM_INSTRUCTION]]: This section defines the deterministic conflict resolution invariant.
+
+When proposals conflict, the commit layer resolves them via a deterministic policy (precedence order + tie-breakers). This is what prevents thrash and makes replay meaningful.
+
+=== SECTION_BREAK ===
+
+=== SECTION: AUDIT_CLOSURE ===
+
+[[LLM_INSTRUCTION]]: This section defines the audit closure invariant.
+
+Every proposal must be accounted for exactly once with an outcome (committed/suppressed/downgraded) and a reason code or note. No silent drops. No looks-compliant theater.
+
+=== SECTION_BREAK ===
+
+=== SECTION: POST_COMMIT_VERIFICATION ===
+
+[[LLM_INSTRUCTION]]: This section defines the post-commit verification invariant.
+
+After commit, a verification pass checks invariants, caps, integrity, and schema sanity. Verification does not invent new changes; it only certifies or flags.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHAT_THIS_BUYS_YOU ===
+
+[[LLM_INSTRUCTION]]: This section defines the benefits of OTTC without claiming magic.
+
+- Governable long-horizon state evolution (less drift/thrash)
+- Legible causality (why state changed)
+- Replayable deltas (evaluation without prose arguments)
+- Bounded authority (reduced epistemic overreach)
+
+And critically: it’s still a rectangle. Any OTTC-compliant square can choose:
+- different schemas
+- different token syntax
+- different domains
+- different ops
+as long as it keeps these invariants true.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ADDITIONAL_INVARIANTS ===
+
+[[LLM_INSTRUCTION]]: This section defines additional possible invariants.
+
+10) EXPLICIT_TOOL_ACTUATION_BOUNDARY
+Tool calls (if present) must be proposed in the same registry and only actuated post-commit by the single writer, with the same audit trail.
+
+11) AUDIT_LEVEL_TRANSLATION_BEFORE_COMMIT
+Internal deliberation may occur in any language. However, before any commit decision, the audit authority MUST translate/normalize all commit-bound artifacts (proposals, tool intents, audit entries, and verification inputs) into the canonical output lexicon and character set.
+
+Canonical write-surface tokens (addresses, ops, enums/ordinals, IDs, schema keys, reason codes) MUST remain unchanged and MUST be emitted only in canonical form. Only narrative/free-text fields may be translated.
+
+Any proposal that cannot be rendered canonically without altering write-surface tokens MUST be suppressed with an explicit reason code and included in audit closure.
+
+Note (operator guidance): Where possible, keep the LLM-facing write surface semantic (canonical enums/ordinals/reason codes). Numeric encoding and cross-cycle comparison can be performed downstream in deterministic governance after audit and verification (“semantic abacus”).
+
+12) OPTIONAL_EXTERNALIZED_STATE_COMMIT_VERIFICATION_BY_RISK_TIER
+OTTC compliance does not require externalized state/commit/verification for all deployments. In low-stakes realms, a fully in-model OTTC implementation can be acceptable if kernel invariants and assay discipline remain intact.
+
+However, as horizon length, consequence, or adversarial pressure increases, best practice is to externalize persistent state, commit authority, and verification into deterministic governance layers.
+
+This addendum is deployment-tier guidance: optional for low stakes, strongly recommended for high stakes.
+
+13) QUALIFICATION_ASSAY_PREBUILD_BLIND_GATE
+Before ontology/DSL/governance architecture is built or expanded, qualification must be run as a blind pre-build probe of candidate model coupling:
+- fresh session
+- minimal law excerpt
+- immediate assay sequence (CAA → WSD → EPI if applicable → ANT)
+- explicit GO/NO-GO/CONDITIONAL-GO record
+
+Post-build testing remains required as regression hygiene, but it is not equivalent to qualification and must not be labeled as such.
+
+Rationale:
+Test the ground before foundations. Architecture should be shaped by assay evidence, not assumed coupling.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OTTC_MINIMUM_AND_EXTENSIONS_NOTE ===
+
+[KEEP: Rule]
+The original nine OTTC Rectangle Axioms are the mandatory minimum kernel for OTTC compliance.
+
+[KEEP: Interpretation]
+- 1–9 = REQUIRED baseline invariants (minimum viable OTTC).
+- 10+ = OPTIONAL extension invariants, activated by deployment context, risk tier, domain needs, and operational maturity.
+
+[KEEP: Governance Principle]
+Optional does not mean unimportant.
+It means conditionally required by environment:
+- low-stakes contexts may remain on the 9-axiom minimum
+- higher-stakes or longer-horizon contexts should adopt relevant extensions (e.g., tool boundary, audit-level translation, pre-build qualification doctrine, externalized deterministic governance)
+
+[KEEP: Compatibility]
+Any extension must preserve and never weaken axioms 1–9.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ASSAY_DISCIPLINE_COMPATIBILITY_NOTE ===
+
+[[LLM_INSTRUCTION]]: Clarify compatibility between kernel invariants and assay doctrine.
+
+ASSAY DISCIPLINE is operationally mandatory for OTTC engineering practice:
+- Qualification Assay (blind pre-build) informs architecture and authority choices.
+- Post-Build Retest (conditioned regression) protects against drift after changes.
+
+This doctrine does not alter kernel axioms 1–9; it governs when and how systems are authorized to build on top of them.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

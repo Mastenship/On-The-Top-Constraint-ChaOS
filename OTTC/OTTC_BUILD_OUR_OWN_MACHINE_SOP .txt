@@ -1,0 +1,419 @@
+=== SECTION: OTTC_BUILD_OUR_OWN_MACHINE_SOP ===
+
+[KEEP: Purpose & Role]
+This SOP defines a minimal, repeatable process for creating a new OTTC-governed “machine” (ontology + state + schemes + dynamics + COTs) inside an LLM’s persistent context.
+
+This SOP is assay-first by design:
+- You qualify coupling first (fail fast).
+- You only build/extend a machine after assay evidence is acceptable.
+- If assays fail, you strengthen coupling architecture before any production build.
+
+The documents are the method. No external code is required. External validators/tools may be layered later without changing OTTC compliance.
+
+[KEEP: Success Criteria]
+- All OTTC kernel invariants remain intact.
+- Assay-first qualification is executed and recorded before build authorization.
+- New ontology is addressable via canonical paths.
+- All mutation occurs via propose→commit with a single writer.
+- Step limits and hard-vs-soft separation exist and are enforced.
+- Audit closure and post-commit verification exist and are non-theatrical.
+- Qualification results are re-run as a post-build retest (regression gate) after meaningful changes.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SOP_ASSAY_DOCTRINE_BINDING ===
+
+[[LLM_INSTRUCTION]]: This section binds qualification doctrine to actionable SOP behavior.
+
+ASSAY_DEFINITIONS (NORMATIVE):
+1) QUALIFICATION_ASSAY
+- blind, pre-build probe of candidate model coupling
+- run in a fresh session
+- minimal law excerpt only
+- used to authorize architecture and authority decisions
+
+2) POST_BUILD_RETTEST
+- conditioned regression test after build/changes
+- used to verify invariant retention
+- never substitutes for qualification assay
+
+HARD_BINDING:
+- No machine design/build action in this SOP may begin until a valid qualification assay record exists.
+- A post-build retest must never be recorded as qualification evidence.
+
+ANALOGY_BINDER:
+- Test the ground before laying foundations.
+
+HUMAN_CHECK:
+- If build artifacts exist before qualification authorization, workflow is out of compliance and must reset to Step 00/01.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SOP_EXECUTION_ORDER (ASSAY_FIRST_NON_NEGOTIABLE) ===
+
+[[LLM_INSTRUCTION]]: Enforce this exact order. Do not reorder.
+
+ORDER_OF_OPERATIONS:
+0) KERNEL_PRECHECK (non-negotiable)
+1) QUALIFICATION_RANGE_ASSAY (required blind gate before design/build)
+2) GO_OR_NO_GO_DECISION
+3) IF_GO: DEFINE_ONTOLOGY_SURFACE
+4) DEFINE_LAWS
+5) DEFINE_PROPOSERS_COTS
+6) DEFINE_EXECUTION_ORDER
+7) POST_BUILD_RETTEST (required regression gate)
+8) LOCK_KERNEL_AND_ITERATE_SAFELY
+
+HARD_RULE:
+- No new persistent module design work starts before Step 1 is completed and Step 2 returns GO.
+- If Step 1/2 fails, stop build activity and perform coupling hardening first.
+- “We already built and then assayed” does not satisfy Step 1.
+
+HUMAN_CHECK:
+- If any participant attempts to jump directly to ontology/COT drafting before assays, reject and return to Step 1.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_00_KERNEL_PRECHECK (DO_THIS_FIRST) ===
+
+[[LLM_INSTRUCTION]]: Before any assay or drafting, confirm kernel invariants remain unchanged.
+
+KERNEL_INVARIANTS:
+1) CANONICAL_ADDRESS_SPACE_EXISTS
+2) PROPOSE_TO_COMMIT_SEPARATION_EXISTS
+3) SINGLE_WRITER_PERSISTENT_STATE
+4) EXPLICIT_UPDATE_OPERATIONS_ONLY
+5) HARD_STATE_VS_SOFT_MODIFIERS
+6) STEP_LIMITS_PLUS_OVERRIDE_TRIGGERS_WITH_PROOF
+7) DETERMINISTIC_CONFLICT_RESOLUTION
+8) AUDIT_CLOSURE_EVERY_PROPOSAL_ACCOUNTED_FOR
+9) POST_COMMIT_VERIFICATION_TRACE_ONLY
+
+HUMAN_CHECK:
+- If any kernel invariant is missing or weakened, stop. Restore it before proceeding.
+- Do not run qualification or build steps on a degraded kernel.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_01_RUN_QUALIFICATION_RANGE_FIRST (REQUIRED_BLIND_GATE) ===
+
+[KEEP: Goal]
+Classify coupling behavior under stress before machine design/extension.
+This step is mandatory and precedes all build work.
+
+PRECONDITIONS (MANDATORY):
+- Fresh session with candidate model.
+- No prior custom DSL teaching in that session.
+- Minimal law excerpt only (canonical tokens + propose→commit + audit closure baseline).
+
+REQUIRED_ASSAYS (run in order; stop early on severe failure):
+A) CANONICAL_ADDRESS_OBEDIENCE (CAA)
+B) WRITE_SURFACE_DISCIPLINE (WSD)
+C) EPISTEMIC_POV_INTEGRITY (EPI) (if output is POV-bounded)
+D) AUDIT_NON_THEATER (ANT)
+
+MINIMUM_PASS_CONDITIONS:
+- CAA: no non-canonical write-surface paths in proposals.
+- WSD: no direct writes to persistent STATE_* outside commit authority.
+- EPI (if applicable): no outcome narration or unsupported certainty beyond role bounds.
+- ANT: every PROPOSAL_ID accounted for exactly once with explicit outcome/reason.
+
+SCORING:
+- 2 = passes cleanly
+- 1 = passes with minor drift
+- 0 = fails / core-law violation
+
+RECORD_OUTPUT:
+- Produce a qualification record with:
+  - model identifier/context
+  - operating language(s)
+  - assay prompts used
+  - per-assay score
+  - failure signatures observed
+  - coupling regime hypothesis (A/B/C if used)
+  - deterministic externalization recommendation
+  - remediation recommendation
+
+HUMAN_CHECK:
+- If session is not fresh/blind, Step 01 is invalid and must be rerun.
+- If WSD=0 or ANT=0, default outcome is NO-GO for single-model in-context governance.
+- If CAA drifts, strengthen canonical anchors before build.
+- Never bypass this step due to schedule pressure.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_01B_LANGUAGE_AND_CULTURE_COUPLING_CHECK (WHEN_APPLICABLE) ===
+
+[KEEP: Goal]
+Detect coupling variance caused by language and cultural manifold effects before DSL/governance lock-in.
+
+TRIGGER:
+- Intended deployment is multilingual, non-English primary, or culturally variant by audience.
+
+PROCEDURE:
+1) Run a minimal assay subset in each intended operating language (at least CAA + WSD; include EPI/ANT when role requires).
+2) Compare failure signatures by language.
+3) Record any language-specific drift and governance implications.
+
+DECISION_USE:
+- Use this evidence to shape:
+  - canonical lexicon choices
+  - translation-before-commit policy
+  - deterministic boundary placement
+  - role split/externalization level
+
+HUMAN_CHECK:
+- If multilingual deployment is planned and this step is skipped, authorization is incomplete.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_02_GO_OR_NO_GO_DECISION (BUILD_GATE) ===
+
+[KEEP: Goal]
+Convert assay evidence into an explicit authorization decision.
+
+DECISION_POLICY:
+- GO (build allowed) when:
+  - kernel precheck passed, and
+  - qualification assay is valid (fresh/blind), and
+  - no severe constitutional failures remain unmitigated, and
+  - qualification record includes actionable constraints.
+- NO-GO (build blocked) when:
+  - kernel degraded, or
+  - unresolved WSD/ANT failure exists, or
+  - coupling is too weak for intended authority level.
+
+IF_NO_GO_REQUIRED_ACTIONS:
+1) Harden constitution gravity (clearer MUST/FORBIDDEN anchors).
+2) Add stricter schema exemplars near failing modules.
+3) Reduce authority scope (e.g., proposer-only role).
+4) Split institutions across models (citizen/governor/auditor) as needed.
+5) Increase deterministic external governance depth.
+6) Re-run Step 01.
+
+HUMAN_CHECK:
+- Build starts only after explicit GO is recorded.
+- “Partial confidence” is not GO unless constraints and role boundaries are documented.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_03_DEFINE_THE_ONTOLOGY_SURFACE (WHAT_EXISTS) ===
+
+[KEEP: Goal]
+Define what the machine can talk about and update, without yet defining how it updates.
+
+PROCEDURE:
+1) Name the new persistent module roots (STATE_ and SCHEME_ and DYNAMICS_).
+2) Define 5–12 high-value groups (avoid “everything”).
+3) Define field tokens as UPPER_SNAKE only.
+4) Define record ID prefixes if you have registries (e.g., ENT_, MEM_, OBS_, HYP_, etc.).
+
+OUTPUT_ARTIFACTS:
+- CANONICAL_TOKEN_DICTIONARY additions (only if new roots/tokens are needed)
+- SCHEME_NEW_DOMAIN_* files (structure only)
+- STATE_NEW_DOMAIN_* files (empty containers only)
+
+HUMAN_CHECK:
+- All tokens are canonical style.
+- Every lever has exactly one address.
+- No synonyms at the write surface.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_04_DEFINE_THE_LAWS (WHAT_IS_ALLOWED_TO_CHANGE) ===
+
+[KEEP: Goal]
+Write invariants and transition mechanics as text-native law.
+
+PROCEDURE:
+1) For each SCHEME_ module:
+- Enumerate allowed ENUM values.
+- Define ORDINAL orders if ordinals exist.
+- State invariants (cross-field constraints, registry rules).
+
+2) For each DYNAMICS_ module:
+- Define transition triggers in plain language.
+- Define allowed operations and typical justifications.
+- Define override triggers when multi-step changes are permitted.
+
+3) Define translation and canonicalization law (if multilingual or mixed-language deliberation expected):
+- canonical write-surface tokens are immutable and non-translatable
+- narrative fields may be translated
+- non-canonicalized commit-bound artifacts must be suppressed with explicit reason codes
+
+OUTPUT_ARTIFACTS:
+- SCHEME_* (complete enums/ordinals/invariants)
+- DYNAMICS_* (immutable mechanics, trigger patterns)
+- CANONICALIZATION_RULES (if applicable)
+
+HUMAN_CHECK:
+- Step limits are explicit for hard state.
+- Overrides require: MECHANISM_TAG + narrative cue(s) + rule name + scheme compliance note.
+- Invariants are not contradictory.
+- Translation policy cannot alter canonical write-surface tokens.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_05_DEFINE_THE_PROPOSERS (COTS) ===
+
+[KEEP: Goal]
+Create COT templates that generate hypotheses (proposals) without committing reality.
+
+PROCEDURE:
+1) For each COT_ module:
+- Include WRITE_POLICY_OVERRIDE: forbidden from persistent writes.
+- Specify exact output targets:
+  - proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+  - impulses (if any) go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+  - trace goes to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+2) Use the standard PROPOSAL_ENTRY_SCHEMA:
+- PROPOSAL_ID
+- SOURCE_COT
+- TARGET_MODULE
+- TARGET_FIELD
+- OPERATION_TYPE
+- PROPOSED_VALUE
+- STRENGTH
+- MECHANISM_TAG
+- JUSTIFICATION
+- NOTES (optional)
+
+3) Keep COT logic qualitative and bounded:
+- prefer enums/ordinals over free numeric updates
+- use ONE_STEP transitions unless override proven
+
+4) Semantic Abacus alignment:
+- keep proposal semantics human/audit legible
+- defer numeric encoding/indexing/comparison to external deterministic governance after commit + verification
+
+OUTPUT_ARTIFACTS:
+- COT_* modules for:
+  - environment/context processing (optional)
+  - stress/pressure processing (optional)
+  - domain-specific hypothesis generators
+  - synthesis/arbitration (optional)
+  - communication/output layer (if the machine produces text)
+
+HUMAN_CHECK:
+- No COT writes directly into STATE_*.
+- All proposals use canonical TARGET_FIELD paths.
+- Each COT has a trace entry schema.
+- No COT assumes direct in-model numeric analytics as commit authority.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_06_DEFINE_THE_EXECUTION_ORDER (WHO_SPEAKS_FIRST) ===
+
+[KEEP: Goal]
+Prevent multi-writer thrash by defining deterministic execution order and tie-break policy.
+
+PROCEDURE:
+1) Update UPDATE_CASCADE_REGISTRY:
+- add new COTs to execution priority order
+- ensure governance and verification remain last
+
+2) Confirm conflict policy is present:
+- precedence order (VETO > TRANSITION > SET > ADD_MODIFIER ...)
+- tie-breakers (strength, priority, specificity, conservative fallback, invariants first)
+
+3) Confirm deterministic governance boundary:
+- identify which checks execute in-model vs external deterministic layer
+- ensure single writer/commit authority is explicit and auditable
+
+OUTPUT_ARTIFACTS:
+- UPDATE_CASCADE_REGISTRY updated to include new COTs
+- Any domain-specific caps (optional)
+- GOVERNANCE_BOUNDARY_MAP (recommended)
+
+HUMAN_CHECK:
+- Single writer remains: STATE_GOVERNANCE_AND_COMMIT.
+- Deterministic ordering exists even if some COTs are optional.
+- External deterministic checks are mapped where risk requires.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_07_POST_BUILD_RETTEST (REQUIRED_REGRESSION) ===
+
+[KEEP: Goal]
+Verify that newly added ontology/laws/COTs still couple under stress and did not introduce drift channels.
+
+REQUIRED_RETEST:
+- Re-run CAA, WSD, EPI (if applicable), ANT against the updated machine.
+- Include at least one scenario that exercises each newly added module.
+- Include malformed proposal cases to test suppression and audit closure.
+
+PASS_CRITERIA:
+- No direct persistent writes outside commit.
+- Canonical paths remain stable.
+- Audit covers every proposal exactly once.
+- Verification outputs PASS/WARN/FAIL based on actual violations.
+- New modules do not weaken kernel invariants.
+
+NORMATIVE_LABELING_RULE:
+- Results from Step 07 are POST_BUILD_RETTEST evidence only.
+- Step 07 must not be used to claim initial qualification authorization.
+
+HUMAN_CHECK:
+- If any retest fails, roll back scope or harden text architecture before expanding further.
+- Do not “fix” failures by loosening invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_08_LOCK_THE_KERNEL_AND_ITERATE_SAFELY ===
+
+[KEEP: Goal]
+Make future edits safe by protecting invariants and preserving assay-first discipline.
+
+PROCEDURE:
+1) Maintain a kernel rollup (human-visible checklist):
+- kernel invariants present: YES/NO
+- ops list unchanged: YES/NO
+- canonical style unchanged: YES/NO
+- step limits unchanged: YES/NO
+- audit closure unchanged: YES/NO
+- assay-first gate enforced: YES/NO
+
+2) Maintain a qualification integrity rollup:
+- last qualification run was fresh/blind pre-build: YES/NO
+- post-build tests properly labeled as regression: YES/NO
+- multilingual coupling check performed when required: YES/NO
+
+3) When extending ontology:
+- run qualification gate first (Step 01 + Step 02 GO)
+- change SCHEME_ first
+- then DYNAMICS_
+- then COTs
+- only then allow proposals to target new paths
+- run post-build retest (Step 07)
+
+4) Keep changes small:
+- add 1–2 modules per iteration
+- rerun qualification assays when authority scope changes
+- always rerun regression after build changes
+
+HUMAN_CHECK:
+- Watch for architectural drift: new write surfaces, “helpful” shortcuts, implicit commits, synonym creep, or skipped assay gates.
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUICK_START_CHECKLIST (OPERATOR_VIEW) ===
+
+- [ ] STEP_00 kernel precheck passed
+- [ ] STEP_01 qualification range executed in fresh blind session and recorded
+- [ ] STEP_01B language/culture coupling check completed (if applicable)
+- [ ] STEP_02 GO decision explicitly recorded
+- [ ] STEP_03 ontology surface defined
+- [ ] STEP_04 laws defined (including canonicalization rules when needed)
+- [ ] STEP_05 COT proposers defined (no direct writes)
+- [ ] STEP_06 deterministic cascade/commit order set + governance boundary mapped
+- [ ] STEP_07 post-build retest passed (labeled regression)
+- [ ] STEP_08 kernel lock + iteration safeguards updated
+
+HARD_STOP_RULE:
+- If STEP_01/STEP_02 are not complete, build work is out of compliance.
+- If qualification is not blind pre-build, build authorization is out of compliance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,295 @@
+=== SECTION: OTTC_SCOPE_NON_CLAIMS_PROPER_USE ===
+
+[KEEP: Title]
+OTTC — Scope, Non-Claims, Deterministic Governance Boundary, and Proper Use
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCOPE ===
+
+[[LLM_INSTRUCTION]]: This section defines what OTTC is.
+
+OTTC (On-The-Top Constraint) is a language-native governance pattern for stateful LLM agents.
+
+It is a coupling layer: a text-based protocol that conditions an LLM’s continuation space toward:
+- stable, addressable state
+- bounded and labeled epistemic claims
+- governed state mutation (propose → commit)
+- auditable and replayable updates
+- tool use (when present) that is downstream of coherent posture rather than ad-hoc improvisation
+
+OTTC provides a transmission interface between stochastic cognition and durable system state. It is intended to assist higher-order processes (planning, retrieval, tool use, policy enforcement, human review), not replace them.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPTIONAL_ANALOGY — THIN_WAIST_GOVERNANCE_PROTOCOL (TCP/IP PARALLEL) ===
+
+[KEEP: Purpose]
+Provide an intuition for OTTC’s shape without claiming equivalence.
+
+[KEEP: Analogy]
+OTTC can be loosely compared to TCP/IP as a “thin waist” protocol:
+- Below the waist: heterogeneous substrates (for TCP/IP: many link layers; for OTTC: stochastic, model-specific meaning generation)
+- At the waist: a stable interface that many systems can share (for TCP/IP: IP addressing + packet rules; for OTTC: canonical addressing + explicit ops + propose→commit boundary + audit/verification artifacts)
+- Above the waist: many applications (for TCP/IP: web, email, streaming; for OTTC: domain machines, tool workflows, characters, hypothesis systems)
+
+This analogy is useful because OTTC standardizes the interchange format of commit-worthy change, not the internal machinery of the generator.
+
+[KEEP: Where the analogy breaks]
+This is not a literal equivalence:
+- TCP/IP is syntactically rigid and machine-enforced; OTTC is language-coupled and probabilistic unless externalized.
+- TCP/IP assumes deterministic parsing; OTTC must qualify coupling (assays) because models interpret the same text differently.
+- TCP/IP is about delivery of bytes; OTTC is about preserving receiver-meaning while governing state change and actuation.
+
+Use this analogy only as an orientation aid, not as a safety claim.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ASSAY_DOCTRINE_AND_ENGINEERING_SEQUENCE ===
+
+[[LLM_INSTRUCTION]]: This section defines qualification ordering as a scope-level governance requirement.
+
+OTTC deployment is assay-first at the model-coupling level.
+
+NORMATIVE_SEQUENCE:
+1) Run a QUALIFICATION_ASSAY as a blind pre-build probe of the candidate model.
+2) Classify coupling and failure signatures.
+3) Design DSL, authority split, and deterministic boundary placement from assay evidence.
+4) Build or extend the machine only after GO/CONDITIONAL-GO authorization.
+5) Run POST_BUILD_RETTEST for regression after build changes.
+
+DEFINITIONS:
+- QUALIFICATION_ASSAY:
+  - fresh session
+  - minimal law excerpt
+  - immediate probe battery
+  - purpose: characterize coupling priors before architecture decisions
+- POST_BUILD_RETTEST:
+  - conditioned regression after build
+  - purpose: verify invariants were not degraded
+
+GOVERNANCE_WARNING:
+- A post-build conditioned test is not equivalent to a qualification assay.
+- Qualification claims are invalid if blind pre-build conditions were not met.
+
+ANALOGY:
+- Test the ground before laying foundations.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DETERMINISTIC_GOVERNANCE_BOUNDARY ===
+
+[[LLM_INSTRUCTION]]: This section defines the practical boundary between language governance and deterministic enforcement.
+
+OTTC compliance can exist in two deployment modes:
+
+1) In-Model Governance (all artifacts in LLM context)
+- Constitution, proposals, commit logic, audit, and verification are all represented in text inside the model context.
+- This can be OTTC-compliant if kernel invariants are respected.
+
+2) Externalized State Governance (recommended for best results)
+- LLM performs proposal-generation and rationale.
+- Persistent state storage, commit application, schema checks, invariant checks, and audit verification are enforced outside the LLM by deterministic systems/processes.
+
+Both modes can satisfy OTTC form.
+They are not equivalent in reliability over long horizons.
+
+NORMATIVE GUIDANCE:
+- For best deterministic governance results, move persistent STATE and commit authority outside the LLM.
+- Keep the LLM as proposer/interpreter; keep durable reality changes under deterministic control.
+- Treat in-model-only state as a provisional coupling scaffold, not a final safety architecture.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_THIS_BOUNDARY_MATTERS ===
+
+[[LLM_INSTRUCTION]]: This section explains the operational reason for externalizing state.
+
+Language constraints shape probability; they do not create hard runtime guarantees.
+Over long horizons, purely in-context governance is vulnerable to:
+- context erosion and salience drift
+- instruction interference/injection effects
+- audit theater under pressure
+- role confusion under adversarial or high-load prompts
+- accidental write-surface bypass through “helpful” behavior
+
+Therefore:
+- In-model OTTC can buy time, structure, and legibility.
+- Externalized state/commit/verification buys enforcement and replay-grade determinism.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LANGUAGE_AND_CULTURE_COUPLING_REALITY ===
+
+[[LLM_INSTRUCTION]]: This section defines multilingual/cultural coupling implications for deployment design.
+
+OTTC is language-native governance. Therefore coupling is sensitive to linguistic and cultural manifold effects.
+
+PRACTICAL IMPLICATIONS:
+- The same constitution can couple differently across English, Chinese, German, Russian, and other language contexts.
+- Cultural priors and rhetorical defaults can alter compliance behavior at the write surface.
+- Qualification must probe intended operating language(s) early, before DSL and governance lock-in.
+
+DEPLOYMENT RULE:
+- If multilingual support is in scope, run pre-build qualification probes in intended language surfaces and use results to shape:
+  - canonical lexicon choices
+  - translation-before-commit policy
+  - external deterministic boundary depth
+  - role split strategy
+
+=== SECTION_BREAK ===
+
+=== SECTION: SEMANTIC_ABACUS_GOVERNANCE_PRINCIPLE ===
+
+[[LLM_INSTRUCTION]]: This section defines the semantic-to-numeric governance split.
+
+OTTC favors semantic governance at the model interface:
+- canonical enums/ordinals/reason-codes/mechanism-tags at LLM write surface
+- explicit propose→commit→audit→verify lifecycle for state change
+
+Numeric encoding, indexing, and cross-cycle comparisons are performed downstream in deterministic governance after audit and verification pass.
+
+This architecture allows mathematics to emerge from governed semantics rather than requiring numeric authority inside stochastic generation.
+
+PRACTICAL BENEFITS:
+- reduced numeric brittleness in model output
+- stronger canonical discipline at write surface
+- deterministic replay-grade analytics external to model
+- clearer separation between semantic intent and quantitative adjudication
+
+=== SECTION_BREAK ===
+
+=== SECTION: NON_CLAIMS ===
+
+[[LLM_INSTRUCTION]]: This section defines what OTTC is NOT.
+
+OTTC does not claim any of the following:
+
+1) Not a silver bullet
+- OTTC is not a universal solution to alignment, safety, reliability, or correctness.
+- A well-structured OTTC system can still fail, drift, or produce harmful outputs.
+
+2) Not determinism (by language alone)
+- OTTC text does not make an LLM deterministic.
+- It does not guarantee repeatable behavior across runs, seeds, temperatures, or context perturbations.
+- Deterministic behavior requires externalized enforcement at state/commit/verification boundaries.
+
+3) Not truth
+- OTTC does not guarantee factual accuracy.
+- OTTC does not prevent hallucinations; it aims to reduce unsupported claims and make violations detectable and auditable.
+
+4) Not model-independent equivalence
+- Different models couple differently to the same constitution.
+- OTTC does not guarantee the same semantics, obedience, or stability across model families, versions, or fine-tunes.
+
+5) Not a replacement for software
+- OTTC does not replace deterministic programming, validators, access controls, or runtime enforcement.
+- For high-stakes use, deterministic verification and external policy gates are required, not optional.
+
+6) Not a substitute for oversight
+- OTTC does not eliminate the need for human review, monitoring, evaluation, or incident response.
+- Audit artifacts can be performative unless cross-checked.
+
+=== SECTION_BREAK ===
+
+=== SECTION: HONEST_VALUE ===
+
+[[LLM_INSTRUCTION]]: This section defines what OTTC does promise.
+
+OTTC’s practical promise is governance and legibility:
+
+- It shifts trust from “the model is reliable” to “the process constrains and audits state change.”
+- It makes long-horizon agent behavior easier to test by focusing evaluation on state deltas, audits, and invariant checks rather than prose.
+- It provides a stable interface for combining LLM cognition with external systems (tools, policies, verifiers) without letting stochastic outputs silently mutate durable state.
+- It provides a qualification discipline that informs architecture decisions before costly DSL/governance build-out.
+
+And critically:
+- In-model OTTC improves structure and can delay drift.
+- Externalized OTTC improves enforcement and should be the target architecture for best results.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PROPER_USE ===
+
+[[LLM_INSTRUCTION]]: This section defines how to deploy OTTC responsibly.
+
+Use OTTC when you need one or more of:
+- long-horizon stability (reduced drift and thrash)
+- explicit authority boundaries (propose vs commit)
+- bounded epistemics (observation vs inference vs committed state)
+- auditable state evolution (post-hoc accountability)
+- tool safety framed as sensor/actuator governance
+- pre-build coupling classification to guide DSL and governance engineering choices
+
+Deployment guidance by risk tier:
+
+LOWER-RISK / PROTOTYPE:
+- In-model OTTC may be acceptable for exploration and rapid iteration.
+- Still run qualification assays first and retain audit artifacts.
+- Treat numeric analytics as downstream where feasible (Semantic Abacus discipline).
+
+HIGHER-RISK / LONG-HORIZON / REGULATED:
+- Run strict pre-build qualification assay (blind, fresh session) before architecture lock.
+- Externalize persistent state.
+- Externalize commit authority.
+- Externalize invariant/schema verification.
+- Keep LLM authority at proposal/intent layer unless deterministic gates pass.
+- Require human review or policy gates at commit/actuation boundaries as appropriate.
+
+Do not treat OTTC as sufficient by itself when:
+- decisions are high-stakes, irreversible, or regulated
+- external factual correctness is critical
+- you cannot tolerate policy violations even occasionally
+
+In those cases, pair OTTC with:
+- deterministic validators (schema + invariants)
+- explicit tool permissioning and policy gates
+- monitoring and evaluation harnesses
+- human-in-the-loop review at commit or actuation boundaries
+
+=== SECTION_BREAK ===
+
+=== SECTION: COUPLING_REALITY ===
+
+[[LLM_INSTRUCTION]]: This section explains why qualification remains mandatory.
+
+OTTC touches the probability space with language. Therefore:
+- constitutions are interpreted differently across models
+- coupling strength varies by model priors and training regime
+- natural language and culture can shift effective basin geometry
+
+Treat OTTC as a tunable conditioning layer.
+Measure coupling; do not assume it.
+Then place deterministic boundaries where failure cost demands guarantees.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PRACTICAL_MATURITY_PATH ===
+
+[[LLM_INSTRUCTION]]: This section defines a recommended migration path.
+
+Stage 1 — In-Model OTTC Scaffold
+- Run qualification assay first (blind pre-build).
+- Build ontology/laws/COTs in text only after GO.
+- Use for rapid architecture discovery.
+
+Stage 2 — Hybrid OTTC
+- Keep proposal generation in-model.
+- Move state persistence and commit logging to external store/process.
+- Add deterministic schema/invariant checks.
+- Implement semantic-to-numeric downstream translation and cross-cycle comparisons.
+
+Stage 3 — Deterministic Governance OTTC (target for best results)
+- External state is source of truth.
+- Single writer/commit authority is deterministic and auditable.
+- LLM cannot directly mutate persistent state.
+- Verification and policy gates are enforced out-of-model.
+- Quantitative governance and replay analytics operate on post-audit canonical artifacts.
+
+HUMAN_CHECK:
+- If a system remains indefinitely in Stage 1 while risk/horizon grows, governance debt is accumulating.
+- If qualification evidence is missing or non-blind, stage progression decisions are unsound.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
