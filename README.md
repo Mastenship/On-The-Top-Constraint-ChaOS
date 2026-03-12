@@ -9,6 +9,11 @@ OTTC is a credible candidate for the missing constitutional layer in long-horizo
 
 ---
 
+**Philosophical Foundation**  
+[OTTC and the Governance of Opaque Generative Systems](./OTTC-and-the-Governance-of-Opaque-Generative-Systems.md)
+
+---
+
 ## The Problem
 
 LLM agents that maintain state over long horizons fail in predictable ways:
