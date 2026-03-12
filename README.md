@@ -197,7 +197,7 @@ A quick note on voice and format:
 
 These documents were written for LLMs first. The models were the original teachers.
 
-The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremonial structure are not stylistic flourishes — they are deliberate DSL choices designed to be attention-head friendly. This keeps the constitution stable across thousands of tokens and long collaborative sessions.
+The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremonial structure are not stylistic flourishes — they are deliberate DSL choices designed to be attention-head friendly. This keeps the constitution stable across thousands of tokens and long collaborative sessions. This is not the only DSL OTTC concepts may be communicated in to LLMs, but it appears to work well with most English semantic manifolds.
 
 Humans are welcome to read along; the protocol works for any long-horizon agent. If the ritual tone feels unusual at first, drop the files into an LLM’s persistent context and watch it parse the rectangle instantly — that is the point.
 
