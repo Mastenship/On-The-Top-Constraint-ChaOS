@@ -5,6 +5,8 @@
 
 OTTC is a language-native governance protocol that constrains how LLM agents manage persistent state over long horizons. It doesn't modify model weights. It doesn't claim determinism. It provides addressable state, governed mutation (propose→commit with single-writer authority), bounded epistemic claims, and full audit closure — enforced through a text-based constitution that conditions the LLM's continuation space. ChaOS (Character Operating System) is the included working demonstration: a psychologically grounded character state machine with 65 structured files implementing OTTC-compliant governance across personality, physiology, memory, relationships, beliefs, goals, and cognition.
 
+OTTC is a credible candidate for the missing constitutional layer in long-horizon LLM systems. It does not claim to solve intelligence or alignment outright. It claims something narrower and more actionable: that opaque, stochastic, meaning-generating agents can be made more governable when durable state change is mediated through canonical addresses, lawful operations, bounded authority, explicit proposal/commit separation, transient-vs-baseline distinctions, audit closure, and post-commit verification. This is not prompt magic; it is governance architecture. Its value should be judged against actual alternatives — ad hoc state mutation, vague memory, hidden authority, and prose-level accountability — not against fantasies of perfect interpretability or perfect determinism. Even if OTTC is only partially right, it has already identified a set of invariants and methods that serious long-horizon agent systems are likely to converge toward.
+
 ---
 
 ## The Problem
