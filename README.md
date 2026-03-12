@@ -10,7 +10,7 @@ OTTC is a credible candidate for the missing constitutional layer in long-horizo
 ---
 
 **Philosophical Foundation**  
-[OTTC and the Governance of Opaque Generative Systems](/OTTC%20and%20the%20Governance%20of%20Opaque%20Generative%20Systems.md0)
+[OTTC and the Governance of Opaque Generative Systems](./OTTC-and-the-Governance-of-Opaque-Generative-Systems.md)
 
 ---
 
