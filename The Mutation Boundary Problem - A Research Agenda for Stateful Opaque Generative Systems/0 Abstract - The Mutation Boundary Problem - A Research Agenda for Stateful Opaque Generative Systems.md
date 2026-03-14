@@ -1,4 +1,4 @@
-# Paper 0: The Mutation Boundary Problem
+# Abstract - The Mutation Boundary Problem
 
 **A Research Agenda for Stateful Opaque Generative Systems**
 
