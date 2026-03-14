@@ -1,4 +1,4 @@
-## 5. A High-Resolution Test Case: The Player-Character Problem
+## 5. A High-Resolution Test Case - The Player-Character Problem
 
 The Mutation Boundary Problem can be discussed in highly general terms, but some domains make its structure unusually clear. One such domain is the long-horizon player-character role in tabletop or narrative interaction. At first glance this may appear niche, aesthetic, or secondary to more conventionally “serious” applications of generative systems. We argue the opposite. The player-character problem is a high-resolution test case because it concentrates, in immediately human-legible form, many of the core difficulties any stateful opaque generative system must confront: continuity over time, bounded perspective, lawful change, persistent consequence, uncertainty, interpretive error, and the maintenance of a shared world.
 
