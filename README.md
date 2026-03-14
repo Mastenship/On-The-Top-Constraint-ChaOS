@@ -195,6 +195,7 @@ Total cost: less than $500 out of pocket and nine months of spare time while wor
 OTTC/                        — Framework specification (axioms, scope, qualification, testable hypotheses)
 CHARACTER_OPERATING_SYSTEM/  — ChaOS demonstration architecture (65 files)
 AUDIENCE_RENDERINGS/         — OTTC rendered for researchers, developers, DMs, and enterprise
+The Mutation Boundary Problem/  -  A Research Agenda for Stateful Opaque Generative Systems
 LICENSE                      — CC BY-NC 4.0
 ```
 
