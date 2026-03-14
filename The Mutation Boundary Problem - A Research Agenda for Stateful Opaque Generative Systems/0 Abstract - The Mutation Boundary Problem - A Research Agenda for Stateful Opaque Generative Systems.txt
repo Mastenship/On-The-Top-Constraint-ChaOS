@@ -1,0 +1,11 @@
+# Paper 0: The Mutation Boundary Problem
+
+**A Research Agenda for Stateful Opaque Generative Systems**
+
+Long-horizon generative systems do not fail only through inaccurate outputs or unsafe actions. They also fail when persistent state, identity, commitments, or shared context mutate in ways that become illegible, unbounded, or unauditable over time. Current discourse around large language models and agentic systems often treats capability, alignment, memory, prompting, and tool use as separable concerns, but under-specifies a deeper challenge: the conditions under which an opaque, stochastic, stateful generator can participate coherently in a shared world across time without requiring false claims of determinism or full interior transparency.
+
+This paper names that challenge the **Mutation Boundary Problem**. It defines the problem as the governance of the boundary between generative exploration and durable state change in stateful opaque generative systems. Rather than proposing a final solution, the paper offers a research agenda. It decomposes the problem into major domains including ontology and persistent state, continuity and identity, epistemic boundaries, lawful mutation, memory and causality, error and anti-fragility, tool-mediated evidence, substrate coupling, staged externalization, multi-agent governance, and domain-specific success criteria.
+
+OTTC is introduced as one provisional governance response that attempts to address these tensions by regulating mutation at the transition between proposal and commitment. ChaOS is presented as a domain-specific narrative implementation that makes these pressures concrete. Neither is offered as a final theory of governed stochastic participation. Instead, both are treated as constructive examples that clarify the problem space and demonstrate how one architectural direction attempts to respond to it.
+
+The paper argues that progress in this area requires shifting attention from raw output quality to the legibility, boundedness, and accountability of change over time. A narrative player-character domain is used as a motivating case because it compresses these questions into a high-resolution setting where continuity, perspective, and consequence are immediately visible.
