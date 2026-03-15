@@ -279,7 +279,7 @@ LICENSE                      — CC BY-NC 4.0
 
 A quick note on voice and format:
 
-The OTTC specific documents were written for LLMs first. The models were the original teachers.
+The OTTC specific and audience rendering documents were written for LLMs first. The models were the original teachers.
 
 The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremonial structure are not stylistic flourishes — they are deliberate DSL choices designed to be attention-head friendly. This keeps the constitution stable across thousands of tokens and long collaborative sessions. This is not the only DSL OTTC concepts may be communicated in to LLMs, but it appears to work well with most English semantic manifolds.
 
