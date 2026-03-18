@@ -17,7 +17,7 @@ TOKEN_STYLE:
 - No spaces
 - No hyphens
 - No mixed case
-- IDs remain uppercase with underscores (ENT_XX, SKL_XX, ALT_XX, MEM_XX, PRD_XX, GOAL_XX, MOD_XX, PUP_XX)
+- IDs remain uppercase with underscores (ENT_XX, SKL_XX, ALT_XX, MEM_XX, PRD_XX, GOAL_XX, PROPOSAL_ID_PREFIX: PUP_, MOD_XX, ACTION_ID_PREFIX: ACT_)
 
 CANONICAL_PATH_FORMAT:
 - [MODULE_ROOT][GROUP_OR_ID][FIELD]
@@ -146,6 +146,20 @@ FORBIDDEN_OPERATION_ALIASES:
 - UPDATE
 - INCREMENT
 - DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: EPISTEMIC_TAG_ENUM (new required extension) ===
+
+EPISTEMIC_TAG: ENUM [
+  PERCEPTION,
+  INFERENCE,
+  SPECULATION,
+  COMMITTED_FACT,
+  TOOL_REQUEST
+]
+
+Notes: Closed canonical set. Required on every proposal submitted to the proposal registry. COMMITTED_FACT tag is only permitted when supported by verified evidence linkage.
 
 === SECTION_BREAK ===
 
