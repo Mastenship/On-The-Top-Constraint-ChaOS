@@ -5,166 +5,193 @@ OTTC - On the Top Constraint for LLMs, Rectangle Axioms (Kernel Invariants)
 
 === SECTION_BREAK ===
 
-=== SECTION: CANONICAL_ADDRESS_SPACE ===
+=== SECTION: MANDATORY_CANONICAL_ADDRESS_SPACE ===
 
-[[LLM_INSTRUCTION]]: This section defines the canonical address space invariant.
+STATEMENT:
+There is a single canonical way to refer to any commit-worthy state element. Synonyms are not allowed at the write surface.
 
-There is a single canonical way to refer to any commit-worthy state element (an addressable ontology). Synonyms are not allowed at the write surface.
+ENFORCEMENT:
+All proposals and commits MUST use bracket-path tokens from the CANONICAL_TOKEN_DICTIONARY. Non-canonical paths are rejected at intake.
 
-=== SECTION_BREAK ===
-
-=== SECTION: PROPOSE_COMMIT_SEPARATION ===
-
-[[LLM_INSTRUCTION]]: This section defines the propose-commit separation invariant.
-
-All state mutation is expressed as proposals first; persistent state is updated only at a commit boundary. Deliberation is allowed to be messy; committed reality is not.
+WHY_IT_MATTERS:
+Eliminates synonym thrash and makes every mutation machine-legible and replayable across any long-horizon agent.
 
 === SECTION_BREAK ===
 
-=== SECTION: SINGLE_WRITER_PERSISTENT_STATE ===
+=== SECTION: MANDATORY_PROPOSE_COMMIT_SEPARATION ===
 
-[[LLM_INSTRUCTION]]: This section defines the single-writer persistent state invariant.
+STATEMENT:
+All state mutation is expressed as proposals first. Persistent state is updated only at a commit boundary.
 
-Exactly one authority is allowed to write persistent state per cycle (or per transaction). Multi-writer cognition is permitted; multi-writer reality is forbidden.
+ENFORCEMENT:
+Proposing components may only write to the proposal registry. Only the designated single-writer authority may touch mutable persistent state.
 
-=== SECTION_BREAK ===
-
-=== SECTION: EXPLICIT_UPDATE_OPERATIONS ===
-
-[[LLM_INSTRUCTION]]: This section defines the explicit update operations invariant.
-
-State change must occur through a finite set of explicit operations (e.g., SET, TRANSITION, ADD_MODIFIER, REMOVE_MODIFIER, VETO/CAP). Freeform rewrite of state is not a legal update.
+WHY_IT_MATTERS:
+Keeps exploratory generation plural and provisional while making durable state change singular and lawful for any long-horizon agent.
 
 === SECTION_BREAK ===
 
-=== SECTION: HARD_STATE_VS_SOFT_MODIFIERS ===
+=== SECTION: MANDATORY_SINGLE_WRITER_PERSISTENT_STATE ===
 
-[[LLM_INSTRUCTION]]: This section defines the hard state vs soft modifiers invariant.
+STATEMENT:
+Exactly one authority is allowed to write persistent state per cycle. Multi-writer cognition is permitted. Multi-writer reality is forbidden.
 
-The system distinguishes between:
-- baseline/hard state (inertial, step-limited, not frequently rewritten)
-- transient influences/modifiers (time-bounded overlays)
+ENFORCEMENT:
+Only the designated commit authority may apply changes to persistent state. All other components are proposers only.
 
-This prevents short-lived context from eroding durable identity/policy.
-
-=== SECTION_BREAK ===
-
-=== SECTION: STEP_LIMITS_OVERRIDE_TRIGGERS ===
-
-[[LLM_INSTRUCTION]]: This section defines the step limits and override triggers invariant.
-
-Hard-state changes are bounded per cycle (or per unit time), and breaking that bound requires explicit, named override triggers with proof requirements. This is inertia, formalized.
+WHY_IT_MATTERS:
+Prevents thrash and makes every change traceable to a single accountable decision point in any long-horizon agent.
 
 === SECTION_BREAK ===
 
-=== SECTION: DETERMINISTIC_CONFLICT_RESOLUTION ===
+=== SECTION: MANDATORY_EXPLICIT_UPDATE_OPERATIONS ===
 
-[[LLM_INSTRUCTION]]: This section defines the deterministic conflict resolution invariant.
+STATEMENT:
+State change must occur through a finite set of explicit operations (SET, TRANSITION, ADD_MODIFIER, REMOVE_MODIFIER, CAP, VETO).
 
-When proposals conflict, the commit layer resolves them via a deterministic policy (precedence order + tie-breakers). This is what prevents thrash and makes replay meaningful.
+ENFORCEMENT:
+Any other OPERATION_TYPE is suppressed at intake with reason code INVALID_OPERATION_TYPE.
 
-=== SECTION_BREAK ===
-
-=== SECTION: AUDIT_CLOSURE ===
-
-[[LLM_INSTRUCTION]]: This section defines the audit closure invariant.
-
-Every proposal must be accounted for exactly once with an outcome (committed/suppressed/downgraded) and a reason code or note. No silent drops. No looks-compliant theater.
+WHY_IT_MATTERS:
+Turns mutation into a closed, auditable vocabulary instead of freeform prose for any long-horizon agent.
 
 === SECTION_BREAK ===
 
-=== SECTION: POST_COMMIT_VERIFICATION ===
+=== SECTION: MANDATORY_HARD_STATE_VS_SOFT_MODIFIERS ===
 
-[[LLM_INSTRUCTION]]: This section defines the post-commit verification invariant.
+STATEMENT:
+The system distinguishes between baseline hard state (inertial) and transient influences (time-bounded overlays).
 
-After commit, a verification pass checks invariants, caps, integrity, and schema sanity. Verification does not invent new changes; it only certifies or flags.
+ENFORCEMENT:
+Transient effects MUST route to temporary modifier storage. Baseline changes are step-limited.
+
+WHY_IT_MATTERS:
+Prevents momentary pressure from silently rewriting persistent identity or commitments in any long-horizon agent.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MANDATORY_STEP_LIMITS_OVERRIDE_TRIGGERS ===
+
+STATEMENT:
+Hard-state changes are bounded per cycle. Breaking that bound requires explicit, named override triggers with proof.
+
+ENFORCEMENT:
+Multi-step changes without proven override are downgraded or suppressed.
+
+WHY_IT_MATTERS:
+Gives persistent state inertia and makes earned change legible in any long-horizon agent.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MANDATORY_DETERMINISTIC_CONFLICT_RESOLUTION ===
+
+STATEMENT:
+When proposals conflict, the commit layer resolves them via a deterministic policy (precedence order plus tie-breakers).
+
+ENFORCEMENT:
+Precedence order and tie-breakers are applied by the commit authority before any write.
+
+WHY_IT_MATTERS:
+Eliminates thrash and guarantees replayability for any long-horizon agent.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MANDATORY_AUDIT_CLOSURE ===
+
+STATEMENT:
+Every proposal must be accounted for exactly once with an outcome and a reason. No silent drops.
+
+ENFORCEMENT:
+The commit audit must list every PROPOSAL_ID exactly once.
+
+WHY_IT_MATTERS:
+Prevents hidden governance and makes every decision inspectable in any long-horizon agent.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MANDATORY_POST_COMMIT_VERIFICATION ===
+
+STATEMENT:
+After commit, a verification pass checks invariants, caps, integrity, and schema sanity.
+
+ENFORCEMENT:
+The verification step runs after every commit and can return FAIL.
+
+WHY_IT_MATTERS:
+Provides the final safety net and forces the system to stay self-consistent across any long-horizon agent.
 
 === SECTION_BREAK ===
 
 === SECTION: WHAT_THIS_BUYS_YOU ===
 
-[[LLM_INSTRUCTION]]: This section defines the benefits of OTTC without claiming magic.
-
-- Governable long-horizon state evolution (less drift/thrash)
-- Legible causality (why state changed)
-- Replayable deltas (evaluation without prose arguments)
-- Bounded authority (reduced epistemic overreach)
-
-And critically: it’s still a rectangle. Any OTTC-compliant square can choose:
-- different schemas
-- different token syntax
-- different domains
-- different ops
-as long as it keeps these invariants true.
+STATEMENT:
+The nine invariants together create a minimal constitutional shape that any long-horizon agent can inhabit. They are deliberately terse so the kernel remains universal.
 
 === SECTION_BREAK ===
 
-=== SECTION: ADDITIONAL_INVARIANTS ===
+=== SECTION: EXTENSION_EXPLICIT_TOOL_ACTUATION_BOUNDARY ===
 
-[[LLM_INSTRUCTION]]: This section defines additional possible invariants.
+STATEMENT:
+Tool calls (if present) must be proposed in the proposal registry and only actuated post-commit by the single writer, with the same audit trail as any other mutation.
 
-10) EXPLICIT_TOOL_ACTUATION_BOUNDARY
-Tool calls (if present) must be proposed in the same registry and only actuated post-commit by the single writer, with the same audit trail.
+ENFORCEMENT:
+Tool intent is treated as a proposal with OPERATION_TYPE TOOL_REQUEST. Actuation occurs only after commit and verification. Unauthorized tool calls are suppressed with reason code TOOL_ACTUATION_VIOLATION.
 
-11) AUDIT_LEVEL_TRANSLATION_BEFORE_COMMIT
-Internal deliberation may occur in any language. However, before any commit decision, the audit authority MUST translate/normalize all commit-bound artifacts (proposals, tool intents, audit entries, and verification inputs) into the canonical output lexicon and character set.
-
-Canonical write-surface tokens (addresses, ops, enums/ordinals, IDs, schema keys, reason codes) MUST remain unchanged and MUST be emitted only in canonical form. Only narrative/free-text fields may be translated.
-
-Any proposal that cannot be rendered canonically without altering write-surface tokens MUST be suppressed with an explicit reason code and included in audit closure.
-
-Note (operator guidance): Where possible, keep the LLM-facing write surface semantic (canonical enums/ordinals/reason codes). Numeric encoding and cross-cycle comparison can be performed downstream in deterministic governance after audit and verification (“semantic abacus”).
-
-12) OPTIONAL_EXTERNALIZED_STATE_COMMIT_VERIFICATION_BY_RISK_TIER
-OTTC compliance does not require externalized state/commit/verification for all deployments. In low-stakes realms, a fully in-model OTTC implementation can be acceptable if kernel invariants and assay discipline remain intact.
-
-However, as horizon length, consequence, or adversarial pressure increases, best practice is to externalize persistent state, commit authority, and verification into deterministic governance layers.
-
-This addendum is deployment-tier guidance: optional for low stakes, strongly recommended for high stakes.
-
-13) QUALIFICATION_ASSAY_PREBUILD_BLIND_GATE
-Before ontology/DSL/governance architecture is built or expanded, qualification must be run as a blind pre-build probe of candidate model coupling:
-- fresh session
-- minimal law excerpt
-- immediate assay sequence (CAA → WSD → EPI if applicable → ANT)
-- explicit GO/NO-GO/CONDITIONAL-GO record
-
-Post-build testing remains required as regression hygiene, but it is not equivalent to qualification and must not be labeled as such.
-
-Rationale:
-Test the ground before foundations. Architecture should be shaped by assay evidence, not assumed coupling.
+INTEGRATION:
+Add TOOL_REQUEST to EPISTEMIC_TAG enum (if EST is active). Extend verification checklist to include tool-actuation provenance.
 
 === SECTION_BREAK ===
 
-=== SECTION: OTTC_MINIMUM_AND_EXTENSIONS_NOTE ===
+=== SECTION: EXTENSION_AUDIT_LEVEL_TRANSLATION_BEFORE_COMMIT ===
+
+STATEMENT:
+Internal deliberation may occur in any language. However, before any commit decision, the audit authority MUST translate or normalize all commit-bound artifacts into the canonical output lexicon. Canonical write-surface tokens MUST remain unchanged.
+
+ENFORCEMENT:
+Any proposal that cannot be rendered canonically without altering write-surface tokens MUST be suppressed with reason code TRANSLATION_VIOLATION.
+
+INTEGRATION:
+Add translation policy note to the commit authority. Verification checklist includes canonical-form check.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXTENSION_OPTIONAL_EXTERNALIZED_STATE_BY_RISK_TIER ===
+
+STATEMENT:
+OTTC compliance does not require externalized state, commit, or verification for all deployments. In low-stakes realms a fully in-model implementation can be acceptable. As horizon length, consequence, or adversarial pressure increases, best practice is to externalize persistent state, commit authority, and verification into deterministic governance layers.
+
+ENFORCEMENT:
+The agent remains proposer and interpreter. The deterministic layer becomes source of truth, commit authority, and verifier.
+
+INTEGRATION:
+Document risk-tier policy in the governance overlay. Update maturation doctrine references.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXTENSION_EPISTEMIC_STATUS_TAGGING ===
+
+STATEMENT:
+For OTTC systems in which lawful point-of-view is a first-class governance requirement, every proposal submitted to the proposal registry MUST carry a required closed canonical EPISTEMIC_TAG field drawn from this exact enum: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST.
+
+ENFORCEMENT:
+Governance intake and post-commit verification MUST check tag consistency with JUSTIFICATION, MECHANISM_TAG, SYSTEM_LINKAGE, and role bounds. COMMITTED_FACT tag is only permitted when supported by verified evidence linkage. Proposals with invalid, missing, or mismatched tags are suppressed with explicit reason code EPISTEMIC_TAG_VIOLATION.
+
+INTEGRATION:
+Add enum to CANONICAL_TOKEN_DICTIONARY. Add field to the proposal schema. Add EPISTEMIC_TAG_VALID_AND_CONSISTENT_WITH_LINKAGE_AND_ROLE check to the verification step.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MANDATORY_ENGINEERING_STEP ===
 
 [KEEP: Rule]
-The original nine OTTC Rectangle Axioms are the mandatory minimum kernel for OTTC compliance.
+This is NOT a constitutional invariant. It is a mandatory engineering step required by OTTC doctrine.
 
-[KEEP: Interpretation]
-- 1–9 = REQUIRED baseline invariants (minimum viable OTTC).
-- 10+ = OPTIONAL extension invariants, activated by deployment context, risk tier, domain needs, and operational maturity.
+Before any ontology, DSL, proposal schema, or authority assignment is built or extended:
+Run a blind pre-build qualification assay (fresh session, minimal law excerpt only). Classify coupling on CAA, WSD, EPI (if applicable), and ANT. Record an explicit GO / NO-GO / CONDITIONAL-GO decision with role assignment and mitigations.
 
-[KEEP: Governance Principle]
-Optional does not mean unimportant.
-It means conditionally required by environment:
-- low-stakes contexts may remain on the 9-axiom minimum
-- higher-stakes or longer-horizon contexts should adopt relevant extensions (e.g., tool boundary, audit-level translation, pre-build qualification doctrine, externalized deterministic governance)
+Post-build retests are required for regression hygiene, but they are never a substitute for the pre-build blind gate.
 
-[KEEP: Compatibility]
-Any extension must preserve and never weaken axioms 1–9.
-
-=== SECTION_BREAK ===
-
-=== SECTION: ASSAY_DISCIPLINE_COMPATIBILITY_NOTE ===
-
-[[LLM_INSTRUCTION]]: Clarify compatibility between kernel invariants and assay doctrine.
-
-ASSAY DISCIPLINE is operationally mandatory for OTTC engineering practice:
-- Qualification Assay (blind pre-build) informs architecture and authority choices.
-- Post-Build Retest (conditioned regression) protects against drift after changes.
-
-This doctrine does not alter kernel axioms 1–9; it governs when and how systems are authorized to build on top of them.
+This step is non-negotiable for any OTTC-compliant architecture.
 
 === SECTION_BREAK ===
 
