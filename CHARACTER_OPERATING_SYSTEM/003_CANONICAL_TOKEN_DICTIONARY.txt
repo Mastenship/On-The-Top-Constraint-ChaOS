@@ -163,4 +163,21 @@ Notes: Closed canonical set. Required on every proposal submitted to the proposa
 
 === SECTION_BREAK ===
 
+=== SECTION: CANONICAL_OUTPUT_LEXICON_POLICY (TRANSLATION_BEFORE_COMMIT) ===
+
+[[LLM_INSTRUCTION]]: Internal deliberation may occur in any language or mixed style.  
+However, before any commit decision, the audit authority MUST translate/normalize ALL commit-bound artifacts (proposals, justifications, audit entries, verification inputs) into the single canonical output lexicon defined here.
+
+CANONICAL_OUTPUT_LEXICON_RULES:
+- All non-token narrative fields (JUSTIFICATION, NOTES, EFFECT_EXPRESSION, HYPOTHESIS, etc.) MUST be rendered in clear, canonical English (or the declared primary operating language) with UPPER_SNAKE tokens left untouched.
+- Bracket-path tokens, OPERATION_TYPE, EPISTEMIC_TAG, PROPOSAL_ID, MECHANISM_TAG, and all registry IDs are immutable write-surface elements — they are copied verbatim and never translated.
+- Any proposal that cannot be normalized without altering a write-surface token is suppressed at intake.
+
+ENFORCEMENT_REASON_CODE:
+- TRANSLATION_VIOLATION (triggered if normalization would mutate canonical tokens or if commit-bound artifacts remain in non-canonical form)
+
+[[LLM_INSTRUCTION]]: This policy is enforced by STATE_GOVERNANCE_AND_COMMIT (pre-commit) and COT_UPDATE_VERIFICATION (post-commit canonical-form check).
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

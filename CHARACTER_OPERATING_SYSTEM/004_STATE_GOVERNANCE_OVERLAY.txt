@@ -80,4 +80,20 @@ TIE_BREAKERS (in order):
 
 === SECTION_BREAK ===
 
+=== SECTION: TRANSLATION_BEFORE_COMMIT_POLICY ===
+
+[[LLM_INSTRUCTION]]: Internal deliberation (any COT, any language) is permitted.  
+Before the single-writer commit decision, every commit-bound artifact MUST be normalized to the canonical output lexicon.
+
+TRANSLATION_RULES:
+- Narrative fields (JUSTIFICATION, NOTES, RATIONALE, EFFECT_EXPRESSION, etc.) are translated/normalized to canonical English (or declared primary language).
+- Write-surface tokens ([STATE_...], OPERATION_TYPE, EPISTEMIC_TAG, PROPOSAL_ID, MECHANISM_TAG, etc.) are copied verbatim — they are never altered.
+- If normalization would require changing a canonical token, the proposal is rejected with reason code TRANSLATION_VIOLATION.
+- The normalized version is what enters the audit log and verification.
+
+AUDIT_AUTHORITY_NOTE:
+STATE_GOVERNANCE_AND_COMMIT performs this normalization step immediately before applying any commit. The original (possibly multilingual) deliberation remains in the CASCADE_TRACE for provenance.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

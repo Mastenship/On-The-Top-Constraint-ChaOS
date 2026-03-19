@@ -66,6 +66,8 @@ EPISTEMIC_TAG: [PERCEPTION | INFERENCE | SPECULATION | COMMITTED_FACT | TOOL_REQ
 JUSTIFICATION:
 NOTES: [Optional]
 
+[[LLM_INSTRUCTION]]: JUSTIFICATION and NOTES fields are subject to translation-before-commit normalization. Write-surface fields remain untouched.
+
 === SECTION_BREAK ===
 
 === SECTION: STRICT_OPERATION_POLICY ===

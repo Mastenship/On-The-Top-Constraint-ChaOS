@@ -62,6 +62,18 @@ Forbidden writes:
 6) Commit provenance:
 - Every commit traces back to proposal source
 
+7) EPISTEMIC_TAG_VALID_AND_CONSISTENT_WITH_LINKAGE_AND_ROLE
+- Every proposal carries valid EPISTEMIC_TAG from closed enum
+- COMMITTED_FACT only when supported by verified evidence linkage
+- Consistency with JUSTIFICATION, MECHANISM_TAG, SYSTEM_LINKAGE, and role bounds
+- Invalid/missing/mismatched tags → VIOLATION
+
+8) CANONICAL_FORM_CHECK (TRANSLATION_BEFORE_COMMIT)
+- All commit-bound artifacts were normalized to canonical output lexicon.
+- No write-surface tokens were altered during translation.
+- Proposals that failed normalization were suppressed with TRANSLATION_VIOLATION.
+- If any artifact remains in non-canonical form: VIOLATION
+
 If violation found:
 - classify as VIOLATION or WARNING
 - include deterministic reason code
