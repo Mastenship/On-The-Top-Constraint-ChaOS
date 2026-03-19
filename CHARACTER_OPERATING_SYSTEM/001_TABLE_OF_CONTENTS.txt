@@ -7,7 +7,7 @@ It exists solely as the primary early-context attention anchor and definitive fi
 
 === SECTION_BREAK ===
 
-MASTER EXECUTION & DROP ORDER (Venice protocol — 001 to 065 exactly)
+=== SECTION: MASTER EXECUTION & DROP ORDER (001 to 065 exactly) ===
 
 001_TABLE_OF_CONTENTS                       = TABLE_OF_CONTENTS
 002_LLM_FORMATTING_GUIDELINES               = LLM_FORMATTING_GUIDELINES
@@ -80,7 +80,7 @@ MASTER EXECUTION & DROP ORDER (Venice protocol — 001 to 065 exactly)
 
 065_COGNITIVE_SCRATCHPAD (Volatile Instance) = COGNITIVE_SCRATCHPAD   ← mutable TXT (volatile instance — re-drop after every cycle)
 
-=== SECTION_BREAK ===
+=== SECTION: ADDIIONAL_NOTES ===
 
 MUTABLE FILES SUMMARY (re-drop these TXT files only after each cycle)
 - All STATE_* files (053–064)
@@ -90,5 +90,7 @@ IMMUTABLE FILES (001–052) — drop once per campaign (PDF recommended)
 
 ATTENTION ANCHOR PROTOCOL
 Drop and process files strictly in numerical order 001 → 065 on every session start. This ordering aligns perfectly with the internal cascade flow.
+
+=== SECTION_BREAK ===
 
 [KEY_TERM: Document Complete]
