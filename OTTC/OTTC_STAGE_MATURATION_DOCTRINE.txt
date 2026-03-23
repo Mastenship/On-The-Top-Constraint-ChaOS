@@ -1,0 +1,470 @@
+=== SECTION: OTTC_STAGE_MATURATION_DOCTRINE ===
+
+[KEEP: Title]
+OTTC Stage Maturation Doctrine
+Why Stage 1 Matters, Why Migration Is Necessary, and Why Stage 3 Cannot Be Skipped
+
+=== SECTION_BREAK ===
+
+=== SECTION: PURPOSE ===
+
+[KEEP: Purpose]
+This document codifies the OTTC doctrine of architectural maturation.
+
+It answers three recurring errors:
+
+1) STAGE_1_DISMISSAL_ERROR
+- “If deterministic external governance is the real target, Stage 1 is unnecessary.”
+- “Just build the software first.”
+
+2) STAGE_1_ROMANTICISM_ERROR
+- “If the machine works in-context, externalization is unnecessary.”
+- “Just keep everything in the LLM forever.”
+
+3) STAGE_3_SKIPPING_ERROR
+- “We can externalize immediately without first discovering the lawful semantic interface the model can reliably inhabit.”
+
+OTTC rejects all three errors.
+
+The correct doctrine is:
+- Stage 1 is necessary for constitutional discovery and coupling assay.
+- Stage 2 is necessary for safe migration and mixed-boundary engineering.
+- Stage 3 is necessary for best deterministic governance results in long-horizon, high-risk, or high-consequence systems.
+
+Stage progression is maturation, not repudiation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_THESIS ===
+
+[[LLM_INSTRUCTION]]: Treat this as the governing thesis of the doctrine.
+
+A deterministic governance layer cannot reliably govern what the stochastic generator cannot yet lawfully express.
+
+Therefore:
+- Stage 1 exists to discover and stabilize the constitutional language of proposals, audits, paths, invariants, and bounded role behavior inside the model’s native semantic medium.
+- Stage 2 exists to externalize selected authorities and checks without breaking the learned constitutional interface.
+- Stage 3 exists to move durable state, commit authority, verification, and quantitative replay analytics into deterministic systems once the semantic protocol is stable enough to support them.
+
+Short form:
+- Stage 1 discovers the law surface.
+- Stage 2 migrates the law surface.
+- Stage 3 enforces the law surface.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FOUNDATIONAL_OBSERVATION ===
+
+[KEEP: Observation]
+OTTC is language-native governance.
+
+Because OTTC constrains a probabilistic text policy through semantic law, the model must first be able to:
+- recognize canonical addresses
+- distinguish proposal from commit
+- obey bounded operations
+- preserve hard-vs-soft state separation
+- emit complete audits
+- remain within epistemic and role limits
+- produce artifacts stable enough for deterministic systems to parse
+
+If the model cannot do this reliably, then external governance software will not be governing a stable constitutional protocol.
+It will instead be parsing unstable text behavior and treating extraction fragility as architecture.
+
+This is why Stage 1 cannot be skipped.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_STAGE_1_EXISTS ===
+
+[[LLM_INSTRUCTION]]: This section defines the purpose of Stage 1.
+
+Stage 1 is the constitutional discovery and coupling assay phase.
+
+Its purpose is not:
+- final safety
+- final determinism
+- final reliability
+- final production architecture
+
+Its purpose is to determine whether the candidate model can stably inhabit an OTTC-compatible law surface at all, and if so, under what constraints.
+
+Stage 1 is where you discover:
+
+1) ONTOLOGY_FIT
+- What persistent modules can be made legible?
+- What tokens and record forms are stable?
+
+2) DSL_FIT
+- What syntax and segmentation does the model obey under stress?
+- What canonical forms retain gravity over long contexts?
+
+3) COUPLING_LIMITS
+- Where does the model drift first?
+- Which invariants are weakly held?
+- Which roles should be reduced, split, or externalized?
+
+4) AUTHORITY_FEASIBILITY
+- Can this unit serve only as proposer?
+- Can it also govern?
+- Must audit or commit be reassigned?
+
+5) FAILURE_SIGNATURES
+- Does it alias?
+- Does it perform illegal direct writes?
+- Does it narrate beyond role?
+- Does it produce audit theater?
+
+6) LANGUAGE_AND_CULTURE_EFFECTS
+- Does coupling change across intended language surfaces?
+
+This is why qualification assay is a mandatory blind pre-build gate.
+You test the ground before foundations.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_STAGE_1_IS_NOT_OPTIONAL_FLUFF ===
+
+[KEEP: Rule]
+Stage 1 is not “just prompting.”
+Stage 1 is not “prototyping until software exists.”
+Stage 1 is not “informal scaffolding.”
+
+It is the only phase in which the operator can directly observe whether the candidate model can:
+- inhabit canonical law
+- separate proposal from reality
+- preserve auditable causality
+- and produce a parseable constitutional artifact language
+
+without first being over-conditioned by a finished architecture.
+
+A system that skips this phase risks:
+- externalizing a bad ontology
+- cementing unstable token choices
+- building parsers for artifacts the model does not naturally hold
+- mistaking conditioned post-build compliance for native coupling
+- and investing engineering effort into a constitutional shape the model cannot support cleanly
+
+Therefore:
+Skipping Stage 1 does not save time in principle.
+It often converts discovery debt into later architectural debt.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_STAGE_3_CANNOT_BE_SKIPPED_TO_IMMEDIATELY ===
+
+[[LLM_INSTRUCTION]]: This section refutes the “just start with software” objection.
+
+The common objection is:
+- “If external deterministic governance is the target, why not start there immediately?”
+
+Answer:
+Because deterministic governance still requires a stable semantic interchange format.
+
+External systems must receive artifacts such as:
+- canonical proposals
+- legal target paths
+- operation types
+- reason codes
+- mechanism tags
+- audit entries
+- verification inputs
+- tool-intent requests
+
+These do not arise automatically from generic model output.
+They must be discovered, stabilized, and assayed inside the model’s own semantic medium first.
+
+Without Stage 1, software teams typically end up doing one or more of the following:
+- parsing prose that was never constitutionally stable
+- inventing schemas the model weakly inhabits
+- overfitting parsers to one model/version
+- collapsing semantic distinctions because the interface was not discovered first
+- treating extraction success as governance success
+- confusing formal syntax with effective coupling
+
+Therefore:
+You may build external software early, but you may not validly assume that you have skipped Stage 1 unless the model-facing constitutional protocol has already been discovered and qualified.
+
+The sequence is not:
+- software first, semantics later
+
+The sequence is:
+- assay and discover semantics first
+- then externalize deterministically
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_STAGE_2_EXISTS ===
+
+[[LLM_INSTRUCTION]]: This section defines the role of the hybrid stage.
+
+Stage 2 exists because migration from pure in-context governance to deterministic governance is rarely atomic.
+
+Stage 2 is the hybridization phase.
+Its purpose is to preserve the stable constitutional language discovered in Stage 1 while gradually moving authority, storage, and verification into deterministic systems.
+
+Typical Stage 2 moves include:
+- external state persistence
+- external commit logging
+- schema validation
+- invariant checking
+- canonical translation-before-commit
+- tool-actuation mediation
+- semantic-to-numeric downstream encoding
+- role split across multiple models or humans
+
+Stage 2 matters because:
+- it exposes where the semantic interface survives contact with software
+- it identifies which artifacts are parseable enough for hard enforcement
+- it allows governance boundary placement to be adjusted by evidence
+- it reduces the risk of losing substrate fit during externalization
+
+A doctrine that lacks Stage 2 usually falls into one of two failure modes:
+- indefinite Stage 1 romanticism
+- premature Stage 3 overformalization
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_STAGE_3_IS_NECESSARY ===
+
+[[LLM_INSTRUCTION]]: This section defines the end-state rationale.
+
+Stage 3 is necessary because language-native constraint alone does not create hard guarantees.
+
+Over long horizons, in-model-only governance remains vulnerable to:
+- context erosion
+- salience loss
+- instruction interference
+- role confusion
+- audit theater
+- accidental write-surface bypass
+- adversarial pressure
+- numerical brittleness
+- weak replay guarantees
+
+Therefore the best deterministic governance results require that, eventually:
+- persistent state lives outside the model
+- commit authority is externalized
+- verification is externalized
+- tool actuation is externally mediated
+- quantitative replay analytics operate on post-audit canonical artifacts
+
+Stage 3 is not a rejection of OTTC’s language-native nature.
+It is OTTC completed at the enforcement boundary.
+
+The model remains:
+- proposer
+- interpreter
+- rationale generator
+- bounded subjective processor
+
+The deterministic layer becomes:
+- source of truth
+- commit authority
+- verifier
+- audit enforcer
+- quantitative analytics layer
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHAT_PERSISTS_ACROSS_ALL_STAGES ===
+
+[KEEP: Rule]
+Stage progression changes where authority lives.
+It does not change OTTC’s kernel identity.
+
+Across all stages, OTTC still requires:
+- canonical addressing
+- propose→commit separation
+- bounded ops
+- hard-vs-soft separation
+- step limits with override proof
+- deterministic conflict resolution
+- audit closure
+- post-commit verification
+
+What changes is:
+- whether these are represented entirely in-model
+- partially externalized
+- or enforced by deterministic source-of-truth systems
+
+Thus:
+Stage progression is not replacement of OTTC.
+It is increasing enforcement depth of OTTC.
+
+=== SECTION_BREAK ===
+
+=== SECTION: THE_DEVELOPMENTAL_LOGIC ===
+
+[[LLM_INSTRUCTION]]: Preserve this order as doctrine.
+
+NORMAL_MATURATION_ORDER:
+1) QUALIFY the candidate unit in a blind pre-build assay
+2) DISCOVER the lawful semantic DSL / ontology surface
+3) BUILD the machine in text-native form
+4) RETEST the built machine for regression
+5) EXTERNALIZE the state, commit, and verification layers where risk or horizon requires
+6) PRESERVE the same constitutional interface for model-to-system communication
+
+This means:
+- the model learns to speak constitutional law before software depends on it
+- software is built around a discovered stable protocol rather than around wishful schema design
+- deterministic governance receives canonical artifacts rather than unstable prose
+
+=== SECTION_BREAK ===
+
+=== SECTION: STAGE_1_FAILURE_MODE ===
+
+[KEEP: Failure Mode]
+If an architecture remains indefinitely in Stage 1 while:
+- authority grows
+- consequence grows
+- horizon grows
+- adversarial pressure grows
+
+then governance debt is accumulating.
+
+Symptoms:
+- more law is added to compensate for missing enforcement
+- audit grows theatrical under pressure
+- context burden rises
+- deterministic guarantees are claimed without deterministic authority
+- operators begin trusting conditioned behavior as if it were runtime enforcement
+
+Remedy:
+- Migrate selected authorities into Stage 2/3 deterministic governance.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STAGE_3_PREMATURE_FORMALIZATION_FAILURE_MODE ===
+
+[KEEP: Failure Mode]
+If an architecture attempts Stage 3 externalization before constitutional discovery is complete, common failures include:
+- parser brittleness
+- schema mismatch
+- unstable canonical tokens
+- overfit prompts bound to one model/version
+- loss of domain nuance at the machine boundary
+- governance software that enforces malformed abstractions
+- expensive code commitments to a protocol the model never truly inhabited
+
+Remedy:
+- Return to Stage 1 qualification and DSL assay.
+- Re-establish the lawful semantic protocol before hardening the deterministic boundary.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHY_THIS_DOCTRINE_IS_GENERAL ===
+
+[KEEP: Rule]
+This doctrine applies beyond ChaOS.
+
+Any OTTC machine that depends on a stochastic semantic generator must answer:
+- What is the lawful write surface?
+- Can the generator reliably inhabit it?
+- Which roles remain in-model?
+- Which roles must migrate outward?
+- At what risk tier does Stage 1 become insufficient?
+
+Therefore the maturation doctrine is not domain-specific ornament.
+It is a general engineering and governance principle for language-native constitutional systems.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PRACTICAL_OPERATOR_RULES ===
+
+[[LLM_INSTRUCTION]]: These rules are actionable and normative.
+
+RULE_1:
+Never treat post-build regression evidence as qualification evidence.
+
+RULE_2:
+Never claim Stage 3 governance if the model-facing constitutional interface was not first assayed and stabilized.
+
+RULE_3:
+Never confuse parseability with coupling.
+A parser can extract unstable behavior; that does not make the protocol sound.
+
+RULE_4:
+Never confuse Stage 1 success with final safety.
+In-model compliance is not deterministic enforcement.
+
+RULE_5:
+Never skip Stage 2 if migration changes artifact shape, authority placement, or verification behavior.
+Hybridization exists to protect protocol continuity.
+
+RULE_6:
+As stakes rise, externalize:
+- persistent state
+- commit authority
+- verification
+- tool actuation
+- downstream numeric analytics
+
+RULE_7:
+Preserve the constitutional language across migration.
+Do not let software erase the semantic distinctions that made governance possible.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATION_TO_SEMANTIC_ABACUS ===
+
+[KEEP: Clarification]
+The maturation doctrine and Semantic Abacus are mutually reinforcing.
+
+Stage 1:
+- discover the semantic beads the model can lawfully manipulate
+
+Stage 2:
+- preserve those beads while beginning downstream encoding and comparison
+
+Stage 3:
+- treat post-audit canonical semantics as the source for deterministic numeric indexing, thresholds, trend analysis, and replay metrics
+
+Thus:
+Semantic Abacus is not a Stage 3 replacement for Stage 1.
+It depends on Stage 1 having first discovered stable semantic units worth encoding.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATION_TO_CONTROLLED_TOOL_ACTUATION ===
+
+[KEEP: Clarification]
+The same maturation logic applies to tool use.
+
+Stage 1:
+- the model must first learn to express TOOL_INTENT as a lawful proposal artifact
+
+Stage 2:
+- governance mediates tool approval and logging with mixed in-model/external procedures
+
+Stage 3:
+- tool execution, provenance capture, and policy gates are deterministic and external
+
+Therefore:
+A controlled tool boundary cannot simply be “added by software” if the model has not first learned to communicate tool intent in a canonical constitutional format.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SUMMARY_DOCTRINE ===
+
+[[LLM_INSTRUCTION]]: Preserve this section as the shortest canonical compression.
+
+OTTC Stage Doctrine:
+
+- Stage 1 is for discovery.
+- Stage 2 is for migration.
+- Stage 3 is for enforcement.
+
+You cannot safely remain forever at Stage 1.
+You cannot validly skip directly to Stage 3.
+You cannot build deterministic governance for a protocol the model cannot yet stably express.
+
+Therefore:
+assay first,
+build second,
+externalize third,
+and preserve the constitutional interface across every stage.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
