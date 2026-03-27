@@ -1,0 +1,76 @@
+=== SECTION: DSL_AND_DUAL_READERSHIP ===
+
+[KEEP: Title]
+DSL and Dual Readership — Engineering the Attention Landscape for Governance Coupling
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_PRINCIPLE ===
+
+[[LLM_INSTRUCTION]]: This section defines a substrate-level engineering principle that any OTTC-compliant DSL must satisfy.
+
+OTTC governance is delivered through text. Text competes for attention. Therefore the governance surface must be engineered to win attention competition against the model's default continuation tendencies.
+
+This requires designing for two simultaneous readers: human domain experts and LLM attention heads. Both must be able to distinguish governance structure from narrative content without ambiguity. Both must experience the governance surface as structurally prior to prose.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRUCTURAL_DISTINCTNESS_REQUIREMENT ===
+
+PRINCIPLE:
+Canonical write-surface tokens must be maximally distinct from natural language prose at the token level.
+
+RATIONALE:
+Transformer attention weights are influenced by token-level salience. Tokens that resemble ordinary prose blend into the continuation distribution and lose structural authority. Tokens that are visually and tokenically alien — bracket paths, UPPER_SNAKE case, rigid schema markers — function as high-salience anchors that the model is more likely to treat as structurally binding rather than as content to be fluidly continued.
+
+DESIGN CONSEQUENCES:
+- Bracket-path canonical addressing (e.g., [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]) is preferred because it is maximally distinct from any natural language sentence the model might generate.
+- UPPER_SNAKE_CASE for all write-surface tokens reduces the probability of token-level confusion with narrative content.
+- Structural markers (=== SECTION: ===, [[LLM_INSTRUCTION]], [KEEP:]) serve as attention anchors that segment the governance surface from deliberative prose.
+- The write surface must never use tokens, casing, or formatting conventions that could be confused with the content surface.
+
+HUMAN_READER_CONSEQUENCE:
+The same distinctness that aids LLM attention also aids human audit. A human reviewer can scan a proposal registry or audit log and immediately distinguish canonical paths, operation types, and epistemic tags from narrative justification text. Dual readership is not a compromise between two audiences. It is a single design property that serves both.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONSTITUTIONAL_LOCALITY_REQUIREMENT ===
+
+PRINCIPLE:
+Governance constraints must be locally present at every site where proposals are generated, not solely stated at the beginning of the context.
+
+RATIONALE:
+In long contexts, early instructions lose salience as attention distributes across later tokens. A governance contract stated once at the top of a context and never restated relies on long-range attention to remain binding at the point of proposal generation. This is a known fragility in transformer architectures. Constitutional repetition — restating the write contract, the forbidden operations, and the write-policy override in every COT — keeps governance in local context at the moment each reasoning agent executes.
+
+DESIGN CONSEQUENCES:
+- Every COT or proposer module must include its own WRITE_POLICY_OVERRIDE section that restates what it may and may not write.
+- The forbidden operation list must be locally present, not merely referenced.
+- Canonical path format expectations must be locally reinforced adjacent to proposal generation instructions.
+- This repetition is not redundancy. It is an attention architecture decision that ensures governance competes for salience at the site where violations would otherwise occur.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ASSAY_IMPLICATION ===
+
+PRINCIPLE:
+Coupling strength is partly a function of how well the DSL's structural markers compete for attention in the specific model's processing.
+
+RATIONALE:
+Different models tokenize differently. Different languages produce different attention distributions. The same bracket-path token may be high-salience in one model family and fragmented into subword tokens with reduced structural weight in another. The same constitutional phrasing may anchor strongly in English and weakly in another language due to training distribution differences.
+
+This is why qualification assays are necessary and why coupling cannot be assumed from design alone. The assay measures whether the DSL's attention architecture actually binds in the specific substrate. CAA (Canonical Address Obedience) is, at its most fundamental level, a test of whether the structural distinctness of canonical tokens is surviving attention competition in that model.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GENERALIZATION_NOTE ===
+
+This principle is OTTC-general. It does not depend on any specific ontology, domain, or token vocabulary. Any OTTC-compliant architecture must solve the dual readership problem by ensuring that:
+1) The governance surface is attentionally distinct from the content surface.
+2) Constitutional constraints are locally present at every proposal generation site.
+3) Coupling is measured, not assumed, because attention dynamics vary across substrates.
+
+The specific tokens, markers, and formatting conventions may vary by implementation. The requirement that they be structurally alien relative to prose content does not vary.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
