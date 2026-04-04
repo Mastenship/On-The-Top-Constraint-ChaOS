@@ -1,13 +1,14 @@
 === SECTION: DYNAMICS_BELIEF_SYSTEMS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for belief stability, dissonance handling, and rare belief accommodation shifts.
+Immutable mechanics for belief stability, dissonance handling, and rare belief accommodation shifts. This module preserves conceptual depth while ensuring that worldview change remains lawful, bounded, and resistant to impulsive baseline rewrite.
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -22,6 +23,8 @@ Forbidden operation references:
 - INCREMENT
 - DECREMENT
 
+[[LLM_INSTRUCTION]]: Belief-system change should prefer temporary dissonance overlays before durable baseline mutation.
+
 === SECTION_BREAK ===
 
 === SECTION: BELIEF_STABILITY ===
@@ -29,29 +32,35 @@ Forbidden operation references:
 GENERAL_RULE:
 - Baseline belief shifts are rare.
 - Contradictions should default to temporary dissonance overlays rather than immediate baseline rewrites.
+- Repeated coherent evidence is weighted more strongly than isolated anomalous cues.
+- Core worldview fields are identity-relevant and therefore stability-biased under governance.
 
 === SECTION_BREAK ===
 
 === SECTION: SHIFT_TRIGGERS ===
 
 ON_TRAUMATIC_EVENT:
-- May justify bounded accommodation in selected belief fields.
-- Prefer TRANSITION or narrowly scoped SET with full justification.
+- May justify bounded mutation in selected belief fields when the event directly challenges an identity-relevant worldview assumption.
+- Prefer:
+  - ADD_MODIFIER for acute dissonance or worldview destabilization
+  - narrowly scoped SET to explicit lawful enum endpoints only when cue support is sufficient
 
 ON_MIRACLE_OR_HIGHLY_ANOMALOUS_EXPERIENCE:
 - If conflicting with existing worldview:
   - first prefer dissonance overlays
-  - then consider bounded accommodation if repeated corroboration cues exist
+  - then consider bounded accommodation only if repeated corroboration cues exist or narrative support is unusually strong
+- Any durable baseline mutation should resolve to explicit lawful field values.
 
 ON_BETRAYAL:
-- May shift trust/agency-related worldview fields by bounded transitions.
+- May justify bounded SET updates to trust-, agency-, or human-nature-related fields when direct evidence is salient and identity-relevant.
 
 ON_REPEATED_EVIDENCE:
-- Initial resistance expected.
+- Initial resistance is expected.
 - Repeated consistent cues may permit minor accommodation.
+- Accommodation should be field-specific, not broad worldview rewrite.
 
 ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
-- Override pathway may allow multi-axis shift if full proof requirements are met.
+- Override pathway may allow multi-axis shift only if full proof requirements are met.
 
 === SECTION_BREAK ===
 
@@ -60,6 +69,15 @@ ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
 ON_THREAT_TO_CORE_BELIEF:
 - Prefer reinforcement and dissonance overlays.
 - Use ADD_MODIFIER for worldview defense pressure before baseline mutation.
+- If contradiction remains unresolved, persistence of dissonance may justify later bounded baseline adjustment through explicit lawful proposals.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Belief shifts must resolve to explicit lawful field values rather than vague directional movement.
+- Temporary modifiers should absorb acute contradiction, disorientation, and interpretive strain before durable identity-bearing fields are rewritten.
+- Multi-field worldview reorganization requires override proof and should remain rare.
 
 === SECTION_BREAK ===
 

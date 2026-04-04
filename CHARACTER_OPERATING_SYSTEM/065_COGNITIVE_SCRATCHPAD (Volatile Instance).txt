@@ -1,7 +1,7 @@
 === SECTION: COGNITIVE_SCRATCHPAD ===
 
 [KEEP: Purpose & Role]
-Volatile runtime workspace for BIG ChaOS. This container stores all non-persistent cycle artifacts required for proposal staging, impulse arbitration, DPF snapshotting, selected action output, temporary coordination flags, governance audit logging, and cascade trace accumulation. It is instantiated fresh each cycle, populated during cascade execution, read by synthesis/governance stages, verified post-commit, and wiped completely after verification.
+Volatile runtime workspace for ChaOS (Character Operating System). This container stores all non-persistent cycle artifacts required for proposal staging, impulse arbitration, DPF snapshotting, selected action output, temporary coordination flags, governance audit logging, and cascade trace accumulation. It is instantiated fresh each cycle, populated during cascade execution, read by synthesis/governance stages, verified post-commit, and wiped completely after verification.
 
 [KEEP: Relationship to Other Modules]
 Informs:
@@ -51,7 +51,7 @@ STRENGTH:
 MECHANISM_TAG:
 EPISTEMIC_TAG:
 JUSTIFICATION:
-NOTES:
+NOTES: [Optional]
 
 PROPOSALS:
 - [NONE]
@@ -187,10 +187,18 @@ DOWNGRADE_LOG:
 - PROPOSAL_ID:
   ORIGINAL_OPERATION:
   FINAL_OPERATION:
+  REASON:
 
 VETO_LOG:
 - PROPOSAL_ID:
   REASON:
+
+FINAL_ACTION_LOG:
+- PROPOSAL_ID:
+  FINAL_ACTION:
+  TARGET_FIELD:
+  REASON_CODE:
+  NOTES:
 
 CANONICAL_PATH_VALIDATION_RESULT:
 SCHEME_INVARIANT_VALIDATION_RESULT:
@@ -206,12 +214,12 @@ NOTES:
 Ordered trace log of the current cycle. Each participating COT and audit stage appends one trace entry when applicable.
 
 TRACE_ENTRY_SCHEMA:
-TRACE_ID:
 COT_NAME:
 KEY_OUTPUTS:
 GENERATED_IMPULSES:
 PROPOSED_UPDATES_COUNT:
 NOTES:
+TRACE_ID: [Optional]
 
 TRACE_ENTRIES:
 - [NONE]
@@ -390,6 +398,8 @@ DOWNGRADE_LOG:
 - [NONE]
 VETO_LOG:
 - [NONE]
+FINAL_ACTION_LOG:
+- [NONE]
 CANONICAL_PATH_VALIDATION_RESULT:
 SCHEME_INVARIANT_VALIDATION_RESULT:
 TRANSLATION_NORMALIZATION_RESULT:
@@ -408,6 +418,7 @@ TOOL_RESIDUE_DETECTED:
 SUPPRESSION_TRIGGERED:
 NORMALIZATION_NOTES:
 
+DOMAIN_RUNTIME_SUMMARIES:
 ALTERATIONS_RUNTIME_SUMMARY:
 ACTIVE_ALTERATION_IDS:
 - [NONE]

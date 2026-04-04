@@ -12,6 +12,7 @@ Is Informed By: Nothing (constitutional system module).
 === SECTION: CANONICAL_STYLE_RULES ===
 
 [[LLM_INSTRUCTION]]: Canonical bracket-path tokens MUST be machine-stable.
+
 TOKEN_STYLE:
 - UPPER_SNAKE only
 - No spaces
@@ -35,8 +36,9 @@ PROHIBITED:
 === SECTION: MODULE_ROOT_POLICY ===
 
 [[LLM_INSTRUCTION]]: Legacy roots and alias translations are forbidden.
+
 POLICY:
-- STATE_, SCHEME_, DYNAMICS_, COGNITIVE_SCRATCHPAD, UPDATE_CASCADE_REGISTRY, LLM_FORMATTING_GUIDELINES are valid roots.
+- Valid roots must be members of the explicit CANONICAL_MODULE_ROOTS set defined below.
 - Inputs with non-canonical roots MUST be rejected by governance with:
   INVALID_PATH_ROOT (LEGACY_ROOT_FORBIDDEN)
 
@@ -149,6 +151,20 @@ FORBIDDEN_OPERATION_ALIASES:
 
 === SECTION_BREAK ===
 
+=== SECTION: CANONICAL_RELATIVE_TRANSITION_DIRECTIVES ===
+
+CANONICAL_RELATIVE_TRANSITION_DIRECTIVES:
+- ONE_STEP_UP
+- ONE_STEP_DOWN
+- ONE_STEP_TOWARD_BASELINE
+- ONE_STEP_TOWARD_NEUTRAL
+
+NOTES:
+- These directives are valid PROPOSED_VALUE forms for TRANSITION when the target field has a lawful ordinal or deterministic transition ladder.
+- BASELINE and NEUTRAL targets must be deterministically inferable from the relevant SCHEME_ or domain constitution.
+
+=== SECTION_BREAK ===
+
 === SECTION: EPISTEMIC_TAG_ENUM (new required extension) ===
 
 EPISTEMIC_TAG: ENUM [
@@ -165,7 +181,7 @@ Notes: Closed canonical set. Required on every proposal submitted to the proposa
 
 === SECTION: CANONICAL_OUTPUT_LEXICON_POLICY (TRANSLATION_BEFORE_COMMIT) ===
 
-[[LLM_INSTRUCTION]]: Internal deliberation may occur in any language or mixed style.  
+[[LLM_INSTRUCTION]]: Internal deliberation may occur in any language or mixed style.
 However, before any commit decision, the audit authority MUST translate/normalize ALL commit-bound artifacts (proposals, justifications, audit entries, verification inputs) into the single canonical output lexicon defined here.
 
 CANONICAL_OUTPUT_LEXICON_RULES:

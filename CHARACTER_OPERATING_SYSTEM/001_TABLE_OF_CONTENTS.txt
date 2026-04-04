@@ -1,15 +1,15 @@
 === SECTION: TABLE_OF_CONTENTS ===
 
 [KEEP: Rule]
-This Table of Contents is a static, human-maintained kernel artifact only.  
-The system (any COT, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION, or any other component) is strictly forbidden from referencing this section for mutation, proposal generation, CASCADE_TRACE inclusion, or any operational purpose.  
+This Table of Contents is a static, human-maintained kernel artifact only.
+The system (any COT, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION, or any other component) is strictly forbidden from referencing this section for mutation, proposal generation, CASCADE_TRACE inclusion, or any operational purpose.
 It exists solely as the primary early-context attention anchor and definitive file loading / execution order reference.
 
 === SECTION_BREAK ===
 
 === SECTION: MASTER EXECUTION & DROP ORDER (001 to 065 exactly) ===
 
-001_TABLE_OF_CONTENTS                       = TABLE_OF_CONTENTS
+001_TABLE_OF_CONTENTS                        = TABLE_OF_CONTENTS
 002_LLM_FORMATTING_GUIDELINES               = LLM_FORMATTING_GUIDELINES
 003_CANONICAL_TOKEN_DICTIONARY              = CANONICAL_TOKEN_DICTIONARY
 004_STATE_GOVERNANCE_OVERLAY                = STATE_GOVERNANCE_OVERLAY
@@ -78,18 +78,23 @@ It exists solely as the primary early-context attention anchor and definitive fi
 063_STATE_TEMPORAL_DYNAMICS                 = STATE_TEMPORAL_DYNAMICS
 064_STATE_TEMPORARY_MODIFIERS               = STATE_TEMPORARY_MODIFIERS
 
-065_COGNITIVE_SCRATCHPAD (Volatile Instance) = COGNITIVE_SCRATCHPAD   ← mutable TXT (volatile instance — re-drop after every cycle)
+065_COGNITIVE_SCRATCHPAD (Volatile Instance) = COGNITIVE_SCRATCHPAD
 
-=== SECTION: ADDIIONAL_NOTES ===
+=== SECTION: ADDITIONAL_NOTES ===
 
-MUTABLE FILES SUMMARY (re-drop these TXT files only after each cycle)
+MUTABLE_FILES_SUMMARY:
 - All STATE_* files (053–064)
 - COGNITIVE_SCRATCHPAD (Volatile Instance) (065)
 
-IMMUTABLE FILES (001–052) — drop once per campaign (PDF recommended)
+IMMUTABLE_FILES:
+- 001–052
 
-ATTENTION ANCHOR PROTOCOL
-Drop and process files strictly in numerical order 001 → 065 on every session start. This ordering aligns perfectly with the internal cascade flow.
+ATTENTION_ANCHOR_PROTOCOL:
+- Drop and process files strictly in numerical order 001 → 065 on every session start.
+- This ordering is the definitive loading / execution order reference.
+
+VOLATILE_RUNTIME_NOTE:
+- COGNITIVE_SCRATCHPAD is a mutable TXT volatile instance and should be re-dropped after every cycle.
 
 === SECTION_BREAK ===
 

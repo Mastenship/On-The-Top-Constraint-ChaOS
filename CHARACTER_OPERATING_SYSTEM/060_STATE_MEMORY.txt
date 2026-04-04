@@ -1,7 +1,7 @@
 === SECTION: STATE_MEMORY ===
 
 [KEEP: Purpose & Role]
-Mutable memory state container. Contains current registry and record values only.
+Mutable memory state container. Contains current memory registry and memory record values only.
 
 === SECTION_BREAK ===
 
@@ -34,6 +34,15 @@ ASSOCIATED_ENTITY_ID:
 ASSOCIATED_SKILL_ID:
 ASSOCIATED_ALTERATION_ID:
 ASSOCIATED_PREDICTION_ID:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Bracketed record stubs such as [MEM_XX] indicate schema shape only.
+[[LLM_INSTRUCTION]]: A concrete memory record lawfully exists only when:
+- a concrete MEM_XX appears in MEMORY_REGISTRY
+- a corresponding [STATE_MEMORY][MEM_XX] record is instantiated
 
 === SECTION_BREAK ===
 

@@ -31,27 +31,38 @@ All proposals must use strict OPERATION_TYPE set.
 
 === SECTION: DPF_SYNTHESIS ===
 
-[[LLM_INSTRUCTION]]: Build current snapshot and propose bounded updates.
+[[LLM_INSTRUCTION]]: Build current snapshot and propose bounded persistent updates only where persistent change is warranted.
 
 CORE_ASSUMPTION_SYNTHESIS:
-- Integrate cues, resolved predictions, drive urgency.
-- If contrast event detected, propose TRANSITION or SET to relevant DPF fields.
+- Integrate cues, active predictions, contradictions, and drive urgency into a current-cycle interpretive summary.
+- If a durable contrast event is detected, propose explicit SET updates to relevant persistent DPF fields.
 
 EMOTIONAL_VALENCE_AND_PACE:
-- Derive from arousal, valence, time pressure.
-- Use TRANSITION for ordinal-like shifts, SET for direct enum placements.
+- Derive from arousal, threat interpretation, certainty pressure, and time pressure.
+- Use SET for persistent enum placements when justified.
+- Keep volatile intermediate interpretation in [COGNITIVE_SCRATCHPAD][CURRENT_DPF].
 
 PREDICTION_HANDLING:
 - New prediction introduction:
-  - Use SET proposal for registry append and SET proposal for [PRD_XX] record payload.
+  - use SET proposal for registry append
+  - use SET proposal for [STATE_DPF][PRD_XX] record payload
 - Prediction certainty adjustment:
-  - Use TRANSITION (ONE_STEP_UP/ONE_STEP_DOWN) or SET to explicit value per governance allowances.
-- Resolution:
-  - Use SET for prediction STATE field.
+  - use bounded SET to lawful integer values
+- Resolution or falsification:
+  - use SET for [STATE_DPF][PRD_XX][STATE]
+
+PERSISTENCE_RULE:
+- Persistent STATE_DPF should store resolved interpretive state, not raw intermediate reasoning.
+- If synthesis produces only transient tension, retain it in CURRENT_DPF or modifiers rather than forcing baseline mutation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RECALC_GUARD ===
 
 RECALC_GUARD:
-- One full recalc per cycle max.
-- If additional contradictions, set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] TRUE.
+- One full DPF recalculation per cycle maximum.
+- If additional contradiction pressure remains after synthesis:
+  - set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] TRUE
 
 === SECTION_BREAK ===
 
@@ -69,7 +80,7 @@ GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: [Number]
 NOTES:
-- [DPF_CONTRAST_EVENT YES/NO, DPF_RECALC_QUEUED, active PRD_XX list, SCHEME_DPF compliance]
+- [DPF contrast detection YES/NO, recalc queued YES/NO, active PRD_XX list, persistent-vs-volatile separation summary]
 
 === SECTION_BREAK ===
 

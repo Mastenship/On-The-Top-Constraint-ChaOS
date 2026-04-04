@@ -1,42 +1,80 @@
 === SECTION: SCHEME_BACKGROUND ===
 
 [KEEP: Purpose & Role]
-Immutable definition of the character's formative world environment and sociological norms. Set once at instantiation; provides the normative seeding data for initial STATE_ values (skills contexts, relational defaults, belief grounding, goal origins, physiological baselines) and ongoing interpretive biases (e.g., outlook on authority informing DPF synthesis). Never mutated by standard dynamics or COTs — changes require explicit manual override with watershed justification equivalent to personality scheme shifts.
+Immutable definition of the character's formative world environment and sociological norms. Set once at instantiation; provides normative seeding data for initial STATE_ values (skills contexts, relational defaults, belief grounding, goal origins, physiological baselines) and ongoing interpretive biases (for example, outlook on authority informing DPF synthesis). Never mutated by standard dynamics or COTs — changes require explicit manual override with watershed justification equivalent to personality scheme shifts.
 
 === SECTION_BREAK ===
 
 === SECTION: CORE_BACKGROUND_MARKERS ===
 
 GEOGRAPHY: MULTILINE_STRING
-POPULATION_DENSITY: ENUM [Sparse, Moderate, High, Extreme]
-POPULATION_DIVERSITY: ENUM [Homogenous, Mixed, Cosmopolitan]
+
+POPULATION_DENSITY: ENUM [SPARSE, MODERATE, HIGH, EXTREME]
+POPULATION_DIVERSITY: ENUM [HOMOGENOUS, MIXED, COSMOPOLITAN]
+
 DOMINANT_ARCHITECTURAL_STYLE: MULTILINE_STRING
 ECONOMIC_SYSTEM: MULTILINE_STRING
 EDUCATIONAL_FOCUS: MULTILINE_STRING
-TECHNOLOGICAL_LEVEL: ENUM [Pre-Industrial, Industrial, Information Age, Near-Future, Biopunk, Post-Scarcity, Other]
-TECHNOLOGY_INTEGRATION: ENUM [Ubiquitous, Professional, Rare, Outlawed]
-DATA_ACCESS_AND_PRIVACY: ENUM [Open Public Network, Corporate-Owned, State-Monitored, Data-Havens]
 
-OUTLOOK_ON_AUTHORITY: ENUM [Respectful, Questioning, Cynical, Submissive]
-OUTLOOK_ON_OUTSIDERS_AND_STRANGERS: ENUM [Welcoming, Wary, Hostile, Indifferent]
-OUTLOOK_ON_FATE_VS_FREE_WILL: ENUM [Fatalistic, Self-Determinist, Theologically Determined]
-OUTLOOK_ON_LAW_AND_ORDER: ENUM [Foundation of Society, Necessary Evil, Tool of Oppression, Inconvenience]
-OUTLOOK_ON_THE_FUTURE: ENUM [Optimistic, Pessimistic, Apocalyptic, Cyclical]
+TECHNOLOGICAL_LEVEL: ENUM [PRE_INDUSTRIAL, INDUSTRIAL, INFORMATION_AGE, NEAR_FUTURE, BIOPUNK, POST_SCARCITY, OTHER]
+TECHNOLOGY_INTEGRATION: ENUM [UBIQUITOUS, PROFESSIONAL, RARE, OUTLAWED]
+DATA_ACCESS_AND_PRIVACY: ENUM [OPEN_PUBLIC_NETWORK, CORPORATE_OWNED, STATE_MONITORED, DATA_HAVENS]
+
+OUTLOOK_ON_AUTHORITY: ENUM [RESPECTFUL, QUESTIONING, CYNICAL, SUBMISSIVE]
+OUTLOOK_ON_OUTSIDERS_AND_STRANGERS: ENUM [WELCOMING, WARY, HOSTILE, INDIFFERENT]
+OUTLOOK_ON_FATE_VS_FREE_WILL: ENUM [FATALISTIC, SELF_DETERMINIST, THEOLOGICALLY_DETERMINED]
+OUTLOOK_ON_LAW_AND_ORDER: ENUM [FOUNDATION_OF_SOCIETY, NECESSARY_EVIL, TOOL_OF_OPPRESSION, INCONVENIENCE]
+OUTLOOK_ON_THE_FUTURE: ENUM [OPTIMISTIC, PESSIMISTIC, APOCALYPTIC, CYCLICAL]
 
 TECH_AND_SOCIETAL_NORMS: MULTILINE_STRING
 
 === SECTION_BREAK ===
 
+=== SECTION: INVOCATIONAL_GLOSS ===
+
+POPULATION_DENSITY_GLOSS:
+- SPARSE: low-density settlement pattern
+- MODERATE: ordinary mixed-density settlement pattern
+- HIGH: dense urban or clustered population pattern
+- EXTREME: hyper-dense settlement pattern
+
+POPULATION_DIVERSITY_GLOSS:
+- HOMOGENOUS: low cultural or demographic variation
+- MIXED: moderate visible variation
+- COSMOPOLITAN: high pluralism and strong cross-group contact
+
+TECHNOLOGICAL_LEVEL_GLOSS:
+- PRE_INDUSTRIAL: pre-mechanized or early agrarian craft world
+- INDUSTRIAL: machine-era industrial society
+- INFORMATION_AGE: networked digital society
+- NEAR_FUTURE: slightly advanced extrapolation from present-day systems
+- BIOPUNK: biotechnology-saturated or bio-modified society
+- POST_SCARCITY: material scarcity substantially reduced
+- OTHER: setting-specific technological condition outside the standard ladder
+
+DATA_ACCESS_AND_PRIVACY_GLOSS:
+- OPEN_PUBLIC_NETWORK: open information ecology with wide general access
+- CORPORATE_OWNED: information infrastructure primarily controlled by firms
+- STATE_MONITORED: information ecology strongly supervised by public authority
+- DATA_HAVENS: fragmented or sanctuary-based privacy structures
+
+WORLDVIEW_GLOSS:
+- These fields are invocation-rich normative priors that shape interpretation, trust, authority response, and long-horizon expectation.
+- Enum literals above are canonical write-surface values.
+- Explanatory meanings live here and are not separate mutable state fields.
+
+=== SECTION_BREAK ===
+
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation
+- Values fixed post-instantiation.
 - Consulted for:
-  - Initial seeding of HEXACO/MMPI/DARK_TRIAD/ASQ percentiles (societal norm biases)
-  - Baseline relational valences and belief axes
-  - Skill acquisition contexts and growth potential caps
-  - Physiological/health norms (e.g., average BMI, stress baselines)
-  - DPF core assumption grounding
-- Changes extremely rare (require explicit override proof and governance veto review)
+  - initial seeding of HEXACO / MMPI / DARK_TRIAD / ASQ percentiles where culturally relevant
+  - baseline relational valences and belief axes
+  - skill acquisition contexts and growth potential ceilings
+  - physiological and environmental norm assumptions
+  - DPF core-assumption grounding
+- Changes are extremely rare and require explicit override proof plus governance review.
 
 === SECTION_BREAK ===
 

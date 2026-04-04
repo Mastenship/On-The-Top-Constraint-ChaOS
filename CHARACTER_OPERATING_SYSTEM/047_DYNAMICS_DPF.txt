@@ -1,13 +1,14 @@
 === SECTION: DYNAMICS_DPF ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for DPF synthesis dynamics, prediction lifecycle, certainty drift, and recalc gating.
+Immutable mechanics for DPF synthesis dynamics, prediction lifecycle, certainty drift, and recalculation gating.
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -31,22 +32,45 @@ Forbidden operation references:
 === SECTION: PREDICTION_ACCUMULATION ===
 
 ON_MINOR_CONTRADICTION:
-- Propose SET or TRANSITION to reduce certainty fields within bounded steps.
-- If prediction certainty crosses falsification threshold:
-  - Propose SET [STATE_DPF][PRD_XX][STATE] = FALSIFIED or RESOLVED_NEGATIVE.
-- If global certainty crosses recalc threshold:
-  - queue recalculation flag in scratchpad.
+- Propose SET:
+  TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+  PROPOSED_VALUE: lower lawful integer within bounded range
+  JUSTIFICATION: contradiction cue
+
+- If prediction-specific contradiction is identified:
+  Propose SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
+    PROPOSED_VALUE: lower lawful integer within bounded range
+    JUSTIFICATION: prediction contradiction cue
+
+- If prediction certainty falls below falsification threshold with sufficient cue support:
+  Propose SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+    PROPOSED_VALUE: FALSIFIED or RESOLVED_NEGATIVE
+    JUSTIFICATION: contradiction resolution cue
+
+- If contradiction load exceeds current-cycle recalculation tolerance:
+  queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE
 
 ON_RESOLUTION_EVENT:
-- If prediction confirmed:
-  - Propose SET [STATE_DPF][PRD_XX][STATE] = RESOLVED
-  - Propose bounded certainty increase.
+- If prediction is confirmed:
+  Propose SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+    PROPOSED_VALUE: RESOLVED
+    JUSTIFICATION: resolution cue
+
+- Certainty reinforcement may be proposed via:
+  - SET to a higher lawful bounded integer for [STATE_DPF][PRD_XX][CERTAINTY]
+  - SET to a higher lawful bounded integer for [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
 
 ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
 - Create prediction via SET pair pattern.
 
 ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
-- Propose bounded shifts toward emotional and certainty baseline.
+- Propose bounded SET adjustments to:
+  - [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+  - [STATE_DPF][DPF_CORE_STATE][EMOTIONAL_VALENCE][VALUE]
+  when cue support indicates drift toward current baseline interpretive state.
 
 === SECTION_BREAK ===
 
@@ -57,7 +81,15 @@ CYCLE_RECALC_GUARD:
 - Additional contradictions queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE.
 
 ON_DPF_CONTRAST_EVENT:
-- Override pathway may permit multi-field DPF shifts if full proof provided.
+- Override pathway may permit multi-field DPF shifts if full proof is provided.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- DPF certainty updates are integer-bounded SET operations unless a lawful ordinal ladder is explicitly defined elsewhere.
+- Prediction lifecycle transitions must resolve to explicit STATE enum endpoints.
+- Recalculation gating is volatile scratchpad coordination and does not itself constitute persistent DPF mutation.
 
 === SECTION_BREAK ===
 

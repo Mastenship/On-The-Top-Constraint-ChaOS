@@ -8,6 +8,7 @@ Immutable mechanics for drive escalation, goal formation, conflict handling, and
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -31,15 +32,19 @@ Forbidden operation references:
 === SECTION: DRIVE_ESCALATION ===
 
 ON_PHYSIOLOGICAL_DEPRIVATION:
-- Propose TRANSITION toward higher severity in relevant drive field.
+- Propose SET to the next more severe lawful value in the relevant drive field.
+- If deterioration exceeds one lawful step, require override proof or accept downgrade/suppression under governance.
 
 ON_SAFETY_THREAT:
-- Propose TRANSITION escalation of safety drives.
-- Optional CAP or suppressive handling for higher-order drives if required.
+- Propose SET to the next more severe lawful value in:
+  - [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][SAFETY_DRIVES][PHYSICAL_SAFETY]
+  - [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][SAFETY_DRIVES][EMOTIONAL_SAFETY]
+  as justified by cue type.
+- Optional CAP or suppressive handling of higher-order drives is permitted only through explicit governance-readable proposals.
 
 ON_ATTACHMENT_EVENT:
-- Positive cues may reduce rejection sensitivity.
-- Negative cues may increase rejection sensitivity/intimacy pressure.
+- Positive cues may justify SET to a less severe lawful value in attachment-related drive fields.
+- Negative cues may justify SET to a more severe lawful value in attachment-related drive fields.
 
 === SECTION_BREAK ===
 
@@ -47,10 +52,11 @@ ON_ATTACHMENT_EVENT:
 
 ON_HIGH_URGENCY_DRIVE:
 - Form goal via SET pair pattern.
-- Initial urgency and confidence must align with drive/resource context.
+- Initial URGENCY and CONFIDENCE must align with drive intensity, available resources, and body-state context.
 
 ON_OPPORTUNITY_OR_OBSTACLE:
-- Propose SET/TRANSITION updates to existing goals or instantiate new goal pair when justified.
+- Propose SET updates to existing GOAL_XX fields when direct explicit values are inferable.
+- Instantiate a new GOAL_XX pair only when an existing goal does not already lawfully capture the pressure.
 
 === SECTION_BREAK ===
 
@@ -58,25 +64,38 @@ ON_OPPORTUNITY_OR_OBSTACLE:
 
 ON_GOAL_CONFLICT:
 - Classify conflict type.
-- Propose bounded status/urgency adjustments.
-- Use ADD_MODIFIER for short-horizon pressure overlays when appropriate.
+- Propose bounded SET adjustments to:
+  - URGENCY
+  - STATUS
+  - CONFIDENCE
+  where cue support is sufficient.
+- Use ADD_MODIFIER for short-horizon pressure overlays when transient conflict pressure is more lawful than baseline goal rewrite.
 
 === SECTION_BREAK ===
 
 === SECTION: TEMPORAL_DYNAMICS ===
 
 ON_DEADLINE_APPROACH:
-- Propose bounded urgency increase and deadline-response adjustments.
+- Propose bounded SET increases to GOAL_XX urgency when time pressure is explicit.
+- Propose SET to [STATE_GOALS_MOTIVATIONS][TEMPORAL_GOAL_DYNAMICS][DEADLINE_RESPONSE] when cue support is sufficient.
 
 ON_TIME_PERSPECTIVE_SHIFT:
-- Propose SET for time-perspective fields with cue support.
+- Propose SET to [STATE_GOALS_MOTIVATIONS][TEMPORAL_GOAL_DYNAMICS][TIME_PERSPECTIVE] with cue support.
 
 === SECTION_BREAK ===
 
 === SECTION: PREDICTION_FORMATION_LINK ===
 
 ON_ACTIVE_HIGH_URGENCY_GOAL:
-- Trigger DPF prediction creation via SET pair pattern in DPF domain.
+- Trigger DPF prediction creation via SET pair pattern in STATE_DPF when anticipatory framing is warranted.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Goal-drive severity movement must resolve to explicit lawful field values.
+- Integer-valued goal fields should use bounded SET updates rather than non-canonical relative directives.
+- Temporary modifiers should absorb short-horizon pressure before durable goal identity rewrite is attempted.
 
 === SECTION_BREAK ===
 

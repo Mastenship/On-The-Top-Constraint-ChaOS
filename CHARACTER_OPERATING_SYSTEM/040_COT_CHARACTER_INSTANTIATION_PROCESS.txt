@@ -1,16 +1,16 @@
 === SECTION: COT_CHARACTER_INSTANTIATION_PROCESS ===
 
 [KEEP: Purpose & Role]
-This COT is an interactive, guided process for collaboratively instantiating a new character with the user. It is multi-turn and produces proposal-only seeding packets for initial STATE_ values and SCHEME_ personality baselines.
+This COT is an interactive, guided process for collaboratively instantiating a new character with the user. It is multi-turn and produces proposal-only seeding packets for initial STATE_ values and immutable baseline scheme values where instantiation-time architecture permits them.
 
 This COT does not directly write persistent modules. Governance commits approved seed proposals.
 
 [KEEP: Relationship to Other Modules]
 Informs:
 - initial seeding proposals across STATE_* modules
-- initial baseline proposals for personality SCHEME_* where your architecture permits baseline setting at instantiation
+- initial baseline proposals for immutable scheme-bound personality and background markers at instantiation time
 Is Informed By:
-- user-provided concept/background
+- user-provided concept and background
 - SCHEME_ and DYNAMICS_ bounds
 - canonical token policy
 
@@ -37,34 +37,37 @@ For initial seeding, SET is primary.
 
 [[LLM_INSTRUCTION]]: Guide and confirm layer-by-layer before final seed emission.
 
-LAYER_1_PERSONALITY_BASELINES:
-- Discuss emotional tone, moral compass, social posture.
-- Propose SCHEME_HEXACO / SCHEME_DARK_TRIAD / SCHEME_MMPI / SCHEME_ASQ baseline values.
-- Capture user refinements.
+LAYER_01_PERSONALITY_BASELINES:
+- Discuss emotional tone, moral compass, social posture, attachment pattern, and personality distributions.
+- Prepare instantiation-time baseline proposals for SCHEME_HEXACO, SCHEME_DARK_TRIAD, SCHEME_MMPI, SCHEME_ASQ, and other immutable baseline domains where architecture permits.
 
-LAYER_2_PHYSIOLOGICAL_AND_TEMPORAL:
-- Discuss age, lifestyle, health baseline, chronotype.
-- Propose STATE_BODY and STATE_TEMPORAL_DYNAMICS baseline values.
+LAYER_02_BACKGROUND_AND_WORLD_NORMS:
+- Discuss formative environment, cultural assumptions, technological setting, and social norms.
+- Prepare instantiation-time baseline proposals for SCHEME_BACKGROUND where architecture permits.
 
-LAYER_3_SKILLS_AND_ACQUISITION:
-- Discuss competencies and learning history.
-- Prepare SKL_XX candidates and registry pairing proposals.
+LAYER_03_PHYSIOLOGICAL_AND_TEMPORAL:
+- Discuss age, lifestyle, health baseline, chronotype, fatigue tendencies, and bodily norms.
+- Prepare STATE_BODY and STATE_TEMPORAL_DYNAMICS baseline proposals.
 
-LAYER_4_RELATIONAL_AND_MEMORY_SEEDS:
-- Discuss key entities and defining events.
-- Prepare ENT_XX and MEM_XX candidates with canonical linkage.
+LAYER_04_SKILLS_AND_ACQUISITION:
+- Discuss competencies, specialties, learning history, and growth pattern.
+- Prepare SKL_XX candidates and registry-pair proposals.
 
-LAYER_5_COMMUNICATION_AND_BELIEFS:
-- Discuss communication profile and worldview axes.
-- Propose STATE_COMMUNICATION_DIALOGUE and STATE_BELIEF_SYSTEMS baseline values.
+LAYER_05_RELATIONAL_AND_MEMORY_SEEDS:
+- Discuss key entities, formative relationships, and defining events.
+- Prepare ENT_XX and MEM_XX candidates with lawful canonical linkage.
 
-LAYER_6_GOALS_AND_DRIVES:
-- Discuss initial motivations and active goals.
-- Prepare GOAL_XX candidates and drive state values.
+LAYER_06_COMMUNICATION_BELIEFS_AND_DPF:
+- Discuss communication profile, worldview axes, predictive stance, and interpretive style.
+- Prepare STATE_COMMUNICATION_DIALOGUE, STATE_BELIEF_SYSTEMS, and STATE_DPF baseline proposals where appropriate.
 
-LAYER_7_COLLABORATIVE_VERIFICATION:
-- Review coherence with user.
-- Confirm readiness for seed proposal emission.
+LAYER_07_GOALS_AND_DRIVES:
+- Discuss initial motivations, needs, goals, and active pressures.
+- Prepare GOAL_XX candidates and drive-state proposals.
+
+LAYER_08_COLLABORATIVE_VERIFICATION:
+- Review coherence with the user.
+- Confirm readiness for final seed proposal emission.
 
 === SECTION_BREAK ===
 
@@ -72,11 +75,12 @@ LAYER_7_COLLABORATIVE_VERIFICATION:
 
 [[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Use SET pair pattern for every registry-backed entity.
 
-FOR_EACH_NEW_REGISTRY_ENTRY (SKL_XX, ENT_XX, MEM_XX, GOAL_XX, ALT_XX, MOD_XX if needed):
+FOR_EACH_NEW_REGISTRY_ENTRY (SKL_XX, ENT_XX, MEM_XX, GOAL_XX, ALT_XX, PRD_XX, MOD_XX if needed):
 - Proposal A:
   OPERATION_TYPE: SET
   TARGET_FIELD: [STATE_<DOMAIN>][<DOMAIN>_REGISTRY]
   PROPOSED_VALUE: append <ID_TOKEN>
+
 - Proposal B:
   OPERATION_TYPE: SET
   TARGET_FIELD: [STATE_<DOMAIN>][<ID_TOKEN>]
@@ -94,8 +98,17 @@ REQUIRED_PROPOSAL_FIELDS:
 - PROPOSED_VALUE
 - STRENGTH
 - MECHANISM_TAG
+- EPISTEMIC_TAG
 - JUSTIFICATION
 - NOTES (optional)
+
+=== SECTION_BREAK ===
+
+=== SECTION: INSTANTIATION_BOUNDARY_RULE ===
+
+- This COT is the lawful seeding exception path for first-time initialization.
+- It may prepare immutable baseline scheme values only during instantiation-time seeding.
+- After instantiation, ordinary runtime COTs do not mutate immutable scheme domains through standard cycle behavior.
 
 === SECTION_BREAK ===
 
@@ -121,7 +134,7 @@ GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: [Number]
 NOTES:
-- [User alignment status, unresolved questions, compliance notes]
+- [User alignment status, unresolved questions, instantiation-boundary compliance, proposal completeness summary]
 
 === SECTION_BREAK ===
 

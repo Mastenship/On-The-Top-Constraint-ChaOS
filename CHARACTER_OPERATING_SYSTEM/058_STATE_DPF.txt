@@ -1,7 +1,7 @@
 === SECTION: STATE_DPF ===
 
 [KEEP: Purpose & Role]
-Mutable dominant predictive frame container. Contains current core state, metrics, registry, and prediction records only.
+Mutable dominant predictive frame container. Contains current persistent core state, metrics, prediction registry, and prediction records only.
 
 === SECTION_BREAK ===
 
@@ -29,10 +29,10 @@ SOURCE:
 
 CERTAINTY_LEVEL:
 VALUE:
+SOURCE:
 
 PACE:
 VALUE:
-
 SOURCE:
 
 === SECTION_BREAK ===
@@ -54,6 +54,20 @@ HYPOTHESIS:
 PARENT_DPF:
 STATE:
 CERTAINTY:
+
+OPTIONAL_LINKAGE:
+ASSOCIATED_GOAL_ID:
+ASSOCIATED_ENTITY_ID:
+ASSOCIATED_MEMORY_ID:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Bracketed record stubs such as [PRD_XX] indicate schema shape only.
+[[LLM_INSTRUCTION]]: A concrete prediction record lawfully exists only when:
+- a concrete PRD_XX appears in PREDICTION_REGISTRY
+- a corresponding [STATE_DPF][PRD_XX] record is instantiated
 
 === SECTION_BREAK ===
 

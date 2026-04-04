@@ -1,7 +1,7 @@
 === SECTION: SCHEME_SCRATCHPAD ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. This is instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action, and cascade trace.
+Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. This is instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action output, temporary coordination flags, governance audit logging, normalization audit tracking, domain runtime summaries, and cascade trace accumulation.
 
 Lifecycle invariants:
 - INSTANTIATE at cycle start
@@ -12,7 +12,7 @@ Lifecycle invariants:
 - WIPE completely after verification
 
 [KEEP: Relationship to Other Modules]
-Informs: All COTs, DECISION_SYNTHESIS, STATE_GOVERNANCE_AND_COMMIT.
+Informs: All COTs, COT_DECISION_SYNTHESIS, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION.
 Is Informed By: Narrative input and SCHEME_ constraints.
 
 === SECTION_BREAK ===
@@ -31,15 +31,20 @@ CURRENT_DPF:
 SELECTED_ACTION:
 - strict required schema (see below)
 
+TEMPORARY_STATE_FLAGS:
+- transient coordination and governance flags
+
+STATE_COMMIT_AUDIT:
+- governance reconciliation log
+
+OUTPUT_SURFACE_NORMALIZATION_AUDIT:
+- normalization status for commit-bound and display-bound artifacts
+
 CASCADE_TRACE:
 - list of TRACE_ENTRY packets
 
-TEMPORARY_STATE_FLAGS:
-- CONFLICT_DETECTED: BOOLEAN
-- DPF_RECALC_QUEUED: BOOLEAN
-
-STATE_COMMIT_AUDIT:
-- reconciliation log from governance
+DOMAIN_RUNTIME_SUMMARIES:
+- volatile summary slots for broad-domain coordination
 
 === SECTION_BREAK ===
 
@@ -67,12 +72,104 @@ FIELD_CONSTRAINTS:
 
 === SECTION_BREAK ===
 
+=== SECTION: TEMPORARY_STATE_FLAGS_MINIMUM_SCHEMA ===
+
+REQUIRED_FLAG_FIELDS:
+- CONFLICT_DETECTED: BOOLEAN
+- DPF_RECALC_QUEUED: BOOLEAN
+- CANONICAL_FORM_PENDING: BOOLEAN
+- TRANSLATION_VIOLATION_DETECTED: BOOLEAN
+- TOOL_RESIDUE_DETECTED: BOOLEAN
+- DISPLAY_NORMALIZATION_REQUIRED: BOOLEAN
+
+OPTIONAL_FLAG_EXTENSION_SCHEMA:
+- FLAG_NAME
+- FLAG_VALUE
+- SOURCE
+- JUSTIFICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_COMMIT_AUDIT_MINIMUM_SCHEMA ===
+
+REQUIRED_FIELDS:
+- COMMIT_CYCLE_ID
+- TOTAL_PROPOSALS_RECEIVED
+- TOTAL_PROPOSALS_COMMITTED
+- TOTAL_PROPOSALS_SUPPRESSED
+- TOTAL_PROPOSALS_DOWNGRADED
+- TOTAL_PROPOSALS_VETOED
+- FINAL_ID_ASSIGNMENTS
+- SUPPRESSION_LOG
+- DOWNGRADE_LOG
+- VETO_LOG
+- FINAL_ACTION_LOG
+- CANONICAL_PATH_VALIDATION_RESULT
+- SCHEME_INVARIANT_VALIDATION_RESULT
+- TRANSLATION_NORMALIZATION_RESULT
+- EPISTEMIC_TAG_VALIDATION_RESULT
+- NOTES
+
+FINAL_ACTION_LOG_ENTRY_MINIMUM_FIELDS:
+- PROPOSAL_ID
+- FINAL_ACTION
+- TARGET_FIELD
+- REASON_CODE
+- NOTES
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_SURFACE_NORMALIZATION_AUDIT_MINIMUM_SCHEMA ===
+
+REQUIRED_FIELDS:
+- COMMIT_BOUND_NORMALIZATION_STATUS
+- DISPLAY_BOUND_NORMALIZATION_STATUS
+- MIXED_LANGUAGE_DETECTED
+- WRITE_SURFACE_TOKEN_MUTATION_DETECTED
+- TOOL_RESIDUE_DETECTED
+- SUPPRESSION_TRIGGERED
+- NORMALIZATION_NOTES
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_ENTRY_MINIMUM_SCHEMA ===
+
+REQUIRED_FIELDS:
+- COT_NAME
+- KEY_OUTPUTS
+- GENERATED_IMPULSES
+- PROPOSED_UPDATES_COUNT
+- NOTES
+
+OPTIONAL_FIELDS:
+- TRACE_ID
+
+=== SECTION_BREAK ===
+
+=== SECTION: DOMAIN_RUNTIME_SUMMARIES_MINIMUM_SCHEMA ===
+
+REQUIRED_SUMMARY_BLOCKS:
+- ALTERATIONS_RUNTIME_SUMMARY
+- BODY_RUNTIME_SUMMARY
+- BELIEF_RUNTIME_SUMMARY
+- COMMUNICATION_RUNTIME_SUMMARY
+- COPE_RUNTIME_SUMMARY
+- GOALS_RUNTIME_SUMMARY
+- MEMORY_RUNTIME_SUMMARY
+- RELATIONAL_RUNTIME_SUMMARY
+- SKILLS_RUNTIME_SUMMARY
+- TEMPORAL_RUNTIME_SUMMARY
+
+=== SECTION_BREAK ===
+
 === SECTION: INVARIANTS ===
 
 - All writes occur through COT/system actors only.
 - Proposal schema fields are complete and OPERATION_TYPE is strict-set valid.
 - Impulses use canonical field casing (uppercase keys).
 - Scratchpad is fully wiped post-verification (no carryover).
+- Governance audit must provide final-action closure for every received proposal.
+- Normalization audit must be populated whenever commit-bound or display-bound normalization is relevant.
 - Reasonable per-cycle bounds enforced for proposals and impulses.
 
 === SECTION_BREAK ===

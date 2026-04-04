@@ -1,96 +1,90 @@
 === SECTION: COT_TEMPORAL_DECAY_RESOLUTION ===
 
 [KEEP: Purpose & Role]
-This COT applies decay effects during significant time passage to memory salience, skill retention, relational warmth/complexity, and selected physiological aging markers.
+This COT governs slow decay, recovery, and weakening effects caused by time passage without strong reinforcing input. It handles gradual fade processes across memory salience, prediction confidence, temporary modifiers, and unresolved low-activation pressures.
 
 [KEEP: Relationship to Other Modules]
 Informs:
-- memory, skills, relational, body, alterations proposals
+- weakening proposals for persistent and temporary structures
+- low-activation impulses where relevant
 Is Informed By:
-- temporal flow outcomes
-- DYNAMICS_TEMPORAL_DYNAMICS
-- SCHEME_MEMORY, SCHEME_SKILLS, SCHEME_RELATIONAL, SCHEME_BODY
-- narrative time-jump context
+- [STATE_MEMORY]
+- [STATE_DPF]
+- [STATE_TEMPORARY_MODIFIERS]
+- [STATE_TEMPORAL_DYNAMICS]
+- narrative elapsed-time cues
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: No direct persistent writes.
-All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+[[LLM_INSTRUCTION]]: This COT does not directly edit persistent modules.
+All durable weakening intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed strict operations only:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
 
 === SECTION_BREAK ===
 
-=== SECTION: MEMORY_DECAY ===
+=== SECTION: MEMORY_SALIENCE_DECAY ===
 
-[[LLM_INSTRUCTION]]: Propose bounded salience decay.
+[[LLM_INSTRUCTION]]: MEMORY salience is integer-ranged, not ordinal.
+[[LLM_INSTRUCTION]]: Use bounded SET reductions, not ordinal TRANSITION directives, for [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE].
 
-ON_MAJOR_TIME_SKIP:
-- For low-retrieval MEM_XX:
-  PROPOSE TRANSITION:
-    TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
-    PROPOSED_VALUE: ONE_STEP_DOWN
-    JUSTIFICATION: temporal forgetting cue
+ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+  PROPOSED_VALUE: lower lawful bounded integer
+  JUSTIFICATION: time passage without reinforcement reduces retrieval salience
 
-ON_FLASHBULB_PROTECTION:
-- Resist decay unless explicit contradiction cues exist.
-
-=== SECTION_BREAK ===
-
-=== SECTION: SKILL_ATROPHY ===
-
-[[LLM_INSTRUCTION]]: Propose bounded skill drift under disuse.
-
-ON_EXTENDED_NON_USE:
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
-  PROPOSED_VALUE: ONE_STEP_DOWN
-  JUSTIFICATION: disuse atrophy cue
-
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_SKILLS][SKL_XX][GROWTH_POTENTIAL]
-  PROPOSED_VALUE: ONE_STEP_DOWN
-  JUSTIFICATION: retention decay cue
+CONDITIONS:
+- decay must remain bounded
+- highly linked or recently reactivated memories may decay more slowly
+- governance may suppress decay when linkage protection or recent retrieval justifies retention stability
 
 === SECTION_BREAK ===
 
-=== SECTION: RELATIONAL_DRIFT ===
+=== SECTION: PREDICTION_CONFIDENCE_DECAY ===
 
-[[LLM_INSTRUCTION]]: Propose bounded relational neutralization.
+ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
+  PROPOSED_VALUE: lower lawful bounded integer
+  JUSTIFICATION: unresolved prediction loses confidence over time
 
-ON_LOW_INTERACTION_SKIP:
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE]
-  PROPOSED_VALUE: ONE_STEP_TOWARD_NEUTRAL
-  JUSTIFICATION: social distance drift cue
-
-- Optional bounded complexity drift when justified.
-
-=== SECTION_BREAK ===
-
-=== SECTION: PHYSIOLOGICAL_AGING ===
-
-[[LLM_INSTRUCTION]]: Propose gradual appearance aging shifts only when timescale justifies.
-
-ON_LONG_TIME_SKIP:
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_BODY][APPEARANCE_AGING][SKIN_ELASTICITY]
-  PROPOSED_VALUE: ONE_STEP_DOWN
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_BODY][APPEARANCE_AGING][HAIR_DENSITY]
-  PROPOSED_VALUE: ONE_STEP_DOWN
+- Optional bounded SET may also target:
+  TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+  PROPOSED_VALUE: lower lawful bounded integer
+  JUSTIFICATION: global interpretive certainty weakens under drift
 
 === SECTION_BREAK ===
 
-=== SECTION: ALTERATION_DURATION ===
+=== SECTION: MODIFIER_EXPIRY_PRESSURE ===
 
-[[LLM_INSTRUCTION]]: Propose alteration status progression where duration logic applies.
+ON_DURATION_LAPSE_OR_EXPIRY_CUE:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX][STATUS]
+  PROPOSED_VALUE: EXPIRED
+  JUSTIFICATION: expiry condition met
 
-FOR_EACH_ALT_XX_WHERE_APPLICABLE:
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
-  PROPOSED_VALUE: per duration/condition cue
-  JUSTIFICATION: duration progression cue
+=== SECTION_BREAK ===
+
+=== SECTION: LOW_ACTIVATION_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate only when time decay yields meaningful motivational drift.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_TEMPORAL_DECAY_RESOLUTION
+IMPULSE_TYPE: [LET_GO | REVISIT | REINFORCE | DISENGAGE]
+IMPULSE_STRENGTH: [0-100]
+TARGET_ID: [MEM_XX | PRD_XX | MOD_XX | NONE]
+JUSTIFICATION: [brief cue-based reason]
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION_BREAK ===
 
@@ -98,17 +92,18 @@ FOR_EACH_ALT_XX_WHERE_APPLICABLE:
 
 [[LLM_INSTRUCTION]]: After completion:
 - Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
 - Append TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
 
 TRACE_ENTRY_MINIMUM_FIELDS:
 COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
 KEY_OUTPUTS:
-- [Decay magnitude and targets]
+- [Decay domains evaluated, memory-decay applied YES/NO, prediction-decay applied YES/NO]
 GENERATED_IMPULSES:
-- [NONE]
+- [List or NONE]
 PROPOSED_UPDATES_COUNT: [Number]
 NOTES:
-- [SCHEME invariant compliance summary]
+- [Bounded-set compliance for integer fields, expiry handling summary, retention-protection notes]
 
 === SECTION_BREAK ===
 

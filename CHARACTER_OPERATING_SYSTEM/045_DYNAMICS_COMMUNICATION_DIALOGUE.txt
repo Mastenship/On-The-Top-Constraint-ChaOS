@@ -1,13 +1,14 @@
 === SECTION: DYNAMICS_COMMUNICATION_DIALOGUE ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for communication adaptation under stress, fatigue, relational context, and state-dependent leakage.
+Immutable mechanics for communication adaptation under stress, fatigue, relational context, and state-dependent leakage. This module governs how stable communication style is modulated over time without collapsing transient communication pressure into permanent identity rewrite.
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -22,39 +23,56 @@ Forbidden operation references:
 - INCREMENT
 - DECREMENT
 
+[[LLM_INSTRUCTION]]: Prefer temporary communication overlays when effects are short-horizon, stress-induced, deceptive, or physiologically contingent.
+
 === SECTION_BREAK ===
 
 === SECTION: STRESS_AND_AROUSAL_EFFECTS ===
 
 ON_HIGH_AROUSAL_OR_STRESS:
-- Prefer temporary overlays via ADD_MODIFIER:
+- Prefer ADD_MODIFIER overlays for:
   - speech-rate pressure
   - complexity compression
-  - emotional leakage cues
+  - emotional leakage
+- Baseline communication fields should not shift unless cue persistence extends beyond transient stress windows.
 
 ON_FATIGUE:
-- Propose temporary overlays for slower delivery and hesitations.
+- Prefer ADD_MODIFIER overlays for slower delivery, hesitations, and reduced expressive control.
+- Durable baseline change is not preferred unless repeated long-horizon evidence accumulates.
 
 === SECTION_BREAK ===
 
 === SECTION: CULTURAL_AND_RELATIONAL_ADAPTATION ===
 
 ON_CULTURAL_EXPOSURE_WITH_OPENNESS:
-- May propose bounded SET/TRANSITION changes to stable dialogue preferences over time.
+- May justify bounded SET updates to stable dialogue preferences over time when evidence is repeated and persistent.
+- Changes should target explicit lawful enum endpoints only.
 
 ON_RELATIONAL_SHIFT:
-- May propose bounded adaptation of directness/proxemics fields when contextually justified.
+- May justify bounded SET updates to fields such as:
+  - DIRECTNESS_LEVEL
+  - POLITENESS_STRATEGY
+  - PROXEMICS_PREFERENCE
+  when the adaptation is persistent rather than situational.
 
 ON_TRAUMA_OR_ANXIETY_CUES:
-- Prefer ADD_MODIFIER overlays for speech blocks/reduced expressiveness before baseline changes.
+- Prefer ADD_MODIFIER overlays for speech blocks, guardedness, masking load, or reduced expressiveness before baseline changes.
 
 === SECTION_BREAK ===
 
 === SECTION: STATE_DEPENDENT_OVERLAYS ===
 
 ON_PHYSIOLOGICAL_OR_DECEPTION_CONTEXT:
-- Propose ADD_MODIFIER overlays for communication leakage signatures.
-- Do not directly rewrite baseline communication identity without sufficient evidence.
+- Propose ADD_MODIFIER overlays for communication leakage signatures, masking strain, concealment effort, or involuntary tell pressure.
+- Do not directly rewrite baseline communication identity without sufficient repeated evidence.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Communication baseline adaptation must resolve to explicit lawful enum endpoints.
+- Short-horizon communication effects should be handled through modifiers rather than durable field mutation.
+- This module should preserve the distinction between communication identity and communication condition.
 
 === SECTION_BREAK ===
 

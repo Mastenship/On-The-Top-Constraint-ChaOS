@@ -21,17 +21,34 @@ STATUS:
 MODIFIER_TYPE:
 SOURCE_COT:
 MECHANISM_TAG:
+
 TARGET_FIELD:
 TARGET_ID:
+
 EFFECT_EXPRESSION:
 MAGNITUDE:
+
 STACKING_RULE:
+
 DURATION_TYPE:
 DURATION_VALUE:
 EXPIRY_CONDITION:
+
 CREATED_TIMESTAMP:
 LAST_REFRESHED:
+
 JUSTIFICATION:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Bracketed record stubs such as [MOD_XX] indicate schema shape only.
+[[LLM_INSTRUCTION]]: A concrete modifier record lawfully exists only when:
+- a concrete MOD_XX appears in MODIFIER_REGISTRY
+- a corresponding [STATE_TEMPORARY_MODIFIERS][MOD_XX] record is instantiated
+
+[[LLM_INSTRUCTION]]: EXPIRED modifier records may remain present for audit or transition coherence if governance policy permits, but they must not be treated as active overlays.
 
 === SECTION_BREAK ===
 

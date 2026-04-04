@@ -1,38 +1,165 @@
 === SECTION: SCHEME_TEMPORARY_MODIFIERS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of temporary modifiers. Defines modifier schema, registry rules, stacking/expiry requirements, and safety invariants.
+Immutable structural definition of temporary modifiers. Defines modifier schema, creation requirements, targeting logic, lifecycle rules, stacking behavior, expiry requirements, and safety invariants.
 
 === SECTION_BREAK ===
 
 === SECTION: MODIFIER_RECORD_SCHEMA ===
 
 MODIFIER_ID: ID_TOKEN (MOD_XX)
-STATUS: ENUM [ACTIVE, EXPIRED, REFRESHED]
-MODIFIER_TYPE: ENUM [PERFORMANCE_MODIFIER, ENVIRONMENTAL_MODIFIER, BIOCHEMICAL_MODIFIER, PSYCHOLOGICAL_MODIFIER, COMMUNICATION_MODIFIER, RELATIONAL_MODIFIER, OTHER]
+STATUS: ENUM [ACTIVE, REFRESHED, EXPIRED]
+
+MODIFIER_TYPE: ENUM [
+  PERFORMANCE_MODIFIER,
+  ENVIRONMENTAL_MODIFIER,
+  BIOCHEMICAL_MODIFIER,
+  PSYCHOLOGICAL_MODIFIER,
+  COMMUNICATION_MODIFIER,
+  RELATIONAL_MODIFIER,
+  COGNITIVE_MODIFIER,
+  OTHER
+]
+
 SOURCE_COT: STRING_DESCRIPTIVE
 MECHANISM_TAG: STRING_DESCRIPTIVE
+
 TARGET_FIELD: CANONICAL_PATH
 TARGET_ID: OPTIONAL_ID
+
 EFFECT_EXPRESSION: STRING_DESCRIPTIVE
-MAGNITUDE: STRING_DESCRIPTIVE
+MAGNITUDE: QUALITATIVE_MAGNITUDE
+
 STACKING_RULE: ENUM [STACK, REPLACE, CAP, MULTIPLY]
+
 DURATION_TYPE: ENUM [SCENE, UNTIL_CONDITION, FIXED_CYCLES, PERSISTENT_UNTIL_REFRESH]
 DURATION_VALUE: STRING_DESCRIPTIVE
 EXPIRY_CONDITION: STRING_DESCRIPTIVE
+
 CREATED_TIMESTAMP: STRING_DESCRIPTIVE
 LAST_REFRESHED: STRING_DESCRIPTIVE
+
 JUSTIFICATION: STRING_DESCRIPTIVE
 
 === SECTION_BREAK ===
 
-=== SECTION: REGISTRY_RULES ===
+=== SECTION: QUALITATIVE_MAGNITUDE_POLICY ===
 
-- [STATE_TEMPORARY_MODIFIERS][MODIFIER_REGISTRY] lists all MODIFIER_ID tokens.
-- Each listed MODIFIER_ID must have exactly one corresponding [STATE_TEMPORARY_MODIFIERS][MOD_XX] record.
-- MODIFIER_ID uses prefix MOD_.
-- No duplicate MODIFIER_ID.
-- Auto-removal/expiry is governance-enforced when expiry condition is met.
+QUALITATIVE_MAGNITUDE: ENUM [TRACE, LOW, MODERATE, HIGH, EXTREME]
+
+QUALITATIVE_MAGNITUDE_GLOSS:
+- TRACE: barely perceptible transient influence
+- LOW: weak but behaviorally relevant influence
+- MODERATE: clear situational influence
+- HIGH: strong situational influence
+- EXTREME: acute overriding pressure still bounded by governance and realism
+
+[[LLM_INSTRUCTION]]: MAGNITUDE is qualitative and invocation-supportive, not numeric.
+[[LLM_INSTRUCTION]]: Modifier effects must remain transient overlays and must not function as covert identity rewrites.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MINIMUM_CREATION_REQUIREMENTS ===
+
+A modifier creation proposal is lawful only if all of the following are present and meaningful:
+- MODIFIER_ID
+- STATUS
+- MODIFIER_TYPE
+- SOURCE_COT
+- MECHANISM_TAG
+- TARGET_FIELD
+- EFFECT_EXPRESSION
+- MAGNITUDE
+- STACKING_RULE
+- DURATION_TYPE
+- EXPIRY_CONDITION
+- CREATED_TIMESTAMP
+- JUSTIFICATION
+
+ADDITIONAL_REQUIREMENTS:
+- TARGET_FIELD must be canonical and valid.
+- TARGET_ID is required when the modifier targets a record-specific or entity-specific context rather than a global field.
+- EFFECT_EXPRESSION must describe the transient effect clearly enough to distinguish it from unrelated modifiers.
+- MAGNITUDE must use the QUALITATIVE_MAGNITUDE enum.
+- EXPIRY_CONDITION must be explicit even when DURATION_TYPE is SCENE.
+- LAST_REFRESHED may be empty on first creation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TARGETING_LOGIC ===
+
+TARGET_FIELD_RULES:
+- TARGET_FIELD identifies the canonical state domain or field being modulated.
+- TARGET_FIELD does not authorize direct mutation of the target; it specifies the overlay destination of effect.
+
+TARGET_ID_RULES:
+- Use TARGET_ID when the effect is scoped to:
+  - a specific ENT_XX
+  - a specific SKL_XX
+  - a specific GOAL_XX
+  - a specific MEM_XX
+  - another concrete canonical record target
+- TARGET_ID may be empty when the modifier is domain-global.
+
+INTERPRETATION_RULE:
+- TARGET_FIELD establishes where the overlay applies.
+- TARGET_ID establishes which concrete instance, if any, receives the overlay context.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LIFECYCLE_RULES ===
+
+ACTIVE:
+- newly created or currently operative modifier
+
+REFRESHED:
+- existing modifier whose duration, recency, or effect continuity has been renewed without creating a distinct independent modifier
+
+EXPIRED:
+- modifier whose expiry condition has been met and whose effect no longer lawfully applies
+
+LIFECYCLE_INVARIANTS:
+- A modifier cannot be REFRESHED before first being ACTIVE.
+- EXPIRED modifiers do not continue to exert lawful runtime influence.
+- Expiry does not bypass registry coherence requirements; governance must preserve lawful registry-record consistency.
+
+=== SECTION_BREAK ===
+
+=== SECTION: COLLISION_REFRESH_AND_STACKING_RULES ===
+
+IDENTITY_COLLISION_HEURISTIC:
+A new modifier proposal should be treated as refresh-or-replace candidate rather than guaranteed new creation when all of the following substantially match:
+- MODIFIER_TYPE
+- SOURCE_COT or same causal mechanism family
+- MECHANISM_TAG
+- TARGET_FIELD
+- TARGET_ID
+- EFFECT_EXPRESSION semantic intent
+- overlapping expiry scope
+
+STACKING_RULE_BEHAVIOR:
+- STACK: allow concurrent modifier accumulation when semantically distinct and not prohibited by caps
+- REPLACE: newer lawful modifier supersedes older same-target same-effect modifier
+- CAP: allow accumulation only up to governance-allowed bounded effect
+- MULTIPLY: rare; use only when interaction semantics are explicitly justified and still remain qualitatively bounded
+
+REFRESH_RULE:
+- If a modifier is materially the same effect on the same target and renewal is intended, prefer REFRESHED state over creating redundant duplicate entries.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXPIRY_AND_GOVERNANCE_RULES ===
+
+EXPIRY_REQUIREMENTS:
+- EXPIRY_CONDITION must be explicit and interpretable from runtime context.
+- FIXED_CYCLES and PERSISTENT_UNTIL_REFRESH must still specify how expiry or lapse is determined.
+- SCENE duration expires at scene closure unless explicit refresh occurs.
+- UNTIL_CONDITION duration expires when the named condition is satisfied or negated.
+
+GOVERNANCE_HANDOFF:
+- Governance may mark a modifier EXPIRED or remove its runtime effect when expiry conditions are met.
+- Expiry handling must preserve registry coherence and audit visibility.
+- Expired modifiers must not silently remain active.
 
 === SECTION_BREAK ===
 
@@ -40,10 +167,12 @@ JUSTIFICATION: STRING_DESCRIPTIVE
 
 - Temporary modifiers must not bypass baseline state governance.
 - TARGET_FIELD must be canonical and valid.
-- EXPIRY_CONDITION must be explicit.
-- JUSTIFICATION required for creation and refresh.
+- MAGNITUDE must use lawful qualitative values only.
+- EXPIRY_CONDITION is required for creation and refresh.
+- JUSTIFICATION is required for creation and refresh.
 - Active modifiers must not be orphaned from registry or target path.
-- Magnitudes must remain bounded by realism and policy caps.
+- Modifier effects must remain bounded by realism, policy caps, and qualitative state-machine logic.
+- Temporary modifiers should absorb transient situational effects before baseline identity rewrite is considered.
 
 === SECTION_BREAK ===
 

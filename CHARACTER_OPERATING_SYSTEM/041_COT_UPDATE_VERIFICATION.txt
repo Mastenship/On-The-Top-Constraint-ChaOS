@@ -37,7 +37,12 @@ Forbidden writes:
 [[LLM_INSTRUCTION]]: Verify deterministically in this order.
 
 1) Audit closure:
-- Every PROPOSAL_ID appears exactly once with FINAL_ACTION
+- Every PROPOSAL_ID appears exactly once in FINAL_ACTION_LOG
+- Every FINAL_ACTION_LOG entry contains:
+  - PROPOSAL_ID
+  - FINAL_ACTION
+  - TARGET_FIELD
+  - REASON_CODE
 - No silent drops
 
 2) Operation validity:

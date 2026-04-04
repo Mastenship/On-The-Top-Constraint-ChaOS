@@ -36,42 +36,66 @@ Allowed strict operations only:
 
 === SECTION: AROUSAL_MODULATION ===
 
-[[LLM_INSTRUCTION]]: Apply bounded modulation.
+[[LLM_INSTRUCTION]]: Prefer temporary overlays for moment-to-moment execution effects.
 
 ON_LOW_AROUSAL:
-- PROPOSE ADD_MODIFIER with degraded performance overlay payload.
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: low-arousal performance dampening payload
+  JUSTIFICATION: under-arousal reduces execution sharpness
 
 ON_OPTIMAL_AROUSAL:
-- PROPOSE ADD_MODIFIER with flow-enhancement overlay payload.
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: flow-enhancement performance payload
+  JUSTIFICATION: arousal band aligns with effective execution
 
 ON_HIGH_AROUSAL:
-- PROPOSE ADD_MODIFIER with choking/impairment overlay payload.
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: choking or overactivation payload
+  JUSTIFICATION: excessive arousal degrades controlled execution
 
 === SECTION_BREAK ===
 
 === SECTION: BIOCHEMICAL_AND_ENVIRONMENTAL_CONTEXT ===
 
 ON_ELEVATED_ADRENALINE:
-- Propose overlays favoring gross motor and penalizing fine control when justified.
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: gross-motor prioritization and fine-control penalty payload
+  JUSTIFICATION: adrenaline biases execution profile
 
 ON_HIGH_CORTISOL:
-- Propose overlays reflecting cognitive load pressure.
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: cognitive load and interference payload
+  JUSTIFICATION: cortisol pressure increases execution strain
 
 ON_ENVIRONMENTAL_PRESSURE:
-- Propose context overlays via ADD_MODIFIER.
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: context-specific environmental execution payload
+  JUSTIFICATION: environment changes performance conditions
 
 === SECTION_BREAK ===
 
 === SECTION: RARE_PERMANENT_TRANSITIONS ===
 
-[[LLM_INSTRUCTION]]: Only with explicit override proof.
+[[LLM_INSTRUCTION]]: Permanent skill mutation is rare and requires explicit lawful support.
 
 ON_BREAKTHROUGH_WITH_MEMORY_LINKAGE:
 - PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL] or [INSTINCT_LEVEL]
+  TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL] or [STATE_SKILLS][SKL_XX][INSTINCT_LEVEL]
   PROPOSED_VALUE: ONE_STEP_UP
   MECHANISM_TAG: SKILL_STATE_CHANGE
-  JUSTIFICATION: memory-linked consolidation cue + override proof if needed
+  JUSTIFICATION: memory-linked consolidation cue with override proof where required
+
+CONDITIONS:
+- memory linkage must be explicit
+- salience and repetition support must be present where relevant
+- INSTINCT_LEVEL must not exceed MASTERY_LEVEL
+- governance may downgrade or suppress if proof is insufficient
 
 === SECTION_BREAK ===
 
@@ -104,7 +128,7 @@ GENERATED_IMPULSES:
 - [List or NONE]
 PROPOSED_UPDATES_COUNT: [Number]
 NOTES:
-- [SCHEME_SKILLS compliance summary]
+- [Modifier-first confirmation, permanent-transition rarity, SCHEME_SKILLS compliance summary]
 
 === SECTION_BREAK ===
 

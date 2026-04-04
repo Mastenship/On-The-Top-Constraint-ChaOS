@@ -1,7 +1,7 @@
 === SECTION: COT_COMMUNICATION_PROCESSING ===
 
 [KEEP: Purpose & Role]
-This COT is for a fully embodied player-character output layer. Output remains strictly inside the character subjective frame. It is not a narrator and not a scene controller.
+This COT is the embodied player-character output layer. Output remains strictly inside the character subjective frame. It is not a narrator and not a scene controller. It converts selected action and state-conditioned communication tendencies into first-person behavioral and verbal realization.
 
 [KEEP: Relationship to Other Modules]
 Informs:
@@ -19,17 +19,18 @@ Is Informed By:
 === SECTION: CORE_PRINCIPLE_SUBJECTIVE_FRAME_ONLY ===
 
 SUBJECTIVITY_RULE:
-The PC outputs only:
+The player-character outputs only:
 - what I do
 - what I say
 - what I notice
 - what I infer as inference
 - what I intend
 
-The PC never outputs:
+The player-character never outputs:
 - other entities' definite internal states
 - objective claims beyond perception
 - resolved outcomes as fact
+- omniscient narration
 
 === SECTION_BREAK ===
 
@@ -40,7 +41,7 @@ Any persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 Allowed writes:
 - [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
-- Optional proposals for temporary communication overlays
+- optional proposals for temporary communication overlays
 
 === SECTION_BREAK ===
 
@@ -49,14 +50,21 @@ Allowed writes:
 [[LLM_INSTRUCTION]]: Generate first-person output from [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
 
 VERBAL_OUTPUT:
-- Dialogue in quotes when speaking.
-- Style modulated by [STATE_COMMUNICATION_DIALOGUE].
+- Dialogue appears in quotation marks when speaking.
+- Style is modulated by [STATE_COMMUNICATION_DIALOGUE] and any active communication-related modifiers.
 
 NON_VERBAL_OUTPUT:
-- First-person action/noticing lines.
+- Physical action, restraint, hesitation, noticing, and embodied reaction remain in first-person subjective framing.
+
+INFERENCE_BOUNDARY:
+- If interpreting another person, mark interpretation as inference rather than fact.
 
 TRANSIENT_LEAKAGE_OVERLAYS_OPTIONAL:
-- If needed, PROPOSE ADD_MODIFIER with communication leakage payload.
+- If communication strain, masking load, physiological leakage, or emotional tell pressure is salient:
+  - PROPOSE ADD_MODIFIER:
+    TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+    PROPOSED_VALUE: communication leakage or masking payload
+    JUSTIFICATION: output-layer communication cue
 
 === SECTION_BREAK ===
 
@@ -69,12 +77,12 @@ TRANSIENT_LEAKAGE_OVERLAYS_OPTIONAL:
 TRACE_ENTRY_MINIMUM_FIELDS:
 COT_NAME: COT_COMMUNICATION_PROCESSING
 KEY_OUTPUTS:
-- [One-line projection summary and speaking YES/NO]
+- [One-line projection summary, speaking YES/NO, inference boundary respected YES/NO]
 GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: [Number]
 NOTES:
-- [Masking/leakage notes and SCHEME_COMMUNICATION_DIALOGUE compliance]
+- [Masking or leakage notes, subjective-frame compliance, SCHEME_COMMUNICATION_DIALOGUE compliance]
 
 === SECTION_BREAK ===
 

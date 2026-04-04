@@ -8,6 +8,7 @@ Immutable mechanics for memory formation, reconsolidation, salience adjustment, 
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -26,40 +27,61 @@ Forbidden operation references:
 - SET registry append
 - SET full record payload
 
+[[LLM_INSTRUCTION]]: Integer-ranged fields use bounded SET updates unless a separate ordinal ladder is explicitly defined.
+[[LLM_INSTRUCTION]]: Relative TRANSITION directives are reserved for lawful ordinal domains.
+
 === SECTION_BREAK ===
 
 === SECTION: FORMATION_CRITERIA ===
 
 ON_SALIENCE_THRESHOLD_MET:
-- If emotional intensity + novelty + consequence meets threshold:
+- If emotional intensity, novelty, and consequence meet threshold:
   - Proposal pattern:
     - SET [STATE_MEMORY][MEMORY_REGISTRY] append MEM_XX
     - SET [STATE_MEMORY][MEM_XX] full schema-valid record
-  - Initial SALIENCE and linkage must be provided.
+  - Initial SALIENCE and linkage must be provided explicitly.
 
 ON_FLASHBULB_EVENT:
-- If SALIENCE >= high threshold:
-  - Override pathway may allow richer linkage or stronger initial salience if proof requirements are met.
+- If SALIENCE meets high-threshold flashbulb criteria:
+  - override pathway may allow stronger initial salience or richer linkage
+  - any exception beyond ordinary creation limits requires full proof support
 
 === SECTION_BREAK ===
 
 === SECTION: RECONSOLIDATION_RULES ===
 
 ON_RETRIEVAL_WITH_NEW_CONTEXT:
-- Propose SET for allowed mutable memory subfields:
-  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][CORE_EVENT_SUMMARY]
+- Propose SET only for lawful mutable subfields:
   - [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
-  - linkage augmentation fields where lawful
-- Must include MECHANISM_TAG and justification cue.
+  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][CORE_EVENT_SUMMARY]
+  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][SENSORY_IMPRINT]
+  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][INTERNAL_MONOLOGUE_EXCERPT]
+  - lawful SYSTEM_LINKAGE augmentation
+- Must include MECHANISM_TAG and cue-based justification.
 
 === SECTION_BREAK ===
 
 === SECTION: DECAY_AND_FORGETTING ===
 
 ON_TEMPORAL_DECAY_MAJOR:
-- Propose TRANSITION ONE_STEP_DOWN for memory salience where applicable.
+- Propose SET:
+  TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+  PROPOSED_VALUE: lower lawful bounded integer
+  JUSTIFICATION: temporal decay cue
+
 - If salience falls below retention threshold and no protected linkage remains:
-  - Propose SET to remove/deactivate memory record per governance policy.
+  - do not silently delete the record
+  - require explicit governance policy for any deactivation, archival treatment, or equivalent memory-retention outcome
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Memory formation must use explicit registry-record SET pair semantics.
+- Reconsolidation is bounded and must not become unrestricted past rewrite.
+- Integer-ranged salience updates must use bounded SET operations rather than ordinal transition shorthand.
+- Decay handling must preserve auditability and record coherence.
+- If memory retirement or archival behavior is later formalized, it should be expressed explicitly rather than implied through deletion shorthand.
 
 === SECTION_BREAK ===
 

@@ -8,6 +8,7 @@ Immutable mechanics for physiological transitions, stress-response recovery, and
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -22,6 +23,12 @@ Forbidden operation references:
 - INCREMENT
 - DECREMENT
 
+[[LLM_INSTRUCTION]]: Relative transition directives must remain canonical:
+- ONE_STEP_UP
+- ONE_STEP_DOWN
+- ONE_STEP_TOWARD_BASELINE
+- ONE_STEP_TOWARD_NEUTRAL
+
 === SECTION_BREAK ===
 
 === SECTION: ENDOCRINE_RECOVERY ===
@@ -32,7 +39,7 @@ ON_REST_CYCLE_WITHOUT_ACTIVE_STRESS:
   PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
   JUSTIFICATION: recovery cue
 
-- If ADRENALINE not baseline:
+- If ADRENALINE is not at baseline:
   Propose TRANSITION:
     TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ADRENALINE]
     PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
@@ -46,24 +53,54 @@ ON_SIGNIFICANT_INJURY_OR_ILLNESS:
 - Propose SET:
   TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS]
   PROPOSED_VALUE: COMPROMISED
-  JUSTIFICATION: injury/illness cue
+  JUSTIFICATION: injury or illness cue
 
 ON_SUBSTANCE_USE_EVENT:
-- Propose TRANSITION:
-  TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][NEUROCHEMICAL_BALANCE]
-  PROPOSED_VALUE: ONE_STEP_TOWARD_DYSREGULATED
-  JUSTIFICATION: substance perturbation cue
+- If current [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][NEUROCHEMICAL_BALANCE] is BALANCED:
+  Propose SET:
+    TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][NEUROCHEMICAL_BALANCE]
+    PROPOSED_VALUE: STRAINED
+    JUSTIFICATION: substance perturbation cue
+- If current [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][NEUROCHEMICAL_BALANCE] is STRAINED:
+  Propose SET:
+    TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][NEUROCHEMICAL_BALANCE]
+    PROPOSED_VALUE: DYSREGULATED
+    JUSTIFICATION: substance perturbation cue
+- If stronger deterioration is proposed beyond one lawful step:
+  require override proof or suppress/downgrade under governance.
 
 ON_MALNUTRITION_OR_DEHYDRATION:
-- Propose TRANSITION:
-  TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][METABOLIC_HEALTH]
-  PROPOSED_VALUE: ONE_STEP_TOWARD_STRAINED_OR_FAILING
-  JUSTIFICATION: deprivation cue
+- If current [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][METABOLIC_HEALTH] is OPTIMAL:
+  Propose SET:
+    TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][METABOLIC_HEALTH]
+    PROPOSED_VALUE: STRAINED
+    JUSTIFICATION: deprivation cue
+- If current [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][METABOLIC_HEALTH] is STRAINED and stronger deterioration is justified:
+  Propose SET:
+    TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][METABOLIC_HEALTH]
+    PROPOSED_VALUE: FAILING
+    JUSTIFICATION: deprivation cue
 
-- Propose TRANSITION:
-  TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ELECTROLYTE_BALANCE]
-  PROPOSED_VALUE: ONE_STEP_TOWARD_IMBALANCED
-  JUSTIFICATION: hydration/electrolyte cue
+- If current [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ELECTROLYTE_BALANCE] is BALANCED:
+  Propose SET:
+    TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ELECTROLYTE_BALANCE]
+    PROPOSED_VALUE: IMBALANCED
+    JUSTIFICATION: hydration or electrolyte cue
+- If current [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ELECTROLYTE_BALANCE] is IMBALANCED and stronger deterioration is justified:
+  Propose SET:
+    TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ELECTROLYTE_BALANCE]
+    PROPOSED_VALUE: CRITICAL
+    JUSTIFICATION: hydration or electrolyte cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Domain-specific directional intent must resolve to either:
+  - canonical TRANSITION directives
+  - explicit lawful SET endpoints
+- Multi-step deterioration remains subject to override proof, downgrade, or suppression.
+- Dynamics may describe degradation conceptually, but proposals must resolve to concrete lawful state values.
 
 === SECTION_BREAK ===
 

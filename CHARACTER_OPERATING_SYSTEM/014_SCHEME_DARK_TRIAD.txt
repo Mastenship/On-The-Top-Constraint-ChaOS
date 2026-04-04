@@ -1,7 +1,7 @@
 === SECTION: SCHEME_DARK_TRIAD ===
 
 [KEEP: Purpose & Role]
-Immutable definition of Dark Triad traits. Percentiles set at instantiation; inform malevolent impulses.
+Immutable definition of Dark Triad traits. Percentiles set at instantiation; inform malevolent impulse gating and manipulative strategy bias.
 
 === SECTION_BREAK ===
 
@@ -11,7 +11,14 @@ NARCISSISM: QUALITATIVE_PERCENTILE
 MACHIAVELLIANISM: QUALITATIVE_PERCENTILE
 PSYCHOPATHY: QUALITATIVE_PERCENTILE
 
-QUALITATIVE_PERCENTILE: ENUM [VERY_LOW (below 20th), LOW (20-40th), AVERAGE (40-60th), HIGH (60-80th), VERY_HIGH (above 80th)]
+QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
+
+QUALITATIVE_PERCENTILE_GLOSS:
+- VERY_LOW: below 20th percentile
+- LOW: 20th–40th percentile
+- AVERAGE: 40th–60th percentile
+- HIGH: 60th–80th percentile
+- VERY_HIGH: above 80th percentile
 
 === SECTION_BREAK ===
 
@@ -25,9 +32,9 @@ PSYCHOPATHY: Impulsivity, thrill-seeking, callousness, lack of remorse.
 
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation
-- High scores gate MALEVOLENT_BEHAVIOR_SELECTION impulses
-- Changes extremely rare (require override proof)
+- Values fixed post-instantiation.
+- High scores gate MALEVOLENT_BEHAVIOR_SELECTION impulses.
+- Changes are extremely rare and require override proof beyond standard cycle mechanics.
 
 === SECTION_BREAK ===
 

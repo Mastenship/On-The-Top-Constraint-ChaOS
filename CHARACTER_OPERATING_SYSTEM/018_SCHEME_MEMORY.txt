@@ -1,7 +1,7 @@
 === SECTION: SCHEME_MEMORY ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of memory state. Defines schema, registry rules, and invariants.
+Immutable structural definition of memory state. Defines memory schema, registry rules, linkage expectations, mutable subfield boundaries, and invariants governing when transient experience becomes persistent memory.
 
 === SECTION_BREAK ===
 
@@ -35,20 +35,44 @@ ASSOCIATED_PREDICTION_ID: OPTIONAL_PRD_ID
 - Each listed MEMORY_ID must have exactly one corresponding [STATE_MEMORY][MEM_XX] record.
 - MEMORY_ID uses prefix MEM_.
 - No duplicate MEMORY_ID.
-- Per-cycle creation cap enforced by governance.
+- New memory insertion follows strict SET pair contract.
+- Per-cycle creation cap is governance-enforced.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LINKAGE_RULES ===
+
+- SYSTEM_LINKAGE must contain at least one valid canonical path field:
+  - PRIMARY_TEMPLATE_AFFECTED
+  - SPECIFIC_FIELD_CHANGED
+- ASSOCIATED_* IDs are optional but, when present, must reference lawful concrete records.
+- Linkage fields are for persistent meaning-attachment, not arbitrary explanatory prose.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MUTABILITY_BOUNDARIES ===
+
+RETROACTIVE_EDIT_LIMITS:
+- [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+- [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][CORE_EVENT_SUMMARY]
+- [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][SENSORY_IMPRINT]
+- [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][INTERNAL_MONOLOGUE_EXCERPT]
+- lawful SYSTEM_LINKAGE augmentation
+
+[[LLM_INSTRUCTION]]: Memory records are stability-biased once formed.
+[[LLM_INSTRUCTION]]: Reconsolidation may refine remembered framing, but must not become unrestricted rewriting of persistent past-state artifacts.
+[[LLM_INSTRUCTION]]: SALIENCE is an integer-ranged field and should be updated through bounded SET operations rather than ordinal TRANSITION shorthand.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- SALIENCE must be >= creation threshold for new record admission.
+- SALIENCE must meet or exceed creation threshold for new record admission.
 - SYSTEM_LINKAGE must include at least one valid canonical path.
-- ASSOCIATED_* IDs must reference existing registries when non-empty.
-- Retroactive edits limited to:
-  - MEMORY_METADATA.SALIENCE
-  - NARRATIVE_CONTENT subfields
-  - SYSTEM_LINKAGE augmentation
+- ASSOCIATED_* IDs must reference existing lawful records when non-empty.
+- Retroactive edits are limited to the mutable subfields listed above.
 - Prohibited operation aliases do not exist in this schema contract.
+- Memory persistence reflects resolved significance, not raw ungoverned chain-of-thought residue.
 
 === SECTION_BREAK ===
 

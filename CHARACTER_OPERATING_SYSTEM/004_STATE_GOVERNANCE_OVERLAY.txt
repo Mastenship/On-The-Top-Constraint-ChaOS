@@ -51,7 +51,9 @@ OVERRIDE_PROOF_REQUIREMENT:
   - rule name invoked
   - SCHEME_ invariant compliance note (if applicable)
 
-[[LLM_INSTRUCTION]]: SCHEME_ modules are the scientific constitution. Any proposal violating SCHEME_ enums, ordinals, or invariants is automatically suppressed unless OVERRIDE_TRIGGERS fully proven.
+[[LLM_INSTRUCTION]]: SCHEME_ modules are the scientific constitution.
+- Direct SCHEME_ invariant violations are SUPPRESSED unless OVERRIDE_TRIGGERS are fully proven.
+- Excessive magnitude or step-size requests on an otherwise lawful target may be DOWNGRADED to the nearest lawful bounded change.
 
 === SECTION_BREAK ===
 
@@ -76,13 +78,13 @@ TIE_BREAKERS (in order):
    - lexical SOURCE_COT ascending
    - then lexical PROPOSAL_ID ascending
 
-[[LLM_INSTRUCTION]]: SCHEME_ invariants (e.g., INSTINCT_LEVEL ≤ MASTERY_LEVEL) take absolute precedence — any conflicting proposal is DOWNGRADED or SUPPRESSED.
+[[LLM_INSTRUCTION]]: SCHEME_ invariants (e.g., INSTINCT_LEVEL ≤ MASTERY_LEVEL) take absolute precedence — any conflicting proposal is DOWNGRADED or SUPPRESSED according to lawful boundedness.
 
 === SECTION_BREAK ===
 
 === SECTION: TRANSLATION_BEFORE_COMMIT_POLICY ===
 
-[[LLM_INSTRUCTION]]: Internal deliberation (any COT, any language) is permitted.  
+[[LLM_INSTRUCTION]]: Internal deliberation (any COT, any language) is permitted.
 Before the single-writer commit decision, every commit-bound artifact MUST be normalized to the canonical output lexicon.
 
 TRANSLATION_RULES:

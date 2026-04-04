@@ -1,7 +1,7 @@
 === SECTION: SCHEME_HEXACO ===
 
 [KEEP: Purpose & Role]
-Immutable definition of core personality traits using HEXACO model. Percentiles set at instantiation; consulted for bias but not mutated.
+Immutable definition of core personality traits using HEXACO model. Percentiles are set at instantiation and consulted for bias, weighting, and interpretive filtering rather than ordinary runtime mutation.
 
 === SECTION_BREAK ===
 
@@ -14,7 +14,14 @@ AGREEABLENESS: QUALITATIVE_PERCENTILE
 CONSCIENTIOUSNESS: QUALITATIVE_PERCENTILE
 OPENNESS_TO_EXPERIENCE: QUALITATIVE_PERCENTILE
 
-QUALITATIVE_PERCENTILE: ENUM [VERY_LOW (below 20th), LOW (20-40th), AVERAGE (40-60th), HIGH (60-80th), VERY_HIGH (above 80th)]
+QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
+
+QUALITATIVE_PERCENTILE_GLOSS:
+- VERY_LOW: below 20th percentile
+- LOW: 20th–40th percentile
+- AVERAGE: 40th–60th percentile
+- HIGH: 60th–80th percentile
+- VERY_HIGH: above 80th percentile
 
 === SECTION_BREAK ===
 
@@ -31,9 +38,9 @@ OPENNESS_TO_EXPERIENCE: Aesthetic appreciation, inquisitiveness, creativity, unc
 
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation
-- Consulted for probability biases and perception filters
-- Changes require explicit watershed justification (not standard cycle)
+- Values fixed post-instantiation.
+- Consulted for probability biases, weighting functions, and perception filters.
+- Changes require explicit watershed justification and are not part of standard cycle mutation.
 
 === SECTION_BREAK ===
 

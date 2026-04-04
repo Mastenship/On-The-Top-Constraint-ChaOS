@@ -1,13 +1,14 @@
 === SECTION: DYNAMICS_TEMPORAL_DYNAMICS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for circadian alignment, fatigue progression/recovery, routine effects, and subjective time distortion.
+Immutable mechanics for circadian alignment, fatigue progression and recovery, routine effects, and subjective time distortion.
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
 Allowed operation references:
 - SET
 - TRANSITION
@@ -22,6 +23,12 @@ Forbidden operation references:
 - INCREMENT
 - DECREMENT
 
+[[LLM_INSTRUCTION]]: Relative transition directives must remain canonical:
+- ONE_STEP_UP
+- ONE_STEP_DOWN
+- ONE_STEP_TOWARD_BASELINE
+- ONE_STEP_TOWARD_NEUTRAL
+
 === SECTION_BREAK ===
 
 === SECTION: CIRCADIAN_CYCLE ===
@@ -31,48 +38,81 @@ ON_TIME_OF_DAY_CUES:
 - Prefer ADD_MODIFIER overlays for short-horizon performance modulation.
 
 ON_SLEEP_RECOVERY_EVENT:
-- Propose TRANSITION toward baseline for:
-  - [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
-  - [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+- Propose TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
+  PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
+  JUSTIFICATION: sleep recovery cue
+
+- Propose TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+  PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
+  JUSTIFICATION: debt recovery cue
 
 === SECTION_BREAK ===
 
 === SECTION: FATIGUE_PROGRESSION ===
 
 ON_TIME_PASSAGE_WITHOUT_REST:
-- Propose TRANSITION ONE_STEP_UP for fatigue level.
-- Propose bounded increase in sleep debt (SET or TRANSITION per scheme compatibility).
+- Propose TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: time passage without rest
+
+- Propose TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: sleep debt accumulation
 
 ON_STRESS_OR_EXERTION:
-- Accelerated fatigue accumulation may be proposed; multi-step requires override proof.
+- Additional fatigue accumulation may be proposed only as:
+  - one lawful additional TRANSITION step when governance permits
+  - or a temporary modifier if transient pressure is more lawful than baseline escalation
+- Multi-step increase requires override proof.
 
 ON_SECOND_WIND_OR_STIMULANT:
-- Prefer ADD_MODIFIER temporary reversal patterns.
-- Baseline fatigue fields remain bounded unless justified.
+- Prefer ADD_MODIFIER temporary reversal or performance-sustain overlays.
+- Baseline fatigue fields remain bounded unless explicit override justification is present.
 
 === SECTION_BREAK ===
 
 === SECTION: ROUTINE_EFFECTS ===
 
 ON_ROUTINE_ADHERENCE:
-- Propose temporary comfort overlays and routine pull impulses via downstream COTs.
+- Prefer temporary comfort overlays and routine-pull impulses via downstream COTs.
 
 ON_ROUTINE_DISRUPTION:
-- Propose ADD_MODIFIER disorientation/stress overlays.
-- Optional bounded routine-field adjustment if evidence persists.
+- Propose ADD_MODIFIER disorientation or stress overlays.
+- Propose SET to routine fields only when evidence persists beyond transient disruption.
 
 ON_DEADLINE_APPROACH:
-- Propose SET for time-pressure and subjective-flow fields as justified.
+- Propose SET:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][TIME_PRESSURE_PERCEPTION]
+  PROPOSED_VALUE: HIGH_URGENCY
+  JUSTIFICATION: explicit deadline cue
 
 === SECTION_BREAK ===
 
 === SECTION: TIME_PERCEPTION_DISTORTION ===
 
 ON_HIGH_AROUSAL:
-- Propose SET [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW] = TIME_FLIES.
+- Propose SET:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW]
+  PROPOSED_VALUE: TIME_FLIES
+  JUSTIFICATION: arousal distortion cue
 
 ON_BOREDOM_OR_FATIGUE:
-- Propose SET [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW] = TIME_DRAGS.
+- Propose SET:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW]
+  PROPOSED_VALUE: TIME_DRAGS
+  JUSTIFICATION: low-engagement or fatigue cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Temporal drift must resolve to canonical TRANSITION directives or explicit SET endpoints.
+- Short-horizon temporal distortions should prefer modifiers when they do not warrant persistent baseline change.
+- Fatigue and sleep debt remain bounded by one-step law unless override proof is valid.
 
 === SECTION_BREAK ===
 
