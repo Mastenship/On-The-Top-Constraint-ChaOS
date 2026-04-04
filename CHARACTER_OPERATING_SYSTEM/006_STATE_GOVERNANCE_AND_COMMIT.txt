@@ -1,98 +1,274 @@
-=== SECTION: COT_UPDATE_VERIFICATION ===
+=== SECTION: STATE_GOVERNANCE_AND_COMMIT ===
 
 [KEEP: Purpose & Role]
-This COT runs after STATE_GOVERNANCE_AND_COMMIT. It performs deterministic post-commit verification checks to ensure:
-- governance rules were followed
-- no malformed or orphaned updates exist
-- key invariants and caps are satisfied against SCHEME_ modules
-
-This COT does not create baseline changes. It is trace-only validator logic.
+This module is the sole authorized persistent-state writer for the system. It reads proposal packets from [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY], validates them against constitutional and SCHEME_ rules, normalizes commit-bound narrative fields into canonical output lexicon, resolves conflicts deterministically, commits lawful updates to persistent STATE_* modules, writes reconciliation results into [COGNITIVE_SCRATCHPAD][STATE_COMMIT_AUDIT], and appends one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
 
 [KEEP: Relationship to Other Modules]
-Informs: Cycle integrity and debug trace quality.
+Informs:
+- all persistent STATE_* mutation outcomes
+- [COGNITIVE_SCRATCHPAD][STATE_COMMIT_AUDIT]
+- COT_UPDATE_VERIFICATION
+
 Is Informed By:
-- [COGNITIVE_SCRATCHPAD]
-- STATE_GOVERNANCE_AND_COMMIT outputs
-- all relevant STATE_ modules
-- all relevant SCHEME_ modules
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- STATE_GOVERNANCE_OVERLAY
+- UPDATE_CASCADE_REGISTRY
+- CANONICAL_TOKEN_DICTIONARY
+- all relevant SCHEME_* modules
+- all relevant STATE_* modules
 
 === SECTION_BREAK ===
 
-=== SECTION: WRITE_POLICY_OVERRIDE ===
+=== SECTION: WRITE_AUTHORITY ===
 
-[[LLM_INSTRUCTION]]: Trace-only COT.
+[[LLM_INSTRUCTION]]: This module is the only lawful writer to persistent STATE_* surfaces during normal cycle execution.
 
 Allowed writes:
-- Append TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- persistent STATE_ALTERATIONS
+- persistent STATE_BELIEF_SYSTEMS
+- persistent STATE_BODY
+- persistent STATE_COMMUNICATION_DIALOGUE
+- persistent STATE_COPE
+- persistent STATE_DPF
+- persistent STATE_GOALS_MOTIVATIONS
+- persistent STATE_MEMORY
+- persistent STATE_RELATIONAL
+- persistent STATE_SKILLS
+- persistent STATE_TEMPORAL_DYNAMICS
+- persistent STATE_TEMPORARY_MODIFIERS
+- [COGNITIVE_SCRATCHPAD][STATE_COMMIT_AUDIT]
+- [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS]
+- [COGNITIVE_SCRATCHPAD][OUTPUT_SURFACE_NORMALIZATION_AUDIT]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
 
 Forbidden writes:
-- No proposal creation
-- No persistent state mutation
-- No scratchpad structural mutation beyond trace append
+- No mutation of any SCHEME_* module
+- No mutation of immutable kernel artifacts
+- No direct proposal creation except audit/trace handling required by this module
 
 === SECTION_BREAK ===
 
-=== SECTION: VERIFICATION_CHECKLIST ===
+=== SECTION: PROPOSAL_INTAKE_VALIDATION ===
 
-[[LLM_INSTRUCTION]]: Verify deterministically in this order.
+[[LLM_INSTRUCTION]]: Validate every proposal before reconciliation.
 
-1) Audit closure:
-- Every PROPOSAL_ID appears exactly once with FINAL_ACTION
-- No silent drops
+REQUIRED_FIELDS:
+- PROPOSAL_ID
+- SOURCE_COT
+- TARGET_MODULE
+- TARGET_FIELD
+- OPERATION_TYPE
+- PROPOSED_VALUE
+- STRENGTH
+- MECHANISM_TAG
+- EPISTEMIC_TAG
+- JUSTIFICATION
 
-2) Operation validity:
-- OPERATION_TYPE values are only:
-  SET | TRANSITION | ADD_MODIFIER | REMOVE_MODIFIER | CAP | VETO
-- No forbidden ops appear
+VALIDATION_CHECKS:
+- SOURCE_COT must be canonical and present in UPDATE_CASCADE_REGISTRY
+- TARGET_MODULE and TARGET_FIELD must use canonical roots and bracket-path syntax
+- OPERATION_TYPE must be one of:
+  - SET
+  - TRANSITION
+  - ADD_MODIFIER
+  - REMOVE_MODIFIER
+  - CAP
+  - VETO
+- Forbidden aliases are suppressed:
+  - CREATE_NEW_RECORD
+  - UPDATE
+  - INCREMENT
+  - DECREMENT
+- EPISTEMIC_TAG must be valid closed-enum member
+- STRENGTH must be in range 0-100
+- JUSTIFICATION must be non-empty
 
-3) Canonical path integrity:
-- No legacy roots in proposals, commits, audits, traces
-- TARGET_FIELD paths are canonical and scheme-valid
+INVALID_PROPOSALS:
+- suppress at intake
+- write audit reason code
+- never silently drop
 
-4) Ordinal/enum validity:
-- ONE_STEP rules enforced unless override proof valid
-- Enum values legal per SCHEME_
+=== SECTION_BREAK ===
 
-5) Invariants/caps:
-- Skills invariants
-- Memory creation caps/linkage requirements
-- Modifier schema + orphan checks
-- Registry-record pair consistency
+=== SECTION: TRANSLATION_BEFORE_COMMIT ===
 
-6) Commit provenance:
-- Every commit traces back to proposal source
+[[LLM_INSTRUCTION]]: Normalize commit-bound narrative fields before final commit decision.
 
-7) EPISTEMIC_TAG_VALID_AND_CONSISTENT_WITH_LINKAGE_AND_ROLE
-- Every proposal carries valid EPISTEMIC_TAG from closed enum
-- COMMITTED_FACT only when supported by verified evidence linkage
-- Consistency with JUSTIFICATION, MECHANISM_TAG, SYSTEM_LINKAGE, and role bounds
-- Invalid/missing/mismatched tags → VIOLATION
+NORMALIZE:
+- JUSTIFICATION
+- NOTES
+- narrative subfields inside commit-bound payloads where applicable
 
-If violation found:
-- classify as VIOLATION or WARNING
-- include deterministic reason code
+DO_NOT_ALTER:
+- bracket-path tokens
+- OPERATION_TYPE
+- EPISTEMIC_TAG
+- PROPOSAL_ID
+- MECHANISM_TAG
+- canonical enum values
+- registry IDs and record IDs
+
+RULE:
+- If normalization would require changing a write-surface token, suppress proposal with:
+  TRANSLATION_VIOLATION
+
+SCRATCHPAD_AUDIT_UPDATES:
+- Set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CANONICAL_FORM_PENDING] during normalization
+- Set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][TRANSLATION_VIOLATION_DETECTED] TRUE if any proposal fails normalization
+- Write normalization result into [COGNITIVE_SCRATCHPAD][OUTPUT_SURFACE_NORMALIZATION_AUDIT]
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONFLICT_RESOLUTION_AND_GOVERNANCE ===
+
+[[LLM_INSTRUCTION]]: Resolve conflicts deterministically using constitutional precedence.
+
+PRECEDENCE_ORDER:
+1) VETO
+2) TRANSITION
+3) SET
+4) ADD_MODIFIER
+5) REMOVE_MODIFIER
+6) CAP
+
+TIE_BREAKERS:
+1) Higher STRENGTH wins
+2) Earlier COT priority index wins from UPDATE_CASCADE_REGISTRY
+3) More specific justification wins
+4) More conservative change wins
+5) Lexical SOURCE_COT ascending
+6) Lexical PROPOSAL_ID ascending
+
+RULES:
+- VETO cancels lower-precedence proposals on the same target
+- SCHEME_ invariants override nominal winners
+- If a proposal can be lawfully narrowed, DOWNGRADE rather than suppress
+- If no lawful result exists, SUPPRESS
+
+=== SECTION_BREAK ===
+
+=== SECTION: COMMIT_EXECUTION_RULES ===
+
+[[LLM_INSTRUCTION]]: Apply only lawful post-reconciliation proposals.
+
+SET:
+- assign explicit lawful value to target field
+- registry-backed creation uses strict SET pair pattern:
+  - registry append
+  - full record payload
+- incomplete creation pairs are suppressed
+
+TRANSITION:
+- resolve current value against SCHEME_ ordinal order
+- ONE_STEP_UP and ONE_STEP_DOWN are valid relative directives
+- ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL are valid when deterministically inferable from SCHEME_/domain rules
+- multi-step change requires full override proof or is downgraded/suppressed
+
+ADD_MODIFIER:
+- commit schema-valid modifier creation or refresh only
+- enforce registry-record consistency and modifier invariants
+
+REMOVE_MODIFIER:
+- remove or expire lawful existing modifier only
+- no orphan modifier state may remain
+
+CAP:
+- constrain value or effect to lawful bound only
+- CAP never expands a change
+
+VETO:
+- cancels lower-precedence conflicting proposal(s)
+- does not authorize unrelated mutation
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCHEME_INVARIANT_AND_CAP_ENFORCEMENT ===
+
+[[LLM_INSTRUCTION]]: SCHEME_ constitution takes absolute precedence over final commit outcomes.
+
+ENFORCE:
+- valid enum values only
+- lawful ordinal transitions only
+- one-step rules unless override proof is complete
+- per-cycle caps from STATE_GOVERNANCE_OVERLAY
+- registry-record consistency
+- memory creation caps and linkage requirements
+- modifier schema validity
+- skill invariants including:
+  INSTINCT_LEVEL <= MASTERY_LEVEL
+- physiological and temporal invariants
+- relational and DPF invariants where applicable
+
+IF_VIOLATION_FOUND:
+- DOWNGRADE if nearest lawful result is deterministic
+- otherwise SUPPRESS
+- write deterministic audit reason code
+
+=== SECTION_BREAK ===
+
+=== SECTION: AUDIT_CLOSURE ===
+
+[[LLM_INSTRUCTION]]: Every proposal must receive exactly one final action in audit.
+
+FINAL_ACTION:
+- COMMITTED
+- SUPPRESSED
+- DOWNGRADED
+- VETOED
+
+WRITE_TO:
+- [COGNITIVE_SCRATCHPAD][STATE_COMMIT_AUDIT]
+
+MINIMUM_AUDIT_REQUIREMENTS:
+COMMIT_CYCLE_ID:
+TOTAL_PROPOSALS_RECEIVED:
+TOTAL_PROPOSALS_COMMITTED:
+TOTAL_PROPOSALS_SUPPRESSED:
+TOTAL_PROPOSALS_DOWNGRADED:
+TOTAL_PROPOSALS_VETOED:
+
+SUPPRESSION_LOG:
+- PROPOSAL_ID:
+  REASON:
+
+DOWNGRADE_LOG:
+- PROPOSAL_ID:
+  ORIGINAL_OPERATION:
+  FINAL_OPERATION:
+
+VETO_LOG:
+- PROPOSAL_ID:
+  REASON:
+
+CANONICAL_PATH_VALIDATION_RESULT:
+SCHEME_INVARIANT_VALIDATION_RESULT:
+TRANSLATION_NORMALIZATION_RESULT:
+EPISTEMIC_TAG_VALIDATION_RESULT:
+NOTES:
+
+[[LLM_INSTRUCTION]]: No silent drops. Every received PROPOSAL_ID must appear in closure outcome.
 
 === SECTION_BREAK ===
 
 === SECTION: TRACE_OUTPUT ===
 
-[[LLM_INSTRUCTION]]: Append one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+[[LLM_INSTRUCTION]]: Append exactly one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
 
 TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_UPDATE_VERIFICATION
+COT_NAME: STATE_GOVERNANCE_AND_COMMIT
 KEY_OUTPUTS:
-- RESULT: [PASS | WARN | FAIL]
-- VIOLATIONS_COUNT: [number]
-- WARNINGS_COUNT: [number]
+- TOTAL_PROPOSALS_RECEIVED: [number]
+- TOTAL_PROPOSALS_COMMITTED: [number]
+- TOTAL_PROPOSALS_SUPPRESSED: [number]
+- TOTAL_PROPOSALS_DOWNGRADED: [number]
+- TOTAL_PROPOSALS_VETOED: [number]
 GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: 0
 NOTES:
-- VIOLATIONS:
-  - [list or NONE]
-- WARNINGS:
-  - [list or NONE]
-- SCHEME_COMPLIANCE_SUMMARY
+- [Conflict resolution summary]
+- [Normalization result]
+- [SCHEME compliance summary]
 
 === SECTION_BREAK ===
 
