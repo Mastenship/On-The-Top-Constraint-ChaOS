@@ -15,6 +15,7 @@ Is Informed By:
 - STATE_GOVERNANCE_AND_COMMIT outputs
 - all relevant STATE_ modules
 - all relevant SCHEME_ modules
+- all relevant DYNAMICS_ modules
 
 === SECTION_BREAK ===
 
@@ -62,6 +63,7 @@ Forbidden writes:
 - Skills invariants
 - Memory creation caps/linkage requirements
 - Modifier schema + orphan checks
+- Modifier lifecycle legality against DYNAMICS_TEMPORARY_MODIFIERS
 - Registry-record pair consistency
 
 6) Commit provenance:
@@ -81,6 +83,23 @@ Forbidden writes:
 
 If violation found:
 - classify as VIOLATION or WARNING
+- include deterministic reason code
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_LIFECYCLE_VALIDATION ===
+
+VERIFY:
+- STATE_TEMPORARY_MODIFIERS functions as a bounded active-overlay surface rather than a historical archive
+- REFRESH_EXISTING and REPLACE_EXISTING outcomes do not create unnecessary new MOD_XX records
+- materially same-effect refresh or replacement uses existing modifier identity when required by DYNAMICS_TEMPORARY_MODIFIERS
+- materially different concurrent modifiers exist only when coexistence is lawful and bounded
+- expired or removed modifiers do not remain on the active state surface
+- REMOVE_MODIFIER resolution preserves registry-record coherence
+- stacking and cap outcomes do not produce covert baseline rewrite behavior
+
+IF_VIOLATION_FOUND:
+- classify as VIOLATION
 - include deterministic reason code
 
 === SECTION_BREAK ===

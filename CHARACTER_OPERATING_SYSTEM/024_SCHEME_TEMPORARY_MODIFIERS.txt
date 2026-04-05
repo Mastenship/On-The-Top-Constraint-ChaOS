@@ -1,7 +1,7 @@
 === SECTION: SCHEME_TEMPORARY_MODIFIERS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of temporary modifiers. Defines modifier schema, creation requirements, targeting logic, lifecycle rules, stacking behavior, expiry requirements, and safety invariants.
+Immutable structural definition of temporary modifiers. Defines modifier schema, creation requirements, targeting logic, and safety invariants for transient overlays that modulate runtime behavior without directly rewriting persistent baseline state.
 
 === SECTION_BREAK ===
 
@@ -107,59 +107,31 @@ INTERPRETATION_RULE:
 
 === SECTION_BREAK ===
 
-=== SECTION: LIFECYCLE_RULES ===
+=== SECTION: ACTIVE_SURFACE_INTERPRETATION ===
 
-ACTIVE:
-- newly created or currently operative modifier
+[[LLM_INSTRUCTION]]: STATE_TEMPORARY_MODIFIERS is an active-overlay surface, not a historical archive.
 
-REFRESHED:
-- existing modifier whose duration, recency, or effect continuity has been renewed without creating a distinct independent modifier
-
-EXPIRED:
-- modifier whose expiry condition has been met and whose effect no longer lawfully applies
-
-LIFECYCLE_INVARIANTS:
-- A modifier cannot be REFRESHED before first being ACTIVE.
-- EXPIRED modifiers do not continue to exert lawful runtime influence.
-- Expiry does not bypass registry coherence requirements; governance must preserve lawful registry-record consistency.
+ACTIVE_SURFACE_RULES:
+- Modifier records represent runtime-relevant transient overlays.
+- EXPIRED is a lawful lifecycle resolution state in schema terms.
+- EXPIRED is not a default long-term retained state-surface mode.
+- Expired or removed modifiers are ordinarily cleared from the active surface through governance-consistent lifecycle handling.
+- Historical lifecycle visibility belongs to governance audit and trace outputs, not to persistent growth of STATE_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 
-=== SECTION: COLLISION_REFRESH_AND_STACKING_RULES ===
+=== SECTION: LIFECYCLE_AUTHORITY_NOTE ===
 
-IDENTITY_COLLISION_HEURISTIC:
-A new modifier proposal should be treated as refresh-or-replace candidate rather than guaranteed new creation when all of the following substantially match:
-- MODIFIER_TYPE
-- SOURCE_COT or same causal mechanism family
-- MECHANISM_TAG
-- TARGET_FIELD
-- TARGET_ID
-- EFFECT_EXPRESSION semantic intent
-- overlapping expiry scope
+[[LLM_INSTRUCTION]]: This SCHEME_ module defines structure and invariants only.
+[[LLM_INSTRUCTION]]: Modifier lifecycle mechanics are defined by DYNAMICS_TEMPORARY_MODIFIERS.
 
-STACKING_RULE_BEHAVIOR:
-- STACK: allow concurrent modifier accumulation when semantically distinct and not prohibited by caps
-- REPLACE: newer lawful modifier supersedes older same-target same-effect modifier
-- CAP: allow accumulation only up to governance-allowed bounded effect
-- MULTIPLY: rare; use only when interaction semantics are explicitly justified and still remain qualitatively bounded
-
-REFRESH_RULE:
-- If a modifier is materially the same effect on the same target and renewal is intended, prefer REFRESHED state over creating redundant duplicate entries.
-
-=== SECTION_BREAK ===
-
-=== SECTION: EXPIRY_AND_GOVERNANCE_RULES ===
-
-EXPIRY_REQUIREMENTS:
-- EXPIRY_CONDITION must be explicit and interpretable from runtime context.
-- FIXED_CYCLES and PERSISTENT_UNTIL_REFRESH must still specify how expiry or lapse is determined.
-- SCENE duration expires at scene closure unless explicit refresh occurs.
-- UNTIL_CONDITION duration expires when the named condition is satisfied or negated.
-
-GOVERNANCE_HANDOFF:
-- Governance may mark a modifier EXPIRED or remove its runtime effect when expiry conditions are met.
-- Expiry handling must preserve registry coherence and audit visibility.
-- Expired modifiers must not silently remain active.
+LIFECYCLE_SCOPE_DELEGATED_TO_DYNAMICS:
+- refresh legality
+- collision and identity matching
+- replacement behavior
+- stacking and cap interaction
+- expiry transitions
+- REMOVE_MODIFIER resolution behavior
 
 === SECTION_BREAK ===
 

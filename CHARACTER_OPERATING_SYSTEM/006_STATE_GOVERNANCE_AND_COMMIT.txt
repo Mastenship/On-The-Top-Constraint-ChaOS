@@ -22,6 +22,7 @@ Is Informed By:
 - CANONICAL_TOKEN_DICTIONARY
 - UPDATE_CASCADE_REGISTRY
 - all SCHEME_* modules
+- all DYNAMICS_* modules
 - [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
 
 === SECTION_BREAK ===
@@ -258,17 +259,33 @@ TRANSITION:
 - commit only lawful resulting value
 
 ADD_MODIFIER:
-- treat ADD_MODIFIER as a high-level proposal form for lawful temporary overlay creation
-- canonical creation path requires registry / record coherence in STATE_TEMPORARY_MODIFIERS
-- commit resolution materializes the modifier as:
-  - SET [STATE_TEMPORARY_MODIFIERS][MODIFIER_REGISTRY] append MOD_XX
-  - SET [STATE_TEMPORARY_MODIFIERS][MOD_XX] record payload
+- treat ADD_MODIFIER as a high-level proposal form for lawful temporary overlay handling
+- resolve modifier proposals deterministically according to DYNAMICS_TEMPORARY_MODIFIERS
+- evaluation order:
+  1) validate schema and target legality
+  2) search for lawful active collision candidate
+  3) if no collision candidate exists and coexistence is lawful:
+     - create new modifier by:
+       - appending MOD_XX to [STATE_TEMPORARY_MODIFIERS][MODIFIER_REGISTRY]
+       - writing [STATE_TEMPORARY_MODIFIERS][MOD_XX] record payload
+  4) if materially same active modifier exists and STACKING_RULE = REPLACE:
+     - replace existing modifier in place using the same MOD_XX
+  5) if materially same active modifier exists and STACKING_RULE is not REPLACE:
+     - refresh existing modifier in place using the same MOD_XX
+  6) if materially different modifier exists on the same target:
+     - create new modifier only if coexistence is lawful and bounded
+     - otherwise suppress
+- in-place refresh or replacement does not create a new MOD_XX and does not grow the registry
 
 REMOVE_MODIFIER:
-- mark or remove modifier lawfully according to modifier dynamics and registry coherence
+- resolve modifier removal according to DYNAMICS_TEMPORARY_MODIFIERS
+- remove the targeted modifier from [STATE_TEMPORARY_MODIFIERS]
+- remove the corresponding MOD_XX from [STATE_TEMPORARY_MODIFIERS][MODIFIER_REGISTRY]
+- preserve lifecycle closure in audit output rather than persistent modifier retention
 
 CAP:
 - apply bounded ceiling behavior where scheme and governance permit
+- modifier cap behavior must remain consistent with DYNAMICS_TEMPORARY_MODIFIERS when temporary overlays are involved
 
 VETO:
 - suppress lower-precedence conflicting change or block disallowed mutation

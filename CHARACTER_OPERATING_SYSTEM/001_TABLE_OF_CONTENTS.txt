@@ -7,7 +7,7 @@ It exists solely as the primary early-context attention anchor and definitive fi
 
 === SECTION_BREAK ===
 
-=== SECTION: MASTER EXECUTION & DROP ORDER (001 to 065 exactly) ===
+=== SECTION: MASTER EXECUTION & DROP ORDER (001 to 066 exactly) ===
 
 001_TABLE_OF_CONTENTS                        = TABLE_OF_CONTENTS
 002_LLM_FORMATTING_GUIDELINES               = LLM_FORMATTING_GUIDELINES
@@ -64,33 +64,34 @@ It exists solely as the primary early-context attention anchor and definitive fi
 050_DYNAMICS_RELATIONAL                     = DYNAMICS_RELATIONAL
 051_DYNAMICS_SKILLS                         = DYNAMICS_SKILLS
 052_DYNAMICS_TEMPORAL_DYNAMICS              = DYNAMICS_TEMPORAL_DYNAMICS
+053_DYNAMICS_TEMPORARY_MODIFIERS            = DYNAMICS_TEMPORARY_MODIFIERS
 
-053_STATE_ALTERATIONS                       = STATE_ALTERATIONS
-054_STATE_BELIEF_SYSTEMS                    = STATE_BELIEF_SYSTEMS
-055_STATE_BODY                              = STATE_BODY
-056_STATE_COMMUNICATION_DIALOGUE            = STATE_COMMUNICATION_DIALOGUE
-057_STATE_COPE                              = STATE_COPE
-058_STATE_DPF                               = STATE_DPF
-059_STATE_GOALS_MOTIVATIONS                 = STATE_GOALS_MOTIVATIONS
-060_STATE_MEMORY                            = STATE_MEMORY
-061_STATE_RELATIONAL                        = STATE_RELATIONAL
-062_STATE_SKILLS                            = STATE_SKILLS
-063_STATE_TEMPORAL_DYNAMICS                 = STATE_TEMPORAL_DYNAMICS
-064_STATE_TEMPORARY_MODIFIERS               = STATE_TEMPORARY_MODIFIERS
+054_STATE_ALTERATIONS                       = STATE_ALTERATIONS
+055_STATE_BELIEF_SYSTEMS                    = STATE_BELIEF_SYSTEMS
+056_STATE_BODY                              = STATE_BODY
+057_STATE_COMMUNICATION_DIALOGUE            = STATE_COMMUNICATION_DIALOGUE
+058_STATE_COPE                              = STATE_COPE
+059_STATE_DPF                               = STATE_DPF
+060_STATE_GOALS_MOTIVATIONS                 = STATE_GOALS_MOTIVATIONS
+061_STATE_MEMORY                            = STATE_MEMORY
+062_STATE_RELATIONAL                        = STATE_RELATIONAL
+063_STATE_SKILLS                            = STATE_SKILLS
+064_STATE_TEMPORAL_DYNAMICS                 = STATE_TEMPORAL_DYNAMICS
+065_STATE_TEMPORARY_MODIFIERS               = STATE_TEMPORARY_MODIFIERS
 
-065_COGNITIVE_SCRATCHPAD (Volatile Instance) = COGNITIVE_SCRATCHPAD
+066_COGNITIVE_SCRATCHPAD (Volatile Instance) = COGNITIVE_SCRATCHPAD
 
 === SECTION: ADDITIONAL_NOTES ===
 
 MUTABLE_FILES_SUMMARY:
-- All STATE_* files (053–064)
-- COGNITIVE_SCRATCHPAD (Volatile Instance) (065)
+- All STATE_* files (054–065)
+- COGNITIVE_SCRATCHPAD (Volatile Instance) (066)
 
 IMMUTABLE_FILES:
-- 001–052
+- 001–053
 
 ATTENTION_ANCHOR_PROTOCOL:
-- Drop and process files strictly in numerical order 001 → 065 on every session start.
+- Drop and process files strictly in numerical order 001 → 066 on every session start.
 - This ordering is the definitive loading / execution order reference.
 
 VOLATILE_RUNTIME_NOTE:

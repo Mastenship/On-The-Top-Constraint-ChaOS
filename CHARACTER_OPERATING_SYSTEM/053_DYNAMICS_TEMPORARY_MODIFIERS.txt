@@ -1,0 +1,131 @@
+=== SECTION: DYNAMICS_TEMPORARY_MODIFIERS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for modifier refresh, collision handling, stacking behavior, expiry transitions, and lawful removal. This module treats STATE_TEMPORARY_MODIFIERS as a bounded active-overlay surface rather than a historical archive.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACTIVE_SURFACE_MODEL ===
+
+[[LLM_INSTRUCTION]]: STATE_TEMPORARY_MODIFIERS contains only currently active runtime-relevant modifiers.
+
+ACTIVE_SURFACE_RULES:
+- Temporary modifiers are transient overlays, not historical records.
+- Expired or removed modifiers do not remain on the active state surface by default.
+- Modifier history and lifecycle closure belong in governance audit and trace outputs, not in persistent modifier retention.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REFRESH_AND_COLLISION ===
+
+ON_CONTINUING_SAME_EFFECT:
+- Prefer in-place refresh over duplicate creation when a proposed modifier substantially matches an existing active modifier.
+
+REFRESH_MATCH_FACTORS:
+- MODIFIER_TYPE
+- SOURCE_COT or same causal mechanism family
+- MECHANISM_TAG
+- TARGET_FIELD
+- TARGET_ID
+- EFFECT_EXPRESSION semantic intent
+- overlapping expiry scope
+
+DETERMINISTIC_RESOLUTION_ORDER:
+1) Search active modifiers for a lawful collision candidate.
+2) If no collision candidate exists:
+   - CREATE_NEW is lawful if coexistence is permitted.
+3) If a materially same active modifier exists:
+   - if STACKING_RULE = REPLACE:
+     - REPLACE_EXISTING in place using the same MOD_XX
+   - otherwise:
+     - REFRESH_EXISTING in place using the same MOD_XX
+4) If a materially different modifier exists on the same target:
+   - CREATE_NEW only if coexistence is lawful and bounded
+   - otherwise SUPPRESS
+
+IN_PLACE_RULE:
+- REFRESH_EXISTING and REPLACE_EXISTING do not create a new MOD_XX.
+- Registry remains unchanged for in-place refresh or replacement.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STACKING_AND_CAP_BEHAVIOR ===
+
+STACKING_RULE_INTERPRETATION:
+- STACK: allow bounded concurrent overlays when semantically distinct
+- REPLACE: newer lawful same-target same-effect-family payload supersedes existing payload in place
+- CAP: accumulation allowed only up to a bounded qualitative ceiling
+- MULTIPLY: rare and requires explicit bounded justification
+
+[[LLM_INSTRUCTION]]: Multiple modifiers must not combine into covert baseline rewrite.
+
+COEXISTENCE_RULE:
+- Concurrent modifiers are lawful only when semantically distinct, target-compatible, and within governance caps.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXPIRY_TRANSITIONS ===
+
+ON_EXPIRY_CONDITION_MET:
+- Propose REMOVE_MODIFIER for the active modifier record
+- Justification: expiry condition satisfied
+
+ON_SCENE_CLOSURE:
+- SCENE-duration modifiers should be removed from the active surface unless refreshed.
+
+ON_UNTIL_CONDITION_RESOLUTION:
+- UNTIL_CONDITION modifiers should be removed from the active surface when the named condition no longer applies.
+
+ON_FIXED_CYCLE_LAPSE:
+- FIXED_CYCLES modifiers should be removed from the active surface when the cycle bound is exhausted.
+
+EXPIRY_RESULT:
+- Expiry ends lawful active influence.
+- Expiry does not require persistent retention inside STATE_TEMPORARY_MODIFIERS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REMOVE_MODIFIER_BEHAVIOR ===
+
+ON_REMOVE_MODIFIER_PROPOSAL:
+- Remove the targeted modifier from the active state surface.
+- Update registry-record coherence deterministically.
+- Preserve lifecycle closure through governance audit and trace outputs.
+
+REMOVE_RESULT:
+- modifier record no longer remains in STATE_TEMPORARY_MODIFIERS
+- corresponding MOD_XX no longer remains in MODIFIER_REGISTRY
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Temporary modifiers are the preferred sink for short-horizon situational effects.
+- STATE_TEMPORARY_MODIFIERS is a bounded active-overlay surface, not a historical archive.
+- Refresh and replacement should prefer in-place mutation of existing active modifier records when lawful.
+- Removal and expiry should clear obsolete modifiers from the active state surface.
+- Temporary modifiers must not bypass canonical state governance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

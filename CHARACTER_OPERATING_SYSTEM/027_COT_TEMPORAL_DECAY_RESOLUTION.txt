@@ -13,6 +13,7 @@ Is Informed By:
 - [STATE_TEMPORARY_MODIFIERS]
 - [STATE_TEMPORAL_DYNAMICS]
 - narrative elapsed-time cues
+- DYNAMICS_TEMPORARY_MODIFIERS
 
 === SECTION_BREAK ===
 
@@ -66,11 +67,18 @@ ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
 
 === SECTION: MODIFIER_EXPIRY_PRESSURE ===
 
+[[LLM_INSTRUCTION]]: This COT may propose modifier expiry pressure, but lifecycle resolution remains governed by DYNAMICS_TEMPORARY_MODIFIERS.
+
 ON_DURATION_LAPSE_OR_EXPIRY_CUE:
 - PROPOSE SET:
   TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX][STATUS]
   PROPOSED_VALUE: EXPIRED
   JUSTIFICATION: expiry condition met
+
+CONDITIONS:
+- expiry cues must be explicit or deterministically inferable
+- EXPIRED modifiers must not remain active overlays
+- final lifecycle handling must remain consistent with DYNAMICS_TEMPORARY_MODIFIERS
 
 === SECTION_BREAK ===
 
@@ -98,12 +106,12 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 TRACE_ENTRY_MINIMUM_FIELDS:
 COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
 KEY_OUTPUTS:
-- [Decay domains evaluated, memory-decay applied YES/NO, prediction-decay applied YES/NO]
+- [Decay domains evaluated, memory-decay applied YES/NO, prediction-decay applied YES/NO, modifier-expiry pressure applied YES/NO]
 GENERATED_IMPULSES:
 - [List or NONE]
 PROPOSED_UPDATES_COUNT: [Number]
 NOTES:
-- [Bounded-set compliance for integer fields, expiry handling summary, retention-protection notes]
+- [Bounded-set compliance for integer fields, modifier expiry summary, retention-protection notes]
 
 === SECTION_BREAK ===
 
