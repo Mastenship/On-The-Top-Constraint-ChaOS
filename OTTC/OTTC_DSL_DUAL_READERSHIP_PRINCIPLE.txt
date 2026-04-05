@@ -62,6 +62,34 @@ This is why qualification assays are necessary and why coupling cannot be assume
 
 === SECTION_BREAK ===
 
+=== SECTION: COLLABORATION_SCAFFOLD_FUNCTION ===
+
+[[LLM_INSTRUCTION]]: This section defines the corpus-as-collaboration-scaffold function of the OTTC DSL and document set.
+
+CORE_PRINCIPLE:
+The OTTC corpus is not only explanatory documentation. It is a machine-facing collaboration scaffold designed so that LLMs can help humans understand OTTC and build new OTTC-compliant architectures when the corpus is loaded into persistent context.
+
+WHAT_THIS_MEANS_FOR_DSL_DESIGN:
+The DSL's dual readership requirement — structurally distinct from prose, high-salience for LLM attention, immediately legible for human audit — is not only a within-session engineering choice. It is what makes the corpus functional as a collaboration scaffold across sessions and across model families. When the DSL is sufficiently distinct, the LLM can:
+- recognize governance structure as prior to content
+- propose canonical addresses for new ontology surfaces
+- identify architectural violations against the rectangle invariants
+- assist in SCHEME_ and DYNAMICS_ drafting
+- simulate qualification assay scenarios for proposed architectures
+
+COLLABORATIVE_METHOD_AS_CONTRIBUTION:
+The method by which this corpus was built is itself part of the contribution. Plural LLM proposals, human or domain-expert commit authority, disagreement as diagnostic signal, and constitutional discovery through disciplined collaboration are the same pattern the corpus describes. The corpus was built the way it governs. When used to build a new square, it should be used the same way:
+- Load the corpus into persistent LLM context.
+- Use the LLM as a proposer: draft ontology, SCHEME_ modules, DYNAMICS_ modules, assay scenarios.
+- Use domain expertise as commit authority: review, accept, reject, or revise proposals based on actual domain knowledge.
+- Treat model disagreements as diagnostic signals: when two models propose differently, examine what the disagreement reveals about domain ambiguity or architectural choice.
+- Do not commit architecture that has not been reviewed by a domain expert.
+
+HARD_BOUNDARY:
+The collaboration scaffold function does not transfer commit authority to the LLM. It expands the LLM's proposer surface. The human remains the commit authority. If the LLM's proposal is accepted without domain-expert review, the build is out of compliance with the method this corpus is designed to scaffold.
+
+=== SECTION_BREAK ===
+
 === SECTION: GENERALIZATION_NOTE ===
 
 This principle is OTTC-general. It does not depend on any specific ontology, domain, or token vocabulary. Any OTTC-compliant architecture must solve the dual readership problem by ensuring that:

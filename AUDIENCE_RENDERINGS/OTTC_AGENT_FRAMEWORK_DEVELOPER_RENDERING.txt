@@ -132,6 +132,26 @@ But you gain long-horizon coherence and debuggability.
 
 === SECTION_BREAK ===
 
+=== SECTION: DOMAIN_SQUARES ===
+
+[[LLM_INSTRUCTION]]: This section defines the rectangle/square framing and what it means for framework developers.
+
+OTTC is a rectangle. The nine kernel axioms define a constitutional shape. Your specific agent is a square: a domain-specific implementation that satisfies the rectangle.
+
+WHAT_THIS_MEANS_IN_PRACTICE:
+Your ontology (canonical state addresses) is the domain translation layer. It is not generic. It cannot be borrowed from another domain without expert review. The canonical addresses must reflect what actually has durable consequence in your deployment domain, what transitions are actually lawful there, and who actually holds commit authority over what.
+
+HOW_TO_BUILD_A_SQUARE:
+1. Load this corpus into persistent LLM context.
+2. Have the LLM propose candidate canonical addresses and SCHEME_ modules for your domain.
+3. Have a domain expert review, revise, and commit the proposals.
+4. Use model disagreements as diagnostic signals, not as errors to suppress.
+5. Run the qualification assay before building. Test the ground.
+
+The corpus is a machine-facing collaboration scaffold. The LLM helps you discover the square. The domain expert owns it.
+
+=== SECTION_BREAK ===
+
 === SECTION: BOTTOM_LINE ===
 
 [[LLM_INSTRUCTION]]: This section defines the bottom line of OTTC.
