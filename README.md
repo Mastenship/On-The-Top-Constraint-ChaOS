@@ -70,6 +70,7 @@ The paper concludes by identifying what must be studied if the Mutation Boundary
 8. Error taxonomy and tolerance — which errors are constitutional, which are epistemic, which are domain-relative and tolerable
 9. Multi-agent constitutional form — how governance scales to multiple generators sharing a world
 10. Domain-specific success metrics — preventing overgeneralization by naming what success actually means in each domain
+11. **Domain-expert constitutional discovery** — how experts in consequence-bearing fields (legal, clinical, scientific, financial) translate their domain ontology into OTTC-legible form; what is required to build a new square; how the rectangle provides scaffolding for that translation without pre-determining the domain's internal law
 
 The field needs to broaden its center of gravity from output quality to the governance of mutation. That is the central claim.
 
@@ -116,6 +117,8 @@ These are the mandatory kernel invariants. Any compliant implementation must sat
 9. **Post-Commit Verification** — After commit, a verification pass checks invariants and integrity. Verification certifies or flags — it never invents new changes.
 
 These nine axioms define the "rectangle." Any compliant implementation is a "square" — free to choose its own schemas, syntax, domains, and operations as long as these invariants hold.
+
+**OTTC is a rectangle. Domain implementations are squares.** ChaOS is one square — narrative character governance. Legal systems, clinical protocols, scientific research pipelines, enterprise change management, and other consequence-bearing domains could each become their own square. The precondition for each is ontology translation: the domain expert's vocabulary, state surfaces, evidentiary distinctions, and lawful transitions must be translated into OTTC-legible form before governed mutation can operate. Governance cannot regulate what it cannot address. Domain knowledge is therefore not decoration added on top of an OTTC architecture — it is the precondition of having a governable state surface at all.
 
 ### Key Properties
 
@@ -200,6 +203,9 @@ A system that gives LLM characters inertia, bounded perspective, and earned grow
 
 **Enterprise Governance / Safety**
 Change control and accountability for long-running agents, with audit trails that support compliance and incident review. When something goes wrong, the record shows what was proposed, what was committed, and what verification found. That's the minimum viable artifact for responsible deployment.
+
+**Domain Experts in Any Consequence-Bearing Field**
+If your domain has a vocabulary, durable state surfaces, evidentiary distinctions, and lawful transitions — medicine, law, scientific research, financial operations, clinical governance, or others — you can build your own square. The precondition is translating your domain ontology into OTTC-legible form: canonical addresses for what matters, explicit laws for what may change, bounded authority for who decides, and audit closure over every transition. OTTC provides the rectangle. Domain experts supply the constitutional knowledge that makes a particular square real. The audience renderings and the BUILD SOP are designed to scaffold that translation process with LLM collaboration.
 
 ---
 
@@ -286,6 +292,8 @@ The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremo
 Humans are welcome to read along; the protocol works for any long-horizon agent. If the ritual tone feels unusual at first, drop the files into an LLM's persistent context and watch it parse the rectangle instantly — that is the point.
 
 By writing the documents in this native format, the LLMs themselves can actively assist human readers in properly understanding OTTC and building their own OTTC-compliant architectures.
+
+**The corpus is a machine-facing collaboration scaffold.** When loaded into persistent LLM context, it is designed to allow LLMs to help human domain experts understand OTTC, validate proposed square architectures against the rectangle invariants, propose canonical ontology surfaces, and identify gaps in lawful mutation coverage. The collaboration method is not incidental to the corpus — it is part of the contribution. Plural LLM proposals, human or domain-expert commit authority, disagreement as diagnostic signal, and constitutional discovery through disciplined collaboration are the same pattern the corpus describes. This is how the corpus was built and how it is designed to be used.
 
 ---
 
