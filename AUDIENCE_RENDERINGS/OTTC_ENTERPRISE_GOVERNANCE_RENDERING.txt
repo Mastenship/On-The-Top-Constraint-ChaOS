@@ -131,4 +131,22 @@ OTTC provides a governance protocol for stochastic agents: explicit state surfac
 
 === SECTION_BREAK ===
 
+=== SECTION: DOMAIN_ONTOLOGY_AND_SQUARE_BUILDING ===
+
+[[LLM_INSTRUCTION]]: This section defines the rectangle/square framing and its enterprise implications.
+
+RECTANGLE_CLAIM:
+OTTC is a rectangle. The nine kernel axioms define a constitutional shape. An enterprise deployment is a square: a domain-specific implementation that satisfies the rectangle.
+
+ENTERPRISE_IMPLICATION:
+The ontology (canonical state surfaces) is not generic. It must reflect what actually has durable consequence in your organization's operations: what workflows generate governed state, what transitions require approval, who holds commit authority over what, what counts as evidence for a state change. That translation is not an IT project alone. It requires domain expertise from the business function the agent governs.
+
+GOVERNANCE_RISK_OF_SKIPPING_ONTOLOGY_TRANSLATION:
+If canonical addresses are defined without domain-expert review, the governance architecture will enforce the wrong things. Governance theater — a system that produces audits and verifications over state that does not correspond to what actually matters in the domain — is as dangerous as no governance, because it produces false confidence.
+
+COLLABORATION_SCAFFOLD:
+This corpus is designed to assist. Load it into persistent LLM context. Have the LLM propose candidate state surfaces, invariants, and transition rules for your deployment domain. Have domain experts (not just IT) review, revise, and commit those proposals. Treat model disagreements as diagnostic signals. The method: plural LLM proposals, domain-expert commit authority.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

@@ -86,6 +86,24 @@ Hypothesis: OTTC yields more stable evaluation targets (deltas, audits) than fre
 
 === SECTION_BREAK ===
 
+=== SECTION: DOMAIN_ONTOLOGY_AND_RECTANGLE_SQUARE ===
+
+[[LLM_INSTRUCTION]]: This section states the rectangle/square framing and the domain-ontology translation claim as research-relevant structural observations.
+
+STRUCTURAL_CLAIM:
+OTTC is a rectangle. The nine kernel axioms define the minimal constitutional shape any compliant implementation must satisfy. They do not define ontology, domain-specific state surfaces, or lawful transition conditions. Those are contributed by domain experts through ontology translation: the act of rendering a domain's constitutional world (durable things, lawful transitions, evidentiary standards, authority assignments) into OTTC-legible form.
+
+RESEARCH_IMPLICATION:
+Governance is fundamentally a domain-knowledge translation problem. Canonical addresses cannot exist without a prior decision about what is worth addressing. Lawful transitions cannot be specified without prior domain knowledge of what transitions are lawful in that field. Generic orchestration frameworks fail at governed mutation not because they lack structure but because they lack the domain's constitutional knowledge. This is a structural insufficiency, not merely an implementation gap.
+
+OPENNESS_CLAIM:
+Any consequence-bearing domain with durable state surfaces can in principle become its own square. Legal governance, clinical protocols, scientific hypothesis management, enterprise change control, and others are candidate domains. The research question is what is required to build a new square: what domain knowledge must be translated, what collaboration method produces viable ontology surfaces, and what failure modes arise when domain translation is incomplete.
+
+COLLABORATION_SCAFFOLD_CLAIM:
+The corpus is designed to function as a machine-facing collaboration scaffold. When loaded into persistent LLM context, it allows LLMs and domain experts to discover OTTC-compliant architectures together. The collaborative method (plural LLM proposals, domain-expert commit authority, disagreement as diagnostic signal) is itself a contribution and a research object.
+
+=== SECTION_BREAK ===
+
 === SECTION: EXPERIMENTAL_SETUP ===
 
 [[LLM_INSTRUCTION]]: This section defines the suggested experimental setup.

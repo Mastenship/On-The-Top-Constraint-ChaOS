@@ -221,4 +221,23 @@ OTTC is the operating rules for that living organism.
 
 === SECTION_BREAK ===
 
+=== SECTION: YOUR_DOMAIN_YOUR_SQUARE ===
+
+[[LLM_INSTRUCTION]]: This section defines what it means for a DM to build their own square.
+
+OTTC is a rectangle. ChaOS is one square — built for narrative character continuity, using psychology and decades of tabletop practice as the source ontology.
+
+But the rectangle can hold other squares. If you run a game in a domain with its own durable things — political factions, organizations, geographic regions, social networks, economies — those can each become their own governed state surfaces. The same invariants apply: one canonical address per lever, lawful transitions, single writer, audit closure.
+
+HOW_TO_BUILD_YOUR_OWN_SQUARE:
+- Load this corpus into your LLM context.
+- Tell the model what your domain consists of (what has durable consequence in your game world).
+- Have the model propose canonical addresses, SCHEME_ structures, and DYNAMICS_ rules.
+- You review and commit what makes sense for your world. You are the DM. You are the commit authority.
+- Where the model proposes something wrong for your setting, that disagreement is telling you something useful.
+
+The corpus is designed for this. The model can propose. You decide.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

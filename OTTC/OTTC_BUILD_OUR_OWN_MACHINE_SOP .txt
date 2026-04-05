@@ -220,6 +220,43 @@ HUMAN_CHECK:
 
 === SECTION_BREAK ===
 
+=== SECTION: STEP_03B_DOMAIN_ONTOLOGY_TRANSLATION (WHAT_YOUR_DOMAIN_CONTRIBUTES) ===
+
+[[LLM_INSTRUCTION]]: This section defines the domain-knowledge translation obligation that precedes and informs Step 03.
+
+CORE_PRINCIPLE:
+OTTC is a rectangle. A domain implementation is a square. The rectangle provides the nine kernel invariants and the SOP. The square requires the domain expert to translate their field's constitutional world into OTTC-legible form.
+
+WHAT_DOMAIN_ONTOLOGY_TRANSLATION_MEANS:
+- Identify what things in your domain are durable and must be mutable (the state surfaces).
+- Identify what distinctions are constitutionally meaningful (durable baseline vs. transient condition, fact vs. inference vs. speculation, authorized change vs. unauthorized write).
+- Identify what counts as evidence for mutation in this domain (tool output, clinical measure, legal adjudication, game-master ruling, experimental result).
+- Identify who holds commit authority and over what (the domain's existing authority structure maps to OTTC's single-writer principle).
+- Identify what transitions are lawful (your domain's existing norms for how things may change are the source material for DYNAMICS_ modules).
+
+WHY_GENERIC_SCHEMAS_FAIL:
+Generic orchestration and prompting frameworks fail at governed mutation not because they lack structure, but because they lack the domain's constitutional knowledge. OTTC provides the rectangle. Without ontology translation, it provides structure without substance. The domain expert is irreplaceable.
+
+PLURAL_LLM_HUMAN_GOVERNED_DISCOVERY_METHOD:
+This SOP and this corpus are designed to function as a machine-facing collaboration scaffold. When loaded into persistent LLM context, they allow LLMs to assist domain experts in:
+- proposing candidate canonical addresses for domain state surfaces
+- identifying gaps in lawful mutation coverage
+- drafting SCHEME_ and DYNAMICS_ modules for expert review
+- validating proposed architecture against rectangle invariants
+- simulating qualification assay scenarios before the expert commits architecture decisions
+
+AUTHORITY_RULE:
+The domain expert is the commit authority. LLMs are proposers.
+Model disagreements — between different LLMs, or between LLM proposals and expert judgment — are diagnostic signals. They reveal domain ambiguity, ontology gaps, or architectural choices that require explicit decision.
+Do not resolve disagreements by choosing the most fluent proposal. Resolve them by examining what the disagreement reveals about the domain's constitutional structure.
+
+HUMAN_CHECK:
+- If ontology is being copied from another domain without translation review, the square is not yet your domain's square.
+- If no domain expert with genuine field knowledge has reviewed the SCHEME_ and DYNAMICS_ modules, the ontology translation is incomplete.
+- LLM-proposed ontology that has not been reviewed and committed by a domain expert is a proposal, not an architecture.
+
+=== SECTION_BREAK ===
+
 === SECTION: STEP_04_DEFINE_THE_LAWS (WHAT_IS_ALLOWED_TO_CHANGE) ===
 
 [KEEP: Goal]
