@@ -39,6 +39,9 @@ OTTC defines what the agent is allowed to remember and mutate using canonical ad
 Governance benefit:
 - supports reviews, approvals, and limits on what can persist
 
+Critical requirement:
+The canonical addresses must be designed by subject matter experts, not IT alone. The state surfaces must reflect what actually has durable consequence in the organization's operations — which workflows generate governed state, what transitions require approval, who holds commit authority over what, what counts as evidence for a state change. If SMEs have not reviewed and committed the ontology, the governance architecture will enforce the wrong things. Governance theater — audits over state surfaces that do not correspond to what actually matters — is as dangerous as no governance.
+
 2) Change control via propose→commit
 Agent components may propose updates; only a single governed authority commits them.
 Governance benefit:

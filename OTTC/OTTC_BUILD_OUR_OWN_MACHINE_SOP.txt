@@ -237,8 +237,8 @@ WHAT_DOMAIN_ONTOLOGY_TRANSLATION_MEANS:
 WHY_GENERIC_SCHEMAS_FAIL:
 Generic orchestration and prompting frameworks fail at governed mutation not because they lack structure, but because they lack the domain's constitutional knowledge. OTTC provides the rectangle. Without ontology translation, it provides structure without substance. The domain expert is irreplaceable.
 
-PLURAL_LLM_HUMAN_GOVERNED_DISCOVERY_METHOD:
-This SOP and this corpus are designed to function as a machine-facing collaboration scaffold. When loaded into persistent LLM context, they allow LLMs to assist domain experts in:
+COLLABORATIVE_DISCOVERY_METHOD:
+This SOP and corpus function as a machine-facing collaboration scaffold. When loaded into persistent LLM context, they allow LLMs to assist domain experts in:
 - proposing candidate canonical addresses for domain state surfaces
 - identifying gaps in lawful mutation coverage
 - drafting SCHEME_ and DYNAMICS_ modules for expert review

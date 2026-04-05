@@ -84,6 +84,9 @@ Hypothesis: OTTC yields more stable evaluation targets (deltas, audits) than fre
 - inter-rater reliability on behavior correctness
 - automated invariant pass rates
 
+4) Ontology translation as governance precondition
+Observation: governance cannot operate over what has no address. The adequacy of an OTTC-governed deployment depends on prior domain-expert ontology translation. Research question: what failure modes arise when domain knowledge is insufficiently translated before governance architecture is built? Measurable by: rate of governance theater (audits over state surfaces that do not correspond to domain-consequential entities), mismatch between commit authority and domain authority structure, and post-deployment ontology revision rate.
+
 === SECTION_BREAK ===
 
 === SECTION: DOMAIN_ONTOLOGY_AND_RECTANGLE_SQUARE ===
@@ -150,7 +153,7 @@ But differs by treating governance, epistemics, and audit as a unified, shippabl
 
 [[LLM_INSTRUCTION]]: This section defines the conclusion of the paper.
 
-OTTC reframes long-horizon agent reliability as a constitutional conditioning problem with mechanized accountability. It offers a researchable interface between stochastic policies and governed state transitions, enabling reproducible evaluation via replayable deltas and audits.
+OTTC reframes long-horizon agent reliability as a constitutional conditioning problem with mechanized accountability. It offers a researchable interface between stochastic policies and governed state transitions, enabling reproducible evaluation via replayable deltas and audits. Because governance cannot operate over what has no address, ontology translation is a prerequisite rather than a downstream concern: the adequacy of any OTTC-governed deployment depends on prior domain-expert translation of the field's durable things, lawful transitions, and authority assignments into OTTC-legible form. Domain-expert constitutional discovery — the method and failure modes of that translation process — is itself an open research direction.
 
 === SECTION_BREAK ===
 

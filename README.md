@@ -118,7 +118,7 @@ These are the mandatory kernel invariants. Any compliant implementation must sat
 
 These nine axioms define the "rectangle." Any compliant implementation is a "square" — free to choose its own schemas, syntax, domains, and operations as long as these invariants hold.
 
-**OTTC is a rectangle. Domain implementations are squares.** ChaOS is one square — narrative character governance. Legal systems, clinical protocols, scientific research pipelines, enterprise change management, and other consequence-bearing domains could each become their own square. The precondition for each is ontology translation: the domain expert's vocabulary, state surfaces, evidentiary distinctions, and lawful transitions must be translated into OTTC-legible form before governed mutation can operate. Governance cannot regulate what it cannot address. Domain knowledge is therefore not decoration added on top of an OTTC architecture — it is the precondition of having a governable state surface at all.
+**OTTC is a rectangle. Domain implementations are squares.** ChaOS is one square — narrative character governance. Legal systems, clinical protocols, scientific research pipelines, enterprise change management, and other consequence-bearing domains could each become their own square. Each requires ontology translation: the domain expert's vocabulary, state surfaces, evidentiary distinctions, and lawful transitions rendered into OTTC-legible form. Canonical addresses cannot exist before someone has decided what is worth addressing; governance cannot regulate what has no address.
 
 ### Key Properties
 
@@ -293,7 +293,7 @@ Humans are welcome to read along; the protocol works for any long-horizon agent.
 
 By writing the documents in this native format, the LLMs themselves can actively assist human readers in properly understanding OTTC and building their own OTTC-compliant architectures.
 
-**The corpus is a machine-facing collaboration scaffold.** When loaded into persistent LLM context, it is designed to allow LLMs to help human domain experts understand OTTC, validate proposed square architectures against the rectangle invariants, propose canonical ontology surfaces, and identify gaps in lawful mutation coverage. The collaboration method is not incidental to the corpus — it is part of the contribution. Plural LLM proposals, human or domain-expert commit authority, disagreement as diagnostic signal, and constitutional discovery through disciplined collaboration are the same pattern the corpus describes. This is how the corpus was built and how it is designed to be used.
+The documents are machine-readable by design, and that design serves a purpose beyond documentation. When loaded into persistent LLM context, the corpus functions as a collaboration scaffold: it allows LLMs to help human domain experts understand OTTC, validate proposed square architectures against the rectangle invariants, propose canonical ontology surfaces, and identify gaps in lawful mutation coverage. The collaboration method is not incidental to the corpus — it is part of the contribution. Plural LLM proposals, human or domain-expert commit authority, disagreement as diagnostic signal, and constitutional discovery through disciplined collaboration are the same pattern the corpus describes. This is how the corpus was built and how it is designed to be used.
 
 ---
 
