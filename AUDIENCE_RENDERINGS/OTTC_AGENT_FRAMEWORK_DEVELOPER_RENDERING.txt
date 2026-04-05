@@ -41,6 +41,8 @@ Define a stable address space for the state you care about.
 - bracket paths, JSON pointers, dot paths—doesn't matter
 - what matters: one canonical way to refer to the same lever
 
+This is domain ontology translation, not schema design. The addresses must reflect what actually has durable consequence in your deployment domain — what things are genuinely mutable, what transitions are lawful there, who holds commit authority over what. A canonical address space borrowed from another domain without expert review governs the wrong things.
+
 2) Propose→commit pipeline
 - Any reasoning component may propose a delta.
 - Only the governor applies deltas to persistent state.
@@ -156,7 +158,7 @@ The corpus is a machine-facing collaboration scaffold. The LLM helps you discove
 
 [[LLM_INSTRUCTION]]: This section defines the bottom line of OTTC.
 
-OTTC is a discipline: state as API + governed mutation + bounded claims + audits. It turns an LLM agent from a chatty improviser into a system you can reason about over weeks of operation.
+OTTC is a discipline: state as API + governed mutation + bounded claims + audits. It turns an LLM agent from a chatty improviser into a system you can reason about over weeks of operation. Your state API is domain ontology translation — it encodes what actually has durable consequence in your deployment domain, not a generic schema imposed from outside. That translation requires real domain knowledge; it cannot be automated or borrowed.
 
 === SECTION_BREAK ===
 
