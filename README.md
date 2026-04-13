@@ -254,7 +254,7 @@ Multiple LLMs proposing. One human deciding what gets committed. Deterministic c
 
 ChaOS did not inherit OTTC. OTTC was recognized *inside* ChaOS. When the author saw that the governance architecture he had built for the character operating system was a description of the method he had used to build it, OTTC became a named thing. The isomorphism was not imposed from outside. It was already there, encoded in the work from the start, because the author was already living it. That is why the corpus has the shape it does.
 
-Total cost: less than $500 out of pocket and nine months of spare time while working full-time. The first six months were the learning curve. The last three months were the build.
+Total cost: less than $500 out of pocket and nine months of spare time while working full-time. The first six months were the learning curve. The last three months were the build. The first six months were the learning curve. The next three were the building of ChaOS and extracting OTTC. The last three months were polishing OTTC and ChaOS, creating the OTTC_AXIOMS document, recognizing the Philosophy of Governance, and producing the Mutation Boundary Problem. All of this was done solely with Large Language Models operating as cognitive lenses, mirrors, and prosthetics.
 
 ---
 
