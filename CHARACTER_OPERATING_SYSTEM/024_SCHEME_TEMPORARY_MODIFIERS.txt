@@ -10,7 +10,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 === SECTION: MODIFIER_RECORD_SCHEMA ===
 
 MODIFIER_ID: ID_TOKEN (MOD_XX)
-STATUS: ENUM [ACTIVE, REFRESHED, EXPIRED]
+STATUS: ENUM [ACTIVE]
 
 MODIFIER_TYPE: ENUM [
   PERFORMANCE_MODIFIER,
@@ -115,8 +115,7 @@ INTERPRETATION_RULE:
 
 ACTIVE_SURFACE_RULES:
 - Modifier records represent runtime-relevant transient overlays.
-- EXPIRED is a lawful lifecycle resolution state in schema terms.
-- EXPIRED is not a default long-term retained state-surface mode.
+- STATUS is `ACTIVE` for every modifier present on the surface; lifecycle resolution removes the modifier rather than transitioning it to a terminal state.
 - Expired or removed modifiers are ordinarily cleared from the active surface through governance-consistent lifecycle handling.
 - Historical lifecycle visibility belongs to governance audit and trace outputs, not to persistent growth of STATE_TEMPORARY_MODIFIERS.
 

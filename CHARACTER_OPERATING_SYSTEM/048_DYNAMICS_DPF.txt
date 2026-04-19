@@ -34,13 +34,13 @@ Forbidden operation references:
 ON_MINOR_CONTRADICTION:
 - Propose SET:
   TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
-  PROPOSED_VALUE: lower lawful integer within bounded range
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
   JUSTIFICATION: contradiction cue
 
 - If prediction-specific contradiction is identified:
   Propose SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
-    PROPOSED_VALUE: lower lawful integer within bounded range
+    PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
     JUSTIFICATION: prediction contradiction cue
 
 - If prediction certainty falls below falsification threshold with sufficient cue support:
@@ -60,8 +60,8 @@ ON_RESOLUTION_EVENT:
     JUSTIFICATION: resolution cue
 
 - Certainty reinforcement may be proposed via:
-  - SET to a higher lawful bounded integer for [STATE_DPF][PRD_XX][CERTAINTY]
-  - SET to a higher lawful bounded integer for [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+  - SET to an adjacent higher QUALITATIVE_INTENSITY band for [STATE_DPF][PRD_XX][CERTAINTY]
+  - SET to an adjacent higher QUALITATIVE_INTENSITY band for [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
 
 ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
 - Create prediction via SET pair pattern.
@@ -87,7 +87,7 @@ ON_DPF_CONTRAST_EVENT:
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- DPF certainty updates are integer-bounded SET operations unless a lawful ordinal ladder is explicitly defined elsewhere.
+- DPF certainty updates are bounded `QUALITATIVE_INTENSITY` band SET operations.
 - Prediction lifecycle transitions must resolve to explicit STATE enum endpoints.
 - Recalculation gating is volatile scratchpad coordination and does not itself constitute persistent DPF mutation.
 

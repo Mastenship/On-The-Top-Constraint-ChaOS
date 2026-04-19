@@ -27,8 +27,7 @@ Forbidden operation references:
 - SET registry append
 - SET full record payload
 
-[[LLM_INSTRUCTION]]: Integer-ranged fields use bounded SET updates unless a separate ordinal ladder is explicitly defined.
-[[LLM_INSTRUCTION]]: Relative TRANSITION directives are reserved for lawful ordinal domains.
+[[LLM_INSTRUCTION]]: SALIENCE is a `QUALITATIVE_INTENSITY` band; updates use bounded SET to an adjacent band.
 
 === SECTION_BREAK ===
 
@@ -66,7 +65,7 @@ ON_RETRIEVAL_WITH_NEW_CONTEXT:
 ON_TEMPORAL_DECAY_MAJOR:
 - Propose SET:
   TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
-  PROPOSED_VALUE: lower lawful bounded integer
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
   JUSTIFICATION: temporal decay cue
 
 - If salience falls below retention threshold and no protected linkage remains:
@@ -79,7 +78,7 @@ ON_TEMPORAL_DECAY_MAJOR:
 
 - Memory formation must use explicit registry-record SET pair semantics.
 - Reconsolidation is bounded and must not become unrestricted past rewrite.
-- Integer-ranged salience updates must use bounded SET operations rather than ordinal transition shorthand.
+- SALIENCE updates use bounded `QUALITATIVE_INTENSITY` band SET operations and respect the per-cycle one-band limit unless override proof applies.
 - Decay handling must preserve auditability and record coherence.
 - If memory retirement or archival behavior is later formalized, it should be expressed explicitly rather than implied through deletion shorthand.
 

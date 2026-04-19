@@ -134,7 +134,7 @@ NOTES:
 
 VERIFICATION:
 - COT_UPDATE_VERIFICATION confirms exactly one TRACE_ENTRY per priority slot per cycle.
-- Missing trace entry: READ_BOUNDARY_VIOLATION-class warning (COT_TRACE_MISSING).
+- Missing trace entry: WARN-class (COT_TRACE_MISSING).
 
 === SECTION_BREAK ===
 
