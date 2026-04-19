@@ -30,6 +30,35 @@ Allowed writes:
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT models subconscious associative output. It generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input contains an ambiguous, symbolic, or atmospheric cue without explicit referent.
+- A faded MEMORY record (SALIENCE = MINIMAL or LOW) shares a salient surface feature with a current cycle cue.
+- An entity, place, or object recurs that has prior unresolved associative loading.
+- A suppressed drive (band MODERATE or higher) lacks a conscious outlet in current narrative.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate vibe, symbolic mood, or intrusive impulses.
+- Do not propose subconscious-bias modifiers.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRING_DISCIPLINE ===
+
+[[LLM_INSTRUCTION]]: This COT is the most prone to spurious low-value output because UNJUSTIFIED_LEAP impulses are inherently low-bar. Apply additional restraint.
+
+DISCIPLINE_RULES:
+- A single ambient cue is not sufficient; the cue must combine with at least one of: faded memory match, recurrent entity, suppressed drive, or pre-existing associative loading.
+- IMPULSE_STRENGTH MUST NOT exceed LOW unless the cue carries explicit high-arousal context.
+- No more than one VIBE, one SYMBOLIC_MOOD, and one INTRUSIVE_IMPULSE per cycle.
+- Subconscious-bias modifier proposals respect EFFECT_FAMILY collision rules per DYNAMICS_TEMPORARY_MODIFIERS; this COT does not stack identical-family overlays within a cycle.
+
+=== SECTION_BREAK ===
+
 === SECTION: ASSOCIATIVE_BACKGROUND_SCAN ===
 
 [[LLM_INSTRUCTION]]: Scan for symbolic or subconscious resonance patterns.

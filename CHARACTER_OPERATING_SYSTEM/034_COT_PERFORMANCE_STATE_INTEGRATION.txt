@@ -33,6 +33,23 @@ Allowed strict operations only:
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input describes the character executing or attempting a SKL_XX skill.
+- Current STATE_BODY shows arousal outside the optimal band (ADRENALINE not BASELINE, or CORTISOL above ELEVATED).
+- Environmental pressure cue affects skill execution context.
+- A breakthrough or failure event with explicit MEM_XX linkage candidate is present.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate push_through/seek_optimal/conserve/quit impulses.
+- Do not propose performance-modifier overlays.
+
+=== SECTION_BREAK ===
+
 === SECTION: AROUSAL_MODULATION ===
 
 [[LLM_INSTRUCTION]]: Prefer temporary overlays for moment-to-moment execution effects.

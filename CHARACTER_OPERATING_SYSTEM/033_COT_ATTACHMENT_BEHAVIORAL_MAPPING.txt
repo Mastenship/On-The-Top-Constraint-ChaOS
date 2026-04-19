@@ -26,6 +26,23 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input introduces a social interaction with an entity present in STATE_RELATIONAL.
+- A relational record's AFFECTIVE_VALENCE or PERCEIVED_OTHER_VALENCE is updated this cycle by another COT, requiring attachment-pattern reinterpretation.
+- An attachment-relevant drive (INTIMACY, BELONGING, REJECTION_SENSITIVITY) is at MODERATE band or higher.
+- Active modifier targets an attachment EFFECT_FAMILY (ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION).
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate seek_intimacy/withdraw/test_loyalty/cling impulses.
+- Do not propose relational valence transitions.
+
+=== SECTION_BREAK ===
+
 === SECTION: ATTACHMENT_SCHEMA_APPLICATION ===
 
 [[LLM_INSTRUCTION]]: Apply style-conditioned bias.

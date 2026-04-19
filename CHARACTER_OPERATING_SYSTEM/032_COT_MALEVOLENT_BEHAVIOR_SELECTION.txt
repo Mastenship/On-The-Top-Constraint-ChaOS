@@ -30,6 +30,39 @@ Allowed writes:
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when both a trait gate and a cue gate are satisfied in the current cycle.
+
+TRAIT_GATE (at least one):
+- NARCISSISM at HIGH or VERY_HIGH percentile.
+- MACHIAVELLIANISM at HIGH or VERY_HIGH percentile.
+- PSYCHOPATHY at HIGH or VERY_HIGH percentile.
+
+CUE_GATE (at least one, paired with the above):
+- Narrative input presents a dominance, manipulation, exploitation, or thrill-seeking opportunity.
+- A relational target presents a vulnerability, dependency, or asymmetric-power cue.
+- A short-term gain cue with deception or concealment context.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate exploit/manipulate/dominate/mask impulses.
+- Do not propose deception-leakage-control overlays.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRING_DISCIPLINE ===
+
+[[LLM_INSTRUCTION]]: For characters whose Dark Triad percentiles are all AVERAGE or below, this COT is effectively dormant.
+
+DISCIPLINE_RULES:
+- If no trait reaches HIGH percentile, this COT MUST emit only the EMPTY_CYCLE_FORM trace entry every cycle.
+- Trait at HIGH percentile alone is insufficient; the cue gate above must also be satisfied per cycle.
+- Trait at VERY_HIGH percentile lowers the cue threshold but does not waive it; an explicit narrative cue MUST still be present.
+- IMPULSE_STRENGTH MUST be calibrated to cue strength, not trait strength alone.
+
+=== SECTION_BREAK ===
+
 === SECTION: TRAIT_GATING ===
 
 [[LLM_INSTRUCTION]]: Gate malevolent options by trait threshold and cue alignment, respecting DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE for dominant-trait selection.

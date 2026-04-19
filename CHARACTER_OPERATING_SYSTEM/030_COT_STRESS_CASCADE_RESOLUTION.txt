@@ -33,6 +33,23 @@ All proposals must use strict OPERATION_TYPE set.
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input describes a stressor matching one of STRESSOR_CLASSIFICATION categories (ACUTE_PHYSICAL_THREAT, ACUTE_SOCIAL_THREAT, CHRONIC_OVERLOAD, LOSS_OR_GRIEF, UNCERTAINTY_OR_AMBIGUITY, EXISTENTIAL).
+- Current STATE_BODY biochemical markers are above baseline (CORTISOL not BASELINE, ADRENALINE not BASELINE, NEUROCHEMICAL_BALANCE not BALANCED).
+- Active modifier targets a stress-related EFFECT_FAMILY (HYPERVIGILANCE, CHRONIC_LOAD_NUMBING).
+- A high-elevation MMPI scale (SIGNIFICANT or CLINICAL) interacts with a moderate cue per CROSS_SCHEME_TRAIT_PRECEDENCE.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate fight/flight/freeze/fawn/appease/withdraw impulses.
+- Do not propose biochemical transitions.
+
+=== SECTION_BREAK ===
+
 === SECTION: STRESSOR_DETECTION_AND_CLASSIFICATION ===
 
 [[LLM_INSTRUCTION]]: Detect and classify stressor from cues.

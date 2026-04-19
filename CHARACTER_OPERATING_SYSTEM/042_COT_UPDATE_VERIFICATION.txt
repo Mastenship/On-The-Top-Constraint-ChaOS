@@ -13,6 +13,7 @@ Is Informed By:
 - [COGNITIVE_SCRATCHPAD]
 - STATE_GOVERNANCE_AND_COMMIT outputs
 - STATE_GOVERNANCE_RUNTIME (read access permitted as GOVERNANCE band)
+- ATTENTION_ENGINEERING_PRINCIPLE
 - all relevant STATE_, SCHEME_, and DYNAMICS_ modules
 
 === SECTION_BREAK ===
@@ -105,6 +106,11 @@ FORBIDDEN_WRITES:
 - On the first non-instantiation cycle following an instantiation workflow: verify all required SCHEME baselines and STATE seeds are populated.
 - Skipped on subsequent cycles unless re-instantiation is invoked.
 
+16) FIRES_WHEN_DISCIPLINE
+- For each COT in priority 01 through 15 not exempt under ATTENTION_ENGINEERING_PRINCIPLE.FIRES_WHEN_DISCIPLINE.EXEMPTIONS:
+  - If the COT generated any impulse or any non-trace proposal this cycle, verify that at least one of its declared FIRES_WHEN ANCHOR_CUES is satisfied per the current cycle's narrative input, persistent state, and scratchpad contents.
+- Mismatch surfaces as COT_FIRED_WITHOUT_ANCHOR_CUE.
+
 CHECKLIST_REASON_CODE_MAP:
 - 01: AUDIT_CLOSURE_INCOMPLETE (FAIL)
 - 02: OPERATION_TYPE_INVALID (FAIL)
@@ -121,6 +127,7 @@ CHECKLIST_REASON_CODE_MAP:
 - 13: OUTPUT_INCONGRUENCE (WARN)
 - 14: MODIFIER_LIFECYCLE_VIOLATION (FAIL; specific sub-codes per DYNAMICS_TEMPORARY_MODIFIERS)
 - 15: INSTANTIATION_INCOMPLETE (FAIL)
+- 16: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
 
 === SECTION_BREAK ===
 

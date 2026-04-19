@@ -26,6 +26,23 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- At least one GOAL_XX is in STATUS = ACTIVE or BLOCKED.
+- A drive state is at MODERATE band or higher.
+- Narrative input introduces an opportunity, obstacle, or progress cue relevant to an active goal.
+- Two or more active goals are in detectable conflict.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate pursue/sequence/integrate/abandon/procrastinate impulses.
+- Do not propose new goal records.
+
+=== SECTION_BREAK ===
+
 === SECTION: DRIVE_AND_GOAL_PRIORITIZATION ===
 
 [[LLM_INSTRUCTION]]: Assess active drives and goals.

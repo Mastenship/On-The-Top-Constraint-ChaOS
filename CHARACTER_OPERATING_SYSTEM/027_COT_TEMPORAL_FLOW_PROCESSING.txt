@@ -24,6 +24,21 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input describes elapsed time, time-of-day shift, deadline, schedule disruption, or rest event.
+- Current STATE_TEMPORAL_DYNAMICS values place the cycle inside or near a peak window, energy dip window, or routine boundary.
+- Active modifier targets a temporal EFFECT_FAMILY (PEAK_ALERTNESS, FATIGUE_PENALTY, DISORIENTATION).
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate impulses or non-trace proposals.
+
+=== SECTION_BREAK ===
+
 === SECTION: CIRCADIAN_AND_FATIGUE_PROCESSING ===
 
 [[LLM_INSTRUCTION]]: Infer bounded temporal effects.

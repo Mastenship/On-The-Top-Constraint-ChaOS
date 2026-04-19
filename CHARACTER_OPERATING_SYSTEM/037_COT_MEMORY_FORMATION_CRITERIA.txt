@@ -24,6 +24,23 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input contains a high-emotional-arousal event, novelty event, or consequence event.
+- A salient state change occurred this cycle in STATE_BODY, STATE_ALTERATIONS, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, or STATE_DPF (resolution or falsification).
+- A flashbulb-class event is present per SCHEME_MEMORY thresholds.
+- An existing MEM_XX is undergoing reconsolidation pressure from new context.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate reflect/avoid/obsess/integrate impulses.
+- Do not propose new MEM_XX records.
+
+=== SECTION_BREAK ===
+
 === SECTION: SALIENCE_EVALUATION ===
 
 [[LLM_INSTRUCTION]]: Assess encoding potential from cue intensity, novelty, consequence, and emotional load. SALIENCE is a QUALITATIVE_INTENSITY band per SCHEME_MEMORY.
