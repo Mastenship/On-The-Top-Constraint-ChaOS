@@ -70,10 +70,27 @@ RATIONALE:
 
 === SECTION_BREAK ===
 
+=== SECTION: TERMINAL_BIOCHEMICAL_STATE_DEFINITION ===
+
+[[LLM_INSTRUCTION]]: Terminal biochemical states are defined as the top-band exhaustion or breakdown values on each biochemical ordinal.
+
+TERMINAL_BIOCHEMICAL_STATES:
+- CORTISOL: CRASH
+- ADRENALINE: DEPLETED
+- NEUROCHEMICAL_BALANCE: BREAKDOWN
+- METABOLIC_HEALTH: FAILING
+- ELECTROLYTE_BALANCE: CRITICAL
+
+INVARIANT_RULE:
+- IMMUNE_MARKERS = ROBUST is suppressed when TWO OR MORE of the five terminal biochemical states above are concurrently present.
+- Single terminal biochemical state does not by itself bar IMMUNE_MARKERS = ROBUST, but should be flagged in commit notes.
+
+=== SECTION_BREAK ===
+
 === SECTION: INVARIANTS ===
 
 - Ordinal fields obey one-step transition policy unless override proof is valid.
-- IMMUNE_MARKERS cannot be ROBUST when terminal biochemical states are present.
+- IMMUNE_MARKERS cannot be ROBUST when two or more TERMINAL_BIOCHEMICAL_STATES are concurrently present (see TERMINAL_BIOCHEMICAL_STATE_DEFINITION).
 - Physiological changes must respect governance caps and deterministic reconciliation.
 - Pain must be represented per PAIN_REPRESENTATION_CONVENTION; no ad-hoc pain field on STATE_BODY.
 
