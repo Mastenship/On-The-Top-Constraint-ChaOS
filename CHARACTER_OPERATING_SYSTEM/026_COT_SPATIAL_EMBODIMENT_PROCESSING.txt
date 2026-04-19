@@ -27,6 +27,21 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input describes a spatial relation, proximity event, environmental feature change, or scene geometry shift.
+- Active modifier on STATE_TEMPORARY_MODIFIERS targets a spatial or environmental EFFECT_FAMILY (HYPERVIGILANCE, RELAXATION_OPENNESS, COGNITIVE_OVERLOAD, ALLY_PROXIMITY_COMFORT) and requires re-evaluation against current geometry.
+- A relational record's CURRENT_CONCERN explicitly references proximity, confinement, or environmental threat.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not generate impulses or non-trace proposals.
+
+=== SECTION_BREAK ===
+
 === SECTION: SPATIAL_MODULATION_PROCESSING ===
 
 [[LLM_INSTRUCTION]]: Translate spatial cues into bounded proposals.

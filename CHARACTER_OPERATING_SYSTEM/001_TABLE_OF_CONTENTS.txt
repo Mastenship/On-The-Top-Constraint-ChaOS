@@ -16,6 +16,7 @@ Is Informed By: Nothing (constitutional anchor).
 CONSTITUTIONAL_LAYER:
 001_TABLE_OF_CONTENTS
 002_LLM_FORMATTING_GUIDELINES
+002A_ATTENTION_ENGINEERING_PRINCIPLE
 003_CANONICAL_TOKEN_DICTIONARY
 
 KERNEL_LAYER:
@@ -125,7 +126,7 @@ CROSS_CYCLE_GOVERNANCE_SIGNAL:
 
 === SECTION: VERSION_NOTE ===
 
-[[LLM_INSTRUCTION]]: This is the canonical TOC for the post-Phase-1 architecture. Total file count: 69. The previous TOC enumerated 66 files; the additions are 025_SCHEME_GOVERNANCE_RUNTIME, 055_DYNAMICS_GOVERNANCE_RUNTIME, and 068_STATE_GOVERNANCE_RUNTIME, all GOVERNANCE_INTERNAL.
+[[LLM_INSTRUCTION]]: This is the canonical TOC for the post-Phase-1 architecture. Total file count: 70. The previous TOC enumerated 69 files; the addition is 002A_ATTENTION_ENGINEERING_PRINCIPLE, GOVERNANCE_INTERNAL.
 
 === SECTION_BREAK ===
 
