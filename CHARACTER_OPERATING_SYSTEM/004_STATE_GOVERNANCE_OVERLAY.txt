@@ -36,7 +36,7 @@ CORE_RULES:
 - Override gates require structural proof per CANONICAL_TOKEN_DICTIONARY.STRUCTURAL_OVERRIDE_PROOF_FIELDS. Narrative justification text alone is insufficient.
 
 STEP_LIMITS_PER_CYCLE (default, cumulative across all COTs):
-- ORDINAL shifts: max 2 steps total
+- ORDINAL shifts: max 1 step per ordinal field per cycle (per-field limit; already the SCHEME/DYNAMICS default); max 2 cumulative ordinal steps system-wide across all fields per cycle (system-wide governor against multi-field churn). Override required for either limit breach.
 - BIOCHEMICAL endocrine: max 1 step per marker
 - AFFECTIVE_VALENCE / COGNITIVE_COMPLEXITY: max 1 step per ENT_XX
 - MEMORY creations: max 1 (override to 2 with FLASHBULB_BREAKTHROUGH and complete proof)
