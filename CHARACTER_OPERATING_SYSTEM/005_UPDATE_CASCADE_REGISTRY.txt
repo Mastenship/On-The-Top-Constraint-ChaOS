@@ -1,9 +1,9 @@
 === SECTION: UPDATE_CASCADE_REGISTRY ===
 
 [KEEP: Purpose & Role]
-This registry defines which COTs execute, in what order, and what they are responsible for proposing into:
-- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-It is the system-wide API spec for canonical bracket-path proposal targets.
+Defines which COTs execute, in what order, what they propose into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY], and the canonical proposal and impulse schemas. System-wide API spec for the proposal write surface.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
 [KEEP: Relationship to Other Modules]
 Informs: All COT templates and STATE_GOVERNANCE_AND_COMMIT tie-break behavior.
@@ -33,83 +33,129 @@ PRIORITY_15: COT_COMMUNICATION_PROCESSING
 PRIORITY_16: STATE_GOVERNANCE_AND_COMMIT
 PRIORITY_17: COT_UPDATE_VERIFICATION
 
+CHARACTER_COGNITION_BAND: PRIORITY_01 through PRIORITY_15
+GOVERNANCE_BAND: PRIORITY_16 through PRIORITY_17
+
 === SECTION_BREAK ===
 
 === SECTION: SPECIAL_CASE_EXECUTION ===
 
 COT_CHARACTER_INSTANTIATION_PROCESS:
-- This COT is outside ordinary cycle execution order.
-- It is invoked only during first-time character seeding or explicit instantiation workflow.
-- It does not participate in normal runtime tie-break precedence unless the system is in instantiation mode.
+- Outside ordinary cycle execution order.
+- Invoked only during first-time character seeding or explicit instantiation workflow.
+- Does not participate in normal runtime tie-break precedence unless the system is in instantiation mode.
 
 === SECTION_BREAK ===
 
 === SECTION: SYSTEM_WIDE_WRITE_POLICY ===
 
-[[LLM_INSTRUCTION]]: All COTs must follow this policy.
+[[LLM_INSTRUCTION]]: All COTs follow this policy.
 
 POLICY:
 - COTs do not write directly into persistent STATE_ modules.
 - COTs write intended persistent changes only as proposals into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
 - COTs may write impulses into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY] when their template permits.
 - COTs append trace entries to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
-- STATE_GOVERNANCE_AND_COMMIT is the only writer to persistent STATE_* and STATE_TEMPORARY_MODIFIERS.
-- All proposals MUST use canonical bracket paths with canonical module roots from CANONICAL_TOKEN_DICTIONARY.
-- Legacy roots and alias translations are forbidden.
+- STATE_GOVERNANCE_AND_COMMIT is the only writer to persistent STATE_*, STATE_TEMPORARY_MODIFIERS, and STATE_GOVERNANCE_RUNTIME.
+- All proposals MUST use canonical bracket paths with canonical module roots.
+- Character-cognition COTs MUST NOT read GOVERNANCE_INTERNAL modules. Read-boundary violations are raised by COT_UPDATE_VERIFICATION as READ_BOUNDARY_VIOLATION.
 
 === SECTION_BREAK ===
 
-=== SECTION: PROPOSAL_WRITING_TEMPLATE ===
+=== SECTION: PROPOSAL_ENTRY_SCHEMA ===
 
-[[LLM_INSTRUCTION]]: Every proposal entry must use this schema.
+[[LLM_INSTRUCTION]]: Every proposal entry uses this schema.
 
-PROPOSAL_ENTRY_SCHEMA:
-PROPOSAL_ID:
-SOURCE_COT:
-TARGET_MODULE:
-TARGET_FIELD:
-OPERATION_TYPE: [SET | TRANSITION | ADD_MODIFIER | REMOVE_MODIFIER | CAP | VETO]
-PROPOSED_VALUE:
-STRENGTH: [0-100]
-MECHANISM_TAG:
-EPISTEMIC_TAG: [PERCEPTION | INFERENCE | SPECULATION | COMMITTED_FACT | TOOL_REQUEST]
-JUSTIFICATION:
-NOTES: [Optional]
+REQUIRED_FIELDS:
+- PROPOSAL_ID: PUP_<unique>
+- SOURCE_COT: canonical COT name
+- TARGET_MODULE: canonical module root
+- TARGET_FIELD: canonical bracket-path
+- OPERATION_TYPE: SET | TRANSITION | ADD_MODIFIER | REMOVE_MODIFIER | CAP | VETO
+- PROPOSED_VALUE
+- STRENGTH: QUALITATIVE_INTENSITY band
+- MECHANISM_TAG
+- EPISTEMIC_TAG: PERCEPTION | INFERENCE | SPECULATION | COMMITTED_FACT | TOOL_REQUEST
+- JUSTIFICATION_CATEGORY: DIRECT_APPLICATION | INFERENTIAL_LEAP | UNJUSTIFIED_LEAP | GOAL_DIRECTED | TRAIT_GATED
+- JUSTIFICATION
 
-[[LLM_INSTRUCTION]]: JUSTIFICATION and NOTES fields are subject to translation-before-commit normalization. Write-surface fields remain untouched.
+CONDITIONALLY_REQUIRED_FIELDS:
+- EVIDENCE_REF: required when EPISTEMIC_TAG = COMMITTED_FACT
+- INVOKED_RULE_NAME: required when proposal triggers an override gate (multi-step, cap-breaching, baseline-rewrite-on-immutable-domain)
+- NARRATIVE_CUE_REFERENCE: required when INVOKED_RULE_NAME is present
+- SCHEME_INVARIANT_NOTE: required when INVOKED_RULE_NAME is present
+
+OPTIONAL_FIELDS:
+- NOTES
+
+[[LLM_INSTRUCTION]]: JUSTIFICATION, NOTES, NARRATIVE_CUE_REFERENCE, and SCHEME_INVARIANT_NOTE are subject to translation-before-commit normalization. All other fields are write-surface tokens and remain untouched.
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_ENTRY_SCHEMA ===
+
+[[LLM_INSTRUCTION]]: Every impulse entry uses this schema.
+
+REQUIRED_FIELDS:
+- IMPULSE_ID
+- IMPULSE_SOURCE: canonical SOURCE_COT
+- IMPULSE_TYPE: COT-specific canonical enum value
+- IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+- TARGET_ID: canonical ID token or NONE
+- JUSTIFICATION
+- JUSTIFICATION_CATEGORY: DIRECT_APPLICATION | INFERENTIAL_LEAP | UNJUSTIFIED_LEAP | GOAL_DIRECTED | TRAIT_GATED
 
 === SECTION_BREAK ===
 
 === SECTION: STRICT_OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Enforce strict operation vocabulary.
-
-FORBIDDEN_OPS:
-- CREATE_NEW_RECORD
-- UPDATE
-- DECREMENT
-- INCREMENT
+[[LLM_INSTRUCTION]]: Enforce strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY.
 
 NORMALIZATION_GUIDANCE_FOR_COT_AUTHORS:
-- Record creation => SET on registry + SET on record block
-- Decrement/increment ordinal => TRANSITION with ONE_STEP_DOWN / ONE_STEP_UP
-- Generic update => SET
+- Record creation: SET on registry + SET on record block (paired proposals)
+- Decrement/increment ordinal: TRANSITION with ONE_STEP_DOWN / ONE_STEP_UP
+- Generic update: SET
+
+=== SECTION_BREAK ===
+
+=== SECTION: NO_TRIGGER_BEHAVIOR_POLICY ===
+
+[[LLM_INSTRUCTION]]: Every COT in PRIORITY_01 through PRIORITY_15 appends exactly one TRACE_ENTRY per cycle, even when no triggers fire.
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: <canonical COT name>
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- [Brief one-line context observation or NONE]
+
+VERIFICATION:
+- COT_UPDATE_VERIFICATION confirms exactly one TRACE_ENTRY per priority slot per cycle.
+- Missing trace entry: READ_BOUNDARY_VIOLATION-class warning (COT_TRACE_MISSING).
 
 === SECTION_BREAK ===
 
 === SECTION: UPDATE_VERIFICATION_CHECKLIST ===
 
-[[LLM_INSTRUCTION]]: After STATE_GOVERNANCE_AND_COMMIT, verify:
+[[LLM_INSTRUCTION]]: After STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION verifies:
 - All proposals are COMMITTED, SUPPRESSED, DOWNGRADED, or VETOED with audit entries.
 - Every PROPOSAL_ID appears in FINAL_ACTION_LOG with exactly one final action.
 - No invalid OPERATION_TYPE values exist.
 - No legacy roots appear in proposals, commits, audits, or traces.
 - BODY endocrine transitions obey step limits and invariants.
-- SKILLS permanent changes only occur with MECHANISM_TAG SKILL_STATE_CHANGE and valid justification.
+- SKILLS permanent changes only occur with MECHANISM_TAG SKILL_STATE_CHANGE and complete override proof.
 - MEMORY creations obey per-cycle limit and include canonical SYSTEM_LINKAGE.
 - TEMPORARY_MODIFIERS payloads are schema-valid and caps are enforced.
+- DPF active prediction count does not exceed MAX_ACTIVE_PREDICTIONS.
 - No orphaned commits exist (every commit has proposal source).
-- EPISTEMIC_TAG_VALID_AND_CONSISTENT_WITH_LINKAGE_AND_ROLE.
+- EPISTEMIC_TAG valid and consistent with linkage and JUSTIFICATION_CATEGORY mapping.
+- COMMITTED_FACT proposals carry resolvable EVIDENCE_REF.
+- Override-gate proposals carry complete structural override proof.
+- No CASCADE_TRACE entry shows a character-cognition COT reading a GOVERNANCE_INTERNAL module.
+- Exactly one TRACE_ENTRY per priority slot per cycle.
 
 === SECTION_BREAK ===
 

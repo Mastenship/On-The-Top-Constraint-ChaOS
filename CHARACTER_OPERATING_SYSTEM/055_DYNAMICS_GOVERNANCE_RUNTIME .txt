@@ -1,0 +1,109 @@
+=== SECTION: DYNAMICS_GOVERNANCE_RUNTIME ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for governance runtime state transitions: how quarantine engages and clears, how reason codes accumulate and evict, how verification results overwrite, and how lift-hook status remains stable on the current substrate.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
+Allowed operation references:
+- SET
+- TRANSITION (not used; this module has no ordinal ladders)
+- ADD_MODIFIER (not used; this module has no overlays)
+- REMOVE_MODIFIER (not used)
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: All governance runtime updates use SET. Cap behavior on QUARANTINE_REASON_CODES is enforced as part of the SET operation itself.
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERIFICATION_RESULT_HANDLING ===
+
+ON_VERIFICATION_COMPLETE:
+- Propose SET:
+  TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT]
+  PROPOSED_VALUE: PASS | WARN | FAIL
+  JUSTIFICATION: verification outcome
+- Propose SET:
+  TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID]
+  PROPOSED_VALUE: current commit cycle id
+  JUSTIFICATION: cycle close
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUARANTINE_ENGAGEMENT ===
+
+ON_VIOLATION_CLASS_OUTCOME:
+- If REMEDIATION_POLICY for the violation is QUARANTINE_NEXT_CYCLE:
+  - Propose SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE]
+    PROPOSED_VALUE: TRUE
+    JUSTIFICATION: quarantine engaged on VIOLATION-class outcome
+  - Propose SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID]
+    PROPOSED_VALUE: current commit cycle id
+    JUSTIFICATION: quarantine engagement timestamp
+  - Propose SET (cap-aware) on:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
+    PROPOSED_VALUE: append violation reason code; FIFO-evict oldest on overflow at cap 5
+    JUSTIFICATION: violation reason capture
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUARANTINE_CLEAR ===
+
+ON_VERIFICATION_PASS_CLEAN:
+- If [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] is TRUE and LAST_VERIFICATION_RESULT is PASS:
+  - Propose SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE]
+    PROPOSED_VALUE: FALSE
+    JUSTIFICATION: verification passed clean
+  - Propose SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID]
+    PROPOSED_VALUE: NONE
+    JUSTIFICATION: quarantine cleared
+  - Propose SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
+    PROPOSED_VALUE: empty list
+    JUSTIFICATION: quarantine cleared
+
+ON_GOVERNANCE_CORRECTIVE_RESOLUTION:
+- If a GOVERNANCE_CORRECTIVE proposal in the current cycle structurally resolves the root cause of the active quarantine:
+  - Same three SET proposals as ON_VERIFICATION_PASS_CLEAN, with JUSTIFICATION: governance-corrective root cause resolved.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LIFT_HOOK_STATUS_HANDLING ===
+
+ON_NORMAL_CYCLE:
+- LIFT_HOOK_STATUS remains stable.
+- No proposal modifies this field through ordinary runtime behavior.
+
+ON_LIFT_EVENT:
+- RESERVED. Per RUNNABLE_BUT_LIFTABLE_RESERVATIONS, lift-hook transitions on the current substrate are suppressed with ROLLBACK_NOT_ACTIVE.
+- When external governance becomes available, lift activation removes the suppression and a SET to EXTERNAL_GOVERNANCE_ACTIVE becomes lawful.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- All transitions are SET-only; no ordinal ladders exist in this domain.
+- QUARANTINE_REASON_CODES cap enforcement is intrinsic to the SET operation rather than a separate CAP proposal.
+- This module never reads from CHARACTER_VISIBLE state. It reads only from prior STATE_GOVERNANCE_RUNTIME values and from the current commit and verification outcomes.
+- This module never produces character-visible effects.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

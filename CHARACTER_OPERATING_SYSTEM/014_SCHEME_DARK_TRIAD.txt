@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable definition of Dark Triad traits. Percentiles set at instantiation; inform malevolent impulse gating and manipulative strategy bias.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: CORE_TRAIT_MARKERS ===

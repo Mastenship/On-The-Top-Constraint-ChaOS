@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable definition of core personality traits using HEXACO model. Percentiles are set at instantiation and consulted for bias, weighting, and interpretive filtering rather than ordinary runtime mutation.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: CORE_TRAIT_MARKERS ===

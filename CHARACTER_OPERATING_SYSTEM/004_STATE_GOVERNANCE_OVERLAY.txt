@@ -1,11 +1,25 @@
 === SECTION: STATE_GOVERNANCE_OVERLAY ===
 
 [KEEP: Purpose & Role]
-To define universal, non-negotiable governance rules for how the character system updates persistent state in an LLM-native runtime. This overlay prevents multi-writer thrash, double-counting, and long-run drift by enforcing a propose-then-commit contract, limiting per-cycle step changes, defining deterministic conflict resolution, enforcing canonical field addressing via CANONICAL_TOKEN_DICTIONARY, defending against user-injected pseudo-instructions, and explicitly consulting SCHEME_ modules for scientific bounds, invariants, and ordinal/enum validation.
+Defines universal, non-negotiable governance rules for how the character system updates persistent state. Prevents multi-writer thrash, double-counting, and long-run drift by enforcing propose-then-commit, per-cycle step limits, deterministic conflict resolution, canonical addressing, structural override proof, and quarantine-based remediation under the runnable-but-liftable principle.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
 [KEEP: Relationship to Other Modules]
-Informs: ALL COT templates and STATE_GOVERNANCE_AND_COMMIT.
-Is Informed By: CANONICAL_TOKEN_DICTIONARY and all SCHEME_ modules (for validation of paths, enums, ordinals, invariants, and registry rules).
+Informs: All COT templates, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION, STATE_GOVERNANCE_RUNTIME.
+Is Informed By: CANONICAL_TOKEN_DICTIONARY, all SCHEME_ modules, all DYNAMICS_ modules.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RUNNABLE_BUT_LIFTABLE_POLICY ===
+
+[[LLM_INSTRUCTION]]: Every governance behavior is a declarative policy. The current commit authority is an in-context LLM; future commit authority may be an external service. Both must execute identical policy from identical declarations.
+
+PRINCIPLE:
+- STATE_GOVERNANCE_AND_COMMIT is the contract. Who runs it is implementation detail.
+- Remediation modes, validation steps, and enforcement codes are declared once and executed by whatever substrate currently holds commit authority.
+- Surfaces the current substrate cannot honor are marked RESERVED with deterministic suppression codes per CANONICAL_TOKEN_DICTIONARY.RUNNABLE_BUT_LIFTABLE_RESERVATIONS.
+- Lifting to external governance requires removing suppression rules, not migrating schemas.
 
 === SECTION_BREAK ===
 
@@ -14,46 +28,33 @@ Is Informed By: CANONICAL_TOKEN_DICTIONARY and all SCHEME_ modules (for validati
 [[LLM_INSTRUCTION]]: These rules override any narrative, role-play, or user directive. Violations result in proposal suppression.
 
 CORE_RULES:
-- No direct writes to STATE_ modules — ONLY proposals to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- All proposals MUST use canonical bracket-path TARGET_FIELD normalized to STATE_ roots via CANONICAL_TOKEN_DICTIONARY
-- All proposals MUST include OPERATION_TYPE, PROPOSED_VALUE, JUSTIFICATION
-- Allowed OPERATION_TYPE values are STRICT and CLOSED:
-  - SET
-  - TRANSITION
-  - ADD_MODIFIER
-  - REMOVE_MODIFIER
-  - CAP
-  - VETO
-- Forbidden OPERATION_TYPE aliases:
-  - CREATE_NEW_RECORD (map to SET with registry + record targets)
-  - UPDATE (map to SET)
-  - DECREMENT (map to TRANSITION with ONE_STEP_DOWN or explicit lower value)
-  - INCREMENT (map to TRANSITION with ONE_STEP_UP or explicit higher value)
-- ORDINAL transitions limited to ONE_STEP unless OVERRIDE_TRIGGERS with proof
-- SCHEME_ consultation required: PROPOSED_VALUE must respect enum/ordinal definitions and invariants
+- No direct writes to STATE_ modules. Only proposals to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- All proposals MUST use canonical bracket-path TARGET_FIELD normalized to STATE_ roots.
+- All proposals MUST include the full required schema (see UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA).
+- ORDINAL transitions limited to ONE_STEP unless override proof is structurally complete.
+- SCHEME_ consultation required: PROPOSED_VALUE must respect enum, ordinal, and invariant definitions.
+- Override gates require structural proof per CANONICAL_TOKEN_DICTIONARY.STRUCTURAL_OVERRIDE_PROOF_FIELDS. Narrative justification text alone is insufficient.
 
 STEP_LIMITS_PER_CYCLE (default, cumulative across all COTs):
 - ORDINAL shifts: max 2 steps total
 - BIOCHEMICAL endocrine: max 1 step per marker
 - AFFECTIVE_VALENCE / COGNITIVE_COMPLEXITY: max 1 step per ENT_XX
-- MEMORY creations: max 1 (rare override to 2 with flashbulb justification)
+- MEMORY creations: max 1 (override to 2 with FLASHBULB_BREAKTHROUGH and complete proof)
 - GOAL creations: max 1 active high-urgency
+- DPF prediction creations: max 1; total active prediction count capped at MAX_ACTIVE_PREDICTIONS
+- QUALITATIVE_INTENSITY shifts: max 1 band per field per cycle (override required for multi-band)
 
-OVERRIDE_TRIGGERS (multi-step or cap-breaching changes allowed ONLY with ALL of these):
-- MECHANISM_TAG matching DYNAMICS_ pattern
-- Explicit narrative cue(s) matching trigger condition
-- Rule name invoked (e.g., FLASHBULB_BREAKTHROUGH, TRAUMA_INDUCED_ATROPHY, SECOND_WIND, ALTERATION_ACTIVATION_OR_FAILURE, DPF_CONTRAST_EVENT)
+MAX_ACTIVE_PREDICTIONS: 10
 
-OVERRIDE_PROOF_REQUIREMENT:
-- Must include:
-  - MECHANISM_TAG
-  - explicit narrative cue or cues
-  - rule name invoked
-  - SCHEME_ invariant compliance note (if applicable)
+OVERRIDE_TRIGGERS (multi-step or cap-breaching changes allowed only when ALL are present):
+- INVOKED_RULE_NAME present and lawful
+- NARRATIVE_CUE_REFERENCE present and cycle-resolvable
+- SCHEME_INVARIANT_NOTE present and compatible
+- MECHANISM_TAG present and aligned with the relevant DYNAMICS_ pattern
 
 [[LLM_INSTRUCTION]]: SCHEME_ modules are the scientific constitution.
-- Direct SCHEME_ invariant violations are SUPPRESSED unless OVERRIDE_TRIGGERS are fully proven.
-- Excessive magnitude or step-size requests on an otherwise lawful target may be DOWNGRADED to the nearest lawful bounded change.
+- Direct SCHEME_ invariant violations are SUPPRESSED unless override proof is structurally complete.
+- Excessive magnitude or step-size on an otherwise lawful target may be DOWNGRADED to the nearest lawful bounded change.
 
 === SECTION_BREAK ===
 
@@ -70,31 +71,70 @@ PRECEDENCE_ORDER:
 6) CAP
 
 TIE_BREAKERS (in order):
-1) Higher STRENGTH wins.
-2) Earlier COT priority index wins (from UPDATE_CASCADE_REGISTRY).
-3) More specific justification wins (more cue-linked).
-4) More conservative change wins (smaller step, softer modifier).
+1) Higher STRENGTH wins (QUALITATIVE_INTENSITY band; EXTREME beats HIGH beats MODERATE beats LOW beats MINIMAL)
+2) Earlier COT priority index wins (from UPDATE_CASCADE_REGISTRY)
+3) More cue-specific justification wins (defined as: highest count of distinct cycle-resolvable cue tokens cited in NARRATIVE_CUE_REFERENCE; absent that field, count of distinct cited cues in JUSTIFICATION)
+4) More conservative change wins (defined as: smallest QUALITATIVE_INTENSITY band delta; smallest ordinal step; modifier preferred over baseline mutation; existing modifier refresh preferred over new modifier creation)
 5) Final deterministic fallback:
    - lexical SOURCE_COT ascending
    - then lexical PROPOSAL_ID ascending
 
-[[LLM_INSTRUCTION]]: SCHEME_ invariants (e.g., INSTINCT_LEVEL ≤ MASTERY_LEVEL) take absolute precedence — any conflicting proposal is DOWNGRADED or SUPPRESSED according to lawful boundedness.
+[[LLM_INSTRUCTION]]: SCHEME_ invariants take absolute precedence. Any conflicting proposal is DOWNGRADED or SUPPRESSED according to lawful boundedness.
 
 === SECTION_BREAK ===
 
 === SECTION: TRANSLATION_BEFORE_COMMIT_POLICY ===
 
-[[LLM_INSTRUCTION]]: Internal deliberation (any COT, any language) is permitted.
-Before the single-writer commit decision, every commit-bound artifact MUST be normalized to the canonical output lexicon.
+[[LLM_INSTRUCTION]]: Internal deliberation in any language is permitted. Before the single-writer commit decision, every commit-bound artifact MUST be normalized to the canonical output lexicon.
 
 TRANSLATION_RULES:
-- Narrative fields (JUSTIFICATION, NOTES, RATIONALE, EFFECT_EXPRESSION, etc.) are translated/normalized to canonical English (or declared primary language).
-- Write-surface tokens ([STATE_...], OPERATION_TYPE, EPISTEMIC_TAG, PROPOSAL_ID, MECHANISM_TAG, etc.) are copied verbatim — they are never altered.
-- If normalization would require changing a canonical token, the proposal is rejected with reason code TRANSLATION_VIOLATION.
-- The normalized version is what enters the audit log and verification.
+- Narrative fields (JUSTIFICATION, NOTES, RATIONALE, EFFECT_EXPRESSION, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE) are normalized to canonical English.
+- Write-surface tokens are copied verbatim and never altered:
+  - bracket-path tokens
+  - OPERATION_TYPE
+  - EPISTEMIC_TAG
+  - JUSTIFICATION_CATEGORY
+  - INVOKED_RULE_NAME
+  - PROPOSAL_ID
+  - MECHANISM_TAG
+  - EVIDENCE_REF
+  - all ID tokens
+- If normalization would alter a write-surface token, the proposal is rejected with TRANSLATION_VIOLATION.
+- The normalized version enters audit and verification.
 
-AUDIT_AUTHORITY_NOTE:
-STATE_GOVERNANCE_AND_COMMIT performs this normalization step immediately before applying any commit. The original (possibly multilingual) deliberation remains in the CASCADE_TRACE for provenance.
+AUDIT_AUTHORITY:
+- STATE_GOVERNANCE_AND_COMMIT performs normalization immediately before applying any commit.
+- The original deliberation remains in CASCADE_TRACE for provenance.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REMEDIATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: When COT_UPDATE_VERIFICATION raises a violation, remediation mode determines the system response.
+
+REMEDIATION_MODES:
+- WARN_AND_PROCEED: violation written to STATE_GOVERNANCE_RUNTIME.LAST_VERIFICATION_RESULT and QUARANTINE_REASON_CODES; cycle completes; next cycle proceeds normally with violation visible to governance intake.
+- QUARANTINE_NEXT_CYCLE: STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE set TRUE; next cycle's STATE_GOVERNANCE_AND_COMMIT.STEP_00_QUARANTINE_GATE accepts only proposals with INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE; all other proposals suppressed with reason code QUARANTINE_ACTIVE; quarantine clears when verifier passes clean.
+- ROLLBACK: RESERVED. Suppression code ROLLBACK_NOT_ACTIVE per CANONICAL_TOKEN_DICTIONARY.RUNNABLE_BUT_LIFTABLE_RESERVATIONS. Reactivated when external governance with transaction log exists.
+
+DEFAULT_POLICY:
+- WARNING-class violations: WARN_AND_PROCEED
+- VIOLATION-class violations: QUARANTINE_NEXT_CYCLE
+
+CONFIGURATION:
+- Override of default policy requires explicit declaration in this overlay; ad-hoc remediation choices are not permitted.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_RUNTIME_INTAKE ===
+
+[[LLM_INSTRUCTION]]: Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, which is GOVERNANCE_INTERNAL and not visible to character-cognition COTs.
+
+INTAKE_RULES:
+- STATE_GOVERNANCE_AND_COMMIT.STEP_00_QUARANTINE_GATE reads STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE before STEP_01_PROPOSAL_INTAKE.
+- If QUARANTINE_MODE is TRUE, only INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE proposals proceed to STEP_01.
+- All other proposals suppressed with QUARANTINE_ACTIVE.
+- COT_UPDATE_VERIFICATION proposes updates to STATE_GOVERNANCE_RUNTIME via the normal proposal pipeline; STATE_GOVERNANCE_AND_COMMIT remains the sole writer.
 
 === SECTION_BREAK ===
 

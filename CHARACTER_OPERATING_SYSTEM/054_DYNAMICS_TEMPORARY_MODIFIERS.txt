@@ -1,0 +1,155 @@
+=== SECTION: DYNAMICS_TEMPORARY_MODIFIERS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for modifier refresh, collision handling, stacking behavior, expiry transitions, and lawful removal. Treats STATE_TEMPORARY_MODIFIERS as a bounded active-overlay surface rather than a historical archive.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACTIVE_SURFACE_MODEL ===
+
+[[LLM_INSTRUCTION]]: STATE_TEMPORARY_MODIFIERS contains only currently active runtime-relevant modifiers.
+
+ACTIVE_SURFACE_RULES:
+- Temporary modifiers are transient overlays, not historical records.
+- Expired or removed modifiers do not remain on the active state surface by default.
+- Modifier history and lifecycle closure belong in governance audit and trace outputs, not in persistent modifier retention.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MATCH_KEY_TUPLE ===
+
+[[LLM_INSTRUCTION]]: Material sameness between an incoming modifier proposal and an existing active modifier is determined by the MATCH_KEY_TUPLE. Two modifiers are materially the same if and only if all tuple components match exactly.
+
+MATCH_KEY_TUPLE_COMPONENTS:
+- MODIFIER_TYPE
+- MECHANISM_TAG
+- TARGET_FIELD
+- TARGET_ID (NONE compares as NONE)
+- EFFECT_FAMILY (canonical descriptor derived from EFFECT_EXPRESSION; see EFFECT_FAMILY_RESOLUTION below)
+
+EFFECT_FAMILY_RESOLUTION:
+- EFFECT_FAMILY is a canonical short token summarizing the effect's semantic intent (examples: HYPERVIGILANCE, FATIGUE_PENALTY, FLOW_ENHANCEMENT, MASKING_LOAD, DECEPTION_LEAKAGE_CONTROL, ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION, DISORIENTATION).
+- The proposing COT supplies EFFECT_FAMILY explicitly when issuing ADD_MODIFIER.
+- Two proposals citing differently-worded EFFECT_EXPRESSION but the same EFFECT_FAMILY are materially the same.
+- Two proposals citing the same EFFECT_EXPRESSION but different EFFECT_FAMILY are materially different.
+
+MATERIAL_SAMENESS_OUTCOME:
+- All tuple components match: candidate is materially same; refresh-or-replace pathway applies.
+- Any tuple component differs: candidate is materially different; coexistence pathway applies.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REFRESH_AND_COLLISION ===
+
+DETERMINISTIC_RESOLUTION_ORDER:
+1) Search active modifiers for a MATCH_KEY_TUPLE collision candidate.
+2) If no collision candidate exists:
+   - CREATE_NEW is lawful if coexistence is permitted on the same target.
+3) If a materially same active modifier exists:
+   - if STACKING_RULE = REPLACE: REPLACE_EXISTING in place using the same MOD_XX
+   - otherwise: REFRESH_EXISTING in place using the same MOD_XX
+4) If a materially different modifier exists on the same TARGET_FIELD/TARGET_ID:
+   - CREATE_NEW only if coexistence is lawful and bounded
+   - otherwise SUPPRESS
+
+IN_PLACE_RULE:
+- REFRESH_EXISTING and REPLACE_EXISTING do not create a new MOD_XX.
+- Registry remains unchanged for in-place refresh or replacement.
+- LAST_REFRESHED is updated; CREATED_TIMESTAMP is preserved.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STACKING_AND_CAP_BEHAVIOR ===
+
+STACKING_RULE_INTERPRETATION:
+- STACK: bounded concurrent overlays when materially different
+- REPLACE: newer materially same payload supersedes existing in place
+- CAP: accumulation allowed only up to a bounded qualitative ceiling
+- MULTIPLY: rare; requires explicit bounded justification
+
+[[LLM_INSTRUCTION]]: Multiple modifiers must not combine into covert baseline rewrite.
+
+COEXISTENCE_RULE:
+- Concurrent modifiers are lawful only when materially different per MATCH_KEY_TUPLE, target-compatible, and within governance caps.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXPIRY_TRANSITIONS ===
+
+ON_EXPIRY_CONDITION_MET:
+- Propose REMOVE_MODIFIER for the active modifier record.
+- Justification: expiry condition satisfied.
+
+ON_SCENE_CLOSURE:
+- SCENE-duration modifiers should be removed from the active surface unless refreshed.
+
+ON_UNTIL_CONDITION_RESOLUTION:
+- UNTIL_CONDITION modifiers should be removed when the named condition no longer applies.
+
+ON_FIXED_CYCLE_LAPSE:
+- FIXED_CYCLES modifiers should be removed when the cycle bound is exhausted.
+
+EXPIRY_RESULT:
+- Expiry ends lawful active influence.
+- Expiry does not require persistent retention inside STATE_TEMPORARY_MODIFIERS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REMOVE_MODIFIER_BEHAVIOR ===
+
+ON_REMOVE_MODIFIER_PROPOSAL:
+- Remove the targeted modifier from the active state surface.
+- Update registry-record coherence deterministically.
+- Preserve lifecycle closure through governance audit and trace outputs.
+
+REMOVE_RESULT:
+- modifier record no longer remains in STATE_TEMPORARY_MODIFIERS
+- corresponding MOD_XX no longer remains in MODIFIER_REGISTRY
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERIFICATION_HANDOFF ===
+
+[[LLM_INSTRUCTION]]: COT_UPDATE_VERIFICATION item 14 (MODIFIER_LIFECYCLE_VALIDATION) inspects outcomes of this module's resolution behavior.
+
+VIOLATION_SUB_CODES_EMITTED_FOR_VERIFIER:
+- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS
+- MODIFIER_COEXISTENCE_UNLAWFUL
+- MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE
+- MODIFIER_REMOVE_REGISTRY_INCOHERENCE
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Temporary modifiers are the preferred sink for short-horizon situational effects.
+- STATE_TEMPORARY_MODIFIERS is a bounded active-overlay surface, not a historical archive.
+- Material sameness is determined exclusively by MATCH_KEY_TUPLE; ad-hoc string matching is not lawful.
+- Refresh and replacement prefer in-place mutation of existing active modifier records when lawful.
+- Removal and expiry clear obsolete modifiers from the active state surface.
+- Temporary modifiers must not bypass canonical state governance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

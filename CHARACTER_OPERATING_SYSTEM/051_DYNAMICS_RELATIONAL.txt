@@ -1,0 +1,138 @@
+=== SECTION: DYNAMICS_RELATIONAL ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for affective valence transitions, perceived-other-valence inference, cognitive complexity development, encounter onboarding, and concern resolution. The two valence fields are governed by independent evidence types.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: New entity creation uses SET pair pattern:
+- SET [STATE_RELATIONAL][RELATIONAL_REGISTRY] append ENT_XX
+- SET [STATE_RELATIONAL][ENT_XX] record payload
+
+=== SECTION_BREAK ===
+
+=== SECTION: AFFECTIVE_VALENCE_DYNAMICS ===
+
+[[LLM_INSTRUCTION]]: AFFECTIVE_VALENCE moves on the character's own emotional response to interaction.
+
+ON_POSITIVE_INTERACTION:
+- Propose TRANSITION ONE_STEP_UP for [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE].
+- EPISTEMIC_TAG: PERCEPTION (character's own emotional response is directly perceived).
+
+ON_NEGATIVE_INTERACTION:
+- Propose TRANSITION ONE_STEP_DOWN for [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE].
+- EPISTEMIC_TAG: PERCEPTION.
+
+ON_BETRAYAL_OR_HARM_EVENT:
+- Multi-step downward TRANSITION requires full override proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PERCEIVED_OTHER_VALENCE_DYNAMICS ===
+
+[[LLM_INSTRUCTION]]: PERCEIVED_OTHER_VALENCE moves on observed or inferred entity affect, not on the character's own feelings.
+
+EVIDENCE_TYPES:
+- Observed entity behavior (warmth gestures, hostility cues, withdrawal, approach).
+- Disclosed entity statements about their feelings toward the character.
+- Inferred entity affect from facial expressiveness, proxemics, or relational pattern.
+
+ON_POSITIVE_ENTITY_BEHAVIOR_TOWARD_CHARACTER:
+- Propose TRANSITION ONE_STEP_UP for [STATE_RELATIONAL][ENT_XX][PERCEIVED_OTHER_VALENCE].
+- EPISTEMIC_TAG: INFERENCE (perceived other's affect is always inferred).
+- JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP.
+
+ON_NEGATIVE_ENTITY_BEHAVIOR_TOWARD_CHARACTER:
+- Propose TRANSITION ONE_STEP_DOWN for [STATE_RELATIONAL][ENT_XX][PERCEIVED_OTHER_VALENCE].
+- EPISTEMIC_TAG: INFERENCE.
+- JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP.
+
+ON_DISCLOSED_ENTITY_STATEMENT:
+- Propose SET to lawful PERCEIVED_OTHER_VALENCE band consistent with disclosed content.
+- EPISTEMIC_TAG: COMMITTED_FACT only when disclosure is direct and verifiable; otherwise INFERENCE.
+- EVIDENCE_REF required when COMMITTED_FACT (typically MEM_XX of the disclosure event).
+
+ASYMMETRY_NOTE:
+- AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE may diverge significantly. Asymmetric pairings (devoted toward hostile-perceived, hostile toward devoted-perceived) are realistic and lawful.
+
+=== SECTION_BREAK ===
+
+=== SECTION: COGNITIVE_COMPLEXITY_DYNAMICS ===
+
+[[LLM_INSTRUCTION]]: COGNITIVE_COMPLEXITY moves on accumulated interaction depth, independent of either valence direction.
+
+EVIDENCE_FOR_UPWARD_MOVEMENT:
+- Observation of behavior in multiple distinct contexts.
+- Observation contradicting prior simple categorization.
+- Direct disclosure of internal state, history, or motive by the entity.
+- Sustained interaction frequency with varied content.
+
+EVIDENCE_FOR_DOWNWARD_MOVEMENT:
+- Prolonged absence with no interaction (typically handled via DYNAMICS_MEMORY decay).
+- Explicit cue of forced re-categorization.
+
+ON_DEPTH_EVIDENCE:
+- Propose TRANSITION ONE_STEP_UP for [STATE_RELATIONAL][ENT_XX][COGNITIVE_COMPLEXITY].
+- Single events rarely justify movement.
+
+ON_FORCED_RECATEGORIZATION:
+- Propose SET to a lawful lower band only with explicit cue support and override proof.
+
+DECOUPLING_RULE:
+- Movement on AFFECTIVE_VALENCE, PERCEIVED_OTHER_VALENCE, and COGNITIVE_COMPLEXITY is independent.
+- Proposals bundling movement on multiple fields must justify each independently.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NEW_ENTITY_ENCOUNTER ===
+
+ON_SALIENT_SOCIAL_ENCOUNTER:
+- Instantiate ENT_XX via SET pair pattern with baseline relational defaults:
+  - AFFECTIVE_VALENCE: NEUTRAL
+  - PERCEIVED_OTHER_VALENCE: NEUTRAL
+  - COGNITIVE_COMPLEXITY: ONE_DIMENSIONAL
+  - INTERACTION_FREQUENCY_ESTIMATE: derived from cue
+  - CURRENT_CONCERN: derived from cue or NONE
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONCERN_RESOLUTION ===
+
+ON_CONCERN_RESOLUTION_EVENT:
+- Propose SET:
+  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][CURRENT_CONCERN]
+  PROPOSED_VALUE: NONE
+  JUSTIFICATION: concern resolution cue
+
+ON_CONCERN_REFRESH:
+- Propose SET to a new CURRENT_CONCERN value when a different active concern displaces the prior one.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Three independent ordinal ladders (AFFECTIVE_VALENCE, PERCEIVED_OTHER_VALENCE, COGNITIVE_COMPLEXITY) with independent evidence types.
+- One-step law applies to all three; multi-step shifts require override proof.
+- PERCEIVED_OTHER_VALENCE proposals are inference-based by default and rarely qualify as COMMITTED_FACT.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

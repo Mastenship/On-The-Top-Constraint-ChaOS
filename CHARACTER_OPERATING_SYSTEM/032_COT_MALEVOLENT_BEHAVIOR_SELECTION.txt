@@ -1,0 +1,113 @@
+=== SECTION: COT_MALEVOLENT_BEHAVIOR_SELECTION ===
+
+[KEEP: Purpose & Role]
+This COT defines how Dark Triad-gated tendencies may generate manipulative, exploitative, or callous behavioral impulses under cue alignment. It is a bounded impulse generator, not a direct state mutator.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via malevolent impulse candidates
+- relational strategy overlays via proposal-only flow
+Is Informed By:
+- SCHEME_DARK_TRIAD
+- SCHEME_HEXACO
+- [STATE_RELATIONAL]
+- stress and context cues
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRAIT_GATING ===
+
+[[LLM_INSTRUCTION]]: Gate malevolent options by trait threshold and cue alignment, respecting DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE for dominant-trait selection.
+
+ON_HIGH_NARCISSISM:
+- Enable dominance and entitlement impulse candidates.
+
+ON_HIGH_MACHIAVELLIANISM:
+- Enable strategic manipulation candidates when risk-reward cue aligns.
+
+ON_HIGH_PSYCHOPATHY:
+- Enable callous and thrill-seeking candidates under trigger cues.
+
+THRESHOLD_RULE:
+- Impulses generated only if:
+  - relevant trait is VERY_HIGH percentile, or
+  - HIGH percentile plus strong cue alignment.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MALEVOLENT_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate impulses only when gated.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_MALEVOLENT_BEHAVIOR_SELECTION
+IMPULSE_TYPE: EXPLOIT | MANIPULATE | DOMINATE | MASK
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: ENT_XX or NONE
+JUSTIFICATION: brief cue-based reason
+JUSTIFICATION_CATEGORY: TRAIT_GATED
+
+ON_DECEPTION_CONTROL_CUE:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: COMMUNICATION_MODIFIER
+    EFFECT_FAMILY: DECEPTION_LEAKAGE_CONTROL
+    EFFECT_EXPRESSION: active suppression of involuntary tells during deception
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: deception episode concludes or scene transition
+  STRENGTH: MODERATE
+  MECHANISM_TAG: DECEPTION_TELL_SUPPRESSION
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: TRAIT_GATED
+  JUSTIFICATION: short-term gain cue gated by trait threshold
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_MALEVOLENT_BEHAVIOR_SELECTION
+KEY_OUTPUTS:
+- activated trait gates and opportunity summary
+GENERATED_IMPULSES:
+- list or [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- SCHEME_DARK_TRIAD gating compliance
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: COT_MALEVOLENT_BEHAVIOR_SELECTION
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line trait-gating context observation or NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

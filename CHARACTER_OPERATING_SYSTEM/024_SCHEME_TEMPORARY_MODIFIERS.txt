@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable structural definition of temporary modifiers. Defines modifier schema, creation requirements, targeting logic, and safety invariants for transient overlays that modulate runtime behavior without directly rewriting persistent baseline state.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: MODIFIER_RECORD_SCHEMA ===

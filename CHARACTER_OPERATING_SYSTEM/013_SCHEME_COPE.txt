@@ -1,7 +1,8 @@
 === SECTION: SCHEME_COPE ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of coping configuration. Defines active mechanism fields, probability-bias fields, and invariants.
+Immutable structural definition of coping configuration. Defines active mechanism fields, qualitative probability biases, selection rule reference, and invariants.
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -9,25 +10,28 @@ Immutable structural definition of coping configuration. Defines active mechanis
 
 PRIMARY_MECHANISM: ENUM [ACTIVE_COPING, PLANNING, DENIAL, SUBSTANCE_USE, VENTING]
 SECONDARY_MECHANISM: ENUM [ACTIVE_COPING, PLANNING, DENIAL, SUBSTANCE_USE, VENTING]
-SUBSTANCE_USE_RISK: INTEGER_RANGE [0-100]
+SUBSTANCE_USE_RISK: QUALITATIVE_INTENSITY
 
 === SECTION_BREAK ===
 
 === SECTION: COPE_PROBABILITY_BIASES ===
 
-ACTIVE_COPING_PROBABILITY: INTEGER_RANGE [0-100]
-PLANNING_PROBABILITY: INTEGER_RANGE [0-100]
-DENIAL_PROBABILITY: INTEGER_RANGE [0-100]
-SUBSTANCE_USE_PROBABILITY: INTEGER_RANGE [0-100]
-VENTING_PROBABILITY: INTEGER_RANGE [0-100]
+ACTIVE_COPING_PROBABILITY: QUALITATIVE_INTENSITY
+PLANNING_PROBABILITY: QUALITATIVE_INTENSITY
+DENIAL_PROBABILITY: QUALITATIVE_INTENSITY
+SUBSTANCE_USE_PROBABILITY: QUALITATIVE_INTENSITY
+VENTING_PROBABILITY: QUALITATIVE_INTENSITY
+
+[[LLM_INSTRUCTION]]: Probability bias bands represent relative tendencies. Selection arbitration is defined by DYNAMICS_COPE.COPE_SELECTION_RULE.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
 - PRIMARY_MECHANISM and SECONDARY_MECHANISM should differ unless justified override.
-- Probability fields represent relative tendencies and do not require sum-to-100.
-- SUBSTANCE_USE_RISK escalates on explicit event evidence.
+- Probability bands are independent and do not require sum-to-total constraints.
+- SUBSTANCE_USE_RISK escalates on explicit event evidence per DYNAMICS_COPE.
+- Selection ties resolved deterministically per DYNAMICS_COPE.COPE_SELECTION_RULE.
 
 === SECTION_BREAK ===
 

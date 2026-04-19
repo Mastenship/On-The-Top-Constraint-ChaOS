@@ -1,0 +1,156 @@
+=== SECTION: COT_DPF_SYNTHESIS_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT synthesizes the character DOMINANT_PREDICTIVE_FRAME (DPF) as integrated cycle state. It does not narrate and does not select actions. It produces a current-cycle DPF snapshot in [COGNITIVE_SCRATCHPAD][CURRENT_DPF] and proposals for persistent DPF updates via strict operation set.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via current DPF snapshot
+- STATE_DPF updates through proposals
+Is Informed By:
+- narrative cues
+- active predictions
+- SCHEME_DPF and DYNAMICS_DPF
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT may not directly edit persistent modules.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][CURRENT_DPF]
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+All proposals must use strict OPERATION_TYPE set.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_SYNTHESIS ===
+
+[[LLM_INSTRUCTION]]: Build current snapshot and propose bounded persistent updates only where persistent change is warranted.
+
+CORE_ASSUMPTION_SYNTHESIS:
+- Integrate cues, active predictions, contradictions, and drive urgency into a current-cycle interpretive summary.
+- If a durable contrast event is detected, propose explicit SET updates to relevant persistent DPF fields.
+
+EMOTIONAL_VALENCE_AND_PACE:
+- Derive from arousal, threat interpretation, certainty pressure, and time pressure.
+- Use SET for persistent enum placements when justified.
+- Keep volatile intermediate interpretation in [COGNITIVE_SCRATCHPAD][CURRENT_DPF].
+
+PREDICTION_HANDLING:
+[[LLM_INSTRUCTION]]: CERTAINTY on prediction records is a QUALITATIVE_INTENSITY band. Use SET to adjacent bands. New prediction creation uses SET pair pattern. Active prediction count is governance-capped at MAX_ACTIVE_PREDICTIONS = 10.
+
+NEW_PREDICTION_INSERTION:
+- Proposal A:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_DPF][PREDICTION_REGISTRY]
+  PROPOSED_VALUE: append PRD_XX
+  STRENGTH: MODERATE
+  MECHANISM_TAG: PREDICTION_FORMATION
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: anticipatory framing warranted by cue pattern
+- Proposal B:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_DPF][PRD_XX]
+  PROPOSED_VALUE: schema-valid prediction record per SCHEME_DPF.PREDICTION_RECORD_SCHEMA
+  STRENGTH: MODERATE
+  MECHANISM_TAG: PREDICTION_FORMATION
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: paired record payload for new prediction
+
+CERTAINTY_ADJUSTMENT:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
+  PROPOSED_VALUE: adjacent QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: PREDICTION_CERTAINTY_ADJUSTMENT
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: cue evidence shifts prediction certainty
+
+RESOLUTION_OR_FALSIFICATION:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+  PROPOSED_VALUE: RESOLVED | RESOLVED_NEGATIVE | FALSIFIED
+  STRENGTH: HIGH
+  MECHANISM_TAG: PREDICTION_LIFECYCLE_CLOSURE
+  EPISTEMIC_TAG: COMMITTED_FACT
+  EVIDENCE_REF: cycle cue or MEM_XX reference establishing outcome
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: prediction outcome cue resolves lifecycle
+
+PREDICTION_CAP_HANDLING:
+- If proposing new prediction would exceed MAX_ACTIVE_PREDICTIONS:
+  - either include concurrent SET to resolve or falsify the lowest-certainty existing prediction
+  - or accept governance suppression with DPF_PREDICTION_CAP_EXCEEDED
+
+PERSISTENCE_RULE:
+- Persistent STATE_DPF should store resolved interpretive state, not raw intermediate reasoning.
+- If synthesis produces only transient tension, retain it in CURRENT_DPF or modifiers rather than forcing baseline mutation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_CONTRAST_OVERRIDE_PATHWAY ===
+
+[[LLM_INSTRUCTION]]: Multi-axis DPF shifts require structural override proof.
+
+ON_DPF_CONTRAST_EVENT:
+- For each multi-axis SET on DPF core state:
+  - INVOKED_RULE_NAME: DPF_CONTRAST_EVENT
+  - NARRATIVE_CUE_REFERENCE: cycle cue token identifying contrast event
+  - SCHEME_INVARIANT_NOTE: SCHEME_DPF SOURCE traceability and certainty plausibility preserved
+  - MECHANISM_TAG: DPF_AXIS_REORIENTATION
+  - JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+
+=== SECTION_BREAK ===
+
+=== SECTION: RECALC_GUARD ===
+
+RECALC_GUARD:
+- One full DPF recalculation per cycle maximum.
+- If additional contradiction pressure remains after synthesis:
+  - set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] TRUE
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After synthesis:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_DPF_SYNTHESIS_PROCESSING
+KEY_OUTPUTS:
+- CORE_ASSUMPTION summary
+- CERTAINTY_LEVEL band
+- PACE
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- DPF contrast detection YES/NO
+- recalc queued YES/NO
+- active PRD_XX count and cap headroom
+- persistent-vs-volatile separation summary
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: COT_DPF_SYNTHESIS_PROCESSING
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line interpretive-context observation or NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

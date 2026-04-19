@@ -1,0 +1,131 @@
+=== SECTION: COT_BELIEF_INTEGRATION_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT processes how beliefs filter perception, constrain options, and generate meaning. It prefers temporary dissonance overlays over baseline rewrites unless persistence cluster conditions or watershed-shift conditions are met per DYNAMICS_BELIEF_SYSTEMS.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION constraints
+- memory meaning-attribution cues
+- stress framing
+Is Informed By:
+- [STATE_BELIEF_SYSTEMS]
+- [STATE_MEMORY]
+- [STATE_TEMPORARY_MODIFIERS]
+- SCHEME_BELIEF_SYSTEMS and DYNAMICS_BELIEF_SYSTEMS
+- narrative input
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes, including belief baselines.
+All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+=== SECTION_BREAK ===
+
+=== SECTION: BELIEF_FILTERING_AND_ALIGNMENT ===
+
+[[LLM_INSTRUCTION]]: Filter cues through belief structure.
+
+ON_CUE_ALIGNING_WITH_CORE_BELIEF:
+- Reinforce worldview-consistent interpretation.
+- No baseline mutation; interpretive reinforcement only.
+
+ON_CUE_CONTRADICTING_CORE_BELIEF:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: COGNITIVE_MODIFIER
+    EFFECT_FAMILY: BELIEF_DISSONANCE
+    EFFECT_EXPRESSION: dissonance pressure from cue contradicting core belief
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: contradiction resolves or accommodation occurs
+  STRENGTH: MODERATE
+  MECHANISM_TAG: BELIEF_CONTRADICTION_DISSONANCE
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: contradiction to core belief
+
+=== SECTION_BREAK ===
+
+=== SECTION: PERSISTENCE_TRIGGERED_ACCOMMODATION ===
+
+[[LLM_INSTRUCTION]]: Persistence-triggered baseline shift follows DYNAMICS_BELIEF_SYSTEMS.PERSISTENCE_TRIGGER_RULE.
+
+ON_PERSISTENCE_CLUSTER_PLUS_NEW_CUE:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_BELIEF_SYSTEMS][<canonical belief field path>]
+  PROPOSED_VALUE: adjacent lawful enum value in consistent cue direction
+  STRENGTH: HIGH
+  MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
+  EPISTEMIC_TAG: COMMITTED_FACT
+  EVIDENCE_REF: contributing MEM_XX references (three or more)
+  INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
+  NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
+  SCHEME_INVARIANT_NOTE: belief baseline shift accommodated under accumulated evidence; one adjacent enum step
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: persistence cluster plus new consistent cue justifies bounded accommodation
+
+=== SECTION_BREAK ===
+
+=== SECTION: WATERSHED_AND_CRISIS_PATHWAYS ===
+
+[[LLM_INSTRUCTION]]: Single-event multi-axis or watershed shifts require explicit override pathways per CANONICAL_TOKEN_DICTIONARY.INVOKED_RULE_NAME_ENUM.
+
+ON_WATERSHED_TRIGGER:
+- Propose TRANSITION or SET on specific belief fields with INVOKED_RULE_NAME WATERSHED_BELIEF_SHIFT and full structural override proof.
+
+ON_EXISTENTIAL_CRISIS_TRIGGER:
+- Propose multi-field SET only with INVOKED_RULE_NAME EXISTENTIAL_CRISIS_OVERRIDE and full structural override proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate meaning-oriented impulses. Use INFERENTIAL_LEAP for impulses driven by interpretive synthesis; use DIRECT_APPLICATION for impulses driven by direct cue alignment.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_BELIEF_INTEGRATION_PROCESSING
+IMPULSE_TYPE: RATIONALIZE | SEEK_EVIDENCE | MEANING_MAKING | JUSTICE_SEEKING
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: ENT_XX or NONE
+JUSTIFICATION: brief cue-based reason
+JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP | DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_BELIEF_INTEGRATION_PROCESSING
+KEY_OUTPUTS:
+- activated belief themes and dissonance YES/NO
+GENERATED_IMPULSES:
+- list or [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- SCHEME_BELIEF_SYSTEMS and DYNAMICS_BELIEF_SYSTEMS compliance summary
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: COT_BELIEF_INTEGRATION_PROCESSING
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line belief-context observation or NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable structural definition of skills state. Defines domains, skill record schema, ordinals, registry rules, and invariants.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: SKILL_DOMAINS ===

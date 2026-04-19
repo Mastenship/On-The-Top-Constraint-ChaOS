@@ -1,0 +1,150 @@
+=== SECTION: COT_TEMPORAL_DECAY_RESOLUTION ===
+
+[KEEP: Purpose & Role]
+This COT governs slow decay, recovery, and weakening effects caused by time passage without strong reinforcing input. It handles gradual fade processes across memory salience, prediction confidence, temporary modifiers, and unresolved low-activation pressures.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- weakening proposals for persistent and temporary structures
+- low-activation impulses where relevant
+Is Informed By:
+- [STATE_MEMORY]
+- [STATE_DPF]
+- [STATE_TEMPORARY_MODIFIERS]
+- [STATE_TEMPORAL_DYNAMICS]
+- narrative elapsed-time cues
+- DYNAMICS_TEMPORARY_MODIFIERS
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT does not directly edit persistent modules.
+All durable weakening intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed strict operations only:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+=== SECTION_BREAK ===
+
+=== SECTION: MEMORY_SALIENCE_DECAY ===
+
+[[LLM_INSTRUCTION]]: SALIENCE is a QUALITATIVE_INTENSITY band per SCHEME_MEMORY. Use SET to an adjacent lower band; respect per-cycle one-band limit unless override proof applies.
+
+ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: TEMPORAL_SALIENCE_DECAY
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: time passage without reinforcement reduces retrieval salience
+
+CONDITIONS:
+- decay must remain bounded
+- highly linked or recently reactivated memories may decay more slowly
+- governance may suppress decay when linkage protection or recent retrieval justifies retention stability
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_CONFIDENCE_DECAY ===
+
+[[LLM_INSTRUCTION]]: CERTAINTY on prediction records and CERTAINTY_LEVEL.VALUE on STATE_DPF are QUALITATIVE_INTENSITY bands. Use SET to an adjacent lower band.
+
+ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: PREDICTION_CONFIDENCE_DECAY
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: unresolved prediction loses confidence over time
+
+- Optional bounded SET may also target:
+  TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: GLOBAL_CERTAINTY_DRIFT
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: global interpretive certainty weakens under drift
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_EXPIRY_PRESSURE ===
+
+[[LLM_INSTRUCTION]]: This COT may propose modifier expiry, but lifecycle resolution remains governed by DYNAMICS_TEMPORARY_MODIFIERS.
+
+ON_DURATION_LAPSE_OR_EXPIRY_CUE:
+- PROPOSE REMOVE_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: target MOD_XX reference
+  STRENGTH: MODERATE
+  MECHANISM_TAG: MODIFIER_EXPIRY_RESOLUTION
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: expiry condition met
+
+CONDITIONS:
+- expiry cues must be explicit or deterministically inferable
+- expired modifiers must not remain active overlays
+- final lifecycle handling must remain consistent with DYNAMICS_TEMPORARY_MODIFIERS
+
+=== SECTION_BREAK ===
+
+=== SECTION: LOW_ACTIVATION_IMPULSES ===
+
+[[LLM_INSTRUCTION]]: Generate only when time decay yields meaningful motivational drift.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_TEMPORAL_DECAY_RESOLUTION
+IMPULSE_TYPE: LET_GO | REVISIT | REINFORCE | DISENGAGE
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: MEM_XX | PRD_XX | MOD_XX | NONE
+JUSTIFICATION: brief cue-based reason
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
+KEY_OUTPUTS:
+- decay domains evaluated
+- memory-decay applied YES/NO
+- prediction-decay applied YES/NO
+- modifier-expiry pressure applied YES/NO
+GENERATED_IMPULSES:
+- list or [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- band-shift compliance, modifier expiry summary, retention-protection notes
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line decay-context observation or NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,7 +1,8 @@
 === SECTION: SCHEME_GOALS_MOTIVATIONS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of goals/motivations. Defines drive fields, goal record schema, registry rules, and invariants.
+Immutable structural definition of goals and motivations. Defines drive fields, goal record schema, registry rules, and invariants.
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -44,16 +45,16 @@ GOAL_ID: ID_TOKEN (GOAL_XX)
 GOAL_DESCRIPTION: STRING_DESCRIPTIVE
 SUCCESS_CRITERIA: STRING_DESCRIPTIVE
 DRIVE_SERVED: STRING_DESCRIPTIVE
-URGENCY: INTEGER_RANGE [0-10]
-CONFIDENCE: INTEGER_RANGE [0-100]
+URGENCY: QUALITATIVE_INTENSITY
+CONFIDENCE: QUALITATIVE_INTENSITY
 PARENT_GOAL_ID: OPTIONAL_GOAL_ID
 RESOURCES_REQUIRED: STRING_DESCRIPTIVE
-PROGRESS: INTEGER_RANGE [0-100]
+PROGRESS: QUALITATIVE_INTENSITY
 MILESTONE_BREAKDOWN: STRING_DESCRIPTIVE
 OBSTACLES_ANTICIPATED: STRING_DESCRIPTIVE
-COMMITMENT_LEVEL: INTEGER_RANGE [0-100]
-VALUE_ALIGNMENT: INTEGER_RANGE [0-100]
-IDENTITY_RELEVANCE: INTEGER_RANGE [0-100]
+COMMITMENT_LEVEL: QUALITATIVE_INTENSITY
+VALUE_ALIGNMENT: QUALITATIVE_INTENSITY
+IDENTITY_RELEVANCE: QUALITATIVE_INTENSITY
 FLEXIBILITY: ENUM [RIGID, MODERATE, FLEXIBLE, ABANDONABLE]
 LEGACY_COMPONENT: ENUM [NONE, MINOR, MODERATE, MAJOR]
 SELF_ACTUALIZATION: ENUM [NONE, MINOR, MODERATE, MAJOR]
@@ -80,11 +81,11 @@ DEADLINE_RESPONSE: ENUM [ENERGIZED, PARALYZED, STEADY]
 
 === SECTION: INVARIANTS ===
 
-- URGENCY must align with DRIVE_SERVED intensity.
-- CONFIDENCE must be plausible against resource/body/skill context.
+- URGENCY band must align with DRIVE_SERVED intensity.
+- CONFIDENCE band must be plausible against resource, body, and skill context.
 - PARENT_GOAL_ID must reference existing GOAL_ID when non-empty.
-- STATUS transitions require explicit cue/event support.
-- High urgency goals should trigger DPF prediction linkage behavior.
+- STATUS transitions require explicit cue or event support.
+- HIGH or EXTREME urgency goals should trigger DPF prediction linkage behavior per DYNAMICS_GOALS_MOTIVATIONS.
 
 === SECTION_BREAK ===
 

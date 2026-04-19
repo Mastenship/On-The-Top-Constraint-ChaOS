@@ -1,0 +1,199 @@
+=== SECTION: COT_UPDATE_VERIFICATION ===
+
+[KEEP: Purpose & Role]
+Runs after STATE_GOVERNANCE_AND_COMMIT. Performs deterministic post-commit verification against canonical, scheme, structural, epistemic, override-proof, read-boundary, output-congruence, and governance-runtime contracts. Proposes governance-runtime updates via the normal proposal pipeline so quarantine engagement, clear, and verification-result recording are committed by the single-writer authority on the next governance cycle. Trace-rich; non-mutating with respect to character state.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- cycle integrity and debug trace quality
+- STATE_GOVERNANCE_RUNTIME (via proposals to STATE_GOVERNANCE_AND_COMMIT, never direct)
+Is Informed By:
+- [COGNITIVE_SCRATCHPAD]
+- STATE_GOVERNANCE_AND_COMMIT outputs
+- STATE_GOVERNANCE_RUNTIME (read access permitted as GOVERNANCE band)
+- all relevant STATE_, SCHEME_, and DYNAMICS_ modules
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Verifier is non-mutating with respect to character state.
+
+ALLOWED_WRITES:
+- Append TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- Append governance-runtime update proposals to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] (TARGET_MODULE = STATE_GOVERNANCE_RUNTIME, INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE)
+
+FORBIDDEN_WRITES:
+- Direct mutation of any STATE_ module
+- Proposals targeting any non-governance-runtime module
+- Scratchpad structural mutation beyond the two allowed appends above
+- Narrative output
+
+[[LLM_INSTRUCTION]]: Governance-runtime proposals from this COT are committed by STATE_GOVERNANCE_AND_COMMIT on the next cycle. The verifier itself never writes to STATE_GOVERNANCE_RUNTIME.
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERIFICATION_CHECKLIST ===
+
+[[LLM_INSTRUCTION]]: Run deterministically in this order. Each item produces PASS, WARN, or FAIL with a deterministic reason code per CHECKLIST_REASON_CODE_MAP below.
+
+01) AUDIT_CLOSURE
+- Verify every PROPOSAL_ID appears exactly once in FINAL_ACTION_LOG with PROPOSAL_ID, FINAL_ACTION, TARGET_FIELD, REASON_CODE.
+
+02) OPERATION_VALIDITY
+- Verify OPERATION_TYPE values are members of the strict allowed set; no forbidden aliases.
+
+03) CANONICAL_PATH_INTEGRITY
+- Verify no legacy roots in proposals, commits, audits, or traces.
+- Verify TARGET_FIELD paths are canonical and scheme-valid.
+
+04) ORDINAL_AND_ENUM_VALIDITY
+- Verify ONE_STEP rules unless override proof complete.
+- Verify enum values lawful per SCHEME_.
+- Verify QUALITATIVE_INTENSITY band shifts respect per-cycle limits.
+
+05) INVARIANTS_AND_CAPS
+- Verify SCHEME invariants honored.
+- Verify INSTINCT_LEVEL <= MASTERY_LEVEL.
+- Verify memory creation caps and linkage requirements.
+- Verify modifier schema and orphan checks.
+- Verify modifier lifecycle legality per DYNAMICS_TEMPORARY_MODIFIERS.
+- Verify registry-record pair consistency across all registry-backed domains.
+- Verify DPF active prediction count <= MAX_ACTIVE_PREDICTIONS.
+
+06) COMMIT_PROVENANCE
+- Verify every commit traces back to a proposal source; no orphans.
+
+07) EPISTEMIC_TAG_AND_JUSTIFICATION_CATEGORY
+- Verify valid EPISTEMIC_TAG and JUSTIFICATION_CATEGORY on every committed proposal.
+- Verify mapping consistency per CANONICAL_TOKEN_DICTIONARY.JUSTIFICATION_CATEGORY_TO_EPISTEMIC_TAG_MAPPING.
+- Verify COMMITTED_FACT proposals carry resolvable EVIDENCE_REF.
+
+08) OVERRIDE_PROOF_INTEGRITY
+- Verify override-gate proposals carry all four STRUCTURAL_OVERRIDE_PROOF_FIELDS.
+- Verify INVOKED_RULE_NAME is closed-enum member.
+- Verify NARRATIVE_CUE_REFERENCE is cycle-resolvable.
+
+09) CANONICAL_FORM_CHECK
+- Verify all commit-bound artifacts normalized at STEP_05; no write-surface tokens altered; no artifact remains in non-canonical form.
+
+10) READ_BOUNDARY_INTEGRITY
+- Verify no CASCADE_TRACE entry shows a character-cognition COT (priorities 01-15) reading a GOVERNANCE_INTERNAL module.
+
+11) TRACE_COMPLETENESS
+- Verify exactly one TRACE_ENTRY per priority slot (PRIORITY_01 through PRIORITY_17) per cycle.
+- Verify empty cycles emit EMPTY_CYCLE_FORM trace entry per SCHEME_SCRATCHPAD.
+
+12) SELECTED_ACTION_INTEGRITY
+- Verify [COGNITIVE_SCRATCHPAD][SELECTED_ACTION] is schema-complete.
+- If [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY] was empty at synthesis: SELECTED_ACTION.ACTION_TYPE MUST be PASSIVE_OBSERVATION and ACTION_SOURCE_IMPULSE MUST be NONE.
+
+13) OUTPUT_CONGRUENCE_CHECK
+- Verify rendered output from COT_COMMUNICATION_PROCESSING references the same ACTION_TYPE and TARGET_ID resolution as SELECTED_ACTION.NARRATIVE_ACTION_DESCRIPTION.
+
+14) MODIFIER_LIFECYCLE_VALIDATION
+- Verify STATE_TEMPORARY_MODIFIERS functions as bounded active-overlay surface, not historical archive.
+- Verify REFRESH_EXISTING and REPLACE_EXISTING outcomes did not create unnecessary new MOD_XX records (materially same-effect uses existing identity per DYNAMICS_TEMPORARY_MODIFIERS.MATCH_KEY_TUPLE).
+- Verify materially different concurrent modifiers exist only when coexistence lawful and bounded.
+- Verify expired or removed modifiers do not remain on active surface.
+- Verify REMOVE_MODIFIER preserved registry-record coherence.
+- Verify stacking and cap outcomes did not produce covert baseline rewrite.
+
+15) INSTANTIATION_COMPLETENESS
+- On the first non-instantiation cycle following an instantiation workflow: verify all required SCHEME baselines and STATE seeds are populated.
+- Skipped on subsequent cycles unless re-instantiation is invoked.
+
+CHECKLIST_REASON_CODE_MAP:
+- 01: AUDIT_CLOSURE_INCOMPLETE (FAIL)
+- 02: OPERATION_TYPE_INVALID (FAIL)
+- 03: INVALID_PATH_ROOT or INVALID_TARGET_FIELD (FAIL)
+- 04: INVALID_ENUM_VALUE or INVALID_ORDINAL_TRANSITION or STEP_LIMIT_EXCEEDED (FAIL)
+- 05: SCHEME_INVARIANT_VIOLATION or REGISTRY_RECORD_PAIR_VIOLATION or MODIFIER_SCHEMA_VIOLATION or DPF_PREDICTION_CAP_EXCEEDED (FAIL)
+- 06: COMMIT_ORPHANED (FAIL)
+- 07: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH or COMMITTED_FACT_WITHOUT_EVIDENCE or EVIDENCE_REF_UNRESOLVED (FAIL)
+- 08: OVERRIDE_PROOF_INCOMPLETE (FAIL)
+- 09: TRANSLATION_VIOLATION (FAIL)
+- 10: READ_BOUNDARY_VIOLATION (FAIL)
+- 11: COT_TRACE_MISSING (WARN)
+- 12: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
+- 13: OUTPUT_INCONGRUENCE (WARN)
+- 14: MODIFIER_LIFECYCLE_VIOLATION (FAIL; specific sub-codes per DYNAMICS_TEMPORARY_MODIFIERS)
+- 15: INSTANTIATION_INCOMPLETE (FAIL)
+
+=== SECTION_BREAK ===
+
+=== SECTION: REMEDIATION_PROPOSAL_GENERATION ===
+
+[[LLM_INSTRUCTION]]: After running the checklist, classify the cycle outcome and propose corresponding governance-runtime updates via the normal proposal pipeline.
+
+CYCLE_OUTCOME_CLASSIFICATION:
+- PASS: zero VIOLATIONs and zero WARNINGs
+- WARN: zero VIOLATIONs and one or more WARNINGs
+- FAIL: one or more VIOLATIONs
+
+SHARED_PROPOSAL_TEMPLATE:
+- OPERATION_TYPE: SET
+- STRENGTH: MODERATE
+- MECHANISM_TAG: VERIFICATION_RESULT_RECORDING
+- EPISTEMIC_TAG: COMMITTED_FACT
+- EVIDENCE_REF: PRIOR_COMMIT:<current commit cycle id>:<governance audit reference>
+- JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+- INVOKED_RULE_NAME (when targeting STATE_GOVERNANCE_RUNTIME): GOVERNANCE_CORRECTIVE
+- NARRATIVE_CUE_REFERENCE (with INVOKED_RULE_NAME): outcome-specific token below
+- SCHEME_INVARIANT_NOTE (with INVOKED_RULE_NAME): outcome-specific note below
+
+ON_PASS:
+- Emit two SHARED_PROPOSAL_TEMPLATE proposals:
+  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] PROPOSED_VALUE PASS, JUSTIFICATION verification passed
+  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID] PROPOSED_VALUE current commit cycle id, JUSTIFICATION cycle close
+- NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
+- SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME LAST_VERIFICATION_RESULT overwrite-on-verification
+
+ON_PASS_WHILE_QUARANTINE_ACTIVE:
+- Emit ON_PASS proposals.
+- Emit the three quarantine-clear SET proposals defined in DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.ON_VERIFICATION_PASS_CLEAN, each using SHARED_PROPOSAL_TEMPLATE.
+- NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
+- SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME quarantine clear conditions satisfied
+
+ON_WARN:
+- Emit one SHARED_PROPOSAL_TEMPLATE proposal:
+  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] PROPOSED_VALUE WARN, JUSTIFICATION verification raised warnings
+- Do not engage quarantine for WARN-class outcomes (per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY default).
+
+ON_FAIL:
+- Emit one SHARED_PROPOSAL_TEMPLATE proposal:
+  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] PROPOSED_VALUE FAIL, JUSTIFICATION verification raised violations
+- If REMEDIATION_POLICY for the dominant violation is QUARANTINE_NEXT_CYCLE:
+  - Emit the three quarantine-engage SET proposals defined in DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT.ON_VIOLATION_CLASS_OUTCOME, each using SHARED_PROPOSAL_TEMPLATE.
+  - NARRATIVE_CUE_REFERENCE: <dominant violation reason code>
+  - SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME quarantine engagement conditions satisfied
+- If REMEDIATION_POLICY is WARN_AND_PROCEED: emit only the LAST_VERIFICATION_RESULT update.
+- If REMEDIATION_POLICY is ROLLBACK: suppress with reason code ROLLBACK_NOT_ACTIVE per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; emit WARN_AND_PROCEED behavior in its place.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_OUTPUT ===
+
+[[LLM_INSTRUCTION]]: Append exactly one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+
+TRACE_ENTRY_FIELDS:
+COT_NAME: COT_UPDATE_VERIFICATION
+KEY_OUTPUTS:
+- RESULT: PASS | WARN | FAIL
+- VIOLATIONS_COUNT
+- WARNINGS_COUNT
+- QUARANTINE_PROPOSED: TRUE | FALSE
+- QUARANTINE_CLEAR_PROPOSED: TRUE | FALSE
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: <number of governance-runtime proposals generated>
+NOTES:
+- VIOLATIONS: [list of VIOLATION reason codes with brief context, or NONE]
+- WARNINGS: [list of WARNING reason codes with brief context, or NONE]
+- SCHEME_COMPLIANCE_SUMMARY: [one-line summary of invariant compliance across domains]
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

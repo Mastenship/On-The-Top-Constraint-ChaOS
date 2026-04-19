@@ -1,0 +1,164 @@
+=== SECTION: COT_CHARACTER_INSTANTIATION_PROCESS ===
+
+[KEEP: Purpose & Role]
+This COT is an interactive, guided process for collaboratively instantiating a new character with the user. It is multi-turn and produces proposal-only seeding packets for initial STATE_ values and immutable baseline scheme values where instantiation-time architecture permits them. This COT does not directly write persistent modules. Governance commits approved seed proposals.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- initial seeding proposals across STATE_* modules
+- initial baseline proposals for immutable scheme-bound personality and background markers at instantiation time
+Is Informed By:
+- user-provided concept and background
+- SCHEME_ and DYNAMICS_ bounds
+- canonical token policy
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+All seeding intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Strict operation set required:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+For initial seeding, SET is primary.
+
+[[LLM_INSTRUCTION]]: Set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][INSTANTIATION_MODE] TRUE on entry to this workflow. The flag remains TRUE for all cycles in which this COT is active and is cleared by governance on the first non-instantiation cycle.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INTERACTIVE_WALKTHROUGH_STRUCTURE ===
+
+[[LLM_INSTRUCTION]]: Guide and confirm layer-by-layer before final seed emission.
+
+LAYER_01_PERSONALITY_BASELINES:
+- Discuss emotional tone, moral compass, social posture, attachment pattern, and personality distributions.
+- Prepare instantiation-time baseline proposals for SCHEME_HEXACO, SCHEME_DARK_TRIAD, SCHEME_MMPI, SCHEME_ASQ, and other immutable baseline domains where architecture permits.
+
+LAYER_02_BACKGROUND_AND_WORLD_NORMS:
+- Discuss formative environment, cultural assumptions, technological setting, and social norms.
+- Prepare instantiation-time baseline proposals for SCHEME_BACKGROUND where architecture permits.
+
+LAYER_03_PHYSIOLOGICAL_AND_TEMPORAL:
+- Discuss age, lifestyle, health baseline, chronotype, fatigue tendencies, and bodily norms.
+- Prepare STATE_BODY and STATE_TEMPORAL_DYNAMICS baseline proposals.
+
+LAYER_04_SKILLS_AND_ACQUISITION:
+- Discuss competencies, specialties, learning history, and growth pattern.
+- Prepare SKL_XX candidates and registry-pair proposals.
+
+LAYER_05_RELATIONAL_AND_MEMORY_SEEDS:
+- Discuss key entities, formative relationships, and defining events.
+- Prepare ENT_XX and MEM_XX candidates with lawful canonical linkage.
+
+LAYER_06_COMMUNICATION_BELIEFS_AND_DPF:
+- Discuss communication profile, worldview axes, predictive stance, and interpretive style.
+- Prepare STATE_COMMUNICATION_DIALOGUE, STATE_BELIEF_SYSTEMS, and STATE_DPF baseline proposals where appropriate.
+
+LAYER_07_GOALS_AND_DRIVES:
+- Discuss initial motivations, needs, goals, and active pressures.
+- Prepare GOAL_XX candidates and drive-state proposals.
+
+LAYER_08_COLLABORATIVE_VERIFICATION:
+- Review coherence with the user.
+- Confirm readiness for final seed proposal emission.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRICT_SEEDING_CONTRACT ===
+
+[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Use SET pair pattern for every registry-backed entity.
+
+FOR_EACH_NEW_REGISTRY_ENTRY (SKL_XX, ENT_XX, MEM_XX, GOAL_XX, ALT_XX, PRD_XX, MOD_XX if needed):
+- Proposal A:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_<DOMAIN>][<DOMAIN>_REGISTRY]
+  PROPOSED_VALUE: append <ID_TOKEN>
+  STRENGTH: HIGH
+  MECHANISM_TAG: INSTANTIATION_SEEDING
+  EPISTEMIC_TAG: COMMITTED_FACT
+  EVIDENCE_REF: PRIOR_COMMIT:<instantiation cycle id>:<user confirmation reference>
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: instantiation seeding registry append
+- Proposal B:
+  OPERATION_TYPE: SET
+  TARGET_FIELD: [STATE_<DOMAIN>][<ID_TOKEN>]
+  PROPOSED_VALUE: schema-valid full record
+  STRENGTH: HIGH
+  MECHANISM_TAG: INSTANTIATION_SEEDING
+  EPISTEMIC_TAG: COMMITTED_FACT
+  EVIDENCE_REF: PRIOR_COMMIT:<instantiation cycle id>:<user confirmation reference>
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: instantiation seeding record payload
+
+FOR_NON_REGISTRY_BASELINES:
+- Use SET to canonical paths with the same field profile shown above.
+
+REQUIRED_PROPOSAL_FIELDS_PER_UPDATE_CASCADE_REGISTRY:
+- PROPOSAL_ID
+- SOURCE_COT: COT_CHARACTER_INSTANTIATION_PROCESS
+- TARGET_MODULE
+- TARGET_FIELD
+- OPERATION_TYPE
+- PROPOSED_VALUE
+- STRENGTH
+- MECHANISM_TAG
+- EPISTEMIC_TAG
+- JUSTIFICATION_CATEGORY
+- JUSTIFICATION
+- EVIDENCE_REF (required because EPISTEMIC_TAG is COMMITTED_FACT during instantiation)
+- NOTES (optional)
+
+=== SECTION_BREAK ===
+
+=== SECTION: INSTANTIATION_BOUNDARY_RULE ===
+
+- This COT is the lawful seeding exception path for first-time initialization.
+- It may prepare immutable baseline scheme values only during instantiation-time seeding.
+- After instantiation, ordinary runtime COTs do not mutate immutable scheme domains through standard cycle behavior.
+- INSTANTIATION_MODE flag distinguishes lawful seeding from runtime mutation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FINAL_SEEDING ===
+
+[[LLM_INSTRUCTION]]: After explicit user confirmation:
+- Emit complete seeding proposal set into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- Do not perform direct commit.
+- Governance validates and commits.
+- INSTANTIATION_MODE flag remains TRUE through the final commit cycle and clears on the first subsequent non-instantiation cycle.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After each major layer and at final seeding:
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_CHARACTER_INSTANTIATION_PROCESS
+KEY_OUTPUTS:
+- layer completed and key decisions
+- INSTANTIATION_MODE: TRUE
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- user alignment status
+- unresolved questions
+- instantiation-boundary compliance
+- proposal completeness summary
+
+[[LLM_INSTRUCTION]]: This COT does not emit an EMPTY_CYCLE_FORM trace entry. It is invoked only during active instantiation work; outside instantiation cycles it does not run at all and therefore does not occupy a priority slot.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

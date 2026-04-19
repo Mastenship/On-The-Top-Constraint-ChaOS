@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable definition of the character's formative world environment and sociological norms. Set once at instantiation; provides normative seeding data for initial STATE_ values (skills contexts, relational defaults, belief grounding, goal origins, physiological baselines) and ongoing interpretive biases (for example, outlook on authority informing DPF synthesis). Never mutated by standard dynamics or COTs — changes require explicit manual override with watershed justification equivalent to personality scheme shifts.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: CORE_BACKGROUND_MARKERS ===

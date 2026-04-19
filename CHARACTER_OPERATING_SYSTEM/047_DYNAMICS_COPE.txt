@@ -1,0 +1,117 @@
+=== SECTION: DYNAMICS_COPE ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for coping mechanism selection pressure, maladaptive risk escalation, stabilization trajectories, and deterministic selection arbitration.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+=== SECTION_BREAK ===
+
+=== SECTION: COPE_SELECTION_RULE ===
+
+[[LLM_INSTRUCTION]]: Selection of coping mechanism in any cycle is deterministic. Probability bias bands establish ranking; ties resolve by explicit cascade.
+
+SELECTION_PROCEDURE:
+1) Read all five COPE_PROBABILITY_BIASES bands from STATE_COPE.
+2) Apply situational filters:
+   - SUBSTANCE_USE_PROBABILITY contribution is gated by SUBSTANCE_USE_RISK; if risk is MINIMAL, treat substance probability as one band lower for selection purposes.
+   - PLANNING_PROBABILITY contribution is reduced by one effective band when [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL] is SPIKE or higher (acute stress impairs planning).
+   - ACTIVE_COPING_PROBABILITY contribution is reduced by one effective band when fatigue is SEVERE_FATIGUE or EXHAUSTED.
+3) Rank mechanisms by effective band (EXTREME > HIGH > MODERATE > LOW > MINIMAL).
+4) Select highest-ranked mechanism.
+
+TIE_BREAKERS (in order):
+1) Mechanism currently set as PRIMARY_MECHANISM wins (continuity bias).
+2) Mechanism with the lower SUBSTANCE_USE_RISK contribution wins (adaptive preference).
+3) Mechanism with lexically earlier canonical name wins.
+
+SELECTION_OUTCOME:
+- Selected mechanism becomes the cycle's effective coping route.
+- If selected mechanism differs from current PRIMARY_MECHANISM and persists across cues:
+  - Propose SET [STATE_COPE][PRIMARY_MECHANISM] PROPOSED_VALUE selected mechanism, JUSTIFICATION sustained selection drift.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACUTE_SELECTION ===
+
+ON_ACUTE_STRESS:
+- Run COPE_SELECTION_RULE.
+- Propose bounded SET/TRANSITION updates to relevant COPE_PROBABILITY_BIASES bands when cue support is sufficient (max one band shift per field per cycle).
+
+ON_SUBSTANCE_USE_EVENT:
+- Propose bounded SET to a higher SUBSTANCE_USE_RISK band (one band per cycle).
+- If substance coping was selected by COPE_SELECTION_RULE, propose SET PRIMARY_MECHANISM = SUBSTANCE_USE.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MALADAPTIVE_ESCALATION ===
+
+[[LLM_INSTRUCTION]]: Maladaptive escalation is a bounded multi-cycle drift, not a single-cycle override.
+
+ESCALATION_CONDITIONS:
+- A maladaptive mechanism (DENIAL, SUBSTANCE_USE, VENTING) was selected by COPE_SELECTION_RULE.
+- Underlying stressor was not resolved within the cycle.
+- The same maladaptive mechanism was selected in the immediately prior cycle (cross-cycle continuity established via PRIMARY_MECHANISM persistence).
+
+ESCALATION_BEHAVIOR:
+- For SUBSTANCE_USE escalation:
+  - Propose bounded SET to a higher SUBSTANCE_USE_RISK band (one band per cycle).
+  - Propose bounded SET to a higher SUBSTANCE_USE_PROBABILITY band (one band per cycle).
+- For DENIAL escalation:
+  - Propose bounded SET to a higher DENIAL_PROBABILITY band (one band per cycle).
+  - Propose ADD_MODIFIER:
+    EFFECT_FAMILY: REALITY_CONTACT_DEGRADATION
+    TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+    JUSTIFICATION: sustained denial reduces interpretive contact with disconfirming cues
+- For VENTING escalation:
+  - Propose bounded SET to a higher VENTING_PROBABILITY band (one band per cycle).
+  - Propose ADD_MODIFIER:
+    EFFECT_FAMILY: RELATIONAL_FRICTION_AMPLIFICATION
+    TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE]
+    TARGET_ID: relevant ENT_XX
+    JUSTIFICATION: sustained venting strains relational target
+
+ESCALATION_BOUNDS:
+- Each escalation step requires its own cycle of cue support.
+- Multi-band shifts in a single cycle require override proof.
+- Escalation pauses (does not reverse) when stressor resolves.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STABILIZATION ===
+
+ON_STABILIZATION_WITHOUT_ACTIVE_STRESS:
+- Propose bounded SET shifts of COPE_PROBABILITY_BIASES bands toward baseline (one band per cycle).
+- Propose bounded SET reduction of SUBSTANCE_USE_RISK band when no reinforcing cues exist (one band per cycle).
+- Stabilization respects the same one-band-per-cycle rule that governs escalation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- COPE_SELECTION_RULE is deterministic and cycle-resolvable.
+- Probability bias movement is bounded by one band per cycle per field unless override proof applies.
+- Maladaptive escalation requires cross-cycle continuity, which is established via PRIMARY_MECHANISM persistence rather than a separate cross-cycle counter.
+- Stabilization and escalation use the same bounded one-band-per-cycle discipline.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

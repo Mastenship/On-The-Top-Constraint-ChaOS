@@ -1,7 +1,9 @@
 === SECTION: SCHEME_BODY ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of physiological/body state. Defines field schemas, ordinals, and safety invariants.
+Immutable structural definition of physiological and body state. Defines field schemas, ordinals, safety invariants, and the canonical pain-representation convention.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -53,11 +55,27 @@ HAIR_DENSITY_ORDER: FULL < THINNING < SPARSE < BALDING
 
 === SECTION_BREAK ===
 
+=== SECTION: PAIN_REPRESENTATION_CONVENTION ===
+
+[[LLM_INSTRUCTION]]: Pain is not represented as a persistent field on STATE_BODY.
+
+CONVENTION:
+- Persistent drive-level pain pressure lives in [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE], expressing the motivational dimension (avoidance pressure intensity).
+- Acute, situational, or injury-localized pain lives on STATE_TEMPORARY_MODIFIERS as overlays with EFFECT_FAMILY values such as ACUTE_PAIN, INJURY_LOCALIZED_PAIN, or CHRONIC_PAIN_FLARE, targeting the affected SKL_XX or NONE.
+- Long-term chronic pain conditions are represented as ALT_XX records in STATE_ALTERATIONS rather than as a body field, preserving alteration-cascade semantics.
+
+RATIONALE:
+- This split keeps STATE_BODY focused on physiological state-machine fields with deterministic ordinal transitions.
+- Pain is fundamentally a multi-modal phenomenon (drive pressure + acute overlay + condition status) and resists collapse into a single body-state field without losing meaningful structure.
+
+=== SECTION_BREAK ===
+
 === SECTION: INVARIANTS ===
 
 - Ordinal fields obey one-step transition policy unless override proof is valid.
 - IMMUNE_MARKERS cannot be ROBUST when terminal biochemical states are present.
 - Physiological changes must respect governance caps and deterministic reconciliation.
+- Pain must be represented per PAIN_REPRESENTATION_CONVENTION; no ad-hoc pain field on STATE_BODY.
 
 === SECTION_BREAK ===
 

@@ -1,7 +1,9 @@
 === SECTION: SCHEME_BELIEF_SYSTEMS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of belief systems state. Defines worldview axes, attribution styles, cognitive-bias fields, and invariants.
+Immutable structural definition of belief systems state. Defines worldview axes, attribution styles, cognitive-bias fields, contradiction matrix, and invariants.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -64,11 +66,35 @@ LOGIC_ARGUMENT: ENUM [STRONG, MODERATE, WEAK, VARIABLE]
 
 === SECTION_BREAK ===
 
+=== SECTION: CONTRADICTION_MATRIX ===
+
+[[LLM_INSTRUCTION]]: Two belief fields are contradictory when their values jointly imply mutually exclusive worldview commitments. Contradictions trigger BELIEF_DISSONANCE overlays per DYNAMICS_BELIEF_SYSTEMS unless one position is at WEAK or REJECTED band.
+
+CANONICAL_CONTRADICTION_PAIRS:
+- PHYSICAL_MATERIALISM at STRONG vs SPIRITUAL_DUALISM at STRONG
+- PHYSICAL_MATERIALISM at STRONG vs MAGICAL_THINKING at PRESENT
+- PHYSICAL_MATERIALISM at STRONG vs RELIGIOUS_TRANSCENDENCE at STRONG
+- DETERMINISM at HARD vs LIBERTARIAN_FREE_WILL implied by AGENCY_BELIEF at HIGH
+- DETERMINISM at HARD vs LOCUS_OF_CONTROL at INTERNAL
+- JUST_WORLD_BELIEF at STRONG vs HUMAN_NATURE at INHERENTLY_EVIL
+- UNIVERSAL_ETHICS at STRONG vs RELATIVISM at STRONG
+- EMPIRICISM at STRONG vs FAITH_BASED at STRONG
+- SKEPTICISM at HYPER vs FAITH_BASED at STRONG
+- NIHILISM_EXISTENTIALISM at STRONG vs RELIGIOUS_TRANSCENDENCE at STRONG
+- BINARY_THINKING at BLACK_WHITE vs DIALECTICAL_THINKING at FULL_SPECTRUM
+
+CONTRADICTION_RESOLUTION:
+- Coexisting strong contradictions are lawful only when supported by explicit narrative compartmentalization or active BELIEF_DISSONANCE overlay.
+- Persistent unresolved contradiction across cycles eventually triggers persistence-cluster accommodation per DYNAMICS_BELIEF_SYSTEMS.
+- The verifier inspects strong-strong contradictions in committed STATE_BELIEF_SYSTEMS values; presence without overlay or persistence justification surfaces as SCHEME_INVARIANT_VIOLATION.
+
+=== SECTION_BREAK ===
+
 === SECTION: INVARIANTS ===
 
-- Beliefs are stability-biased; baseline shifts require repeated evidence or watershed cues.
-- Contradictory strong positions require explicit dissonance/override rationale.
-- Update-trigger profile must remain coherent with agency/control stance.
+- Beliefs are stability-biased; baseline shifts require persistence-cluster evidence or watershed cues.
+- Strong-strong contradictions per CONTRADICTION_MATRIX require explicit dissonance overlay or compartmentalization.
+- Update-trigger profile must remain coherent with agency and control stance.
 
 === SECTION_BREAK ===
 

@@ -1,12 +1,13 @@
 === SECTION: SCHEME_SCRATCHPAD ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. This is instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action output, temporary coordination flags, governance audit logging, normalization audit tracking, domain runtime summaries, and cascade trace accumulation.
+Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. Instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action output, temporary coordination flags, governance audit logging, normalization audit tracking, domain runtime summaries, and cascade trace accumulation.
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 Lifecycle invariants:
 - INSTANTIATE at cycle start
 - POPULATE by COTs
-- READ by synthesis/governance
+- READ by synthesis and governance
 - COMMIT via STATE_GOVERNANCE_AND_COMMIT
 - VERIFY via COT_UPDATE_VERIFICATION
 - WIPE completely after verification
@@ -20,10 +21,10 @@ Is Informed By: Narrative input and SCHEME_ constraints.
 === SECTION: VOLATILE_FIELDS ===
 
 PROPOSED_UPDATES_REGISTRY:
-- list of proposal packets (strict schema)
+- list of proposal packets per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA
 
 ACTIVE_IMPULSE_REGISTRY:
-- list of impulse packets
+- list of impulse packets per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA
 
 CURRENT_DPF:
 - cycle snapshot aligned to SCHEME_DPF
@@ -51,21 +52,11 @@ DOMAIN_RUNTIME_SUMMARIES:
 === SECTION: SELECTED_ACTION_STRICT_SCHEMA ===
 
 REQUIRED_FIELDS:
-- ACTION_ID
-- ACTION_SOURCE_IMPULSE
-- ACTION_TYPE
-- TARGET_ID
-- CONFIDENCE
-- RATIONALE
-- CONFLICT_FLAG
-- NARRATIVE_ACTION_DESCRIPTION
-
-FIELD_CONSTRAINTS:
-- ACTION_ID: STRING with ACT_ prefix recommended
-- ACTION_SOURCE_IMPULSE: references impulse source or NONE
-- ACTION_TYPE: STRING_DESCRIPTIVE
+- ACTION_ID: STRING with ACT_ prefix
+- ACTION_SOURCE_IMPULSE: IMPULSE_ID reference or NONE
+- ACTION_TYPE: STRING_DESCRIPTIVE (canonical descriptor; PASSIVE_OBSERVATION is the lawful empty-impulse fallback)
 - TARGET_ID: canonical ID token or NONE
-- CONFIDENCE: INTEGER_RANGE [0-100]
+- CONFIDENCE: QUALITATIVE_INTENSITY band
 - RATIONALE: STRING_DESCRIPTIVE
 - CONFLICT_FLAG: BOOLEAN
 - NARRATIVE_ACTION_DESCRIPTION: STRING_DESCRIPTIVE (single concise sentence)
@@ -79,8 +70,9 @@ REQUIRED_FLAG_FIELDS:
 - DPF_RECALC_QUEUED: BOOLEAN
 - CANONICAL_FORM_PENDING: BOOLEAN
 - TRANSLATION_VIOLATION_DETECTED: BOOLEAN
-- TOOL_RESIDUE_DETECTED: BOOLEAN
+- TOOL_RESIDUE_DETECTED: BOOLEAN (reserved; remains FALSE until tool-actuation surface is active)
 - DISPLAY_NORMALIZATION_REQUIRED: BOOLEAN
+- INSTANTIATION_MODE: BOOLEAN
 
 OPTIONAL_FLAG_EXTENSION_SCHEMA:
 - FLAG_NAME
@@ -94,7 +86,9 @@ OPTIONAL_FLAG_EXTENSION_SCHEMA:
 
 REQUIRED_FIELDS:
 - COMMIT_CYCLE_ID
+- QUARANTINE_MODE_AT_INTAKE
 - TOTAL_PROPOSALS_RECEIVED
+- TOTAL_PROPOSALS_QUARANTINE_FILTERED
 - TOTAL_PROPOSALS_COMMITTED
 - TOTAL_PROPOSALS_SUPPRESSED
 - TOTAL_PROPOSALS_DOWNGRADED
@@ -108,6 +102,8 @@ REQUIRED_FIELDS:
 - SCHEME_INVARIANT_VALIDATION_RESULT
 - TRANSLATION_NORMALIZATION_RESULT
 - EPISTEMIC_TAG_VALIDATION_RESULT
+- EVIDENCE_REF_VALIDATION_RESULT
+- OVERRIDE_PROOF_VALIDATION_RESULT
 - NOTES
 
 FINAL_ACTION_LOG_ENTRY_MINIMUM_FIELDS:
@@ -116,6 +112,9 @@ FINAL_ACTION_LOG_ENTRY_MINIMUM_FIELDS:
 - TARGET_FIELD
 - REASON_CODE
 - NOTES
+
+VALIDATION_RESULT_VALUES: PASS | WARN | FAIL | PENDING
+DEFAULT_VALIDATION_RESULT_VALUE: PENDING
 
 === SECTION_BREAK ===
 
@@ -130,6 +129,9 @@ REQUIRED_FIELDS:
 - SUPPRESSION_TRIGGERED
 - NORMALIZATION_NOTES
 
+STATUS_VALUES: PASS | WARN | FAIL | PENDING
+DEFAULT_STATUS_VALUE: PENDING
+
 === SECTION_BREAK ===
 
 === SECTION: TRACE_ENTRY_MINIMUM_SCHEMA ===
@@ -143,6 +145,11 @@ REQUIRED_FIELDS:
 
 OPTIONAL_FIELDS:
 - TRACE_ID
+
+EMPTY_CYCLE_FORM:
+- KEY_OUTPUTS: NO_TRIGGERS_FIRED
+- GENERATED_IMPULSES: [NONE]
+- PROPOSED_UPDATES_COUNT: 0
 
 === SECTION_BREAK ===
 
@@ -160,17 +167,21 @@ REQUIRED_SUMMARY_BLOCKS:
 - SKILLS_RUNTIME_SUMMARY
 - TEMPORAL_RUNTIME_SUMMARY
 
+[[LLM_INSTRUCTION]]: All quantitative fields within domain runtime summaries are QUALITATIVE_INTENSITY bands or domain-specific qualitative enums. Numeric scales are not used in this surface.
+
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- All writes occur through COT/system actors only.
-- Proposal schema fields are complete and OPERATION_TYPE is strict-set valid.
-- Impulses use canonical field casing (uppercase keys).
-- Scratchpad is fully wiped post-verification (no carryover).
+- All writes occur through COT or system actors only.
+- Proposal schema fields are complete per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulse schema fields are complete per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA.
+- Impulses use canonical field casing.
+- Scratchpad is fully wiped post-verification (no carryover; cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME).
 - Governance audit must provide final-action closure for every received proposal.
-- Normalization audit must be populated whenever commit-bound or display-bound normalization is relevant.
+- Normalization audit must be populated whenever commit-bound or display-bound normalization is relevant; uninitialized fields default to PENDING.
 - Reasonable per-cycle bounds enforced for proposals and impulses.
+- INSTANTIATION_MODE is set TRUE only by COT_CHARACTER_INSTANTIATION_PROCESS workflow.
 
 === SECTION_BREAK ===
 

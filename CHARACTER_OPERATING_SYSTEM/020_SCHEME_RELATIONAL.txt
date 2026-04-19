@@ -1,7 +1,9 @@
 === SECTION: SCHEME_RELATIONAL ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of relational state. Defines relational record schema, ordinals, registry rules, and invariants.
+Immutable structural definition of relational state. Defines relational record schema with explicit directional valence fields, ordinals, registry rules, and invariants.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -11,6 +13,7 @@ ENTITY_ID: ID_TOKEN (ENT_XX)
 ENTITY_NAME: STRING_DESCRIPTIVE
 PERCEIVED_RELATIONSHIP_TYPE: STRING_DESCRIPTIVE
 AFFECTIVE_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED]
+PERCEIVED_OTHER_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED]
 COGNITIVE_COMPLEXITY: ORDINAL [ONE_DIMENSIONAL, SIMPLE, NUANCED, COMPLEX]
 INTERACTION_FREQUENCY_ESTIMATE: STRING_DESCRIPTIVE
 DEFINING_MEMORY_SUMMARY: STRING_DESCRIPTIVE
@@ -19,7 +22,27 @@ CURRENT_CONCERN: STRING_DESCRIPTIVE
 
 ORDINALS:
 AFFECTIVE_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
+PERCEIVED_OTHER_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
 COGNITIVE_COMPLEXITY_ORDER: ONE_DIMENSIONAL < SIMPLE < NUANCED < COMPLEX
+
+=== SECTION_BREAK ===
+
+=== SECTION: DIRECTIONALITY_RULE ===
+
+[[LLM_INSTRUCTION]]: AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE are independent directional fields that must not be conflated.
+
+DIRECTIONALITY_DEFINITIONS:
+- AFFECTIVE_VALENCE: how the character feels toward the entity. First-person directional. Always character-resolvable from internal state.
+- PERCEIVED_OTHER_VALENCE: how the character perceives the entity feels toward the character. Inference-based directional. Always carries EPISTEMIC_TAG INFERENCE or SPECULATION when proposed.
+
+INDEPENDENCE_RULE:
+- The two valences may differ at any band combination.
+- Asymmetry is lawful and frequently realistic (unrequited devotion, unreciprocated hostility, mutual misperception).
+- Proposals shifting one valence do not implicitly shift the other; each shift requires its own cue support.
+
+EVIDENCE_TYPES:
+- AFFECTIVE_VALENCE moves on the character's own emotional response to interaction events.
+- PERCEIVED_OTHER_VALENCE moves on observed entity behavior, disclosed entity statements, or inferred entity affect.
 
 === SECTION_BREAK ===
 
@@ -35,8 +58,9 @@ COGNITIVE_COMPLEXITY_ORDER: ONE_DIMENSIONAL < SIMPLE < NUANCED < COMPLEX
 
 === SECTION: INVARIANTS ===
 
-- Ordinal transitions obey one-step policy unless override proof is valid.
-- COGNITIVE_COMPLEXITY must be supportable by interaction history and memory linkage.
+- Ordinal transitions on both valence fields obey one-step policy unless override proof is valid.
+- AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE move independently on independent evidence.
+- COGNITIVE_COMPLEXITY moves on accumulated interaction depth, independent of either valence direction.
 - CURRENT_CONCERN should clear on resolution unless refreshed by new cues.
 
 === SECTION_BREAK ===

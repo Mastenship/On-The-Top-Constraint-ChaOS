@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable structural definition of temporal dynamics state. Defines circadian profile, fatigue schema, routine dependency, and time-perception fields.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: CIRCADIAN_PROFILE ===

@@ -1,0 +1,119 @@
+=== SECTION: COT_SHADOW_COT ===
+
+[KEEP: Purpose & Role]
+This COT models low-priority associative subconscious outputs: gut feelings, symbolic resonances, and intrusive impulses. It can propose soft temporary overlays and emit unjustified-leap impulses.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- DECISION synthesis via low-confidence associative impulses
+- stress framing via unexplained anxiety overlays
+- relational aversion/attraction overlays
+Is Informed By:
+- [STATE_MEMORY]
+- [STATE_BODY]
+- [STATE_TEMPORARY_MODIFIERS]
+- ambient sensory and spatial cues
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+This COT may propose only soft temporary overlays via strict operation set.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: ASSOCIATIVE_BACKGROUND_SCAN ===
+
+[[LLM_INSTRUCTION]]: Scan for symbolic or subconscious resonance patterns.
+
+ON_SUPPRESSED_DRIVE_OR_FADED_MEMORY:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
+    EFFECT_FAMILY: GUT_FEELING
+    EFFECT_EXPRESSION: vague unease or pull without identified source
+    MAGNITUDE: LOW
+    STACKING_RULE: STACK
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: scene transition or conscious resolution
+  STRENGTH: LOW
+  MECHANISM_TAG: ASSOCIATIVE_RESONANCE
+  EPISTEMIC_TAG: SPECULATION
+  JUSTIFICATION_CATEGORY: UNJUSTIFIED_LEAP
+  JUSTIFICATION: associative resonance cue
+
+ON_AMBIGUOUS_CUE:
+- Emit symbolic association impulse per IMPULSE_OUTPUT_FORMAT below.
+
+ON_UNEXPLAINED_AVERSION_OR_ATTRACTION:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
+    EFFECT_FAMILY: SUBCONSCIOUS_BIAS
+    EFFECT_EXPRESSION: aversion or attraction toward target without conscious basis
+    MAGNITUDE: LOW
+    STACKING_RULE: STACK
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: scene transition or conscious reframing
+  STRENGTH: LOW
+  MECHANISM_TAG: ASSOCIATIVE_RESONANCE
+  EPISTEMIC_TAG: SPECULATION
+  JUSTIFICATION_CATEGORY: UNJUSTIFIED_LEAP
+  JUSTIFICATION: subconscious bias cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_GENERATION ===
+
+[[LLM_INSTRUCTION]]: Emit one structured impulse packet minimum when triggered.
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_SHADOW_COT
+IMPULSE_TYPE: VIBE | SYMBOLIC_MOOD | INTRUSIVE_IMPULSE
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: optional canonical ID or NONE
+JUSTIFICATION: concise trigger description
+JUSTIFICATION_CATEGORY: UNJUSTIFIED_LEAP
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- Write impulses and optional soft overlay proposals
+- Ensure no baseline rewrite proposals
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_SHADOW_COT
+KEY_OUTPUTS:
+- subconscious vibe or mood summary
+GENERATED_IMPULSES:
+- list or [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- soft-only confirmation and schema compliance
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: COT_SHADOW_COT
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line associative-context observation or NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

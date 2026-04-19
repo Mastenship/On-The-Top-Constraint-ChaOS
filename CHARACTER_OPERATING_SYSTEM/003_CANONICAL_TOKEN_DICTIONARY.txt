@@ -1,10 +1,12 @@
 === SECTION: CANONICAL_TOKEN_DICTIONARY ===
 
 [KEEP: Purpose & Role]
-Single source of truth for canonical bracket-path tokens and root/module naming policy.
+Single source of truth for canonical bracket-path tokens, root naming, closed enums, structural override-proof vocabulary, read-visibility classes, and reservation patterns for surfaces declared but not yet active on the current substrate.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
 [KEEP: Relationship to Other Modules]
-Informs: All SCHEME_, DYNAMICS_, STATE_, and COT_* artifacts.
+Informs: All SCHEME_, DYNAMICS_, STATE_, COT_, and governance artifacts.
 Is Informed By: Nothing (constitutional system module).
 
 === SECTION_BREAK ===
@@ -15,36 +17,25 @@ Is Informed By: Nothing (constitutional system module).
 
 TOKEN_STYLE:
 - UPPER_SNAKE only
-- No spaces
-- No hyphens
-- No mixed case
-- IDs remain uppercase with underscores (ENT_XX, SKL_XX, ALT_XX, MEM_XX, PRD_XX, GOAL_XX, PROPOSAL_ID_PREFIX: PUP_, MOD_XX, ACTION_ID_PREFIX: ACT_)
+- No spaces, hyphens, or mixed case
+- IDs uppercase with underscores (ENT_XX, SKL_XX, ALT_XX, MEM_XX, PRD_XX, GOAL_XX, MOD_XX, PUP_, ACT_)
 
 CANONICAL_PATH_FORMAT:
 - [MODULE_ROOT][GROUP_OR_ID][FIELD]
 - Nested groups extend with additional brackets.
 
 PROHIBITED:
-- tokens containing spaces
+- spaces in tokens
 - colon pseudo-paths
-- Title Case tokens in brackets
+- Title Case bracket tokens
 - non-canonical roots
-- legacy root translation behavior
+- legacy root translation
 
 === SECTION_BREAK ===
 
 === SECTION: MODULE_ROOT_POLICY ===
 
-[[LLM_INSTRUCTION]]: Legacy roots and alias translations are forbidden.
-
-POLICY:
-- Valid roots must be members of the explicit CANONICAL_MODULE_ROOTS set defined below.
-- Inputs with non-canonical roots MUST be rejected by governance with:
-  INVALID_PATH_ROOT (LEGACY_ROOT_FORBIDDEN)
-
-=== SECTION_BREAK ===
-
-=== SECTION: CANONICAL_MODULE_ROOTS ===
+[[LLM_INSTRUCTION]]: Roots outside CANONICAL_MODULE_ROOTS are rejected with INVALID_PATH_ROOT (LEGACY_ROOT_FORBIDDEN).
 
 CANONICAL_MODULE_ROOTS:
 - STATE_ALTERATIONS
@@ -61,6 +52,7 @@ CANONICAL_MODULE_ROOTS:
 - STATE_TEMPORARY_MODIFIERS
 - STATE_GOVERNANCE_AND_COMMIT
 - STATE_GOVERNANCE_OVERLAY
+- STATE_GOVERNANCE_RUNTIME
 - SCHEME_ALTERATIONS
 - SCHEME_ASQ
 - SCHEME_BACKGROUND
@@ -71,6 +63,7 @@ CANONICAL_MODULE_ROOTS:
 - SCHEME_DARK_TRIAD
 - SCHEME_DPF
 - SCHEME_GOALS_MOTIVATIONS
+- SCHEME_GOVERNANCE_RUNTIME
 - SCHEME_HEXACO
 - SCHEME_MEMORY
 - SCHEME_MMPI
@@ -86,6 +79,7 @@ CANONICAL_MODULE_ROOTS:
 - DYNAMICS_COPE
 - DYNAMICS_DPF
 - DYNAMICS_GOALS_MOTIVATIONS
+- DYNAMICS_GOVERNANCE_RUNTIME
 - DYNAMICS_MEMORY
 - DYNAMICS_RELATIONAL
 - DYNAMICS_SKILLS
@@ -99,7 +93,6 @@ CANONICAL_MODULE_ROOTS:
 
 === SECTION: CANONICAL_ID_PREFIXES ===
 
-CANONICAL_ID_PREFIXES:
 ENTITY_ID_PREFIX: ENT_
 SKILL_ID_PREFIX: SKL_
 ALTERATION_ID_PREFIX: ALT_
@@ -161,39 +154,188 @@ CANONICAL_RELATIVE_TRANSITION_DIRECTIVES:
 - ONE_STEP_TOWARD_NEUTRAL
 
 NOTES:
-- These directives are valid PROPOSED_VALUE forms for TRANSITION when the target field has a lawful ordinal or deterministic transition ladder.
-- BASELINE and NEUTRAL targets must be deterministically inferable from the relevant SCHEME_ or domain constitution.
+- Valid PROPOSED_VALUE forms for TRANSITION on lawful ordinal ladders.
+- BASELINE and NEUTRAL targets must be deterministically inferable from SCHEME_ definitions.
 
 === SECTION_BREAK ===
 
-=== SECTION: EPISTEMIC_TAG_ENUM (new required extension) ===
+=== SECTION: QUALITATIVE_ENUMS ===
 
-EPISTEMIC_TAG: ENUM [
-  PERCEPTION,
-  INFERENCE,
-  SPECULATION,
-  COMMITTED_FACT,
-  TOOL_REQUEST
+[[LLM_INSTRUCTION]]: These enums replace prior numeric scales. Each is distinct in semantic role and not interchangeable.
+
+QUALITATIVE_INTENSITY: ENUM [MINIMAL, LOW, MODERATE, HIGH, EXTREME]
+QUALITATIVE_INTENSITY_GLOSS:
+- MINIMAL: trace presence
+- LOW: weak but behaviorally relevant
+- MODERATE: clearly present
+- HIGH: behaviorally dominant within domain
+- EXTREME: acute saturating presence
+QUALITATIVE_INTENSITY_USAGE:
+- STRENGTH on proposals
+- IMPULSE_STRENGTH on impulses
+- SALIENCE on memory records
+- CERTAINTY on prediction records and CERTAINTY_LEVEL.VALUE on STATE_DPF
+- CONFIDENCE on goal records and SELECTED_ACTION
+- URGENCY, PROGRESS, COMMITMENT_LEVEL, VALUE_ALIGNMENT, IDENTITY_RELEVANCE on goal records
+- SUBSTANCE_USE_RISK and the five COPE_PROBABILITY_BIASES fields
+
+QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
+QUALITATIVE_PERCENTILE_GLOSS:
+- VERY_LOW: below 20th percentile
+- LOW: 20th to 40th percentile
+- AVERAGE: 40th to 60th percentile
+- HIGH: 60th to 80th percentile
+- VERY_HIGH: above 80th percentile
+QUALITATIVE_PERCENTILE_USAGE:
+- SCHEME_HEXACO trait markers
+- SCHEME_DARK_TRIAD trait markers
+- SCHEME_ASQ ATTACHMENT_SECURITY
+
+QUALITATIVE_T_SCORE: ENUM [NORMAL, MILD_ELEVATION, MODERATE, SIGNIFICANT, CLINICAL]
+QUALITATIVE_T_SCORE_GLOSS:
+- NORMAL: T-score below 55
+- MILD_ELEVATION: 55 to 65
+- MODERATE: 65 to 75
+- SIGNIFICANT: 75 to 85
+- CLINICAL: above 85
+QUALITATIVE_T_SCORE_USAGE:
+- SCHEME_MMPI clinical scale baselines
+
+QUALITATIVE_MAGNITUDE: ENUM [TRACE, LOW, MODERATE, HIGH, EXTREME]
+QUALITATIVE_MAGNITUDE_GLOSS:
+- TRACE: barely perceptible transient influence
+- LOW: weak transient influence
+- MODERATE: clear situational influence
+- HIGH: strong situational influence
+- EXTREME: acute overriding pressure still bounded by governance
+QUALITATIVE_MAGNITUDE_USAGE:
+- SCHEME_TEMPORARY_MODIFIERS.MAGNITUDE only (carries lifecycle semantics)
+
+=== SECTION_BREAK ===
+
+=== SECTION: EPISTEMIC_TAG_ENUM ===
+
+EPISTEMIC_TAG: ENUM [PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST]
+
+RULES:
+- Required on every proposal.
+- COMMITTED_FACT requires structural EVIDENCE_REF (see EVIDENCE_REF_POLICY).
+- TOOL_REQUEST is reserved (see RUNNABLE_BUT_LIFTABLE_RESERVATIONS).
+
+=== SECTION_BREAK ===
+
+=== SECTION: EVIDENCE_REF_POLICY ===
+
+[[LLM_INSTRUCTION]]: COMMITTED_FACT proposals MUST carry structural evidence linkage.
+
+EVIDENCE_REF_FIELD:
+- Required when EPISTEMIC_TAG = COMMITTED_FACT
+- Optional otherwise
+
+EVIDENCE_REF_VALUE_FORMS:
+- MEM_XX reference
+- PRD_XX reference (only when prediction is RESOLVED)
+- PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>
+
+ENFORCEMENT:
+- Missing EVIDENCE_REF on COMMITTED_FACT: COMMITTED_FACT_WITHOUT_EVIDENCE
+- Unresolvable EVIDENCE_REF: EVIDENCE_REF_UNRESOLVED
+
+=== SECTION_BREAK ===
+
+=== SECTION: JUSTIFICATION_CATEGORY_ENUM ===
+
+[[LLM_INSTRUCTION]]: Required on every impulse and on every proposal originating from an impulse. Categorizes cognitive route, separately from epistemic stance.
+
+JUSTIFICATION_CATEGORY: ENUM [DIRECT_APPLICATION, INFERENTIAL_LEAP, UNJUSTIFIED_LEAP, GOAL_DIRECTED, TRAIT_GATED]
+
+GLOSS:
+- DIRECT_APPLICATION: direct cue-to-rule application
+- INFERENTIAL_LEAP: structured inference across multiple cues
+- UNJUSTIFIED_LEAP: associative or subconscious surfacing
+- GOAL_DIRECTED: active goal pursuit pressure
+- TRAIT_GATED: trait-threshold gating
+
+EPISTEMIC_TAG_MAPPING:
+- DIRECT_APPLICATION: PERCEPTION or INFERENCE
+- INFERENTIAL_LEAP: INFERENCE
+- UNJUSTIFIED_LEAP: SPECULATION
+- GOAL_DIRECTED: INFERENCE
+- TRAIT_GATED: INFERENCE
+
+ENFORCEMENT:
+- Mismatch with mapping: JUSTIFICATION_CATEGORY_TAG_MISMATCH
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVOKED_RULE_NAME_ENUM ===
+
+[[LLM_INSTRUCTION]]: Required on every proposal requesting override of step limits, magnitude caps, or baseline-rewrite restrictions. Closed enum; additions require constitutional update.
+
+INVOKED_RULE_NAME: ENUM [
+  FLASHBULB_BREAKTHROUGH,
+  TRAUMA_INDUCED_ATROPHY,
+  SECOND_WIND,
+  ALTERATION_ACTIVATION_OR_FAILURE,
+  DPF_CONTRAST_EVENT,
+  SKILL_STATE_CHANGE,
+  WATERSHED_BELIEF_SHIFT,
+  EXISTENTIAL_CRISIS_OVERRIDE,
+  PERSISTENT_EVIDENCE_ACCUMULATION,
+  GOVERNANCE_CORRECTIVE
 ]
 
-Notes: Closed canonical set. Required on every proposal submitted to the proposal registry. COMMITTED_FACT tag is only permitted when supported by verified evidence linkage.
+GLOSS:
+- FLASHBULB_BREAKTHROUGH: extreme-salience memory event
+- TRAUMA_INDUCED_ATROPHY: trauma-driven multi-step degradation
+- SECOND_WIND: bounded fatigue reversal
+- ALTERATION_ACTIVATION_OR_FAILURE: alteration status transition cascade
+- DPF_CONTRAST_EVENT: multi-axis dominant predictive frame contrast
+- SKILL_STATE_CHANGE: lawful permanent skill mutation
+- WATERSHED_BELIEF_SHIFT: identity-relevant belief field mutation
+- EXISTENTIAL_CRISIS_OVERRIDE: multi-axis worldview shift
+- PERSISTENT_EVIDENCE_ACCUMULATION: bounded baseline accommodation under accumulated cues
+- GOVERNANCE_CORRECTIVE: proposal admitted under QUARANTINE_MODE for governance restoration only
 
 === SECTION_BREAK ===
 
-=== SECTION: CANONICAL_OUTPUT_LEXICON_POLICY (TRANSLATION_BEFORE_COMMIT) ===
+=== SECTION: STRUCTURAL_OVERRIDE_PROOF_FIELDS ===
 
-[[LLM_INSTRUCTION]]: Internal deliberation may occur in any language or mixed style.
-However, before any commit decision, the audit authority MUST translate/normalize ALL commit-bound artifacts (proposals, justifications, audit entries, verification inputs) into the single canonical output lexicon defined here.
+[[LLM_INSTRUCTION]]: Override proof is structural. Narrative justification text alone does not satisfy it.
 
-CANONICAL_OUTPUT_LEXICON_RULES:
-- All non-token narrative fields (JUSTIFICATION, NOTES, EFFECT_EXPRESSION, HYPOTHESIS, etc.) MUST be rendered in clear, canonical English (or the declared primary operating language) with UPPER_SNAKE tokens left untouched.
-- Bracket-path tokens, OPERATION_TYPE, EPISTEMIC_TAG, PROPOSAL_ID, MECHANISM_TAG, and all registry IDs are immutable write-surface elements — they are copied verbatim and never translated.
-- Any proposal that cannot be normalized without altering a write-surface token is suppressed at intake.
+REQUIRED_FIELDS_WHEN_OVERRIDE_GATE_TRIGGERED:
+- INVOKED_RULE_NAME
+- NARRATIVE_CUE_REFERENCE: short canonical token or quoted cue fragment from cycle narrative input; must be cycle-resolvable
+- SCHEME_INVARIANT_NOTE: short statement naming the SCHEME_ invariant the override interacts with and asserting compatibility under the named rule
+- MECHANISM_TAG: domain-canonical mechanism name aligned with the relevant DYNAMICS_ pattern
 
-ENFORCEMENT_REASON_CODE:
-- TRANSLATION_VIOLATION (triggered if normalization would mutate canonical tokens or if commit-bound artifacts remain in non-canonical form)
+ENFORCEMENT:
+- Any required field missing or unlawful: OVERRIDE_PROOF_INCOMPLETE
 
-[[LLM_INSTRUCTION]]: This policy is enforced by STATE_GOVERNANCE_AND_COMMIT (pre-commit) and COT_UPDATE_VERIFICATION (post-commit canonical-form check).
+=== SECTION_BREAK ===
+
+=== SECTION: READ_VISIBILITY_CLASS_ENUM ===
+
+[[LLM_INSTRUCTION]]: Every persistent module declares a READ_VISIBILITY_CLASS in its [KEEP: Purpose & Role] block. The header declaration is the source of truth.
+
+READ_VISIBILITY_CLASS: ENUM [CHARACTER_VISIBLE, GOVERNANCE_INTERNAL]
+
+GLOSS:
+- CHARACTER_VISIBLE: readable by character-cognition COTs (priorities 01 through 15) and by governance and verification authorities
+- GOVERNANCE_INTERNAL: readable only by STATE_GOVERNANCE_AND_COMMIT (priority 16) and COT_UPDATE_VERIFICATION (priority 17)
+
+ENFORCEMENT:
+- A character-cognition COT reading a GOVERNANCE_INTERNAL module: READ_BOUNDARY_VIOLATION (raised by COT_UPDATE_VERIFICATION from CASCADE_TRACE inspection)
+
+=== SECTION_BREAK ===
+
+=== SECTION: RUNNABLE_BUT_LIFTABLE_RESERVATIONS ===
+
+[[LLM_INSTRUCTION]]: Surfaces declared but not actuatable on the current substrate use this pattern. Surface is canonically declared, annotated RESERVED, and governance enforces a deterministic suppression code on actuation attempts. Lifting to external governance consists of removing the suppression rule and supplying the actuation surface; no schema migration is required.
+
+CURRENTLY_RESERVED:
+- TOOL_REQUEST epistemic tag: TOOL_ACTUATION_NOT_ACTIVE
+- ROLLBACK remediation mode: ROLLBACK_NOT_ACTIVE
 
 === SECTION_BREAK ===
 

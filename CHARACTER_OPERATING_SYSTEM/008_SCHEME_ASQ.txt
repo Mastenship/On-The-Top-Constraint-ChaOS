@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable definition of adult attachment style. Set at instantiation; informs relational and coping schemas.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: ATTACHMENT_MARKERS ===

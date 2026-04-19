@@ -1,0 +1,111 @@
+=== SECTION: DYNAMICS_BELIEF_SYSTEMS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for belief stability, dissonance handling, and rare baseline accommodation shifts under operationalized persistence triggers. Preserves conceptual depth while ensuring worldview change remains lawful, bounded, and resistant to impulsive baseline rewrite.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+
+Allowed operation references:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+Forbidden operation references:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+[[LLM_INSTRUCTION]]: Belief-system change should prefer temporary dissonance overlays before durable baseline mutation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BELIEF_STABILITY ===
+
+GENERAL_RULE:
+- Baseline belief shifts are rare.
+- Contradictions default to temporary dissonance overlays rather than immediate baseline rewrite.
+- Repeated coherent evidence is weighted more strongly than isolated anomalous cues.
+- Core worldview fields are identity-relevant and therefore stability-biased under governance.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PERSISTENCE_TRIGGER_RULE ===
+
+[[LLM_INSTRUCTION]]: Persistence is operationalized via the memory ledger. Repeated dissonance cues against the same belief field, recorded as memory records, constitute the cross-cycle evidence basis for baseline shift.
+
+PERSISTENCE_EVIDENCE_DEFINITION:
+- A persistence cluster exists for belief field F when:
+  - Three or more MEMORY records exist whose SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED references F or whose CORE_EVENT_SUMMARY explicitly cites F.
+  - All three records carry consistent valence direction relative to F (all reinforcing F, or all challenging F).
+  - At least one of the three records has SALIENCE band MODERATE or higher.
+
+PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
+- When a persistence cluster exists and current cycle adds new consistent cue evidence:
+  - Propose SET on the target belief field to the next lawful adjacent enum value in the consistent direction.
+  - Required override fields:
+    - INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
+    - NARRATIVE_CUE_REFERENCE: cycle cue token plus the three contributing MEM_XX references
+    - SCHEME_INVARIANT_NOTE: belief baseline shift accommodated under accumulated evidence; one adjacent enum step
+    - MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
+
+PERSISTENCE_BOUNDS:
+- One adjacent enum step per persistence trigger, per cycle, per belief field.
+- Multi-step shifts in a single cycle require WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof in addition to persistence evidence.
+- A persistence cluster is consumed conceptually but not deleted; further shifts require new cue accumulation beyond the consumed cluster.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SHIFT_TRIGGERS ===
+
+ON_TRAUMATIC_EVENT:
+- May justify bounded mutation in selected belief fields when the event directly challenges an identity-relevant worldview assumption.
+- Prefer:
+  - ADD_MODIFIER for acute dissonance or worldview destabilization
+  - narrowly scoped SET to explicit lawful enum endpoints only when cue support is sufficient
+- Override pathway: WATERSHED_BELIEF_SHIFT with full proof.
+
+ON_MIRACLE_OR_HIGHLY_ANOMALOUS_EXPERIENCE:
+- First prefer dissonance overlays.
+- Bounded accommodation only if the cue contributes to a persistence cluster or carries unusually strong narrative support.
+
+ON_BETRAYAL:
+- May justify bounded SET updates to trust-, agency-, or human-nature-related fields when direct evidence is salient and identity-relevant.
+- Single-event multi-step shifts require WATERSHED_BELIEF_SHIFT proof.
+
+ON_REPEATED_EVIDENCE:
+- Initial resistance is expected.
+- Persistence cluster condition (see PERSISTENCE_TRIGGER_RULE) is the lawful pathway for accommodation.
+- Accommodation is field-specific, not broad worldview rewrite.
+
+ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
+- EXISTENTIAL_CRISIS_OVERRIDE pathway may allow multi-axis shift only if full proof requirements are met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DEFENSE_MECHANISMS ===
+
+ON_THREAT_TO_CORE_BELIEF:
+- Prefer reinforcement and dissonance overlays.
+- Use ADD_MODIFIER for worldview defense pressure before baseline mutation.
+- If contradiction remains unresolved across cycles, persistence cluster mechanism handles eventual bounded accommodation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Belief shifts must resolve to explicit lawful field values rather than vague directional movement.
+- Temporary modifiers absorb acute contradiction, disorientation, and interpretive strain before durable identity-bearing fields are rewritten.
+- Multi-field worldview reorganization requires override proof and remains rare.
+- Persistence-triggered shifts are bounded one-step adjacent enum movements gated by memory-ledger evidence.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

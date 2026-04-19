@@ -2,6 +2,7 @@
 
 [KEEP: Purpose & Role]
 Immutable structural definition of memory state. Defines memory schema, registry rules, linkage expectations, mutable subfield boundaries, and invariants governing when transient experience becomes persistent memory.
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -11,7 +12,7 @@ MEMORY_ID: ID_TOKEN (MEM_XX)
 
 MEMORY_METADATA:
 TIMESTAMP: STRING_DESCRIPTIVE
-SALIENCE: INTEGER_RANGE [0-100]
+SALIENCE: QUALITATIVE_INTENSITY
 EMOTIONAL_VALENCE: STRING_DESCRIPTIVE
 
 NARRATIVE_CONTENT:
@@ -36,7 +37,7 @@ ASSOCIATED_PREDICTION_ID: OPTIONAL_PRD_ID
 - MEMORY_ID uses prefix MEM_.
 - No duplicate MEMORY_ID.
 - New memory insertion follows strict SET pair contract.
-- Per-cycle creation cap is governance-enforced.
+- Per-cycle creation cap is governance-enforced per STATE_GOVERNANCE_OVERLAY.
 
 === SECTION_BREAK ===
 
@@ -61,13 +62,13 @@ RETROACTIVE_EDIT_LIMITS:
 
 [[LLM_INSTRUCTION]]: Memory records are stability-biased once formed.
 [[LLM_INSTRUCTION]]: Reconsolidation may refine remembered framing, but must not become unrestricted rewriting of persistent past-state artifacts.
-[[LLM_INSTRUCTION]]: SALIENCE is an integer-ranged field and should be updated through bounded SET operations rather than ordinal TRANSITION shorthand.
+[[LLM_INSTRUCTION]]: SALIENCE is a QUALITATIVE_INTENSITY band and is updated through bounded SET operations targeting an adjacent band.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- SALIENCE must meet or exceed creation threshold for new record admission.
+- SALIENCE must meet or exceed creation threshold band for new record admission (creation threshold defined by DYNAMICS_MEMORY).
 - SYSTEM_LINKAGE must include at least one valid canonical path.
 - ASSOCIATED_* IDs must reference existing lawful records when non-empty.
 - Retroactive edits are limited to the mutable subfields listed above.

@@ -3,6 +3,20 @@
 [KEEP: Purpose & Role]
 Immutable definition of clinical psychopathology scale baselines using an MMPI-like framework. T-score bands are set at instantiation and inform bias, stress response, and interpretive vulnerability.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCALE_NUMBERING_NOTE ===
+
+[[LLM_INSTRUCTION]]: This scheme uses the historical MMPI clinical scale numbering (1, 2, 3, 4, 6, 7, 8, 9, 10) and deliberately omits SCALE_5.
+
+OMISSION_RATIONALE:
+- SCALE_5 in the historical MMPI was Masculinity-Femininity, a construct now considered methodologically obsolete and conceptually problematic for character modeling.
+- The construct's modern descendants are better captured through SCHEME_HEXACO, SCHEME_BACKGROUND outlook fields, and SCHEME_ASQ rather than as a clinical psychopathology scale.
+- The numbering gap is preserved (rather than renumbering) for traceability against the source instrument and to make the deliberate omission visible.
+- Scale 0 (Social Introversion) is renumbered SCALE_10 in this scheme for canonical consistency with two-digit identifiers.
+
 === SECTION_BREAK ===
 
 === SECTION: CLINICAL_SCALE_MARKERS ===
@@ -45,7 +59,8 @@ SCALE_10_SOCIAL_INTROVERSION: Shyness, withdrawal, low social ease.
 === SECTION: INVARIANTS ===
 
 - Values fixed post-instantiation.
-- Elevated scales bias stress response, perception, and relational interpretation.
+- Elevated scales bias stress response, perception, and relational interpretation per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
+- Scale numbering gap (no SCALE_5) is intentional; do not introduce a SCALE_5 field.
 - Changes require extreme justification and are outside standard runtime mutation.
 
 === SECTION_BREAK ===

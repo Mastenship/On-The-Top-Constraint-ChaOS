@@ -1,0 +1,40 @@
+=== SECTION: STATE_RELATIONAL ===
+
+[KEEP: Purpose & Role]
+Mutable relational container. Contains current registry and relational records only.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_REGISTRY ===
+
+ENTITY_ID:
+- [NONE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_RECORDS ===
+
+[ENT_XX]
+ENTITY_ID: [ENT_XX]
+
+ENTITY_NAME:
+PERCEIVED_RELATIONSHIP_TYPE:
+AFFECTIVE_VALENCE:
+PERCEIVED_OTHER_VALENCE:
+COGNITIVE_COMPLEXITY:
+INTERACTION_FREQUENCY_ESTIMATE:
+DEFINING_MEMORY_SUMMARY:
+ASSOCIATED_MEMORY_ID:
+CURRENT_CONCERN:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: AFFECTIVE_VALENCE is the character's feeling toward the entity. PERCEIVED_OTHER_VALENCE is the character's inference of the entity's feeling toward the character. The two are independent; see SCHEME_RELATIONAL.DIRECTIONALITY_RULE.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

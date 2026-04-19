@@ -1,0 +1,31 @@
+=== SECTION: STATE_GOVERNANCE_RUNTIME ===
+
+[KEEP: Purpose & Role]
+Mutable governance runtime container. Carries cross-cycle governance signal: last commit cycle id, last verification result, quarantine status, accumulated reason codes (capped), and lift-hook status. Sole persistent surface that survives the per-cycle scratchpad wipe and is intentionally invisible to character cognition.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_RUNTIME_FIELDS ===
+
+LAST_COMMIT_CYCLE_ID:
+LAST_VERIFICATION_RESULT: PENDING
+QUARANTINE_MODE: FALSE
+QUARANTINE_ENGAGED_CYCLE_ID: NONE
+QUARANTINE_REASON_CODES:
+- [NONE]
+LIFT_HOOK_STATUS: EXTERNAL_GOVERNANCE_INACTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: This module is the only persistent governance signal carrier across cycles.
+[[LLM_INSTRUCTION]]: Read access is restricted to STATE_GOVERNANCE_AND_COMMIT and COT_UPDATE_VERIFICATION. Read attempts by character-cognition COTs are READ_BOUNDARY_VIOLATION.
+[[LLM_INSTRUCTION]]: Write access is exclusive to STATE_GOVERNANCE_AND_COMMIT.
+[[LLM_INSTRUCTION]]: All field defaults shown above represent the lawful initial state at first instantiation.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

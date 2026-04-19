@@ -1,0 +1,40 @@
+=== SECTION: STATE_COMMUNICATION_DIALOGUE ===
+
+[KEEP: Purpose & Role]
+Mutable communication/dialogue container. Contains current verbal and non-verbal settings only. Transient state-dependent modulation lives on STATE_TEMPORARY_MODIFIERS, not here.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERBAL_EXPRESSION_PATTERNS ===
+
+VERBOSITY_LEVEL:
+SPEECH_RATE:
+COMPLEXITY_LEVEL:
+DIRECTNESS_LEVEL:
+VOCABULARY_STYLE:
+EMOTIONAL_EXPRESSIVENESS:
+POLITENESS_STRATEGY:
+IDIOM_USE:
+
+=== SECTION_BREAK ===
+
+=== SECTION: NON_VERBAL_PATTERNS ===
+
+EYE_CONTACT:
+GESTURE_FREQUENCY:
+POSTURE:
+FACIAL_EXPRESSIVENESS:
+PROXEMICS_PREFERENCE:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: This module contains stable identity values only.
+[[LLM_INSTRUCTION]]: For active transient modulation (leakage, masking, stress effects), inspect STATE_TEMPORARY_MODIFIERS for modifiers whose TARGET_FIELD references this module.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

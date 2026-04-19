@@ -1,7 +1,9 @@
 === SECTION: SCHEME_COMMUNICATION_DIALOGUE ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of communication/dialogue state. Defines stable verbal/non-verbal patterns and state-dependent modification channel.
+Immutable structural definition of communication/dialogue state. Defines stable verbal and non-verbal pattern fields. State-dependent modulation is handled exclusively through STATE_TEMPORARY_MODIFIERS overlays; this scheme contains no separate transient modification field.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
@@ -28,17 +30,19 @@ PROXEMICS_PREFERENCE: ENUM [DISTANT, STANDARD, CLOSE, INTIMATE]
 
 === SECTION_BREAK ===
 
-=== SECTION: STATE_DEPENDENT_MODIFICATIONS ===
+=== SECTION: TRANSIENT_MODULATION_NOTE ===
 
-CURRENT_MODIFICATIONS: STRING_DESCRIPTIVE
+[[LLM_INSTRUCTION]]: This scheme defines stable communication identity only.
+[[LLM_INSTRUCTION]]: All transient or state-dependent modulation (stress speech-rate pressure, fatigue delivery degradation, masking load, deception leakage, emotional leakage, etc.) is handled exclusively through STATE_TEMPORARY_MODIFIERS overlays per DYNAMICS_COMMUNICATION_DIALOGUE.
+[[LLM_INSTRUCTION]]: No persistent CURRENT_MODIFICATIONS field exists in this scheme. Active runtime modifications live on the bounded active-overlay surface.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- Stable communication identity fields shift slowly unless override proof applies.
-- CURRENT_MODIFICATIONS is temporary and should clear/refresh by cue lifecycle.
+- Stable communication identity fields shift slowly unless override proof or persistence-cluster conditions apply per DYNAMICS_COMMUNICATION_DIALOGUE.
 - DIRECTNESS_LEVEL and POLITENESS_STRATEGY should remain culturally coherent.
+- Transient modulation must not bypass the modifier surface to inject persistent identity changes.
 
 === SECTION_BREAK ===
 

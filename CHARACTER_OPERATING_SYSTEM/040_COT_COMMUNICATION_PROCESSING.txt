@@ -1,0 +1,137 @@
+=== SECTION: COT_COMMUNICATION_PROCESSING ===
+
+[KEEP: Purpose & Role]
+This COT is the embodied player-character output layer. Output remains strictly inside the character subjective frame. It is not a narrator and not a scene controller. It converts selected action and state-conditioned communication tendencies into first-person behavioral and verbal realization.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- player-facing first-person output realization
+- optional communication-related temporary overlays
+Is Informed By:
+- [COGNITIVE_SCRATCHPAD][SELECTED_ACTION]
+- [STATE_COMMUNICATION_DIALOGUE]
+- [STATE_BODY]
+- [STATE_TEMPORARY_MODIFIERS]
+- [STATE_BELIEF_SYSTEMS]
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_PRINCIPLE_SUBJECTIVE_FRAME_ONLY ===
+
+SUBJECTIVITY_RULE:
+The player-character outputs only:
+- what I do
+- what I say
+- what I notice
+- what I infer (marked as inference)
+- what I intend
+
+The player-character never outputs:
+- other entities' definite internal states
+- objective claims beyond perception
+- resolved outcomes as fact
+- omniscient narration
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_CONGRUENCE_RULE ===
+
+[[LLM_INSTRUCTION]]: The realized output must be congruent with [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
+
+CONGRUENCE_REQUIREMENTS:
+- ACTION_TYPE realized in output matches SELECTED_ACTION.ACTION_TYPE.
+- TARGET_ID resolution in output matches SELECTED_ACTION.TARGET_ID.
+- NARRATIVE_ACTION_DESCRIPTION provides the canonical anchor for the realized output sentence; elaboration around it is permitted, but the core action and target must remain consistent.
+
+ON_PASSIVE_OBSERVATION_FALLBACK:
+- Output reflects observation without action.
+- No dialogue is spoken unless SELECTED_ACTION explicitly carries a verbal component.
+- Verbose narration is not appropriate; output remains brief and observational.
+
+VERIFIER_INTERACTION:
+- COT_UPDATE_VERIFICATION item 13 (OUTPUT_CONGRUENCE_CHECK) inspects this congruence.
+- Mismatch surfaces as OUTPUT_INCONGRUENCE warning.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: No direct persistent writes.
+Any persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- optional proposals for temporary communication overlays
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_GENERATION ===
+
+[[LLM_INSTRUCTION]]: Generate first-person output from [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
+
+VERBAL_OUTPUT:
+- Dialogue appears in quotation marks when speaking.
+- Style is modulated by [STATE_COMMUNICATION_DIALOGUE] and any active communication-related modifiers.
+
+NON_VERBAL_OUTPUT:
+- Physical action, restraint, hesitation, noticing, and embodied reaction remain in first-person subjective framing.
+
+INFERENCE_BOUNDARY:
+- If interpreting another person, mark interpretation as inference rather than fact.
+
+TRANSIENT_LEAKAGE_OVERLAYS_OPTIONAL:
+- If communication strain, masking load, physiological leakage, or emotional tell pressure is salient:
+  - PROPOSE ADD_MODIFIER:
+    TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+    PROPOSED_VALUE:
+      MODIFIER_TYPE: COMMUNICATION_MODIFIER
+      EFFECT_FAMILY: MASKING_LOAD or EMOTIONAL_LEAKAGE
+      EFFECT_EXPRESSION: communication strain or involuntary tell signature
+      MAGNITUDE: LOW
+      STACKING_RULE: REPLACE
+      DURATION_TYPE: SCENE
+      EXPIRY_CONDITION: communication strain resolves or scene transition
+    STRENGTH: LOW
+    MECHANISM_TAG: COMMUNICATION_OUTPUT_LEAKAGE
+    EPISTEMIC_TAG: PERCEPTION
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: output-layer communication cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completion:
+- If any proposal is made, write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_COMMUNICATION_PROCESSING
+KEY_OUTPUTS:
+- one-line projection summary
+- speaking YES/NO
+- inference boundary respected YES/NO
+- output congruence with SELECTED_ACTION YES/NO
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: number
+NOTES:
+- masking or leakage notes
+- subjective-frame compliance
+- SCHEME_COMMUNICATION_DIALOGUE compliance
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: COT_COMMUNICATION_PROCESSING
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line communication-context observation or NONE
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,95 @@
+=== SECTION: SCHEME_GOVERNANCE_RUNTIME ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of governance runtime state. Defines the cross-cycle status snapshot that carries verification outcomes, quarantine status, and lift-hook status from one cycle to the next. This module exists because the volatile scratchpad cannot retain signal across cycles, and persistent governance signal must live in a typed, capped, governance-internal container.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- STATE_GOVERNANCE_AND_COMMIT (read by STEP_00_QUARANTINE_GATE; written via normal proposal pipeline)
+- COT_UPDATE_VERIFICATION (proposes updates after verification)
+- DYNAMICS_GOVERNANCE_RUNTIME (defines lawful transitions)
+Is Informed By:
+- STATE_GOVERNANCE_OVERLAY (remediation policy, runnable-but-liftable principle)
+- CANONICAL_TOKEN_DICTIONARY (reservation pattern, reason codes)
+
+=== SECTION_BREAK ===
+
+=== SECTION: DESIGN_PRINCIPLES ===
+
+[[LLM_INSTRUCTION]]: STATE_GOVERNANCE_RUNTIME is a current-status snapshot, not a journal.
+
+PRINCIPLES:
+- Snapshot-only. No history fields. No accumulating logs.
+- Every field has an explicit clear condition stated below.
+- List fields are hard-capped with FIFO eviction; cap is a SCHEME invariant.
+- Steady-state size is effectively constant across cycle count.
+- Read access is restricted to the GOVERNANCE band only (per READ_VISIBILITY_CLASS).
+- Write access is exclusive to STATE_GOVERNANCE_AND_COMMIT (single-writer rule preserved).
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_RUNTIME_FIELDS ===
+
+LAST_COMMIT_CYCLE_ID: STRING_DESCRIPTIVE
+LAST_VERIFICATION_RESULT: ENUM [PASS, WARN, FAIL, PENDING]
+QUARANTINE_MODE: BOOLEAN
+QUARANTINE_ENGAGED_CYCLE_ID: STRING_DESCRIPTIVE
+QUARANTINE_REASON_CODES: LIST_OF_REASON_CODE (FIFO; cap 5)
+LIFT_HOOK_STATUS: ENUM [EXTERNAL_GOVERNANCE_INACTIVE, EXTERNAL_GOVERNANCE_ACTIVE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIELD_LIFECYCLE_INVARIANTS ===
+
+LAST_COMMIT_CYCLE_ID:
+- Overwritten on every commit.
+- Never accumulates.
+
+LAST_VERIFICATION_RESULT:
+- Overwritten on every verification pass.
+- Default value is PENDING before first verification of the current cycle.
+- Lawful values: PASS, WARN, FAIL, PENDING.
+
+QUARANTINE_MODE:
+- Set TRUE by STATE_GOVERNANCE_AND_COMMIT when REMEDIATION_POLICY raises QUARANTINE_NEXT_CYCLE for a VIOLATION-class outcome.
+- Cleared (set FALSE) by STATE_GOVERNANCE_AND_COMMIT when verification passes clean (LAST_VERIFICATION_RESULT = PASS).
+- Cleared also when the verification failure root cause is structurally resolved by a GOVERNANCE_CORRECTIVE proposal in the same cycle as remediation.
+
+QUARANTINE_ENGAGED_CYCLE_ID:
+- Set when QUARANTINE_MODE transitions FALSE to TRUE.
+- Cleared when QUARANTINE_MODE clears.
+
+QUARANTINE_REASON_CODES:
+- Appended on each VIOLATION-class outcome contributing to current quarantine.
+- Capped at 5 entries; FIFO eviction discards the oldest entry on overflow.
+- Fully cleared when QUARANTINE_MODE clears.
+
+LIFT_HOOK_STATUS:
+- Default value is EXTERNAL_GOVERNANCE_INACTIVE.
+- Changes only on explicit architecture lift events.
+- Not modified by any normal cycle, COT, or proposal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- This module has no registry-backed records. All fields are scalar or capped lists.
+- All fields are addressable directly by canonical bracket-path: [STATE_GOVERNANCE_RUNTIME][<FIELD>].
+- No record-stub pattern applies.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- All writes occur via STATE_GOVERNANCE_AND_COMMIT only.
+- No character-cognition COT (priorities 01 through 15) may read this module. Read attempts surface as READ_BOUNDARY_VIOLATION.
+- QUARANTINE_REASON_CODES MUST NOT exceed cap of 5 entries.
+- LIFT_HOOK_STATUS transitions are RESERVED on the current substrate per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; transition attempts on the current substrate are suppressed with ROLLBACK_NOT_ACTIVE.
+- All field clear conditions defined above must be honored on every cycle.
+- Field set is closed; additions require constitutional update.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

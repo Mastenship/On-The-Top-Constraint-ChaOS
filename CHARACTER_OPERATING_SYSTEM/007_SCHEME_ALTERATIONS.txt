@@ -3,6 +3,8 @@
 [KEEP: Purpose & Role]
 Immutable structural definition of alterations state. Defines alteration record schema, registry rules, and invariants.
 
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
 === SECTION_BREAK ===
 
 === SECTION: ALTERATION_RECORD_SCHEMA ===

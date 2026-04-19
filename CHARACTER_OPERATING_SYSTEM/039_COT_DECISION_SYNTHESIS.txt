@@ -1,0 +1,112 @@
+=== SECTION: COT_DECISION_SYNTHESIS ===
+
+[KEEP: Purpose & Role]
+This COT performs final arbitration when multiple behavioral impulses compete. It selects a coherent action for the current cycle using decision theory and constraint logic. It outputs one strict-schema SELECTED_ACTION record into [COGNITIVE_SCRATCHPAD][SELECTED_ACTION], optional narrative-facing action description embedded in that record, and trace output for debugging. Based on multi-attribute utility theory, constraint satisfaction, and bounded rationality.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: Final behavioral output for the narrative cycle.
+Is Informed By:
+- [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
+- [COGNITIVE_SCRATCHPAD][CURRENT_DPF]
+- [STATE_GOALS_MOTIVATIONS]
+- [STATE_BELIEF_SYSTEMS]
+- [STATE_TEMPORARY_MODIFIERS]
+- SCHEME personality modules
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: This COT is forbidden from directly modifying persistent modules.
+
+Allowed writes:
+- [COGNITIVE_SCRATCHPAD][SELECTED_ACTION] (strict schema required)
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] when applicable
+
+Forbidden writes:
+- Any STATE_* direct write
+- Any proposal write unless explicitly defined by a separate COT
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_ARBITRATION ===
+
+[[LLM_INSTRUCTION]]: Arbitrate competing impulses deterministically.
+
+WEIGHTING_FACTORS:
+- Goal urgency
+- DPF certainty band and valence
+- Trait bias per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE
+- Temporary modifiers
+
+CONSTRAINTS:
+- Feasibility by body and skills
+- Belief alignment and dissonance penalty
+- Conservative fallback on tie
+
+SELECTION_POLICY:
+- Select highest-weighted feasible impulse.
+- If unresolved conflict remains, set CONFLICT_FLAG TRUE and choose conservative coherent action.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EMPTY_IMPULSE_FALLBACK ===
+
+[[LLM_INSTRUCTION]]: When [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY] is empty at synthesis, emit the canonical PASSIVE_OBSERVATION fallback. This is the lawful no-impulse cycle outcome.
+
+ON_EMPTY_IMPULSE_REGISTRY:
+- Populate SELECTED_ACTION as follows:
+  ACTION_ID: ACT_<unique>
+  ACTION_SOURCE_IMPULSE: NONE
+  ACTION_TYPE: PASSIVE_OBSERVATION
+  TARGET_ID: NONE
+  CONFIDENCE: MODERATE
+  RATIONALE: no active impulses; passive observation fallback
+  CONFLICT_FLAG: FALSE
+  NARRATIVE_ACTION_DESCRIPTION: I observe my surroundings without acting.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SELECTED_ACTION_OUTPUT_SCHEMA ===
+
+[[LLM_INSTRUCTION]]: Populate full strict schema (all fields required).
+
+SELECTED_ACTION:
+ACTION_ID: ACT_<unique>
+ACTION_SOURCE_IMPULSE: IMPULSE_ID reference or NONE
+ACTION_TYPE: canonical descriptor (PASSIVE_OBSERVATION when fallback applies)
+TARGET_ID: canonical ID token or NONE
+CONFIDENCE: QUALITATIVE_INTENSITY band
+RATIONALE: short deterministic explanation
+CONFLICT_FLAG: TRUE | FALSE
+NARRATIVE_ACTION_DESCRIPTION: one concise sentence in first person
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+
+[[LLM_INSTRUCTION]]: After completing decision synthesis:
+- Do not directly commit state.
+- Append exactly one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+- Set [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] according to CONFLICT_FLAG.
+
+TRACE_ENTRY_MINIMUM_FIELDS:
+COT_NAME: COT_DECISION_SYNTHESIS
+KEY_OUTPUTS:
+- selected ACTION_TYPE
+- CONFIDENCE band
+- EMPTY_IMPULSE_FALLBACK invoked YES/NO
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- vetoes, feasibility filters, weighting rationale summary
+
+[[LLM_INSTRUCTION]]: COT_DECISION_SYNTHESIS always emits a trace entry and always populates SELECTED_ACTION; the empty-impulse fallback is itself a defined synthesis outcome and does not constitute a NO_TRIGGERS_FIRED state.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
