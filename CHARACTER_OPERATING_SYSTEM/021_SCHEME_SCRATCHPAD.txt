@@ -2,19 +2,21 @@
 
 [KEEP: Purpose & Role]
 Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. Instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action output, temporary coordination flags, governance audit logging, normalization audit tracking, domain runtime summaries, and cascade trace accumulation.
+
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 Lifecycle invariants:
 - INSTANTIATE at cycle start
 - POPULATE by COTs
 - READ by synthesis and governance
-- COMMIT via STATE_GOVERNANCE_AND_COMMIT
+- COMMIT primary proposals via STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS
 - VERIFY via COT_UPDATE_VERIFICATION
-- WIPE completely after verification
+- COMMIT verifier-originated governance-runtime proposals via STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
+- WIPE completely after post-verification governance pass
 
 [KEEP: Relationship to Other Modules]
 Informs: All COTs, COT_DECISION_SYNTHESIS, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION.
-Is Informed By: Narrative input and SCHEME_ constraints.
+Is Informed By: Narrative input, SCHEME_ constraints, UPDATE_CASCADE_REGISTRY, and STATE_GOVERNANCE_OVERLAY.
 
 === SECTION_BREAK ===
 
@@ -30,13 +32,13 @@ CURRENT_DPF:
 - cycle snapshot aligned to SCHEME_DPF
 
 SELECTED_ACTION:
-- strict required schema (see below)
+- strict required schema
 
 TEMPORARY_STATE_FLAGS:
 - transient coordination and governance flags
 
 STATE_COMMIT_AUDIT:
-- governance reconciliation log
+- governance reconciliation log containing PRIMARY_PASS_AUDIT and POST_VERIFICATION_PASS_AUDIT
 
 OUTPUT_SURFACE_NORMALIZATION_AUDIT:
 - normalization status for commit-bound and display-bound artifacts
@@ -86,6 +88,11 @@ OPTIONAL_FLAG_EXTENSION_SCHEMA:
 
 REQUIRED_FIELDS:
 - COMMIT_CYCLE_ID
+- PRIMARY_PASS_AUDIT
+- POST_VERIFICATION_PASS_AUDIT
+
+PASS_AUDIT_REQUIRED_FIELDS:
+- COMMIT_PASS_TYPE
 - QUARANTINE_MODE_AT_INTAKE
 - TOTAL_PROPOSALS_RECEIVED
 - TOTAL_PROPOSALS_QUARANTINE_FILTERED
@@ -113,7 +120,7 @@ FINAL_ACTION_LOG_ENTRY_MINIMUM_FIELDS:
 - REASON_CODE
 - NOTES
 
-VALIDATION_RESULT_VALUES: PASS | WARN | FAIL | PENDING
+VALIDATION_RESULT_VALUES: PASS | WARN | FAIL | PENDING | SKIPPED
 DEFAULT_VALIDATION_RESULT_VALUE: PENDING
 
 === SECTION_BREAK ===
@@ -151,6 +158,11 @@ EMPTY_CYCLE_FORM:
 - GENERATED_IMPULSES: [NONE]
 - PROPOSED_UPDATES_COUNT: 0
 
+TRACE_COMPLETENESS_NOTE:
+- COT_UPDATE_VERIFICATION verifies trace entries through PRIORITY_17.
+- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS emits the final PRIORITY_18 trace after verification.
+- The post-verification audit records whether its own trace was emitted.
+
 === SECTION_BREAK ===
 
 === SECTION: DOMAIN_RUNTIME_SUMMARIES_MINIMUM_SCHEMA ===
@@ -168,7 +180,7 @@ REQUIRED_SUMMARY_BLOCKS:
 - TEMPORAL_RUNTIME_SUMMARY
 
 [[LLM_INSTRUCTION]]: All quantitative fields within domain runtime summaries are QUALITATIVE_INTENSITY bands or domain-specific qualitative enums. Numeric scales are not used in this surface.
-[[LLM_INSTRUCTION]]: This list deliberately omits a DPF_RUNTIME_SUMMARY block. DPF cycle synthesis lives in CURRENT_DPF (its own scratchpad section) rather than in DOMAIN_RUNTIME_SUMMARIES, because DPF is a structured snapshot rather than a flat domain summary.
+[[LLM_INSTRUCTION]]: This list deliberately omits a DPF_RUNTIME_SUMMARY block. DPF cycle synthesis lives in CURRENT_DPF rather than in DOMAIN_RUNTIME_SUMMARIES, because DPF is a structured snapshot rather than a flat domain summary.
 
 === SECTION_BREAK ===
 
@@ -178,8 +190,10 @@ REQUIRED_SUMMARY_BLOCKS:
 - Proposal schema fields are complete per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
 - Impulse schema fields are complete per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA.
 - Impulses use canonical field casing.
-- Scratchpad is fully wiped post-verification (no carryover; cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME).
-- Governance audit must provide final-action closure for every received proposal.
+- Scratchpad is fully wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
+- No scratchpad proposal survives across cycles.
+- Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, not the scratchpad.
+- Governance audit must provide final-action closure for every received proposal in both primary and post-verification governance passes.
 - Normalization audit must be populated whenever commit-bound or display-bound normalization is relevant; uninitialized fields default to PENDING.
 - Reasonable per-cycle bounds enforced for proposals and impulses.
 - INSTANTIATION_MODE is set TRUE only by COT_CHARACTER_INSTANTIATION_PROCESS workflow.

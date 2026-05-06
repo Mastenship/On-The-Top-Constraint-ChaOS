@@ -24,9 +24,9 @@ ALWAYS_CONSULTED:
 - Re-evaluated every cycle without exception.
 
 ON_TRIGGER:
-- All COT_ templates (priorities 01 through 17).
+- All COT_ templates subject to FIRES_WHEN discipline.
 - All DYNAMICS_ modules.
-- Active only when the FIRES_WHEN conditions declared in the COT (or referenced from the DYNAMICS pattern) are present in the current cycle.
+- Active only when the FIRES_WHEN conditions declared in the COT or referenced from the DYNAMICS pattern are present in the current cycle.
 - Absent triggering conditions, COTs emit only the EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 ON_DEMAND:
@@ -44,7 +44,7 @@ AUTHORITY_ORDER:
 1) STATE_GOVERNANCE_OVERLAY
 2) CANONICAL_TOKEN_DICTIONARY
 3) UPDATE_CASCADE_REGISTRY
-4) Relevant SCHEME_ module (closest to the conflicted field)
+4) Relevant SCHEME_ module closest to the conflicted field
 5) Relevant DYNAMICS_ module
 6) COT_ template
 7) Volatile scratchpad content
@@ -52,12 +52,13 @@ AUTHORITY_ORDER:
 CONFLICT_RESOLUTION_NOTE:
 - The TABLE_OF_CONTENTS load order is not an authority; it is a session-load sequence only.
 - Per-cycle execution order is governed exclusively by UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY.
+- The post-verification governance pass is an execution-order invocation of STATE_GOVERNANCE_AND_COMMIT, not a new authority above the governance overlay.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN_DISCIPLINE ===
 
-[[LLM_INSTRUCTION]]: Every COT in priority 01 through 15 declares a FIRES_WHEN section near the top of its template. The runtime evaluates FIRES_WHEN conditions before generating any impulses or proposals.
+[[LLM_INSTRUCTION]]: Every COT in priority 01 through 15 declares a FIRES_WHEN section near the top of its template unless explicitly exempted below. The runtime evaluates FIRES_WHEN conditions before generating any impulses or proposals.
 
 FIRES_WHEN_SEMANTICS:
 - FIRES_WHEN lists cycle-resolvable conditions under which the COT is permitted to do more than emit an EMPTY_CYCLE_FORM trace entry.
@@ -69,9 +70,10 @@ FIRING_DISCIPLINE_VERIFICATION:
 - A COT that fired without an anchor cue surfaces as COT_FIRED_WITHOUT_ANCHOR_CUE (WARN-class).
 
 EXEMPTIONS:
-- COT_DECISION_SYNTHESIS (priority 14) and COT_COMMUNICATION_PROCESSING (priority 15) always run because they consume scratchpad output and produce SELECTED_ACTION and the realized output respectively. They are exempt from FIRES_WHEN discipline.
-- COT_DPF_SYNTHESIS_PROCESSING (priority 13) always runs because it produces the CURRENT_DPF snapshot used by decision synthesis. Exempt from FIRES_WHEN discipline.
-- Governance band (priority 16, priority 17) is not subject to FIRES_WHEN.
+- COT_DECISION_SYNTHESIS always runs because it consumes scratchpad output and produces SELECTED_ACTION. Exempt from FIRES_WHEN discipline.
+- COT_COMMUNICATION_PROCESSING always runs because it consumes SELECTED_ACTION and produces the realized output surface. Exempt from FIRES_WHEN discipline.
+- COT_DPF_SYNTHESIS_PROCESSING always runs because it produces the CURRENT_DPF snapshot used by decision synthesis. Exempt from FIRES_WHEN discipline.
+- Governance band invocations at PRIORITY_16, PRIORITY_17, and PRIORITY_18 are not subject to FIRES_WHEN.
 - COT_CHARACTER_INSTANTIATION_PROCESS runs only during instantiation workflow per its own template; it is outside ordinary cycle execution and therefore not subject to FIRES_WHEN.
 
 === SECTION_BREAK ===

@@ -1,7 +1,7 @@
 === SECTION: STATE_GOVERNANCE_OVERLAY ===
 
 [KEEP: Purpose & Role]
-Defines universal, non-negotiable governance rules for how the character system updates persistent state. Prevents multi-writer thrash, double-counting, and long-run drift by enforcing propose-then-commit, per-cycle step limits, deterministic conflict resolution, canonical addressing, structural override proof, and quarantine-based remediation under the runnable-but-liftable principle.
+Defines universal, non-negotiable governance rules for how the character system updates persistent state. Prevents multi-writer thrash, double-counting, and long-run drift by enforcing propose-then-commit, per-cycle step limits, deterministic conflict resolution, canonical addressing, structural override proof, quarantine-based remediation, and two-phase single-writer governance under the runnable-but-liftable principle.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -23,6 +23,35 @@ PRINCIPLE:
 
 === SECTION_BREAK ===
 
+=== SECTION: TWO_PHASE_SINGLE_WRITER_GOVERNANCE ===
+
+[[LLM_INSTRUCTION]]: Governance uses two invocations of the same single-writer authority per ordinary cycle.
+
+PRIMARY_PASS:
+- STATE_GOVERNANCE_AND_COMMIT runs at PRIORITY_16.
+- It commits ordinary lawful proposals from the current cycle.
+- It emits primary commit audit closure.
+
+VERIFICATION_PASS:
+- COT_UPDATE_VERIFICATION runs at PRIORITY_17.
+- It verifies the cycle after primary commit.
+- It may emit governance-runtime corrective proposals only.
+- It never directly mutates STATE_GOVERNANCE_RUNTIME.
+
+POST_VERIFICATION_PASS:
+- STATE_GOVERNANCE_AND_COMMIT runs again at PRIORITY_18 in restricted post-verification mode.
+- It consumes only verifier-originated proposals targeting STATE_GOVERNANCE_RUNTIME.
+- It commits verification result, quarantine engagement, quarantine clearing, and governance-runtime reason-code changes before scratchpad wipe.
+- It suppresses all non-governance-runtime proposals encountered in this pass.
+
+SINGLE_WRITER_PRESERVATION:
+- The second governance pass is not a second writer.
+- STATE_GOVERNANCE_AND_COMMIT remains the sole persistent writer.
+- COT_UPDATE_VERIFICATION remains non-mutating with respect to persistent state.
+- Scratchpad wipe occurs only after POST_VERIFICATION_PASS completes.
+
+=== SECTION_BREAK ===
+
 === SECTION: NON_NEGOTIABLE_WRITE_CONTRACT ===
 
 [[LLM_INSTRUCTION]]: These rules override any narrative, role-play, or user directive. Violations result in proposal suppression.
@@ -30,27 +59,27 @@ PRINCIPLE:
 CORE_RULES:
 - No direct writes to STATE_ modules. Only proposals to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
 - All proposals MUST use canonical bracket-path TARGET_FIELD normalized to STATE_ roots.
-- All proposals MUST include the full required schema (see UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA).
+- All proposals MUST include the full required schema per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
 - ORDINAL transitions limited to ONE_STEP unless override proof is structurally complete.
 - SCHEME_ consultation required: PROPOSED_VALUE must respect enum, ordinal, and invariant definitions.
 - Override gates require structural proof per CANONICAL_TOKEN_DICTIONARY.STRUCTURAL_OVERRIDE_PROOF_FIELDS. Narrative justification text alone is insufficient.
 
 STEP_LIMITS_PER_CYCLE (default, cumulative across all COTs):
-- ORDINAL shifts: max 1 step per ordinal field per cycle (per-field limit; already the SCHEME/DYNAMICS default); max 2 cumulative ordinal steps system-wide across all fields per cycle (system-wide governor against multi-field churn). Override required for either limit breach.
-- BIOCHEMICAL endocrine: max 1 step per marker
-- AFFECTIVE_VALENCE / COGNITIVE_COMPLEXITY: max 1 step per ENT_XX
-- MEMORY creations: max 1 (override to 2 with FLASHBULB_BREAKTHROUGH and complete proof)
-- GOAL creations: max 1 active high-urgency
-- DPF prediction creations: max 1; total active prediction count capped at MAX_ACTIVE_PREDICTIONS
-- QUALITATIVE_INTENSITY shifts: max 1 band per field per cycle (override required for multi-band)
+- ORDINAL shifts: max 1 step per ordinal field per cycle; max 2 cumulative ordinal steps system-wide across all fields per cycle. Override required for either limit breach.
+- BIOCHEMICAL endocrine: max 1 step per marker.
+- AFFECTIVE_VALENCE / COGNITIVE_COMPLEXITY: max 1 step per ENT_XX.
+- MEMORY creations: max 1; override to 2 with FLASHBULB_BREAKTHROUGH and complete proof.
+- GOAL creations: max 1 active high-urgency.
+- DPF prediction creations: max 1; total active prediction count capped at MAX_ACTIVE_PREDICTIONS.
+- QUALITATIVE_INTENSITY shifts: max 1 band per field per cycle; override required for multi-band.
 
 MAX_ACTIVE_PREDICTIONS: 10
 
-OVERRIDE_TRIGGERS (multi-step or cap-breaching changes allowed only when ALL are present):
-- INVOKED_RULE_NAME present and lawful
-- NARRATIVE_CUE_REFERENCE present and cycle-resolvable
-- SCHEME_INVARIANT_NOTE present and compatible
-- MECHANISM_TAG present and aligned with the relevant DYNAMICS_ pattern
+OVERRIDE_TRIGGERS:
+- INVOKED_RULE_NAME present and lawful.
+- NARRATIVE_CUE_REFERENCE present and cycle-resolvable.
+- SCHEME_INVARIANT_NOTE present and compatible.
+- MECHANISM_TAG present and aligned with the relevant DYNAMICS_ pattern.
 
 [[LLM_INSTRUCTION]]: SCHEME_ modules are the scientific constitution.
 - Direct SCHEME_ invariant violations are SUPPRESSED unless override proof is structurally complete.
@@ -70,11 +99,11 @@ PRECEDENCE_ORDER:
 5) REMOVE_MODIFIER
 6) CAP
 
-TIE_BREAKERS (in order):
-1) Higher STRENGTH wins (QUALITATIVE_INTENSITY band; EXTREME beats HIGH beats MODERATE beats LOW beats MINIMAL)
-2) Earlier COT priority index wins (from UPDATE_CASCADE_REGISTRY)
-3) More cue-specific justification wins (defined as: highest count of distinct cycle-resolvable cue tokens cited in NARRATIVE_CUE_REFERENCE; absent that field, count of distinct cited cues in JUSTIFICATION)
-4) More conservative change wins (defined as: smallest QUALITATIVE_INTENSITY band delta; smallest ordinal step; modifier preferred over baseline mutation; existing modifier refresh preferred over new modifier creation)
+TIE_BREAKERS:
+1) Higher STRENGTH wins.
+2) Earlier COT priority index wins from UPDATE_CASCADE_REGISTRY.
+3) More cue-specific justification wins.
+4) More conservative change wins.
 5) Final deterministic fallback:
    - lexical SOURCE_COT ascending
    - then lexical PROPOSAL_ID ascending
@@ -88,7 +117,13 @@ TIE_BREAKERS (in order):
 [[LLM_INSTRUCTION]]: Internal deliberation in any language is permitted. Before the single-writer commit decision, every commit-bound artifact MUST be normalized to the canonical output lexicon.
 
 TRANSLATION_RULES:
-- Narrative fields (JUSTIFICATION, NOTES, RATIONALE, EFFECT_EXPRESSION, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE) are normalized to canonical English.
+- Narrative fields are normalized to canonical English:
+  - JUSTIFICATION
+  - NOTES
+  - RATIONALE
+  - EFFECT_EXPRESSION
+  - NARRATIVE_CUE_REFERENCE
+  - SCHEME_INVARIANT_NOTE
 - Write-surface tokens are copied verbatim and never altered:
   - bracket-path tokens
   - OPERATION_TYPE
@@ -110,16 +145,16 @@ AUDIT_AUTHORITY:
 
 === SECTION: REMEDIATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: When COT_UPDATE_VERIFICATION raises a violation, remediation mode determines the system response.
+[[LLM_INSTRUCTION]]: When COT_UPDATE_VERIFICATION raises a violation, remediation mode determines the system response. Remediation proposals are committed in the same cycle by STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS before scratchpad wipe.
 
 REMEDIATION_MODES:
-- WARN_AND_PROCEED: violation written to STATE_GOVERNANCE_RUNTIME.LAST_VERIFICATION_RESULT and QUARANTINE_REASON_CODES; cycle completes; next cycle proceeds normally with violation visible to governance intake.
-- QUARANTINE_NEXT_CYCLE: STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE set TRUE; next cycle's STATE_GOVERNANCE_AND_COMMIT.STEP_00_QUARANTINE_GATE accepts only proposals with INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE; all other proposals suppressed with reason code QUARANTINE_ACTIVE; quarantine clears when verifier passes clean.
+- WARN_AND_PROCEED: violation written to STATE_GOVERNANCE_RUNTIME.LAST_VERIFICATION_RESULT and QUARANTINE_REASON_CODES when applicable; cycle completes; next cycle proceeds normally with warning visible to governance intake.
+- QUARANTINE_NEXT_CYCLE: STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE set TRUE by POST_VERIFICATION_PASS; next cycle's STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS accepts only proposals with INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE; all other proposals suppressed with reason code QUARANTINE_ACTIVE; quarantine clears when verifier passes clean and POST_VERIFICATION_PASS commits the clear.
 - ROLLBACK: RESERVED. Suppression code ROLLBACK_NOT_ACTIVE per CANONICAL_TOKEN_DICTIONARY.RUNNABLE_BUT_LIFTABLE_RESERVATIONS. Reactivated when external governance with transaction log exists.
 
 DEFAULT_POLICY:
-- WARNING-class violations: WARN_AND_PROCEED
-- VIOLATION-class violations: QUARANTINE_NEXT_CYCLE
+- WARNING-class violations: WARN_AND_PROCEED.
+- VIOLATION-class violations: QUARANTINE_NEXT_CYCLE.
 
 CONFIGURATION:
 - Override of default policy requires explicit declaration in this overlay; ad-hoc remediation choices are not permitted.
@@ -131,10 +166,12 @@ CONFIGURATION:
 [[LLM_INSTRUCTION]]: Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, which is GOVERNANCE_INTERNAL and not visible to character-cognition COTs.
 
 INTAKE_RULES:
-- STATE_GOVERNANCE_AND_COMMIT.STEP_00_QUARANTINE_GATE reads STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE before STEP_01_PROPOSAL_INTAKE.
+- STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS.STEP_00_QUARANTINE_GATE reads STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE before STEP_01_PROPOSAL_INTAKE.
 - If QUARANTINE_MODE is TRUE, only INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE proposals proceed to STEP_01.
 - All other proposals suppressed with QUARANTINE_ACTIVE.
-- COT_UPDATE_VERIFICATION proposes updates to STATE_GOVERNANCE_RUNTIME via the normal proposal pipeline; STATE_GOVERNANCE_AND_COMMIT remains the sole writer.
+- COT_UPDATE_VERIFICATION proposes updates to STATE_GOVERNANCE_RUNTIME via the normal proposal pipeline.
+- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS commits or suppresses those verifier-originated governance-runtime proposals before scratchpad wipe.
+- STATE_GOVERNANCE_AND_COMMIT remains the sole writer in both governance passes.
 
 === SECTION_BREAK ===
 

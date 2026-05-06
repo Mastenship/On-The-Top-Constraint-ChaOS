@@ -2,6 +2,7 @@
 
 [KEEP: Purpose & Role]
 Defines universal formatting constraints for machine-stable parsing and deterministic governance behavior.
+
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
