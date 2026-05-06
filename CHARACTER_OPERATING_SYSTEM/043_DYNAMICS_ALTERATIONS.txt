@@ -69,4 +69,43 @@ ON_STATUS_CHANGE:
 
 === SECTION_BREAK ===
 
+=== SECTION: CASCADE_EFFECT_CLASS_INFERENCE ===
+
+[[LLM_INSTRUCTION]]: Before generating cascade proposals, COT_ALTERATION_CASCADE_EFFECTS classifies each active or status-changed alteration into one or more of the following semantic effect classes. Classification is derived at runtime from the alteration record fields; no separate stored classification field is required.
+
+INJURY_OR_ILLNESS_CLASS:
+- Infer this class when PHYSIOLOGICAL_CHANGES describes damage, disease, infection, organ impairment, wound, or compromised biological function.
+- Also infer when OBJECTIVE_SYSTEM_EFFECTS names a debilitating physiological condition as a direct outcome.
+- Drives: physiological state proposals targeting STATE_BODY fields (IMMUNE_MARKERS, WOUND_STATUS, or equivalent).
+- Focus: what the alteration does to the body's physical integrity or health state.
+- Distinction from DEBILITATING_CLASS: INJURY_OR_ILLNESS_CLASS addresses biological state and drives STATE_BODY proposals; DEBILITATING_CLASS addresses functional capability loss and drives STATE_TEMPORARY_MODIFIERS proposals. An alteration that causes both tissue damage and capability loss qualifies for both classes independently; MULTI_CLASS_RESOLUTION applies.
+
+ENHANCEMENT_CLASS:
+- Infer this class when NEW_ABILITIES lists capabilities that exceed the character's prior unaided baseline.
+- Also infer when OBJECTIVE_SYSTEM_EFFECTS names performance augmentation, expanded sensory range, or added function.
+- Drives: temporary performance overlay proposals targeting STATE_TEMPORARY_MODIFIERS with EFFECT_FAMILY in the ALTERATION_SKILL_ENHANCEMENT family.
+
+DEBILITATING_CLASS:
+- Infer this class when VULNERABILITIES_CONSTRAINTS describes functional reduction, capacity loss, action restriction, or performance penalty.
+- Also infer when OBJECTIVE_SYSTEM_EFFECTS names a debilitating functional consequence separate from tissue integrity loss.
+- Drives: temporary degradation overlay proposals targeting STATE_TEMPORARY_MODIFIERS with EFFECT_FAMILY in the ALTERATION_SKILL_DEGRADATION family.
+- Focus: what the alteration prevents or degrades in terms of the character's functional capabilities and available actions.
+- Distinction from INJURY_OR_ILLNESS_CLASS: DEBILITATING_CLASS addresses capability state and drives STATE_TEMPORARY_MODIFIERS proposals; INJURY_OR_ILLNESS_CLASS addresses biological state and drives STATE_BODY proposals. An alteration involving tissue damage that also restricts function qualifies for both classes independently; MULTI_CLASS_RESOLUTION applies.
+
+REJECTED_PSYCHOLOGICAL_CLASS:
+- Infer this class when STATUS = REJECTED and CHARACTER_AWARENESS.AWARENESS_STATUS is not UNAWARE.
+- Drives: chronic stress overlay proposals targeting STATE_TEMPORARY_MODIFIERS with EFFECT_FAMILY ALTERATION_REJECTION_STRESS, regardless of other class assignments.
+
+MULTI_CLASS_RESOLUTION:
+- An alteration may satisfy multiple cascade effect classes simultaneously.
+- Each applicable class is evaluated independently; all warranted cascade proposals are generated within per-cycle governance caps defined in STATE_GOVERNANCE_OVERLAY.NON_NEGOTIABLE_WRITE_CONTRACT.STEP_LIMITS_PER_CYCLE.
+- No class takes precedence over another; when governance caps are reached, proposals are suppressed or resolved per the conflict-resolution precedence defined in STATE_GOVERNANCE_OVERLAY.CONFLICT_RESOLUTION_POLICY.
+
+CLASSIFICATION_SCOPE:
+- Classification is a runtime inference performed by the executing COT and recorded in its TRACE_ENTRY NOTES field.
+- Classification is not stored as a persistent field on the alteration record.
+- The verifier confirms class inference consistency against the alteration record when a CASCADE_TRACE entry is present for COT_ALTERATION_CASCADE_EFFECTS.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]
