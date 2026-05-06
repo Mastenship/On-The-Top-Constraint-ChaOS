@@ -23,6 +23,22 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- One or more ALT_XX records exist with STATUS = ACTIVE.
+- An alteration status changed this cycle (activation, deactivation, rejection, or removal).
+- Narrative input references an alteration effect, reactivation, removal, rejection, or constraint change.
+- An active, rejected, or removed alteration requires downstream cascade or reversal evaluation.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not propose physiological propagation, psychological overlays, or alteration-driven modifiers.
+
+=== SECTION_BREAK ===
+
 === SECTION: PHYSIOLOGICAL_PROPAGATION ===
 
 [[LLM_INSTRUCTION]]: On ACTIVE alterations, propose bounded cascade effects.

@@ -26,6 +26,23 @@ All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_U
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input aligns with or contradicts a core belief field in STATE_BELIEF_SYSTEMS.
+- An active BELIEF_DISSONANCE or worldview-defense modifier is present in STATE_TEMPORARY_MODIFIERS.
+- A persistence cluster exists for a belief field and the current cycle adds new consistent cue evidence.
+- A watershed or existential cue is present in the narrative input.
+- A memory or DPF cue raises belief-relevant contradiction, meaning, justice, or worldview pressure.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not propose dissonance overlays, belief transitions, or meaning-oriented impulses.
+
+=== SECTION_BREAK ===
+
 === SECTION: BELIEF_FILTERING_AND_ALIGNMENT ===
 
 [[LLM_INSTRUCTION]]: Filter cues through belief structure.
@@ -64,7 +81,7 @@ ON_PERSISTENCE_CLUSTER_PLUS_NEW_CUE:
   STRENGTH: HIGH
   MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
   EPISTEMIC_TAG: COMMITTED_FACT
-  EVIDENCE_REF: contributing MEM_XX references (three or more)
+  EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX] (three or more contributing memory records)
   INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
   NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
   SCHEME_INVARIANT_NOTE: belief baseline shift accommodated under accumulated evidence; one adjacent enum step

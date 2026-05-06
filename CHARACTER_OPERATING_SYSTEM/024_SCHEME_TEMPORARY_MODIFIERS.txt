@@ -25,6 +25,7 @@ MODIFIER_TYPE: ENUM [
 
 SOURCE_COT: STRING_DESCRIPTIVE
 MECHANISM_TAG: STRING_DESCRIPTIVE
+EFFECT_FAMILY: STRING_DESCRIPTIVE
 
 TARGET_FIELD: CANONICAL_PATH
 TARGET_ID: OPTIONAL_ID
@@ -69,6 +70,7 @@ A modifier creation proposal is lawful only if all of the following are present 
 - MODIFIER_TYPE
 - SOURCE_COT
 - MECHANISM_TAG
+- EFFECT_FAMILY
 - TARGET_FIELD
 - EFFECT_EXPRESSION
 - MAGNITUDE
@@ -81,6 +83,7 @@ A modifier creation proposal is lawful only if all of the following are present 
 ADDITIONAL_REQUIREMENTS:
 - TARGET_FIELD must be canonical and valid.
 - TARGET_ID is required when the modifier targets a record-specific or entity-specific context rather than a global field.
+- EFFECT_FAMILY must be a canonical short token summarizing the effect's semantic intent; see DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_RESOLUTION.
 - EFFECT_EXPRESSION must describe the transient effect clearly enough to distinguish it from unrelated modifiers.
 - MAGNITUDE must use the QUALITATIVE_MAGNITUDE enum.
 - EXPIRY_CONDITION must be explicit even when DURATION_TYPE is SCENE.

@@ -105,7 +105,9 @@ TRANSIENT_LEAKAGE_OVERLAYS_OPTIONAL:
 
 [[LLM_INSTRUCTION]]: After completion:
 - If any proposal is made, write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE] every cycle; this COT is always-run and does not emit EMPTY_CYCLE_FORM
+
+[[LLM_INSTRUCTION]]: COT_COMMUNICATION_PROCESSING always runs and always consumes SELECTED_ACTION. PASSIVE_OBSERVATION is a valid SELECTED_ACTION, not a no-trigger state. Low-activity cycles are cycles in which SELECTED_ACTION.ACTION_TYPE = PASSIVE_OBSERVATION; the trace reflects realized passive observation output, not NO_TRIGGERS_FIRED.
 
 TRACE_ENTRY_MINIMUM_FIELDS:
 COT_NAME: COT_COMMUNICATION_PROCESSING
@@ -122,10 +124,13 @@ NOTES:
 - subjective-frame compliance
 - SCHEME_COMMUNICATION_DIALOGUE compliance
 
-EMPTY_CYCLE_TRACE_ENTRY:
+LOW_ACTIVITY_TRACE_ENTRY:
 COT_NAME: COT_COMMUNICATION_PROCESSING
 KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
+- SELECTED_ACTION consumed; ACTION_TYPE = PASSIVE_OBSERVATION
+- no verbal output; observation rendered
+- inference boundary respected YES
+- output congruence with SELECTED_ACTION YES
 GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: 0

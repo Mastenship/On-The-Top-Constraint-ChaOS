@@ -200,4 +200,27 @@ POST_VERIFICATION_VALIDATION:
 
 === SECTION_BREAK ===
 
+=== SECTION: SCHEMATIC_PROPOSAL_DIRECTIVE_POLICY ===
+
+[[LLM_INSTRUCTION]]: COT and DYNAMICS PROPOSE ... blocks are schematic templates unless stated otherwise.
+
+SCHEMATIC_DIRECTIVE_RULE:
+- PROPOSE ... blocks appearing inside COT templates and DYNAMICS modules are schematic directives.
+- Schematic directives illustrate the operation type, target path, and value form required for a class of proposals.
+- Schematic directives omit globally required fields such as PROPOSAL_ID, SOURCE_COT, and TARGET_MODULE because those fields are implied by the execution context and must be supplied at runtime.
+
+RUNTIME_EXPANSION_REQUIREMENT:
+- Before a proposal enters [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY], it must be expanded to the complete PROPOSAL_ENTRY_SCHEMA defined in this registry.
+- No proposal may enter the scratchpad missing any required global field.
+- Required global fields that schematic directives omit must be injected at proposal-construction time:
+  - PROPOSAL_ID: unique PUP_<unique> token for this cycle
+  - SOURCE_COT: canonical COT name of the constructing COT
+  - TARGET_MODULE: canonical module root matching TARGET_FIELD prefix
+- Conditionally required fields (EVIDENCE_REF, INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE) must also be injected when their conditions are met.
+
+COMPLETE_EXAMPLE_EXCEPTION:
+- A proposal block that explicitly enumerates all PROPOSAL_ENTRY_SCHEMA fields including PROPOSAL_ID, SOURCE_COT, and TARGET_MODULE is a complete packet form and does not require further expansion.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

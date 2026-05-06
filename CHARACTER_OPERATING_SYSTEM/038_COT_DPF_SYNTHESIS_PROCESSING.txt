@@ -83,7 +83,7 @@ RESOLUTION_OR_FALSIFICATION:
   STRENGTH: HIGH
   MECHANISM_TAG: PREDICTION_LIFECYCLE_CLOSURE
   EPISTEMIC_TAG: COMMITTED_FACT
-  EVIDENCE_REF: cycle cue or MEM_XX reference establishing outcome
+  EVIDENCE_REF: CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN> or MEM_XX reference establishing outcome
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: prediction outcome cue resolves lifecycle
 
@@ -150,7 +150,9 @@ RECALC_GUARD:
 
 [[LLM_INSTRUCTION]]: After synthesis:
 - Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
+- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE] every cycle; this COT is always-run and does not emit EMPTY_CYCLE_FORM
+
+[[LLM_INSTRUCTION]]: COT_DPF_SYNTHESIS_PROCESSING always runs and always produces CURRENT_DPF. Low-activity cycles mean no persistent DPF proposal, no contrast event detected, no new prediction, and no prediction resolution this cycle. The trace reflects this state rather than NO_TRIGGERS_FIRED.
 
 TRACE_ENTRY_MINIMUM_FIELDS:
 COT_NAME: COT_DPF_SYNTHESIS_PROCESSING
@@ -167,10 +169,12 @@ NOTES:
 - active PRD_XX count and cap headroom
 - persistent-vs-volatile separation summary
 
-EMPTY_CYCLE_TRACE_ENTRY:
+LOW_ACTIVITY_TRACE_ENTRY:
 COT_NAME: COT_DPF_SYNTHESIS_PROCESSING
 KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
+- CURRENT_DPF produced; no persistent DPF proposals this cycle
+- no contrast event detected
+- no new prediction; no prediction resolved
 GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: 0
