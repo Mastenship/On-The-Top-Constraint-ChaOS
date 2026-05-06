@@ -34,6 +34,23 @@ Allowed strict operations only:
 
 === SECTION_BREAK ===
 
+=== SECTION: FIRES_WHEN ===
+
+[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
+
+ANCHOR_CUES:
+- Narrative input describes elapsed time, a major time skip, scene closure, or sustained lack of reinforcement.
+- An active modifier expiry condition is met or is deterministically inferable from the current temporal state.
+- An unresolved prediction has gone unconfirmed across a meaningful elapsed interval without confirming evidence.
+- A memory salience decay or reconsolidation cue is present in the current cycle input.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+- Do not propose memory salience decay, prediction confidence decay, or modifier expiry.
+- Do not generate LET_GO, REVISIT, REINFORCE, or DISENGAGE impulses.
+
+=== SECTION_BREAK ===
+
 === SECTION: MEMORY_SALIENCE_DECAY ===
 
 [[LLM_INSTRUCTION]]: SALIENCE is a QUALITATIVE_INTENSITY band per SCHEME_MEMORY. Use SET to an adjacent lower band; respect per-cycle one-band limit unless override proof applies.

@@ -58,6 +58,7 @@ PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
   - Required override fields:
     - INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
     - NARRATIVE_CUE_REFERENCE: cycle cue token plus the three contributing MEM_XX references
+    - EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX] (the three or more contributing memory records)
     - SCHEME_INVARIANT_NOTE: communication baseline shift accommodated under accumulated evidence; one adjacent enum step
     - MECHANISM_TAG: COMMUNICATION_PERSISTENCE_ACCOMMODATION
 

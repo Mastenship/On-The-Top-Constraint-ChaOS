@@ -236,10 +236,22 @@ EVIDENCE_REF_VALUE_FORMS:
 - MEM_XX reference
 - PRD_XX reference (only when prediction is RESOLVED)
 - PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>
+- USER_CONFIRMATION:<CONFIRMATION_ID>
+- CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN>
+- [MEM_XX, MEM_XX, MEM_XX] (bounded list; use when a persistence cluster requires three or more memory records)
+
+EVIDENCE_REF_FORM_GLOSS:
+- MEM_XX reference: a specific committed memory record establishes the fact
+- PRD_XX reference: a committed and resolved prediction record establishes the fact
+- PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>: a prior governance commit in an identified cycle establishes the fact
+- USER_CONFIRMATION:<CONFIRMATION_ID>: explicit user confirmation during instantiation seeding establishes the fact; CONFIRMATION_ID is the instantiation-cycle confirmation reference
+- CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN>: a named cue from the current cycle's narrative input establishes the fact; use only when the cue is concrete enough to resolve the prediction or claim without additional inference
+- [MEM_XX, MEM_XX, MEM_XX]: a persistence cluster of three or more memory records collectively establishes the fact; list must contain at least three canonical MEM_XX tokens
 
 ENFORCEMENT:
 - Missing EVIDENCE_REF on COMMITTED_FACT: COMMITTED_FACT_WITHOUT_EVIDENCE
 - Unresolvable EVIDENCE_REF: EVIDENCE_REF_UNRESOLVED
+- CYCLE_CUE form is not lawful when the epistemic weight of a cycle cue alone does not reach the COMMITTED_FACT threshold; in such cases use INFERENCE or PERCEPTION with the appropriate EPISTEMIC_TAG instead
 
 === SECTION_BREAK ===
 
@@ -336,6 +348,30 @@ ENFORCEMENT:
 CURRENTLY_RESERVED:
 - TOOL_REQUEST epistemic tag: TOOL_ACTUATION_NOT_ACTIVE
 - ROLLBACK remediation mode: ROLLBACK_NOT_ACTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCHEME_MODULE_CONVENTION ===
+
+[[LLM_INSTRUCTION]]: SCHEME_ modules fall into two structural subtypes. Runtime behavior differs by subtype.
+
+SCHEME_SUBTYPE_DEFINITIONS:
+- STRUCTURAL_SCHEMA: defines field shapes, enum vocabularies, invariants, and creation requirements only; contains no character-specific values.
+- IMMUTABLE_BASELINE_BEARING: holds both the structural schema and character-specific instantiation-time baseline values that are set once and treated as immutable after instantiation.
+
+IMMUTABLE_BASELINE_BEARING_MODULES:
+- SCHEME_HEXACO: HEXACO trait percentile baselines
+- SCHEME_DARK_TRIAD: Dark Triad trait percentile baselines
+- SCHEME_ASQ: attachment security and style baselines
+- SCHEME_MMPI: MMPI-like clinical scale baselines
+- SCHEME_BACKGROUND: formative world environment and outlook baselines
+
+RUNTIME_RULES:
+- STATE_ modules store mutable runtime values that change through lawful proposal-and-commit cycles.
+- STRUCTURAL_SCHEMA SCHEME_ modules (such as SCHEME_TEMPORARY_MODIFIERS and SCHEME_MEMORY) are read-only reference surfaces; they are never written during runtime.
+- IMMUTABLE_BASELINE_BEARING SCHEME_ modules are also read-only during runtime; their baseline values are consulted as interpretive priors and weighting inputs but are never directly mutated by ordinary runtime COTs.
+- Only instantiation-time seeding via COT_CHARACTER_INSTANTIATION_PROCESS or an explicit architecture-level override with watershed-equivalent justification may set immutable baseline values in SCHEME_ modules.
+- A COT that proposes a write targeting an IMMUTABLE_BASELINE_BEARING SCHEME_ module outside instantiation context will be flagged SCHEME_IMMUTABLE_BASELINE_WRITE by COT_UPDATE_VERIFICATION.
 
 === SECTION_BREAK ===
 
