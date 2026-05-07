@@ -40,4 +40,12 @@ TIME_PRESSURE_PERCEPTION:
 
 === SECTION_BREAK ===
 
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed temporal dynamics values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Short-horizon alertness, fatigue, second-wind, routine comfort, or disorientation effects generally use STATE_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: Fatigue and sleep debt transitions follow DYNAMICS_TEMPORAL_DYNAMICS.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

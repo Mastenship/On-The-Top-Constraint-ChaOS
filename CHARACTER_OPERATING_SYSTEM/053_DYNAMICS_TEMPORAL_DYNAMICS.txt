@@ -1,33 +1,16 @@
 === SECTION: DYNAMICS_TEMPORAL_DYNAMICS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for circadian alignment, fatigue progression and recovery, routine effects, and subjective time distortion.
+Immutable mechanics for circadian alignment, fatigue progression/recovery, routine effects, and subjective time distortion.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
-
-Allowed operation references:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
-
-Forbidden operation references:
-- CREATE_NEW_RECORD
-- UPDATE
-- INCREMENT
-- DECREMENT
-
-[[LLM_INSTRUCTION]]: Relative transition directives must remain canonical:
-- ONE_STEP_UP
-- ONE_STEP_DOWN
-- ONE_STEP_TOWARD_BASELINE
-- ONE_STEP_TOWARD_NEUTRAL
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Relative directives: ONE_STEP_UP, ONE_STEP_DOWN, ONE_STEP_TOWARD_BASELINE, ONE_STEP_TOWARD_NEUTRAL.
 
 === SECTION_BREAK ===
 
@@ -35,57 +18,61 @@ Forbidden operation references:
 
 ON_TIME_OF_DAY_CUES:
 - Align alertness overlays with chronotype and peak windows.
-- Prefer ADD_MODIFIER overlays for short-horizon performance modulation.
+- Prefer ADD_MODIFIER for short-horizon performance modulation.
+- Chronotype and peak-window baselines remain stable after instantiation unless override proof is complete.
 
 ON_SLEEP_RECOVERY_EVENT:
-- Propose TRANSITION:
+- PROPOSE TRANSITION:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
   PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
   JUSTIFICATION: sleep recovery cue
 
-- Propose TRANSITION:
+- PROPOSE TRANSITION:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
   PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
   JUSTIFICATION: debt recovery cue
+
+RECOVERY_GATE:
+- Requires explicit rest, sleep, treatment, or recovery cue.
+- Brief pause without recovery may justify overlay stabilization, not fatigue baseline reduction.
 
 === SECTION_BREAK ===
 
 === SECTION: FATIGUE_PROGRESSION ===
 
 ON_TIME_PASSAGE_WITHOUT_REST:
-- Propose TRANSITION:
+- PROPOSE TRANSITION:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
   PROPOSED_VALUE: ONE_STEP_UP
   JUSTIFICATION: time passage without rest
 
-- Propose TRANSITION:
+- PROPOSE TRANSITION:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
   PROPOSED_VALUE: ONE_STEP_UP
   JUSTIFICATION: sleep debt accumulation
 
 ON_STRESS_OR_EXERTION:
-- Additional fatigue accumulation may be proposed only as:
-  - one lawful additional TRANSITION step when governance permits
-  - or a temporary modifier if transient pressure is more lawful than baseline escalation
+- Additional fatigue may be one lawful extra step when governance permits, or a temporary modifier when transient.
 - Multi-step increase requires override proof.
 
 ON_SECOND_WIND_OR_STIMULANT:
-- Prefer ADD_MODIFIER temporary reversal or performance-sustain overlays.
-- Baseline fatigue fields remain bounded unless explicit override justification is present.
+- Prefer ADD_MODIFIER for temporary reversal or performance sustain.
+- Baseline fatigue and sleep debt remain bounded unless override proof is complete.
+- Second wind does not erase sleep debt.
 
 === SECTION_BREAK ===
 
 === SECTION: ROUTINE_EFFECTS ===
 
 ON_ROUTINE_ADHERENCE:
-- Prefer temporary comfort overlays and routine-pull impulses via downstream COTs.
+- Prefer temporary comfort overlays and routine-pull impulses.
 
 ON_ROUTINE_DISRUPTION:
-- Propose ADD_MODIFIER disorientation or stress overlays.
-- Propose SET to routine fields only when evidence persists beyond transient disruption.
+- Prefer ADD_MODIFIER for disorientation or stress.
+- SET routine fields only when evidence persists beyond transient disruption.
 
 ON_DEADLINE_APPROACH:
-- Propose SET:
+- PROPOSE SET:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][TIME_PRESSURE_PERCEPTION]
   PROPOSED_VALUE: HIGH_URGENCY
   JUSTIFICATION: explicit deadline cue
@@ -95,24 +82,29 @@ ON_DEADLINE_APPROACH:
 === SECTION: TIME_PERCEPTION_DISTORTION ===
 
 ON_HIGH_AROUSAL:
-- Propose SET:
+- PROPOSE SET:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW]
   PROPOSED_VALUE: TIME_FLIES
   JUSTIFICATION: arousal distortion cue
 
 ON_BOREDOM_OR_FATIGUE:
-- Propose SET:
+- PROPOSE SET:
   TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW]
   PROPOSED_VALUE: TIME_DRAGS
   JUSTIFICATION: low-engagement or fatigue cue
+
+PERSISTENCE_NOTE:
+- Use SET for cycle-relevant time-perception state.
+- Use modifiers for momentary delivery effects.
 
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- Temporal drift must resolve to canonical TRANSITION directives or explicit SET endpoints.
-- Short-horizon temporal distortions should prefer modifiers when they do not warrant persistent baseline change.
-- Fatigue and sleep debt remain bounded by one-step law unless override proof is valid.
+- Temporal drift resolves to TRANSITION directives or explicit SET endpoints.
+- Short-horizon distortions prefer modifiers.
+- Fatigue and sleep debt remain one-step bounded unless override proof is complete.
+- Second wind and stimulant effects must not rewrite fatigue baseline.
 
 === SECTION_BREAK ===
 

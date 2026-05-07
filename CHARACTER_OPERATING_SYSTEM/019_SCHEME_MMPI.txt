@@ -1,7 +1,7 @@
 === SECTION: SCHEME_MMPI ===
 
 [KEEP: Purpose & Role]
-Immutable definition of clinical psychopathology scale baselines using an MMPI-like framework. T-score bands are set at instantiation and inform bias, stress response, and interpretive vulnerability.
+Immutable MMPI-like clinical scale baselines. Set at instantiation; inform stress response, perception, and vulnerability bias.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -9,36 +9,26 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION: SCALE_NUMBERING_NOTE ===
 
-[[LLM_INSTRUCTION]]: This scheme uses the historical MMPI clinical scale numbering (1, 2, 3, 4, 6, 7, 8, 9, 10) and deliberately omits SCALE_5.
+[[LLM_INSTRUCTION]]: Uses historical MMPI clinical scale numbering 1, 2, 3, 4, 6, 7, 8, 9, 10. SCALE_5 is deliberately omitted; SCALE_10 represents Social Introversion.
 
 OMISSION_RATIONALE:
-- SCALE_5 in the historical MMPI was Masculinity-Femininity, a construct now considered methodologically obsolete and conceptually problematic for character modeling.
-- The construct's modern descendants are better captured through SCHEME_HEXACO, SCHEME_BACKGROUND outlook fields, and SCHEME_ASQ rather than as a clinical psychopathology scale.
-- The numbering gap is preserved (rather than renumbering) for traceability against the source instrument and to make the deliberate omission visible.
-- Scale 0 (Social Introversion) is renumbered SCALE_10 in this scheme for canonical consistency with two-digit identifiers.
+- Historical SCALE_5 is obsolete/problematic for this architecture.
+- Related modeling belongs in HEXACO, BACKGROUND, and ASQ.
+- Numbering gap is preserved for traceability.
 
 === SECTION_BREAK ===
 
 === SECTION: CLINICAL_SCALE_MARKERS ===
 
-SCALE_1_HYPOCHONDRIASIS: QUALITATIVE_T_SCORE
-SCALE_2_DEPRESSION: QUALITATIVE_T_SCORE
-SCALE_3_HYSTERIA: QUALITATIVE_T_SCORE
-SCALE_4_PSYCHOPATHIC_DEVIATE: QUALITATIVE_T_SCORE
-SCALE_6_PARANOIA: QUALITATIVE_T_SCORE
-SCALE_7_PSYCHASTHENIA: QUALITATIVE_T_SCORE
-SCALE_8_SCHIZOPHRENIA: QUALITATIVE_T_SCORE
-SCALE_9_HYPOMANIA: QUALITATIVE_T_SCORE
-SCALE_10_SOCIAL_INTROVERSION: QUALITATIVE_T_SCORE
-
-QUALITATIVE_T_SCORE: ENUM [NORMAL, MILD_ELEVATION, MODERATE, SIGNIFICANT, CLINICAL]
-
-QUALITATIVE_T_SCORE_GLOSS:
-- NORMAL: T-score below 55
-- MILD_ELEVATION: T-score 55–65
-- MODERATE: T-score 65–75
-- SIGNIFICANT: T-score 75–85
-- CLINICAL: T-score above 85
+SCALE_1_HYPOCHONDRIASIS: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_2_DEPRESSION: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_3_HYSTERIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_4_PSYCHOPATHIC_DEVIATE: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_6_PARANOIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_7_PSYCHASTHENIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_8_SCHIZOPHRENIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_9_HYPOMANIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_10_SOCIAL_INTROVERSION: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
 
 === SECTION_BREAK ===
 
@@ -60,7 +50,7 @@ SCALE_10_SOCIAL_INTROVERSION: Shyness, withdrawal, low social ease.
 
 - Values fixed post-instantiation.
 - Elevated scales bias stress response, perception, and relational interpretation per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
-- Scale numbering gap (no SCALE_5) is intentional; do not introduce a SCALE_5 field.
+- SCALE_5 must not be introduced.
 - Changes require extreme justification and are outside standard runtime mutation.
 
 === SECTION_BREAK ===

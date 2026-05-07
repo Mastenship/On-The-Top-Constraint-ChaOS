@@ -66,10 +66,10 @@ ASSOCIATED_MEMORY_ID:
 
 === SECTION: STATE_INTERPRETATION_NOTE ===
 
-[[LLM_INSTRUCTION]]: Bracketed record stubs such as [PRD_XX] indicate schema shape only.
-[[LLM_INSTRUCTION]]: A concrete prediction record lawfully exists only when:
-- a concrete PRD_XX appears in PREDICTION_REGISTRY
-- a corresponding [STATE_DPF][PRD_XX] record is instantiated
+[[LLM_INSTRUCTION]]: Current committed persistent DPF values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete PRD_XX records require PREDICTION_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: Volatile current-cycle interpretation lives in [COGNITIVE_SCRATCHPAD][CURRENT_DPF].
+[[LLM_INSTRUCTION]]: Prediction records store state-worthy anticipated outcomes, not passing guesses or raw reasoning.
 
 === SECTION_BREAK ===
 

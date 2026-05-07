@@ -1,7 +1,7 @@
 === SECTION: STATE_COMMUNICATION_DIALOGUE ===
 
 [KEEP: Purpose & Role]
-Mutable communication/dialogue container. Contains current verbal and non-verbal settings only. Transient state-dependent modulation lives on STATE_TEMPORARY_MODIFIERS, not here.
+Mutable communication/dialogue container. Contains current stable verbal and non-verbal settings only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -32,8 +32,9 @@ PROXEMICS_PREFERENCE:
 
 === SECTION: STATE_INTERPRETATION_NOTE ===
 
-[[LLM_INSTRUCTION]]: This module contains stable identity values only.
-[[LLM_INSTRUCTION]]: For active transient modulation (leakage, masking, stress effects), inspect STATE_TEMPORARY_MODIFIERS for modifiers whose TARGET_FIELD references this module.
+[[LLM_INSTRUCTION]]: Stable communication identity values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Transient leakage, masking, stress, fatigue, and deception effects live on STATE_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: Durable baseline change follows DYNAMICS_COMMUNICATION_DIALOGUE.
 
 === SECTION_BREAK ===
 

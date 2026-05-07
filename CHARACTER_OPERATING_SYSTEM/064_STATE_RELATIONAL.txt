@@ -1,7 +1,7 @@
 === SECTION: STATE_RELATIONAL ===
 
 [KEEP: Purpose & Role]
-Mutable relational container. Contains current registry and relational records only.
+Mutable relational container. Contains current relational registry and relational records only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -33,7 +33,9 @@ CURRENT_CONCERN:
 
 === SECTION: STATE_INTERPRETATION_NOTE ===
 
-[[LLM_INSTRUCTION]]: AFFECTIVE_VALENCE is the character's feeling toward the entity. PERCEIVED_OTHER_VALENCE is the character's inference of the entity's feeling toward the character. The two are independent; see SCHEME_RELATIONAL.DIRECTIONALITY_RULE.
+[[LLM_INSTRUCTION]]: Current committed relational values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete ENT_XX records require RELATIONAL_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: AFFECTIVE_VALENCE is character-to-entity feeling; PERCEIVED_OTHER_VALENCE is inferred entity-to-character feeling. They are independent per SCHEME_RELATIONAL.
 
 === SECTION_BREAK ===
 

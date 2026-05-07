@@ -1,7 +1,7 @@
 === SECTION: STATE_MEMORY ===
 
 [KEEP: Purpose & Role]
-Mutable memory state container. Contains current memory registry and memory record values only.
+Mutable memory state container. Contains current memory registry and memory records only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -41,10 +41,9 @@ ASSOCIATED_PREDICTION_ID:
 
 === SECTION: STATE_INTERPRETATION_NOTE ===
 
-[[LLM_INSTRUCTION]]: Bracketed record stubs such as [MEM_XX] indicate schema shape only.
-[[LLM_INSTRUCTION]]: A concrete memory record lawfully exists only when:
-- a concrete MEM_XX appears in MEMORY_REGISTRY
-- a corresponding [STATE_MEMORY][MEM_XX] record is instantiated
+[[LLM_INSTRUCTION]]: Current committed memory records only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete MEM_XX records require MEMORY_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: Memories store governed persistent significance, not raw chain-of-thought. INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact.
 
 === SECTION_BREAK ===
 

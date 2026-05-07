@@ -66,4 +66,12 @@ LOGIC_ARGUMENT:
 
 === SECTION_BREAK ===
 
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Temporary dissonance and worldview-defense pressure live on STATE_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: Durable belief change follows DYNAMICS_BELIEF_SYSTEMS.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

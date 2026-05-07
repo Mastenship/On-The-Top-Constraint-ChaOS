@@ -1,17 +1,17 @@
 === SECTION: TABLE_OF_CONTENTS ===
 
 [KEEP: Purpose & Role]
-This document is the canonical session anchor and load order for ChaOS. It does not enumerate runtime cascade priorities or commit semantics; those live in UPDATE_CASCADE_REGISTRY, STATE_GOVERNANCE_OVERLAY, STATE_GOVERNANCE_AND_COMMIT, and COT_UPDATE_VERIFICATION.
+Canonical session anchor and load order for ChaOS. Runtime priority and commit semantics live in UPDATE_CASCADE_REGISTRY, STATE_GOVERNANCE_OVERLAY, STATE_GOVERNANCE_AND_COMMIT, and COT_UPDATE_VERIFICATION.
 
 [KEEP: Relationship to Other Modules]
-Informs: All session-load operations.
-Is Informed By: Nothing (constitutional anchor).
+Informs: session-load operations.
+Is Informed By: Nothing.
 
 === SECTION_BREAK ===
 
 === SECTION: SESSION_LOAD_ORDER ===
 
-[[LLM_INSTRUCTION]]: All files listed below MUST be loaded into context, in the exact order shown, before any cycle executes. File numbers are integer-sequential and reflect drop order. Per-cycle execution order is defined by UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY and is independent of this load order. The volatile scratchpad (final entry) is re-instantiated each cycle per its own lifecycle rules.
+[[LLM_INSTRUCTION]]: Load all files below in exact order before cycle execution. File order is session load order only; runtime order is UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY. 069_COGNITIVE_SCRATCHPAD is structural at session load and re-instantiated per cycle.
 
 CONSTITUTIONAL_LAYER:
 001_TABLE_OF_CONTENTS
@@ -101,36 +101,29 @@ VOLATILE_LAYER:
 
 === SECTION: LOAD_ORDER_VS_EXECUTION_ORDER ===
 
-[[LLM_INSTRUCTION]]: The order in this file is for session loading only. It does not imply runtime precedence between COTs or governance invocations.
-
 DROP_ORDER:
-- The 001-through-069 sequence above, including 002A, is the per-session load order.
-- Files are read into context once per session at load time.
-- Constitutional, kernel, scheme, COT template, dynamics, and state files persist across cycles.
+- 001 through 069, including 002A, is session load order.
+- Persistent layers remain loaded across cycles.
+- Scratchpad structure is loaded once; scratchpad instance resets per cycle.
 
 EXECUTION_ORDER:
-- Per-cycle COT execution priority is defined exclusively by UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY.
-- Governance primary commit runs at PRIORITY_16.
-- Verification runs at PRIORITY_17.
-- Governance post-verification commit runs at PRIORITY_18.
-- The post-verification commit is a restricted second invocation of STATE_GOVERNANCE_AND_COMMIT, not a separate persistent writer and not a separate file.
-- Any conflict between this file's drop order and UPDATE_CASCADE_REGISTRY's execution order is resolved in favor of UPDATE_CASCADE_REGISTRY.
+- Per-cycle execution is exclusively UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY.
+- Governance slots:
+  - PRIORITY_16: STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS
+  - PRIORITY_17: COT_UPDATE_VERIFICATION
+  - PRIORITY_18: STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
+- Post-verification commit is a restricted second invocation of STATE_GOVERNANCE_AND_COMMIT, not another file or writer.
 
-VOLATILE_LIFECYCLE:
-- 069_COGNITIVE_SCRATCHPAD is re-instantiated fresh at the start of every cycle and wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS per its own lifecycle rules.
-- The drop-order entry exists so the scratchpad's structural shape is loaded into context at session start; runtime instances follow the lifecycle defined in SCHEME_SCRATCHPAD.
-
-CROSS_CYCLE_GOVERNANCE_SIGNAL:
-- 068_STATE_GOVERNANCE_RUNTIME is the sole persistent surface that carries governance signal across cycles.
-- It is GOVERNANCE_INTERNAL and not visible to character cognition.
-- The volatile scratchpad does not retain signal between cycles; cross-cycle governance coordination uses 068 exclusively.
-- Verification results and quarantine updates reach 068 only through the restricted post-verification governance commit pass before scratchpad wipe.
+VOLATILE_AND_GOVERNANCE_SIGNAL:
+- 069_COGNITIVE_SCRATCHPAD resets each cycle and is wiped after PRIORITY_18.
+- 068_STATE_GOVERNANCE_RUNTIME is the sole persistent cross-cycle governance signal.
+- Verification/quarantine updates reach 068 only through post-verification commit.
 
 === SECTION_BREAK ===
 
 === SECTION: VERSION_NOTE ===
 
-[[LLM_INSTRUCTION]]: This is the canonical TOC for the post-Phase-1 architecture. Total file count: 70. The previous TOC enumerated 69 files; the addition is 002A_ATTENTION_ENGINEERING_PRINCIPLE, GOVERNANCE_INTERNAL. The governance loop uses two invocations of STATE_GOVERNANCE_AND_COMMIT but does not add a new file.
+Canonical post-Phase-1 TOC. Total file count: 70 entries because 002A is inserted while numbering still ends at 069.
 
 === SECTION_BREAK ===
 

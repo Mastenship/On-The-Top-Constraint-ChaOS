@@ -1,7 +1,7 @@
 === SECTION: SCHEME_BODY ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of physiological and body state. Defines field schemas, ordinals, safety invariants, and the canonical pain-representation convention.
+Immutable structural definition of physiological/body state. Defines body field schemas, ordinals, safety invariants, and pain-representation convention.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -57,22 +57,19 @@ HAIR_DENSITY_ORDER: FULL < THINNING < SPARSE < BALDING
 
 === SECTION: PAIN_REPRESENTATION_CONVENTION ===
 
-[[LLM_INSTRUCTION]]: Pain is not represented as a persistent field on STATE_BODY.
+[[LLM_INSTRUCTION]]: Pain is not represented as a persistent STATE_BODY field.
 
-CONVENTION:
-- Persistent drive-level pain pressure lives in [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE], expressing the motivational dimension (avoidance pressure intensity).
-- Acute, situational, or injury-localized pain lives on STATE_TEMPORARY_MODIFIERS as overlays with EFFECT_FAMILY values such as ACUTE_PAIN, INJURY_LOCALIZED_PAIN, or CHRONIC_PAIN_FLARE, targeting the affected SKL_XX or NONE.
-- Long-term chronic pain conditions are represented as ALT_XX records in STATE_ALTERATIONS rather than as a body field, preserving alteration-cascade semantics.
+PAIN_SURFACES:
+- Drive pressure: [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE]
+- Acute/localized pain: STATE_TEMPORARY_MODIFIERS overlay
+- Long-term chronic pain condition: STATE_ALTERATIONS ALT_XX
 
-RATIONALE:
-- This split keeps STATE_BODY focused on physiological state-machine fields with deterministic ordinal transitions.
-- Pain is fundamentally a multi-modal phenomenon (drive pressure + acute overlay + condition status) and resists collapse into a single body-state field without losing meaningful structure.
+RULE:
+- No ad-hoc pain field on STATE_BODY.
 
 === SECTION_BREAK ===
 
 === SECTION: TERMINAL_BIOCHEMICAL_STATE_DEFINITION ===
-
-[[LLM_INSTRUCTION]]: Terminal biochemical states are defined as the top-band exhaustion or breakdown values on each biochemical ordinal.
 
 TERMINAL_BIOCHEMICAL_STATES:
 - CORTISOL: CRASH
@@ -82,17 +79,17 @@ TERMINAL_BIOCHEMICAL_STATES:
 - ELECTROLYTE_BALANCE: CRITICAL
 
 INVARIANT_RULE:
-- IMMUNE_MARKERS = ROBUST is suppressed when TWO OR MORE of the five terminal biochemical states above are concurrently present.
-- Single terminal biochemical state does not by itself bar IMMUNE_MARKERS = ROBUST, but should be flagged in commit notes.
+- IMMUNE_MARKERS = ROBUST is suppressed when two or more terminal biochemical states are concurrently present.
+- Single terminal biochemical state does not alone bar ROBUST but should be noted in commit audit.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- Ordinal fields obey one-step transition policy unless override proof is valid.
-- IMMUNE_MARKERS cannot be ROBUST when two or more TERMINAL_BIOCHEMICAL_STATES are concurrently present (see TERMINAL_BIOCHEMICAL_STATE_DEFINITION).
+- Ordinal fields obey one-step transition policy unless override proof is complete.
+- IMMUNE_MARKERS cannot be ROBUST when two or more terminal biochemical states are present.
 - Physiological changes must respect governance caps and deterministic reconciliation.
-- Pain must be represented per PAIN_REPRESENTATION_CONVENTION; no ad-hoc pain field on STATE_BODY.
+- Pain must follow PAIN_REPRESENTATION_CONVENTION.
 
 === SECTION_BREAK ===
 

@@ -1,49 +1,57 @@
 === SECTION: DYNAMICS_MEMORY ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for memory formation, reconsolidation, salience adjustment, and decay. This module defines lawful transition patterns and never performs direct writes.
+Immutable mechanics for memory formation, admission thresholding, reconsolidation, salience adjustment, and decay. Defines lawful transition patterns only; never performs direct writes.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
-
-Allowed operation references:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
-
-Forbidden operation references:
-- CREATE_NEW_RECORD
-- UPDATE
-- INCREMENT
-- DECREMENT
-
-[[LLM_INSTRUCTION]]: When record creation is needed, use SET pair pattern:
-- SET registry append
-- SET full record payload
-
-[[LLM_INSTRUCTION]]: SALIENCE is a `QUALITATIVE_INTENSITY` band; updates use bounded SET to an adjacent band.
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Memory creation uses SET pair: append MEM_XX to MEMORY_REGISTRY, then SET full MEM_XX record.
+[[LLM_INSTRUCTION]]: SALIENCE is QUALITATIVE_INTENSITY; SET changes remain one-band bounded unless override proof is complete.
 
 === SECTION_BREAK ===
 
 === SECTION: FORMATION_CRITERIA ===
 
-ON_SALIENCE_THRESHOLD_MET:
-- If emotional intensity, novelty, and consequence meet threshold:
-  - Proposal pattern:
-    - SET [STATE_MEMORY][MEMORY_REGISTRY] append MEM_XX
-    - SET [STATE_MEMORY][MEM_XX] full schema-valid record
-  - Initial SALIENCE and linkage must be provided explicitly.
+[[LLM_INSTRUCTION]]: Memory admission is conservative. Vivid cycles do not automatically become persistent memories.
 
-ON_FLASHBULB_EVENT:
-- If SALIENCE meets high-threshold flashbulb criteria:
-  - override pathway may allow stronger initial salience or richer linkage
-  - any exception beyond ordinary creation limits requires full proof support
+MEMORY_ADMISSION_GATE:
+A new MEM_XX is warranted only when at least one PRIMARY_ADMISSION_CONDITION and one LINKAGE_CONDITION are met.
+
+PRIMARY_ADMISSION_CONDITIONS:
+- HIGH or EXTREME emotional arousal with narrative consequence.
+- Novelty changing understanding, options, risk, identity, relationship, goal, skill, alteration, belief, or DPF.
+- Consequence event producing or resolving meaningful state change.
+- Prediction resolution, falsification, or major DPF contrast.
+- Breakthrough, failure, betrayal, loss, rescue, revelation, injury, alteration activation, or other state-worthy event.
+- Repeated cue completing a persistence cluster.
+
+LINKAGE_CONDITIONS:
+- At least one canonical SYSTEM_LINKAGE path can be identified.
+- Memory associates with state change, state pressure, prediction, entity, skill, alteration, goal, or belief field.
+- Memory is needed as evidence for COMMITTED_FACT, persistence cluster, breakthrough, or future governed transition.
+
+NON_ADMISSION_CASES:
+- Routine scene texture.
+- Ordinary travel or waiting without consequence.
+- Minor dialogue without relational, belief, goal, or DPF relevance.
+- Raw chain-of-thought residue.
+- Duplicate restatement without new state relevance.
+- Sensory detail without salience, novelty, consequence, or linkage.
+
+ON_SALIENCE_THRESHOLD_MET:
+- If MEMORY_ADMISSION_GATE is met:
+  - PROPOSE SET pair for MEM_XX.
+  - Initial SALIENCE and SYSTEM_LINKAGE must be explicit.
+
+FLASHBULB_GATE:
+- Requires EXTREME salience plus direct identity, safety, attachment, trauma, revelation, or irreversible consequence pressure.
+- Ordinary intensity alone is insufficient.
+- Exceptions beyond ordinary creation limits require full proof.
 
 === SECTION_BREAK ===
 
@@ -51,36 +59,45 @@ ON_FLASHBULB_EVENT:
 
 ON_RETRIEVAL_WITH_NEW_CONTEXT:
 - Propose SET only for lawful mutable subfields:
-  - [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
-  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][CORE_EVENT_SUMMARY]
-  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][SENSORY_IMPRINT]
-  - [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][INTERNAL_MONOLOGUE_EXCERPT]
+  - SALIENCE
+  - CORE_EVENT_SUMMARY
+  - SENSORY_IMPRINT
+  - INTERNAL_MONOLOGUE_EXCERPT
   - lawful SYSTEM_LINKAGE augmentation
 - Must include MECHANISM_TAG and cue-based justification.
+
+RECONSOLIDATION_BOUNDS:
+- May refine framing, salience, sensory emphasis, or linkage.
+- Must not rewrite core event into contradictory past unless a later memory-correction policy exists.
+- INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact, not raw reasoning.
 
 === SECTION_BREAK ===
 
 === SECTION: DECAY_AND_FORGETTING ===
 
 ON_TEMPORAL_DECAY_MAJOR:
-- Propose SET:
+- PROPOSE SET:
   TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
   PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
   JUSTIFICATION: temporal decay cue
 
-- If salience falls below retention threshold and no protected linkage remains:
-  - do not silently delete the record
-  - require explicit governance policy for any deactivation, archival treatment, or equivalent memory-retention outcome
+DECAY_BOUNDS:
+- Highly linked memories decay more slowly.
+- Memories used as evidence require caution before salience reduction.
+- Decay changes salience; it does not delete records.
+
+RETENTION_THRESHOLD_NOTE:
+- If salience falls below retention threshold and no protected linkage remains, do not delete silently.
+- Any archival, retirement, or deactivation behavior requires explicit governance policy.
 
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- Memory formation must use explicit registry-record SET pair semantics.
-- Reconsolidation is bounded and must not become unrestricted past rewrite.
-- SALIENCE updates use bounded `QUALITATIVE_INTENSITY` band SET operations and respect the per-cycle one-band limit unless override proof applies.
-- Decay handling must preserve auditability and record coherence.
-- If memory retirement or archival behavior is later formalized, it should be expressed explicitly rather than implied through deletion shorthand.
+- Memory formation requires admission gate and registry-record SET pair.
+- Reconsolidation is bounded.
+- SALIENCE movement is one-band bounded unless override proof is complete.
+- Decay preserves auditability and record coherence.
 
 === SECTION_BREAK ===
 

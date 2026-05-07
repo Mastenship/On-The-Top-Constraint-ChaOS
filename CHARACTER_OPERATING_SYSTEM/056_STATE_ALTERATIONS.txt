@@ -1,7 +1,7 @@
 === SECTION: STATE_ALTERATIONS ===
 
 [KEEP: Purpose & Role]
-Mutable alterations container. Contains alteration registry and alteration records only.
+Mutable alterations container. Contains current alteration registry and alteration records only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -33,6 +33,13 @@ AWARENESS_STATUS:
 PERCEIVED_CAUSE:
 PERCEIVED_EFFECT:
 SOURCE_OF_INFORMATION:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete ALT_XX records require ALTERATION_REGISTRY membership plus matching record block.
 
 === SECTION_BREAK ===
 

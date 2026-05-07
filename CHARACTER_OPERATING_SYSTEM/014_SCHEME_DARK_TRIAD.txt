@@ -1,7 +1,7 @@
 === SECTION: SCHEME_DARK_TRIAD ===
 
 [KEEP: Purpose & Role]
-Immutable definition of Dark Triad traits. Percentiles set at instantiation; inform malevolent impulse gating and manipulative strategy bias.
+Immutable Dark Triad trait baselines. Set at instantiation; inform malevolent impulse gating and manipulative strategy bias.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -9,18 +9,9 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION: CORE_TRAIT_MARKERS ===
 
-NARCISSISM: QUALITATIVE_PERCENTILE
-MACHIAVELLIANISM: QUALITATIVE_PERCENTILE
-PSYCHOPATHY: QUALITATIVE_PERCENTILE
-
-QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
-
-QUALITATIVE_PERCENTILE_GLOSS:
-- VERY_LOW: below 20th percentile
-- LOW: 20th–40th percentile
-- AVERAGE: 40th–60th percentile
-- HIGH: 60th–80th percentile
-- VERY_HIGH: above 80th percentile
+NARCISSISM: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+MACHIAVELLIANISM: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+PSYCHOPATHY: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
 
 === SECTION_BREAK ===
 
@@ -35,8 +26,8 @@ PSYCHOPATHY: Impulsivity, thrill-seeking, callousness, lack of remorse.
 === SECTION: INVARIANTS ===
 
 - Values fixed post-instantiation.
-- High scores gate MALEVOLENT_BEHAVIOR_SELECTION impulses.
-- Changes are extremely rare and require override proof beyond standard cycle mechanics.
+- HIGH or VERY_HIGH traits gate MALEVOLENT_BEHAVIOR_SELECTION impulses when cue support exists.
+- Changes require extreme override proof and are outside standard runtime mutation.
 
 === SECTION_BREAK ===
 

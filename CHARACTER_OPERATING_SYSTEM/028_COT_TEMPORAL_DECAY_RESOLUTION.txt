@@ -1,59 +1,36 @@
 === SECTION: COT_TEMPORAL_DECAY_RESOLUTION ===
 
 [KEEP: Purpose & Role]
-This COT governs slow decay, recovery, and weakening effects caused by time passage without strong reinforcing input. It handles gradual fade processes across memory salience, prediction confidence, temporary modifiers, and unresolved low-activation pressures.
+Governs slow decay, recovery, and weakening effects caused by time passage without strong reinforcement. Handles memory salience decay, prediction certainty decay, modifier expiry, and unresolved low-activation pressures.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- weakening proposals for persistent and temporary structures
-- low-activation impulses where relevant
-Is Informed By:
-- [STATE_MEMORY]
-- [STATE_DPF]
-- [STATE_TEMPORARY_MODIFIERS]
-- [STATE_TEMPORAL_DYNAMICS]
-- narrative elapsed-time cues
-- DYNAMICS_TEMPORARY_MODIFIERS
+Informs: weakening proposals for persistent and temporary structures; low-activation impulses.
+Is Informed By: STATE_MEMORY, STATE_DPF, STATE_TEMPORARY_MODIFIERS, STATE_TEMPORAL_DYNAMICS, elapsed-time cues, DYNAMICS_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: This COT does not directly edit persistent modules.
-All durable weakening intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
-
-Allowed strict operations only:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN ===
 
-[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
-
 ANCHOR_CUES:
-- Narrative input describes elapsed time, a major time skip, scene closure, or sustained lack of reinforcement.
-- An active modifier expiry condition is met or is deterministically inferable from the current temporal state.
-- An unresolved prediction has gone unconfirmed across a meaningful elapsed interval without confirming evidence.
-- A memory salience decay or reconsolidation cue is present in the current cycle input.
+- Narrative input describes elapsed time, major time skip, scene closure, or sustained lack of reinforcement.
+- Active modifier expiry condition is met or deterministically inferable.
+- Unresolved prediction has gone unconfirmed across meaningful elapsed interval.
+- Memory salience decay or reconsolidation cue is present.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
-- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
-- Do not propose memory salience decay, prediction confidence decay, or modifier expiry.
-- Do not generate LET_GO, REVISIT, REINFORCE, or DISENGAGE impulses.
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: MEMORY_SALIENCE_DECAY ===
-
-[[LLM_INSTRUCTION]]: SALIENCE is a QUALITATIVE_INTENSITY band per SCHEME_MEMORY. Use SET to an adjacent lower band; respect per-cycle one-band limit unless override proof applies.
 
 ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
 - PROPOSE SET:
@@ -66,15 +43,13 @@ ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
   JUSTIFICATION: time passage without reinforcement reduces retrieval salience
 
 CONDITIONS:
-- decay must remain bounded
-- highly linked or recently reactivated memories may decay more slowly
-- governance may suppress decay when linkage protection or recent retrieval justifies retention stability
+- One-band bounded unless override proof applies.
+- Highly linked or recently reactivated memories decay more slowly.
+- Governance may suppress when linkage protection or recent retrieval justifies stability.
 
 === SECTION_BREAK ===
 
 === SECTION: PREDICTION_CONFIDENCE_DECAY ===
-
-[[LLM_INSTRUCTION]]: CERTAINTY on prediction records and CERTAINTY_LEVEL.VALUE on STATE_DPF are QUALITATIVE_INTENSITY bands. Use SET to an adjacent lower band.
 
 ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
 - PROPOSE SET:
@@ -86,7 +61,7 @@ ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: unresolved prediction loses confidence over time
 
-- Optional bounded SET may also target:
+- Optional SET:
   TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
   PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
   STRENGTH: LOW
@@ -99,8 +74,6 @@ ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
 
 === SECTION: MODIFIER_EXPIRY_PRESSURE ===
 
-[[LLM_INSTRUCTION]]: This COT may propose modifier expiry, but lifecycle resolution remains governed by DYNAMICS_TEMPORARY_MODIFIERS.
-
 ON_DURATION_LAPSE_OR_EXPIRY_CUE:
 - PROPOSE REMOVE_MODIFIER:
   TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
@@ -112,55 +85,26 @@ ON_DURATION_LAPSE_OR_EXPIRY_CUE:
   JUSTIFICATION: expiry condition met
 
 CONDITIONS:
-- expiry cues must be explicit or deterministically inferable
-- expired modifiers must not remain active overlays
-- final lifecycle handling must remain consistent with DYNAMICS_TEMPORARY_MODIFIERS
+- Expiry cues must be explicit or deterministically inferable.
+- Final lifecycle handling follows DYNAMICS_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 
 === SECTION: LOW_ACTIVATION_IMPULSES ===
-
-[[LLM_INSTRUCTION]]: Generate only when time decay yields meaningful motivational drift.
 
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_TEMPORAL_DECAY_RESOLUTION
 IMPULSE_TYPE: LET_GO | REVISIT | REINFORCE | DISENGAGE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
 TARGET_ID: MEM_XX | PRD_XX | MOD_XX | NONE
-JUSTIFICATION: brief cue-based reason
+JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION_BREAK ===
 
-=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+=== SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: After completion:
-- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
-
-TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
-KEY_OUTPUTS:
-- decay domains evaluated
-- memory-decay applied YES/NO
-- prediction-decay applied YES/NO
-- modifier-expiry pressure applied YES/NO
-GENERATED_IMPULSES:
-- list or [NONE]
-PROPOSED_UPDATES_COUNT: number
-NOTES:
-- band-shift compliance, modifier expiry summary, retention-protection notes
-
-EMPTY_CYCLE_TRACE_ENTRY:
-COT_NAME: COT_TEMPORAL_DECAY_RESOLUTION
-KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
-GENERATED_IMPULSES:
-- [NONE]
-PROPOSED_UPDATES_COUNT: 0
-NOTES:
-- brief one-line decay-context observation or NONE
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include decay domains, memory-decay YES/NO, prediction-decay YES/NO, modifier-expiry YES/NO, impulses, proposal count, and retention notes.
 
 === SECTION_BREAK ===
 

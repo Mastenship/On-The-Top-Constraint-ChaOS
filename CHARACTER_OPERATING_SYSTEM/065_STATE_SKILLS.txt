@@ -1,22 +1,9 @@
 === SECTION: STATE_SKILLS ===
 
 [KEEP: Purpose & Role]
-Mutable skills container. Contains current registry and skill records only.
+Mutable skills container. Contains current skill registry and skill records only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
-
-=== SECTION_BREAK ===
-
-=== SECTION: SKILL_DOMAINS ===
-
-SKILL_DOMAIN:
-- TECHNICAL
-- CREATIVE
-- SOCIAL
-- COMBAT
-- PHYSICAL
-- KNOWLEDGE
-- SURVIVAL
 
 === SECTION_BREAK ===
 
@@ -40,6 +27,14 @@ GROWTH_POTENTIAL:
 UNIQUENESS_LEVEL:
 ACQUISITION_CONTEXT:
 ASSOCIATED_MEMORY_ID:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed skill records only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete SKL_XX records require SKILL_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: Skill-domain enums live in SCHEME_SKILLS. Momentary execution quality uses STATE_TEMPORARY_MODIFIERS. Permanent skill mutation follows DYNAMICS_SKILLS.
 
 === SECTION_BREAK ===
 

@@ -1,7 +1,7 @@
 === SECTION: SCHEME_HEXACO ===
 
 [KEEP: Purpose & Role]
-Immutable definition of core personality traits using HEXACO model. Percentiles are set at instantiation and consulted for bias, weighting, and interpretive filtering rather than ordinary runtime mutation.
+Immutable HEXACO trait baselines. Set at instantiation; consulted for bias, weighting, and interpretive filtering, not ordinary runtime mutation.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -9,21 +9,12 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION: CORE_TRAIT_MARKERS ===
 
-HONESTY_HUMILITY: QUALITATIVE_PERCENTILE
-EMOTIONALITY: QUALITATIVE_PERCENTILE
-EXTRAVERSION: QUALITATIVE_PERCENTILE
-AGREEABLENESS: QUALITATIVE_PERCENTILE
-CONSCIENTIOUSNESS: QUALITATIVE_PERCENTILE
-OPENNESS_TO_EXPERIENCE: QUALITATIVE_PERCENTILE
-
-QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
-
-QUALITATIVE_PERCENTILE_GLOSS:
-- VERY_LOW: below 20th percentile
-- LOW: 20th–40th percentile
-- AVERAGE: 40th–60th percentile
-- HIGH: 60th–80th percentile
-- VERY_HIGH: above 80th percentile
+HONESTY_HUMILITY: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+EMOTIONALITY: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+EXTRAVERSION: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+AGREEABLENESS: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+CONSCIENTIOUSNESS: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+OPENNESS_TO_EXPERIENCE: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
 
 === SECTION_BREAK ===
 
@@ -42,7 +33,7 @@ OPENNESS_TO_EXPERIENCE: Aesthetic appreciation, inquisitiveness, creativity, unc
 
 - Values fixed post-instantiation.
 - Consulted for probability biases, weighting functions, and perception filters.
-- Changes require explicit watershed justification and are not part of standard cycle mutation.
+- Changes require watershed-equivalent justification and are outside standard cycle mutation.
 
 === SECTION_BREAK ===
 

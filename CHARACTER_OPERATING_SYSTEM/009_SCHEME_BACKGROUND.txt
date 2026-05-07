@@ -1,7 +1,7 @@
 === SECTION: SCHEME_BACKGROUND ===
 
 [KEEP: Purpose & Role]
-Immutable definition of the character's formative world environment and sociological norms. Set once at instantiation; provides normative seeding data for initial STATE_ values (skills contexts, relational defaults, belief grounding, goal origins, physiological baselines) and ongoing interpretive biases (for example, outlook on authority informing DPF synthesis). Never mutated by standard dynamics or COTs — changes require explicit manual override with watershed justification equivalent to personality scheme shifts.
+Immutable formative-world baseline. Set at instantiation; seeds initial STATE_ values and supplies ongoing interpretive priors for authority, strangers, fate/free will, law/order, future outlook, technology, and social norms.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -34,49 +34,44 @@ TECH_AND_SOCIETAL_NORMS: MULTILINE_STRING
 
 === SECTION: INVOCATIONAL_GLOSS ===
 
-POPULATION_DENSITY_GLOSS:
-- SPARSE: low-density settlement pattern
-- MODERATE: ordinary mixed-density settlement pattern
-- HIGH: dense urban or clustered population pattern
-- EXTREME: hyper-dense settlement pattern
+POPULATION_DENSITY:
+- SPARSE: low-density settlement
+- MODERATE: mixed-density settlement
+- HIGH: dense urban or clustered population
+- EXTREME: hyper-dense settlement
 
-POPULATION_DIVERSITY_GLOSS:
-- HOMOGENOUS: low cultural or demographic variation
-- MIXED: moderate visible variation
-- COSMOPOLITAN: high pluralism and strong cross-group contact
+POPULATION_DIVERSITY:
+- HOMOGENOUS: low visible variation
+- MIXED: moderate variation
+- COSMOPOLITAN: high pluralism and cross-group contact
 
-TECHNOLOGICAL_LEVEL_GLOSS:
-- PRE_INDUSTRIAL: pre-mechanized or early agrarian craft world
-- INDUSTRIAL: machine-era industrial society
+TECHNOLOGICAL_LEVEL:
+- PRE_INDUSTRIAL: agrarian/craft world
+- INDUSTRIAL: machine-era society
 - INFORMATION_AGE: networked digital society
-- NEAR_FUTURE: slightly advanced extrapolation from present-day systems
-- BIOPUNK: biotechnology-saturated or bio-modified society
+- NEAR_FUTURE: near extrapolation
+- BIOPUNK: biotechnology-saturated society
 - POST_SCARCITY: material scarcity substantially reduced
-- OTHER: setting-specific technological condition outside the standard ladder
+- OTHER: setting-specific condition
 
-DATA_ACCESS_AND_PRIVACY_GLOSS:
-- OPEN_PUBLIC_NETWORK: open information ecology with wide general access
-- CORPORATE_OWNED: information infrastructure primarily controlled by firms
-- STATE_MONITORED: information ecology strongly supervised by public authority
-- DATA_HAVENS: fragmented or sanctuary-based privacy structures
+DATA_ACCESS_AND_PRIVACY:
+- OPEN_PUBLIC_NETWORK: open information ecology
+- CORPORATE_OWNED: firm-controlled infrastructure
+- STATE_MONITORED: state-supervised information ecology
+- DATA_HAVENS: fragmented or sanctuary privacy structures
 
-WORLDVIEW_GLOSS:
-- These fields are invocation-rich normative priors that shape interpretation, trust, authority response, and long-horizon expectation.
-- Enum literals above are canonical write-surface values.
-- Explanatory meanings live here and are not separate mutable state fields.
+WORLDVIEW_PRIOR_RULE:
+- Outlook fields are invocation-rich priors shaping interpretation, trust, authority response, and long-horizon expectation.
+- Enum literals are canonical values; meanings are not mutable state fields.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
 - Values fixed post-instantiation.
-- Consulted for:
-  - initial seeding of HEXACO / MMPI / DARK_TRIAD / ASQ percentiles where culturally relevant
-  - baseline relational valences and belief axes
-  - skill acquisition contexts and growth potential ceilings
-  - physiological and environmental norm assumptions
-  - DPF core-assumption grounding
-- Changes are extremely rare and require explicit override proof plus governance review.
+- Consulted for initial seeding and ongoing interpretive bias.
+- May inform trait baselines, relational defaults, belief axes, skill contexts, physiological assumptions, and DPF grounding.
+- Changes require explicit override proof plus governance review.
 
 === SECTION_BREAK ===
 

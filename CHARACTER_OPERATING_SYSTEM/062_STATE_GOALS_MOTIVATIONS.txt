@@ -1,7 +1,7 @@
 === SECTION: STATE_GOALS_MOTIVATIONS ===
 
 [KEEP: Purpose & Role]
-Mutable goals and motivations container. Contains drive values, goal registry, and goal records only.
+Mutable goals and motivations container. Contains current drive values, goal registry, and goal records only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -76,6 +76,14 @@ STATUS:
 
 TIME_PERSPECTIVE:
 DEADLINE_RESPONSE:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed drive and goal values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete GOAL_XX records require GOAL_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: Passing wants and single-turn intents are not GOAL_XX records; goal creation follows DYNAMICS_GOALS_MOTIVATIONS.
 
 === SECTION_BREAK ===
 

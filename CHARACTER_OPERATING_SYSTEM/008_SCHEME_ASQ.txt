@@ -1,7 +1,7 @@
 === SECTION: SCHEME_ASQ ===
 
 [KEEP: Purpose & Role]
-Immutable definition of adult attachment style. Set at instantiation; informs relational and coping schemas.
+Immutable adult attachment baseline. Set at instantiation; informs relational and coping bias.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -10,16 +10,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 === SECTION: ATTACHMENT_MARKERS ===
 
 ATTACHMENT_STYLE: ENUM [SECURE, ANXIOUS_PREOCCUPIED, AVOIDANT_DISMISSIVE, FEARFUL_AVOIDANT]
-ATTACHMENT_SECURITY: QUALITATIVE_PERCENTILE
-
-QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
-
-QUALITATIVE_PERCENTILE_GLOSS:
-- VERY_LOW: below 20th percentile
-- LOW: 20th–40th percentile
-- AVERAGE: 40th–60th percentile
-- HIGH: 60th–80th percentile
-- VERY_HIGH: above 80th percentile
+ATTACHMENT_SECURITY: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
 
 === SECTION_BREAK ===
 
@@ -34,9 +25,9 @@ FEARFUL_AVOIDANT: Desire intimacy but fear hurt.
 
 === SECTION: INVARIANTS ===
 
-- Style highly stable.
-- Security percentile biases attachment impulses.
-- Shifts require prolonged corrective experiences or explicit instantiation-time override.
+- Values fixed post-instantiation.
+- ATTACHMENT_SECURITY biases attachment impulses.
+- Shifts require prolonged corrective experience or explicit instantiation-time override.
 
 === SECTION_BREAK ===
 

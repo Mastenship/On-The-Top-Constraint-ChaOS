@@ -1,7 +1,7 @@
 === SECTION: STATE_TEMPORARY_MODIFIERS ===
 
 [KEEP: Purpose & Role]
-Mutable temporary modifiers container. Contains current modifier registry and modifier records only.
+Mutable temporary modifiers container. Contains current active modifier registry and active modifier records only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -46,10 +46,10 @@ JUSTIFICATION:
 
 === SECTION: STATE_INTERPRETATION_NOTE ===
 
-[[LLM_INSTRUCTION]]: Bracketed record stubs such as [MOD_XX] indicate schema shape only.
-[[LLM_INSTRUCTION]]: A concrete modifier record lawfully exists only when:
-- a concrete MOD_XX appears in MODIFIER_REGISTRY
-- a corresponding [STATE_TEMPORARY_MODIFIERS][MOD_XX] record is instantiated
+[[LLM_INSTRUCTION]]: Current active modifiers only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Concrete MOD_XX records require MODIFIER_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: This is an active-overlay surface, not history. Expired/removed modifiers leave this surface; lifecycle closure lives in audit/trace.
+[[LLM_INSTRUCTION]]: Collision, refresh, replacement, stacking, cap, and removal follow DYNAMICS_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 

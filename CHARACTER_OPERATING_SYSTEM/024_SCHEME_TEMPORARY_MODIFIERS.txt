@@ -1,7 +1,7 @@
 === SECTION: SCHEME_TEMPORARY_MODIFIERS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of temporary modifiers. Defines modifier schema, creation requirements, targeting logic, and safety invariants for transient overlays that modulate runtime behavior without directly rewriting persistent baseline state.
+Immutable structural definition of temporary modifiers: transient overlays that modulate runtime behavior without directly rewriting persistent baseline state.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -31,7 +31,7 @@ TARGET_FIELD: CANONICAL_PATH
 TARGET_ID: OPTIONAL_ID
 
 EFFECT_EXPRESSION: STRING_DESCRIPTIVE
-MAGNITUDE: QUALITATIVE_MAGNITUDE
+MAGNITUDE: QUALITATIVE_MAGNITUDE per CANONICAL_TOKEN_DICTIONARY
 
 STACKING_RULE: ENUM [STACK, REPLACE, CAP, MULTIPLY]
 
@@ -46,25 +46,9 @@ JUSTIFICATION: STRING_DESCRIPTIVE
 
 === SECTION_BREAK ===
 
-=== SECTION: QUALITATIVE_MAGNITUDE_POLICY ===
-
-QUALITATIVE_MAGNITUDE: ENUM [TRACE, LOW, MODERATE, HIGH, EXTREME]
-
-QUALITATIVE_MAGNITUDE_GLOSS:
-- TRACE: barely perceptible transient influence
-- LOW: weak but behaviorally relevant influence
-- MODERATE: clear situational influence
-- HIGH: strong situational influence
-- EXTREME: acute overriding pressure still bounded by governance and realism
-
-[[LLM_INSTRUCTION]]: MAGNITUDE is qualitative and invocation-supportive, not numeric.
-[[LLM_INSTRUCTION]]: Modifier effects must remain transient overlays and must not function as covert identity rewrites.
-
-=== SECTION_BREAK ===
-
 === SECTION: MINIMUM_CREATION_REQUIREMENTS ===
 
-A modifier creation proposal is lawful only if all of the following are present and meaningful:
+REQUIRED_ON_CREATION:
 - MODIFIER_ID
 - STATUS
 - MODIFIER_TYPE
@@ -82,11 +66,9 @@ A modifier creation proposal is lawful only if all of the following are present 
 
 ADDITIONAL_REQUIREMENTS:
 - TARGET_FIELD must be canonical and valid.
-- TARGET_ID is required when the modifier targets a record-specific or entity-specific context rather than a global field.
-- EFFECT_FAMILY must be a canonical short token summarizing the effect's semantic intent; see DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_RESOLUTION.
-- EFFECT_EXPRESSION must describe the transient effect clearly enough to distinguish it from unrelated modifiers.
-- MAGNITUDE must use the QUALITATIVE_MAGNITUDE enum.
-- EXPIRY_CONDITION must be explicit even when DURATION_TYPE is SCENE.
+- TARGET_ID is required for record-specific/entity-specific scope.
+- EFFECT_FAMILY must be a canonical short semantic token per DYNAMICS_TEMPORARY_MODIFIERS.
+- EFFECT_EXPRESSION must distinguish the transient effect.
 - LAST_REFRESHED may be empty on first creation.
 
 === SECTION_BREAK ===
@@ -94,61 +76,50 @@ ADDITIONAL_REQUIREMENTS:
 === SECTION: TARGETING_LOGIC ===
 
 TARGET_FIELD_RULES:
-- TARGET_FIELD identifies the canonical state domain or field being modulated.
-- TARGET_FIELD does not authorize direct mutation of the target; it specifies the overlay destination of effect.
+- TARGET_FIELD identifies the state domain or field being modulated.
+- TARGET_FIELD does not authorize direct mutation of the target.
 
 TARGET_ID_RULES:
-- Use TARGET_ID when the effect is scoped to:
-  - a specific ENT_XX
-  - a specific SKL_XX
-  - a specific GOAL_XX
-  - a specific MEM_XX
-  - another concrete canonical record target
-- TARGET_ID may be empty when the modifier is domain-global.
-
-INTERPRETATION_RULE:
-- TARGET_FIELD establishes where the overlay applies.
-- TARGET_ID establishes which concrete instance, if any, receives the overlay context.
+- Use TARGET_ID when scoped to concrete ENT_XX, SKL_XX, GOAL_XX, MEM_XX, or other canonical record.
+- TARGET_ID may be empty for domain-global modifiers.
 
 === SECTION_BREAK ===
 
 === SECTION: ACTIVE_SURFACE_INTERPRETATION ===
 
-[[LLM_INSTRUCTION]]: STATE_TEMPORARY_MODIFIERS is an active-overlay surface, not a historical archive.
+[[LLM_INSTRUCTION]]: STATE_TEMPORARY_MODIFIERS is an active-overlay surface, not history.
 
 ACTIVE_SURFACE_RULES:
-- Modifier records represent runtime-relevant transient overlays.
-- STATUS is `ACTIVE` for every modifier present on the surface; lifecycle resolution removes the modifier rather than transitioning it to a terminal state.
-- Expired or removed modifiers are ordinarily cleared from the active surface through governance-consistent lifecycle handling.
-- Historical lifecycle visibility belongs to governance audit and trace outputs, not to persistent growth of STATE_TEMPORARY_MODIFIERS.
+- Present modifier records are runtime-relevant active overlays.
+- STATUS is ACTIVE for every record on this surface.
+- Expired or removed modifiers leave the surface.
+- Lifecycle history belongs to audit and trace, not persistent modifier retention.
 
 === SECTION_BREAK ===
 
 === SECTION: LIFECYCLE_AUTHORITY_NOTE ===
 
-[[LLM_INSTRUCTION]]: This SCHEME_ module defines structure and invariants only.
-[[LLM_INSTRUCTION]]: Modifier lifecycle mechanics are defined by DYNAMICS_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: This SCHEME defines structure only. DYNAMICS_TEMPORARY_MODIFIERS defines lifecycle mechanics.
 
-LIFECYCLE_SCOPE_DELEGATED_TO_DYNAMICS:
+DYNAMICS_OWNS:
 - refresh legality
 - collision and identity matching
 - replacement behavior
-- stacking and cap interaction
-- expiry transitions
-- REMOVE_MODIFIER resolution behavior
+- stacking/cap interaction
+- expiry
+- REMOVE_MODIFIER behavior
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- Temporary modifiers must not bypass baseline state governance.
+- Temporary modifiers must not bypass baseline governance.
 - TARGET_FIELD must be canonical and valid.
-- MAGNITUDE must use lawful qualitative values only.
-- EXPIRY_CONDITION is required for creation and refresh.
-- JUSTIFICATION is required for creation and refresh.
+- MAGNITUDE must be QUALITATIVE_MAGNITUDE.
+- EXPIRY_CONDITION and JUSTIFICATION are required for creation and refresh.
 - Active modifiers must not be orphaned from registry or target path.
-- Modifier effects must remain bounded by realism, policy caps, and qualitative state-machine logic.
-- Temporary modifiers should absorb transient situational effects before baseline identity rewrite is considered.
+- Modifier effects remain bounded by realism, policy caps, and qualitative state-machine logic.
+- Transient situational effects should use modifiers before baseline rewrite is considered.
 
 === SECTION_BREAK ===
 

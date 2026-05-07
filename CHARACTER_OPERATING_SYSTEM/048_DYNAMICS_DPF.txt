@@ -1,73 +1,78 @@
 === SECTION: DYNAMICS_DPF ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for DPF synthesis dynamics, prediction lifecycle, certainty drift, and recalculation gating.
+Immutable mechanics for DPF synthesis dynamics, prediction lifecycle, prediction-worthiness gating, certainty drift, and recalculation gating.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Prediction creation uses SET pair: append PRD_XX to PREDICTION_REGISTRY, then SET full PRD_XX record.
+[[LLM_INSTRUCTION]]: DPF certainty fields are QUALITATIVE_INTENSITY bands; SET endpoints remain one-band bounded unless override proof is complete.
 
-Allowed operation references:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
+=== SECTION_BREAK ===
 
-Forbidden operation references:
-- CREATE_NEW_RECORD
-- UPDATE
-- INCREMENT
-- DECREMENT
+=== SECTION: PREDICTION_WORTHINESS_GATE ===
 
-[[LLM_INSTRUCTION]]: Prediction creation uses SET pair pattern:
-- SET [STATE_DPF][PREDICTION_REGISTRY] append PRD_XX
-- SET [STATE_DPF][PRD_XX] record payload
+[[LLM_INSTRUCTION]]: Not every expectation becomes PRD_XX. Prediction records are state-worthy anticipated outcomes with future resolution value.
+
+PREDICTION_RECORD_ADMISSION_CRITERIA:
+A new PRD_XX is warranted only when at least one is true:
+- Outcome materially affects an ACTIVE or HIGH/EXTREME urgency GOAL_XX.
+- Outcome would change safety, attachment, belief, alteration, or major relational state.
+- Prediction has a clear future resolution condition: RESOLVED, RESOLVED_NEGATIVE, or FALSIFIED.
+- Prediction links to salient memory, explicit threat, opportunity, promise, warning, or obstacle.
+- Prediction is needed to explain durable DPF shift, not passing tactical thought.
+
+NON_ADMISSION_CASES:
+- Passing guesses.
+- Flavor speculation without resolution condition.
+- Momentary anxiety not linked to action, goal, safety, relationship, or belief.
+- Redundant active PRD_XX coverage.
+- Raw chain-of-thought fragments.
+
+ADMISSION_RESULT:
+- If not admitted, keep interpretation in [COGNITIVE_SCRATCHPAD][CURRENT_DPF] or temporary modifier.
+- If admitted, use SET pair and respect MAX_ACTIVE_PREDICTIONS.
 
 === SECTION_BREAK ===
 
 === SECTION: PREDICTION_ACCUMULATION ===
 
 ON_MINOR_CONTRADICTION:
-- Propose SET:
+- PROPOSE SET:
   TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
   PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
   JUSTIFICATION: contradiction cue
-
-- If prediction-specific contradiction is identified:
-  Propose SET:
+- If prediction-specific:
+  - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
     PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
     JUSTIFICATION: prediction contradiction cue
-
-- If prediction certainty falls below falsification threshold with sufficient cue support:
-  Propose SET:
+- If certainty falls below falsification threshold with cue support:
+  - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
-    PROPOSED_VALUE: FALSIFIED or RESOLVED_NEGATIVE
+    PROPOSED_VALUE: FALSIFIED | RESOLVED_NEGATIVE
     JUSTIFICATION: contradiction resolution cue
-
-- If contradiction load exceeds current-cycle recalculation tolerance:
-  queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE
+- If contradiction load exceeds cycle tolerance:
+  - queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE
 
 ON_RESOLUTION_EVENT:
-- If prediction is confirmed:
-  Propose SET:
+- If confirmed:
+  - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
     PROPOSED_VALUE: RESOLVED
     JUSTIFICATION: resolution cue
-
-- Certainty reinforcement may be proposed via:
-  - SET to an adjacent higher QUALITATIVE_INTENSITY band for [STATE_DPF][PRD_XX][CERTAINTY]
-  - SET to an adjacent higher QUALITATIVE_INTENSITY band for [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+- Certainty reinforcement may SET adjacent higher band on PRD_XX.CERTAINTY or DPF CERTAINTY_LEVEL.VALUE.
 
 ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
-- Create prediction via SET pair pattern.
+- Create PRD_XX only when PREDICTION_RECORD_ADMISSION_CRITERIA are met.
 
 ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
-- Propose bounded SET adjustments to:
+- Propose bounded SET drift to:
   - [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
   - [STATE_DPF][DPF_CORE_STATE][EMOTIONAL_VALENCE][VALUE]
   when cue support indicates drift toward current baseline interpretive state.
@@ -78,18 +83,21 @@ ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
 
 CYCLE_RECALC_GUARD:
 - Only one full DPF recalculation per cycle.
-- Additional contradictions queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE.
+- Additional contradictions queue DPF_RECALC_QUEUED TRUE.
 
 ON_DPF_CONTRAST_EVENT:
-- Override pathway may permit multi-field DPF shifts if full proof is provided.
+- Multi-field DPF shifts require full override proof.
+- Reserve DPF_CONTRAST_EVENT for durable interpretive contrast, not ordinary mood fluctuation.
 
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- DPF certainty updates are bounded `QUALITATIVE_INTENSITY` band SET operations.
-- Prediction lifecycle transitions must resolve to explicit STATE enum endpoints.
-- Recalculation gating is volatile scratchpad coordination and does not itself constitute persistent DPF mutation.
+- DPF certainty updates are bounded SET operations.
+- Prediction lifecycle uses explicit STATE enum endpoints.
+- Recalculation gating is volatile scratchpad coordination.
+- Prediction creation is capped and gated.
+- Persistent STATE_DPF stores resolved interpretive state, not raw reasoning.
 
 === SECTION_BREAK ===
 

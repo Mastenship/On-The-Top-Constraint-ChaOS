@@ -1,58 +1,41 @@
 === SECTION: COT_PERFORMANCE_STATE_INTEGRATION ===
 
 [KEEP: Purpose & Role]
-This COT defines how arousal, stress, biochemical condition, and environment modulate skill execution in the moment. It produces temporary overlays targeting skill execution pathways, performance-related impulses, and rare permanent skill transitions only with override proof.
+Modulates skill execution in the moment from arousal, stress, biochemical state, environment, alterations, and context. Permanent skill mutation is rare and governed by DYNAMICS_SKILLS.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- temporary performance overlays
-- DECISION synthesis impulses
-- memory cues
-Is Informed By:
-- [STATE_BODY]
-- stress cascade input
-- SCHEME_SKILLS and DYNAMICS_SKILLS
-- narrative context
+Informs: temporary performance overlays, DECISION impulses, memory cues, rare skill-state proposals.
+Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_TEMPORARY_MODIFIERS, narrative context.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: No direct persistent writes.
-All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
-
-Allowed strict operations only:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN ===
 
-[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
-
 ANCHOR_CUES:
-- Narrative input describes the character executing or attempting a SKL_XX skill.
-- Current STATE_BODY shows arousal outside the optimal band (ADRENALINE not BASELINE, or CORTISOL above ELEVATED).
-- Environmental pressure cue affects skill execution context.
-- A breakthrough or failure event with explicit MEM_XX linkage candidate is present.
+- Narrative input describes execution or attempt of SKL_XX.
+- Narrative input describes practice, training, instruction, repeated execution, breakthrough, failure, or non-use relevant to SKL_XX.
+- STATE_BODY arousal is outside optimal execution band.
+- Environmental pressure affects skill execution.
+- Breakthrough/failure event with MEM_XX linkage candidate is present.
+- Active modifier targets performance EFFECT_FAMILY requiring re-evaluation.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
-- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
-- Do not generate push_through/seek_optimal/conserve/quit impulses.
-- Do not propose performance-modifier overlays.
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 === SECTION_BREAK ===
 
-=== SECTION: AROUSAL_MODULATION ===
+=== SECTION: PERFORMANCE_MODULATION ===
 
-[[LLM_INSTRUCTION]]: Prefer temporary overlays for moment-to-moment execution effects.
+[[LLM_INSTRUCTION]]: Moment-to-moment execution effects prefer STATE_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: Patterns below are schematic directives. Runtime must expand them to complete proposal packets per UPDATE_CASCADE_REGISTRY.
 
 ON_LOW_AROUSAL:
 - PROPOSE ADD_MODIFIER:
@@ -60,16 +43,15 @@ ON_LOW_AROUSAL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: UNDER_AROUSAL_DAMPENING
-    EFFECT_EXPRESSION: reduced execution sharpness from insufficient activation
+    EFFECT_EXPRESSION: low arousal dampens speed, initiative, and execution sharpness
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: arousal returns to optimal band
-  STRENGTH: MODERATE
+    EXPIRY_CONDITION: arousal returns to optimal execution band
   MECHANISM_TAG: AROUSAL_MODULATION
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: under-arousal reduces execution sharpness
+  JUSTIFICATION: low arousal execution cue
 
 ON_OPTIMAL_AROUSAL:
 - PROPOSE ADD_MODIFIER:
@@ -77,16 +59,15 @@ ON_OPTIMAL_AROUSAL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: FLOW_ENHANCEMENT
-    EFFECT_EXPRESSION: heightened execution coherence within optimal arousal band
+    EFFECT_EXPRESSION: optimal arousal supports fluid execution and efficient attention
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: arousal exits optimal band
-  STRENGTH: MODERATE
+    EXPIRY_CONDITION: arousal exits optimal execution band
   MECHANISM_TAG: AROUSAL_MODULATION
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: arousal band aligns with effective execution
+  JUSTIFICATION: optimal arousal execution cue
 
 ON_HIGH_AROUSAL:
 - PROPOSE ADD_MODIFIER:
@@ -94,20 +75,15 @@ ON_HIGH_AROUSAL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: OVERACTIVATION_CHOKING
-    EFFECT_EXPRESSION: degraded controlled execution from excessive arousal
+    EFFECT_EXPRESSION: high arousal disrupts fine control and narrows execution flexibility
     MAGNITUDE: HIGH
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: arousal returns to optimal band
-  STRENGTH: HIGH
+    EXPIRY_CONDITION: arousal returns to optimal execution band
   MECHANISM_TAG: AROUSAL_MODULATION
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: excessive arousal degrades controlled execution
-
-=== SECTION_BREAK ===
-
-=== SECTION: BIOCHEMICAL_AND_ENVIRONMENTAL_CONTEXT ===
+  JUSTIFICATION: high arousal execution cue
 
 ON_ELEVATED_ADRENALINE:
 - PROPOSE ADD_MODIFIER:
@@ -115,16 +91,15 @@ ON_ELEVATED_ADRENALINE:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: GROSS_MOTOR_BIAS
-    EFFECT_EXPRESSION: gross-motor prioritization with fine-control penalty
+    EFFECT_EXPRESSION: adrenaline biases execution toward gross motor action over fine precision
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: adrenaline returns to baseline
-  STRENGTH: MODERATE
+    EXPIRY_CONDITION: adrenaline returns toward baseline
   MECHANISM_TAG: ADRENALINE_EXECUTION_BIAS
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: adrenaline biases execution profile
+  JUSTIFICATION: elevated adrenaline execution cue
 
 ON_HIGH_CORTISOL:
 - PROPOSE ADD_MODIFIER:
@@ -132,16 +107,15 @@ ON_HIGH_CORTISOL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: COGNITIVE_MODIFIER
     EFFECT_FAMILY: COGNITIVE_LOAD_INTERFERENCE
-    EFFECT_EXPRESSION: increased cognitive load and interference under cortisol pressure
+    EFFECT_EXPRESSION: cortisol strain interferes with working memory and complex execution
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: cortisol returns toward baseline
-  STRENGTH: MODERATE
+    EXPIRY_CONDITION: cortisol returns toward baseline or stress cue resolves
   MECHANISM_TAG: CORTISOL_EXECUTION_STRAIN
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: cortisol pressure increases execution strain
+  JUSTIFICATION: high cortisol execution cue
 
 ON_ENVIRONMENTAL_PRESSURE:
 - PROPOSE ADD_MODIFIER:
@@ -149,85 +123,51 @@ ON_ENVIRONMENTAL_PRESSURE:
   PROPOSED_VALUE:
     MODIFIER_TYPE: ENVIRONMENTAL_MODIFIER
     EFFECT_FAMILY: ENVIRONMENTAL_EXECUTION_CONTEXT
-    EFFECT_EXPRESSION: context-specific environmental modulation of execution conditions
+    EFFECT_EXPRESSION: environmental pressure alters execution reliability and available tactics
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: SCENE
     EXPIRY_CONDITION: environmental pressure resolves or scene transition
-  STRENGTH: MODERATE
   MECHANISM_TAG: ENVIRONMENTAL_PERFORMANCE_MODULATION
   EPISTEMIC_TAG: PERCEPTION
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: environment changes performance conditions
+  JUSTIFICATION: environmental execution cue
 
 === SECTION_BREAK ===
 
-=== SECTION: RARE_PERMANENT_TRANSITIONS ===
+=== SECTION: PERMANENT_SKILL_MUTATION ===
 
-[[LLM_INSTRUCTION]]: Permanent skill mutation is rare and requires explicit lawful support.
+[[LLM_INSTRUCTION]]: Apply DYNAMICS_SKILLS.SKILL_CHANGE_THRESHOLD_POLICY before any permanent skill proposal.
 
-ON_BREAKTHROUGH_WITH_MEMORY_LINKAGE:
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL] or [STATE_SKILLS][SKL_XX][INSTINCT_LEVEL]
-  PROPOSED_VALUE: ONE_STEP_UP
-  STRENGTH: HIGH
-  MECHANISM_TAG: SKILL_STATE_CHANGE
-  EPISTEMIC_TAG: COMMITTED_FACT
-  EVIDENCE_REF: MEM_XX (linked breakthrough memory)
-  INVOKED_RULE_NAME: SKILL_STATE_CHANGE
-  NARRATIVE_CUE_REFERENCE: cycle cue token plus linked MEM_XX reference
-  SCHEME_INVARIANT_NOTE: SCHEME_SKILLS one-step law and INSTINCT_LEVEL <= MASTERY_LEVEL preserved
-  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
-  JUSTIFICATION: memory-linked consolidation cue with override proof
+ON_SKILL_CHANGE_CANDIDATE:
+- If DYNAMICS_SKILLS.PERMANENT_SKILL_CHANGE_GATE passes:
+  - propose bounded SKILL_STATE_CHANGE using DYNAMICS_SKILLS mechanics.
+- If gate fails:
+  - route effect through performance overlay, impulse, memory cue, or no persistent proposal.
 
-CONDITIONS:
-- memory linkage must be explicit
-- salience and repetition support must be present where relevant
-- INSTINCT_LEVEL must not exceed MASTERY_LEVEL
-- governance may downgrade or suppress if proof is insufficient
+REQUIREMENTS:
+- MECHANISM_TAG: SKILL_STATE_CHANGE.
+- Preserve SCHEME_SKILLS invariants.
+- Major movement requires INVOKED_RULE_NAME: SKILL_STATE_CHANGE and full override proof.
+- Momentary success, failure, stress, fatigue, flow, or environmental pressure is insufficient.
 
 === SECTION_BREAK ===
 
 === SECTION: BEHAVIORAL_IMPULSES ===
 
-[[LLM_INSTRUCTION]]: Generate performance impulses.
-
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_PERFORMANCE_STATE_INTEGRATION
 IMPULSE_TYPE: PUSH_THROUGH | SEEK_OPTIMAL | CONSERVE | QUIT
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
-TARGET_ID: SKL_XX or NONE
-JUSTIFICATION: brief cue-based reason
+TARGET_ID: SKL_XX | NONE
+JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION_BREAK ===
 
-=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+=== SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: After completion:
-- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
-
-TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_PERFORMANCE_STATE_INTEGRATION
-KEY_OUTPUTS:
-- performance modulation summary
-GENERATED_IMPULSES:
-- list or [NONE]
-PROPOSED_UPDATES_COUNT: number
-NOTES:
-- modifier-first confirmation, permanent-transition rarity, SCHEME_SKILLS compliance summary
-
-EMPTY_CYCLE_TRACE_ENTRY:
-COT_NAME: COT_PERFORMANCE_STATE_INTEGRATION
-KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
-GENERATED_IMPULSES:
-- [NONE]
-PROPOSED_UPDATES_COUNT: 0
-NOTES:
-- brief one-line performance-context observation or NONE
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include performance modulation summary, skill-change gate YES/NO, permanent mutation admitted/rejected reason, modifier-first confirmation, impulses, proposal count, and SCHEME_SKILLS compliance.
 
 === SECTION_BREAK ===
 

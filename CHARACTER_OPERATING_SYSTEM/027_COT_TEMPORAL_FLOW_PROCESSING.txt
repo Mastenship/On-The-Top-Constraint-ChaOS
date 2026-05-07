@@ -1,47 +1,35 @@
 === SECTION: COT_TEMPORAL_FLOW_PROCESSING ===
 
 [KEEP: Purpose & Role]
-This COT processes passage of time cues, circadian alignment, fatigue accumulation, routine pressure, and subjective time perception. It generates temporal proposals, temporary overlays, time-driven impulses, and decay trigger signal via proposals/flags when major skips occur.
+Processes passage of time, circadian alignment, fatigue accumulation, routine pressure, and subjective time perception. Generates temporal proposals, temporary overlays, time-driven impulses, and decay-trigger signal when major skips occur.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- [STATE_TEMPORAL_DYNAMICS] proposals
-- temporary overlay proposals
-- DECISION synthesis impulses
-Is Informed By:
-- narrative time cues
-- SCHEME_TEMPORAL_DYNAMICS and DYNAMICS_TEMPORAL_DYNAMICS
-- [STATE_BODY] and context signals
+Informs: STATE_TEMPORAL_DYNAMICS proposals, temporary overlays, DECISION impulses.
+Is Informed By: narrative time cues, SCHEME_TEMPORAL_DYNAMICS, DYNAMICS_TEMPORAL_DYNAMICS, STATE_BODY, context signals.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: No direct persistent writes.
-All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN ===
 
-[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
-
 ANCHOR_CUES:
 - Narrative input describes elapsed time, time-of-day shift, deadline, schedule disruption, or rest event.
-- Current STATE_TEMPORAL_DYNAMICS values place the cycle inside or near a peak window, energy dip window, or routine boundary.
-- Active modifier targets a temporal EFFECT_FAMILY (PEAK_ALERTNESS, FATIGUE_PENALTY, DISORIENTATION).
+- STATE_TEMPORAL_DYNAMICS places the cycle inside/near peak window, energy dip, or routine boundary.
+- Active modifier targets temporal EFFECT_FAMILY: PEAK_ALERTNESS, FATIGUE_PENALTY, or DISORIENTATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
-- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
-- Do not generate impulses or non-trace proposals.
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: CIRCADIAN_AND_FATIGUE_PROCESSING ===
-
-[[LLM_INSTRUCTION]]: Infer bounded temporal effects.
 
 ON_PEAK_WINDOW_ALIGNMENT:
 - PROPOSE ADD_MODIFIER:
@@ -49,7 +37,7 @@ ON_PEAK_WINDOW_ALIGNMENT:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: PEAK_ALERTNESS
-    EFFECT_EXPRESSION: heightened cognitive and physical readiness aligned to chronotype peak
+    EFFECT_EXPRESSION: heightened readiness aligned to chronotype peak
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
@@ -75,7 +63,7 @@ ON_DIP_OR_FATIGUE_ACCUMULATION:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: FATIGUE_PENALTY
-    EFFECT_EXPRESSION: slowed reaction and reduced fine motor and cognitive precision
+    EFFECT_EXPRESSION: slowed reaction and reduced precision
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
@@ -140,44 +128,19 @@ ON_TIME_PRESSURE_CUES:
 
 === SECTION: BEHAVIORAL_IMPULSES ===
 
-[[LLM_INSTRUCTION]]: Generate time-driven impulses.
-
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_TEMPORAL_FLOW_PROCESSING
 IMPULSE_TYPE: REST | ROUTINE_PULL | PROCRASTINATE | RUSH
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
 TARGET_ID: NONE
-JUSTIFICATION: brief cue-based reason
+JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION_BREAK ===
 
-=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+=== SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: After completion:
-- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
-
-TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_TEMPORAL_FLOW_PROCESSING
-KEY_OUTPUTS:
-- inferred time passage and magnitude
-GENERATED_IMPULSES:
-- list or [NONE]
-PROPOSED_UPDATES_COUNT: number
-NOTES:
-- SCHEME_TEMPORAL_DYNAMICS compliance summary
-
-EMPTY_CYCLE_TRACE_ENTRY:
-COT_NAME: COT_TEMPORAL_FLOW_PROCESSING
-KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
-GENERATED_IMPULSES:
-- [NONE]
-PROPOSED_UPDATES_COUNT: 0
-NOTES:
-- brief one-line temporal observation or NONE
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include inferred time passage, impulses, proposal count, and SCHEME_TEMPORAL_DYNAMICS compliance.
 
 === SECTION_BREAK ===
 

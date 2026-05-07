@@ -1,50 +1,38 @@
 === SECTION: COT_SPATIAL_EMBODIMENT_PROCESSING ===
 
 [KEEP: Purpose & Role]
-This COT translates spatial position, proximity, and environmental features into embodied effects, stress modulation, relational pressure, and behavior impulses.
+Translates spatial position, proximity, and environmental features into embodied effects, stress modulation, relational pressure, and behavior impulses. Prefers temporary overlays for short-horizon spatial effects. Mere proximity does not create durable relational valence change.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- stress cascade proposals
-- performance overlay proposals
-- relational bias proposals
-- memory context cues
-Is Informed By:
-- MAP_DATA and scene geometry
-- [STATE_BODY]
-- [STATE_ALTERATIONS]
-- SCHEME_RELATIONAL and DYNAMICS_RELATIONAL
-- narrative input
+Informs: stress proposals, performance overlays, relational bias proposals, memory context cues.
+Is Informed By: MAP_DATA, scene geometry, STATE_BODY, STATE_ALTERATIONS, STATE_RELATIONAL, STATE_TEMPORARY_MODIFIERS, SCHEME_RELATIONAL, DYNAMICS_RELATIONAL, DYNAMICS_TEMPORARY_MODIFIERS, narrative input.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: No direct persistent writes.
-All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN ===
 
-[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
-
 ANCHOR_CUES:
-- Narrative input describes a spatial relation, proximity event, environmental feature change, or scene geometry shift.
-- Active modifier on STATE_TEMPORARY_MODIFIERS targets a spatial or environmental EFFECT_FAMILY (HYPERVIGILANCE, RELAXATION_OPENNESS, COGNITIVE_OVERLOAD, ALLY_PROXIMITY_COMFORT) and requires re-evaluation against current geometry.
-- A relational record's CURRENT_CONCERN explicitly references proximity, confinement, or environmental threat.
+- Narrative input describes spatial relation, proximity event, environmental feature change, or scene geometry shift.
+- Active spatial/environmental modifier requires re-evaluation against current geometry.
+- RELATIONAL CURRENT_CONCERN references proximity, confinement, pursuit, exposure, concealment, crowding, escape route, cover, or environmental threat.
+- Narrative input changes approach, retreat, hide, explore, or claim-space options.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
-- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
-- Do not generate impulses or non-trace proposals.
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: SPATIAL_MODULATION_PROCESSING ===
 
-[[LLM_INSTRUCTION]]: Translate spatial cues into bounded proposals.
+[[LLM_INSTRUCTION]]: Translate spatial cues into bounded proposals. Prefer STATE_TEMPORARY_MODIFIERS for short-horizon effects.
 
 ON_CLOSE_PROXIMITY_TO_THREAT:
 - PROPOSE ADD_MODIFIER:
@@ -69,7 +57,7 @@ ON_OPEN_SAFE_SPACE:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
     EFFECT_FAMILY: RELAXATION_OPENNESS
-    EFFECT_EXPRESSION: reduced threat arousal and broadened attentional scope
+    EFFECT_EXPRESSION: reduced threat arousal and broadened attention
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: SCENE
@@ -98,57 +86,43 @@ ON_CROWDING_OR_CONFINEMENT:
   JUSTIFICATION: confinement cue
 
 ON_PROXIMITY_TO_ALLY:
-- PROPOSE TRANSITION:
-  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE]
-  PROPOSED_VALUE: ONE_STEP_UP
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: RELATIONAL_MODIFIER
+    EFFECT_FAMILY: ALLY_PROXIMITY_COMFORT
+    EFFECT_EXPRESSION: comfort and co-regulation from trusted ally proximity
+    MAGNITUDE: LOW
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: ally proximity ends or scene transition
   STRENGTH: LOW
   MECHANISM_TAG: ALLY_PROXIMITY_COMFORT
   EPISTEMIC_TAG: PERCEPTION
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: ally proximity comfort cue
 
+RELATIONAL_MOVEMENT_BOUND:
+- Ally proximity alone produces ALLY_PROXIMITY_COMFORT.
+- Durable AFFECTIVE_VALENCE movement requires DYNAMICS_RELATIONAL.MEANINGFUL_INTERACTION_GATE.
+
 === SECTION_BREAK ===
 
 === SECTION: BEHAVIORAL_IMPULSES ===
-
-[[LLM_INSTRUCTION]]: Generate spatially driven impulses.
 
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_SPATIAL_EMBODIMENT_PROCESSING
 IMPULSE_TYPE: APPROACH | RETREAT | EXPLORE | CLAIM_SPACE | HIDE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
-TARGET_ID: spatial feature or ENT_XX or NONE
-JUSTIFICATION: brief cue-based reason
+TARGET_ID: spatial feature | ENT_XX | NONE
+JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION_BREAK ===
 
-=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+=== SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: After completion:
-- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM per SCHEME_SCRATCHPAD)
-
-TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_SPATIAL_EMBODIMENT_PROCESSING
-KEY_OUTPUTS:
-- salient spatial features and modulation summary
-GENERATED_IMPULSES:
-- list or [NONE]
-PROPOSED_UPDATES_COUNT: number
-NOTES:
-- SCHEME compliance summary
-
-EMPTY_CYCLE_TRACE_ENTRY:
-COT_NAME: COT_SPATIAL_EMBODIMENT_PROCESSING
-KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
-GENERATED_IMPULSES:
-- [NONE]
-PROPOSED_UPDATES_COUNT: 0
-NOTES:
-- brief one-line spatial context observation or NONE
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include spatial features, impulses, proposal count, SCHEME compliance, and whether relational movement gate was respected.
 
 === SECTION_BREAK ===
 

@@ -1,62 +1,57 @@
 === SECTION: COT_GOAL_PURSUIT_OPTIMIZATION ===
 
 [KEEP: Purpose & Role]
-This COT processes active goals and drive states to generate goal-directed behavioral impulses and optional temporary goal-pressure overlays. It prioritizes goals based on qualitative urgency and context.
+Processes active goals and drive states into goal-directed impulses and optional goal-pressure overlays. Creates GOAL_XX records only through DYNAMICS_GOALS_MOTIVATIONS.GOAL_WORTHINESS_GATE.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- DECISION synthesis via goal-directed impulses
-- memory formation cues
-- stress cascade via frustration pressure
-Is Informed By:
-- [STATE_GOALS_MOTIVATIONS]
-- [STATE_BODY]
-- [STATE_TEMPORARY_MODIFIERS]
-- SCHEME_GOALS_MOTIVATIONS and DYNAMICS_GOALS_MOTIVATIONS
-- narrative input
+Informs: DECISION impulses, memory cues, stress/frustration pressure, DPF prediction support.
+Is Informed By: STATE_GOALS_MOTIVATIONS, STATE_BODY, STATE_DPF, STATE_TEMPORARY_MODIFIERS, SCHEME_GOALS_MOTIVATIONS, DYNAMICS_GOALS_MOTIVATIONS, DYNAMICS_DPF, narrative input.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: No direct persistent writes.
-All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN ===
 
-[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
-
 ANCHOR_CUES:
-- At least one GOAL_XX is in STATUS = ACTIVE or BLOCKED.
-- A drive state is at MODERATE band or higher.
-- Narrative input introduces an opportunity, obstacle, or progress cue relevant to an active goal.
-- Two or more active goals are in detectable conflict.
+- GOAL_XX exists with STATUS = ACTIVE or BLOCKED.
+- A drive state is MODERATE or higher.
+- Narrative input introduces opportunity, obstacle, progress cue, deadline, resource change, or cost cue relevant to an active goal.
+- Two or more active goals conflict.
+- Narrative input introduces pressure that may satisfy DYNAMICS_GOALS_MOTIVATIONS.GOAL_WORTHINESS_GATE.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
-- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
-- Do not generate pursue/sequence/integrate/abandon/procrastinate impulses.
-- Do not propose new goal records.
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: DRIVE_AND_GOAL_PRIORITIZATION ===
 
-[[LLM_INSTRUCTION]]: Assess active drives and goals.
-
 ON_HIGH_URGENCY_DRIVE:
 - Prioritize physiological and safety-constrained goals.
-- Propose TRANSITION or SET updates to urgency-linked fields when justified.
+- Propose bounded SET or TRANSITION updates to urgency-linked fields when justified.
+- If no existing GOAL_XX captures pressure, apply DYNAMICS_GOALS_MOTIVATIONS.GOAL_WORTHINESS_GATE.
 
 ON_OPPORTUNITY_OR_PROGRESS:
-- Propose bounded confidence/urgency shifts using strict operations.
+- Prefer updates to existing GOAL_XX over new goal creation.
+- Propose bounded confidence, urgency, progress, or status shifts when cue support exists.
+
+ON_OBSTACLE_OR_BLOCKAGE:
+- Propose bounded CONFIDENCE, STATUS, URGENCY, or OBSTACLES_ANTICIPATED updates when cue support exists.
+- Use temporary overlays for short-horizon frustration or pressure.
 
 ON_GOAL_CONFLICT:
-- Classify conflict type.
-- Propose ADD_MODIFIER overlays for pressure where appropriate:
+- Classify conflict per DYNAMICS_GOALS_MOTIVATIONS.CONFLICT_TYPES.
+- Prefer short-horizon GOAL_CONFLICT_PRESSURE modifier when durable goal rewrite is not warranted.
+
+GOAL_CONFLICT_PRESSURE_PATTERN:
+- PROPOSE ADD_MODIFIER:
   TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
   PROPOSED_VALUE:
     MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
@@ -74,75 +69,50 @@ ON_GOAL_CONFLICT:
 
 === SECTION_BREAK ===
 
-=== SECTION: GOAL_RECORD_MUTATION_UNDER_STRICT_OPS ===
+=== SECTION: GOAL_RECORD_MUTATION ===
 
-[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Use SET pair pattern for registry + record.
+ON_NEW_GOAL_PRESSURE:
+- Apply DYNAMICS_GOALS_MOTIVATIONS.GOAL_WORTHINESS_GATE.
+- If admitted:
+  - PROPOSE SET pair:
+    - [STATE_GOALS_MOTIVATIONS][GOAL_REGISTRY] append GOAL_XX
+    - [STATE_GOALS_MOTIVATIONS][GOAL_XX] schema-valid goal record
+  - MECHANISM_TAG: GOAL_FORMATION
+  - JUSTIFICATION_CATEGORY: GOAL_DIRECTED
+- If not admitted:
+  - express pressure as impulse, selected action, temporary modifier, or CURRENT_DPF interpretation.
 
-WHEN_NEW_GOAL_REQUIRED:
-- Proposal A:
-  OPERATION_TYPE: SET
-  TARGET_FIELD: [STATE_GOALS_MOTIVATIONS][GOAL_REGISTRY]
-  PROPOSED_VALUE: append GOAL_XX
-  STRENGTH: HIGH
-  MECHANISM_TAG: GOAL_FORMATION
-  EPISTEMIC_TAG: INFERENCE
-  JUSTIFICATION_CATEGORY: GOAL_DIRECTED
-  JUSTIFICATION: drive escalation produced new goal candidate
-- Proposal B:
-  OPERATION_TYPE: SET
-  TARGET_FIELD: [STATE_GOALS_MOTIVATIONS][GOAL_XX]
-  PROPOSED_VALUE: schema-valid goal record payload per SCHEME_GOALS_MOTIVATIONS.GOAL_RECORD_SCHEMA
-  STRENGTH: HIGH
-  MECHANISM_TAG: GOAL_FORMATION
-  EPISTEMIC_TAG: INFERENCE
-  JUSTIFICATION_CATEGORY: GOAL_DIRECTED
-  JUSTIFICATION: paired record payload for new goal
+ON_EXISTING_GOAL_UPDATE:
+- Use SET or TRANSITION on canonical goal fields.
+- Qualitative endpoint movement remains one-band bounded unless override proof is complete.
+- STATUS changes require explicit cue or event support.
 
-WHEN_EXISTING_GOAL_UPDATES_REQUIRED:
-- Use SET or TRANSITION only on canonical goal fields with strict schema.
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_PREDICTION_LINKAGE ===
+
+ON_ACTIVE_HIGH_URGENCY_GOAL:
+- If anticipatory framing is warranted, support COT_DPF_SYNTHESIS_PROCESSING.
+- PRD_XX creation requires DYNAMICS_DPF.PREDICTION_RECORD_ADMISSION_CRITERIA.
+- High urgency alone is insufficient without future resolution condition.
 
 === SECTION_BREAK ===
 
 === SECTION: BEHAVIORAL_IMPULSES ===
 
-[[LLM_INSTRUCTION]]: Generate goal-directed impulses.
-
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_GOAL_PURSUIT_OPTIMIZATION
 IMPULSE_TYPE: PURSUE | SEQUENCE | INTEGRATE | ABANDON | PROCRASTINATE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
-TARGET_ID: GOAL_XX or NONE
-JUSTIFICATION: brief cue-based reason
+TARGET_ID: GOAL_XX | NONE
+JUSTIFICATION:
 JUSTIFICATION_CATEGORY: GOAL_DIRECTED
 
 === SECTION_BREAK ===
 
-=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+=== SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: After completion:
-- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
-
-TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_GOAL_PURSUIT_OPTIMIZATION
-KEY_OUTPUTS:
-- top active goals and drives summary
-GENERATED_IMPULSES:
-- list or [NONE]
-PROPOSED_UPDATES_COUNT: number
-NOTES:
-- SCHEME_GOALS_MOTIVATIONS compliance summary
-
-EMPTY_CYCLE_TRACE_ENTRY:
-COT_NAME: COT_GOAL_PURSUIT_OPTIMIZATION
-KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
-GENERATED_IMPULSES:
-- [NONE]
-PROPOSED_UPDATES_COUNT: 0
-NOTES:
-- brief one-line goal-context observation or NONE
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include top goals/drives, goal-worthiness gate YES/NO, new-goal admission/non-admission reason, conflict classification, DPF prediction linkage YES/NO, impulses, proposal count, and SCHEME compliance.
 
 === SECTION_BREAK ===
 

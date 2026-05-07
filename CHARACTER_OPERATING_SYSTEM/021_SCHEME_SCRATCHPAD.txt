@@ -1,67 +1,74 @@
 === SECTION: SCHEME_SCRATCHPAD ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of the volatile COGNITIVE_SCRATCHPAD workspace. Instantiated per cycle for intermediate calculations, impulse registry, proposal collection, DPF snapshot, selected action output, temporary coordination flags, governance audit logging, normalization audit tracking, domain runtime summaries, and cascade trace accumulation.
+Immutable structural definition of COGNITIVE_SCRATCHPAD: volatile per-cycle workspace for proposals, impulses, CURRENT_DPF, SELECTED_ACTION, flags, governance audit, normalization audit, trace, and runtime summaries.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
-Lifecycle invariants:
-- INSTANTIATE at cycle start
-- POPULATE by COTs
-- READ by synthesis and governance
-- COMMIT primary proposals via STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS
-- VERIFY via COT_UPDATE_VERIFICATION
-- COMMIT verifier-originated governance-runtime proposals via STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
-- WIPE completely after post-verification governance pass
-
 [KEEP: Relationship to Other Modules]
-Informs: All COTs, COT_DECISION_SYNTHESIS, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION.
-Is Informed By: Narrative input, SCHEME_ constraints, UPDATE_CASCADE_REGISTRY, and STATE_GOVERNANCE_OVERLAY.
+Informs: all COTs, COT_DECISION_SYNTHESIS, STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION.
+Is Informed By: narrative input, SCHEME_ constraints, UPDATE_CASCADE_REGISTRY, STATE_GOVERNANCE_OVERLAY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LIFECYCLE ===
+
+LIFECYCLE_ORDER:
+- INSTANTIATE at cycle start.
+- POPULATE by COTs.
+- READ by synthesis and governance.
+- COMMIT primary proposals via STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS.
+- VERIFY via COT_UPDATE_VERIFICATION.
+- COMMIT verifier-originated governance-runtime proposals via STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
+- WIPE completely after post-verification governance pass.
+
+INVARIANT:
+- No scratchpad artifact survives across cycles unless lawfully committed to persistent STATE_* or STATE_GOVERNANCE_RUNTIME.
 
 === SECTION_BREAK ===
 
 === SECTION: VOLATILE_FIELDS ===
 
 PROPOSED_UPDATES_REGISTRY:
-- list of proposal packets per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA
+- proposal packets per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA
 
 ACTIVE_IMPULSE_REGISTRY:
-- list of impulse packets per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA
+- impulse packets per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA
 
 CURRENT_DPF:
 - cycle snapshot aligned to SCHEME_DPF
 
 SELECTED_ACTION:
-- strict required schema
+- strict action schema below
 
 TEMPORARY_STATE_FLAGS:
-- transient coordination and governance flags
+- transient coordination flags
 
 STATE_COMMIT_AUDIT:
-- governance reconciliation log containing PRIMARY_PASS_AUDIT and POST_VERIFICATION_PASS_AUDIT
+- PRIMARY_PASS_AUDIT and POST_VERIFICATION_PASS_AUDIT
 
 OUTPUT_SURFACE_NORMALIZATION_AUDIT:
-- normalization status for commit-bound and display-bound artifacts
+- commit-bound and display-bound normalization status
 
 CASCADE_TRACE:
-- list of TRACE_ENTRY packets
+- TRACE_ENTRY packets
 
 DOMAIN_RUNTIME_SUMMARIES:
-- volatile summary slots for broad-domain coordination
+- broad-domain volatile coordination summaries
 
 === SECTION_BREAK ===
 
 === SECTION: SELECTED_ACTION_STRICT_SCHEMA ===
 
 REQUIRED_FIELDS:
-- ACTION_ID: STRING with ACT_ prefix
-- ACTION_SOURCE_IMPULSE: IMPULSE_ID reference or NONE
-- ACTION_TYPE: STRING_DESCRIPTIVE (canonical descriptor; PASSIVE_OBSERVATION is the lawful empty-impulse fallback)
-- TARGET_ID: canonical ID token or NONE
-- CONFIDENCE: QUALITATIVE_INTENSITY band
+- ACTION_ID: ACT_ token
+- ACTION_SOURCE_IMPULSE: IMPULSE_ID | NONE
+- ACTION_TYPE: STRING_DESCRIPTIVE; PASSIVE_OBSERVATION is empty-impulse fallback
+- TARGET_ID: canonical ID token | NONE
+- CONFIDENCE: QUALITATIVE_INTENSITY
 - RATIONALE: STRING_DESCRIPTIVE
 - CONFLICT_FLAG: BOOLEAN
-- NARRATIVE_ACTION_DESCRIPTION: STRING_DESCRIPTIVE (single concise sentence)
+- NARRATIVE_ACTION_DESCRIPTION: one concise first-person sentence
 
 === SECTION_BREAK ===
 
@@ -72,7 +79,7 @@ REQUIRED_FLAG_FIELDS:
 - DPF_RECALC_QUEUED: BOOLEAN
 - CANONICAL_FORM_PENDING: BOOLEAN
 - TRANSLATION_VIOLATION_DETECTED: BOOLEAN
-- TOOL_RESIDUE_DETECTED: BOOLEAN (reserved; remains FALSE until tool-actuation surface is active)
+- TOOL_RESIDUE_DETECTED: BOOLEAN
 - DISPLAY_NORMALIZATION_REQUIRED: BOOLEAN
 - INSTANTIATION_MODE: BOOLEAN
 
@@ -120,8 +127,12 @@ FINAL_ACTION_LOG_ENTRY_MINIMUM_FIELDS:
 - REASON_CODE
 - NOTES
 
-VALIDATION_RESULT_VALUES: PASS | WARN | FAIL | PENDING | SKIPPED
-DEFAULT_VALIDATION_RESULT_VALUE: PENDING
+VALIDATION_RESULT_VALUES:
+- PASS
+- WARN
+- FAIL
+- PENDING
+- SKIPPED
 
 === SECTION_BREAK ===
 
@@ -136,8 +147,11 @@ REQUIRED_FIELDS:
 - SUPPRESSION_TRIGGERED
 - NORMALIZATION_NOTES
 
-STATUS_VALUES: PASS | WARN | FAIL | PENDING
-DEFAULT_STATUS_VALUE: PENDING
+STATUS_VALUES:
+- PASS
+- WARN
+- FAIL
+- PENDING
 
 === SECTION_BREAK ===
 
@@ -159,9 +173,8 @@ EMPTY_CYCLE_FORM:
 - PROPOSED_UPDATES_COUNT: 0
 
 TRACE_COMPLETENESS_NOTE:
-- COT_UPDATE_VERIFICATION verifies trace entries through PRIORITY_17.
-- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS emits the final PRIORITY_18 trace after verification.
-- The post-verification audit records whether its own trace was emitted.
+- COT_UPDATE_VERIFICATION verifies traces through PRIORITY_17.
+- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS emits PRIORITY_18 trace afterward.
 
 === SECTION_BREAK ===
 
@@ -179,24 +192,20 @@ REQUIRED_SUMMARY_BLOCKS:
 - SKILLS_RUNTIME_SUMMARY
 - TEMPORAL_RUNTIME_SUMMARY
 
-[[LLM_INSTRUCTION]]: All quantitative fields within domain runtime summaries are QUALITATIVE_INTENSITY bands or domain-specific qualitative enums. Numeric scales are not used in this surface.
-[[LLM_INSTRUCTION]]: This list deliberately omits a DPF_RUNTIME_SUMMARY block. DPF cycle synthesis lives in CURRENT_DPF rather than in DOMAIN_RUNTIME_SUMMARIES, because DPF is a structured snapshot rather than a flat domain summary.
+[[LLM_INSTRUCTION]]: Quantitative-like summary fields use qualitative enums only. DPF is excluded because CURRENT_DPF is the structured DPF snapshot.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- All writes occur through COT or system actors only.
-- Proposal schema fields are complete per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
-- Impulse schema fields are complete per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA.
-- Impulses use canonical field casing.
-- Scratchpad is fully wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
-- No scratchpad proposal survives across cycles.
-- Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, not the scratchpad.
-- Governance audit must provide final-action closure for every received proposal in both primary and post-verification governance passes.
-- Normalization audit must be populated whenever commit-bound or display-bound normalization is relevant; uninitialized fields default to PENDING.
-- Reasonable per-cycle bounds enforced for proposals and impulses.
-- INSTANTIATION_MODE is set TRUE only by COT_CHARACTER_INSTANTIATION_PROCESS workflow.
+- Scratchpad is volatile and fully wiped after post-verification governance pass.
+- Proposal and impulse packets must match UPDATE_CASCADE_REGISTRY schemas.
+- SELECTED_ACTION must match strict schema before communication processing.
+- Governance audit must close every received proposal in each commit pass.
+- Normalization audit is populated when commit-bound or display-bound normalization is relevant.
+- Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, not scratchpad.
+- INSTANTIATION_MODE is TRUE only during COT_CHARACTER_INSTANTIATION_PROCESS workflow.
+- Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 
 === SECTION_BREAK ===
 

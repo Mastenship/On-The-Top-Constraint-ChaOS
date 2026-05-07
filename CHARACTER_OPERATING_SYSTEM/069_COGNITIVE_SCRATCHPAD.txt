@@ -1,47 +1,21 @@
 === SECTION: COGNITIVE_SCRATCHPAD ===
 
 [KEEP: Purpose & Role]
-Volatile runtime workspace for ChaOS. Stores all non-persistent cycle artifacts required for proposal staging, impulse arbitration, DPF snapshotting, selected action output, temporary coordination flags, governance audit logging, and cascade trace accumulation. Instantiated fresh each cycle, populated during cascade execution, read by synthesis and governance, verified after primary commit, used for same-cycle post-verification governance-runtime commit, and wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
+Concrete volatile cycle instance of SCHEME_SCRATCHPAD. Instantiated fresh each cycle and wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- All COT modules
-- STATE_GOVERNANCE_AND_COMMIT
-- COT_DECISION_SYNTHESIS
-- COT_COMMUNICATION_PROCESSING
-- COT_UPDATE_VERIFICATION
-
-Is Informed By:
-- UPDATE_CASCADE_REGISTRY
-- STATE_GOVERNANCE_OVERLAY
-- SCHEME_SCRATCHPAD
-- All active COT outputs during the current cycle
+Informs: all COT modules, STATE_GOVERNANCE_AND_COMMIT, COT_DECISION_SYNTHESIS, COT_COMMUNICATION_PROCESSING, COT_UPDATE_VERIFICATION.
+Is Informed By: UPDATE_CASCADE_REGISTRY, STATE_GOVERNANCE_OVERLAY, SCHEME_SCRATCHPAD, current-cycle COT outputs.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY ===
 
-[[LLM_INSTRUCTION]]: This file is the only authorized volatile write surface for normal cycle processing.
-
-RULES:
-- COTs may write only to explicitly permitted scratchpad sections.
-- Scratchpad contents are temporary and non-persistent unless committed through STATE_GOVERNANCE_AND_COMMIT.
-- Primary proposals are committed or suppressed by STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS.
-- Verifier-originated governance-runtime proposals are committed or suppressed by STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS in the same cycle.
-- Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, not here.
-- Canonical write-surface tokens remain untranslated:
-  - bracket-paths
-  - IDs
-  - OPERATION_TYPE
-  - EPISTEMIC_TAG
-  - JUSTIFICATION_CATEGORY
-  - MECHANISM_TAG
-  - INVOKED_RULE_NAME
-  - EVIDENCE_REF
-- Internal deliberation may occur in any language; commit-bound narrative artifacts must be normalized at commit STEP_05.
-- Scratchpad is fully wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
+[[LLM_INSTRUCTION]]: Volatile write surface only. Persistent survival requires lawful STATE_GOVERNANCE_AND_COMMIT commit.
+[[LLM_INSTRUCTION]]: Canonical write-surface tokens remain untranslated. Commit-bound narrative artifacts normalize at commit STEP_05.
+[[LLM_INSTRUCTION]]: Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 
 === SECTION_BREAK ===
 
@@ -76,7 +50,7 @@ IMPULSE_ENTRY_SCHEMA:
 IMPULSE_ID:
 IMPULSE_SOURCE:
 IMPULSE_TYPE:
-IMPULSE_STRENGTH: [QUALITATIVE_INTENSITY band]
+IMPULSE_STRENGTH:
 TARGET_ID:
 JUSTIFICATION:
 JUSTIFICATION_CATEGORY:
@@ -108,11 +82,11 @@ SOURCE:
 
 DPF_METRICS:
 CERTAINTY_LEVEL:
-VALUE: [QUALITATIVE_INTENSITY band]
+VALUE:
 SOURCE:
 
 PACE:
-VALUE: [SLOW | STEADY | ACCELERATING | URGENT]
+VALUE:
 SOURCE:
 
 ACTIVE_PREDICTION_SUMMARY:
@@ -140,7 +114,7 @@ RATIONALE: NONE
 CONFLICT_FLAG: FALSE
 NARRATIVE_ACTION_DESCRIPTION: NONE
 
-[[LLM_INSTRUCTION]]: CONFIDENCE is a QUALITATIVE_INTENSITY band when populated. Default NONE indicates synthesis has not yet run this cycle. Empty-impulse fallback populates ACTION_TYPE = PASSIVE_OBSERVATION per COT_DECISION_SYNTHESIS.EMPTY_IMPULSE_FALLBACK.
+[[LLM_INSTRUCTION]]: Default NONE means synthesis has not run. Empty-impulse fallback populates PASSIVE_OBSERVATION per COT_DECISION_SYNTHESIS.
 
 === SECTION_BREAK ===
 
@@ -180,22 +154,16 @@ TOTAL_PROPOSALS_COMMITTED: 0
 TOTAL_PROPOSALS_SUPPRESSED: 0
 TOTAL_PROPOSALS_DOWNGRADED: 0
 TOTAL_PROPOSALS_VETOED: 0
-
 FINAL_ID_ASSIGNMENTS:
 - [NONE]
-
 SUPPRESSION_LOG:
 - [NONE]
-
 DOWNGRADE_LOG:
 - [NONE]
-
 VETO_LOG:
 - [NONE]
-
 FINAL_ACTION_LOG:
 - [NONE]
-
 CANONICAL_PATH_VALIDATION_RESULT: PENDING
 SCHEME_INVARIANT_VALIDATION_RESULT: PENDING
 TRANSLATION_NORMALIZATION_RESULT: PENDING
@@ -213,22 +181,16 @@ TOTAL_PROPOSALS_COMMITTED: 0
 TOTAL_PROPOSALS_SUPPRESSED: 0
 TOTAL_PROPOSALS_DOWNGRADED: 0
 TOTAL_PROPOSALS_VETOED: 0
-
 FINAL_ID_ASSIGNMENTS:
 - [NONE]
-
 SUPPRESSION_LOG:
 - [NONE]
-
 DOWNGRADE_LOG:
 - [NONE]
-
 VETO_LOG:
 - [NONE]
-
 FINAL_ACTION_LOG:
 - [NONE]
-
 CANONICAL_PATH_VALIDATION_RESULT: PENDING
 SCHEME_INVARIANT_VALIDATION_RESULT: PENDING
 TRANSLATION_NORMALIZATION_RESULT: PENDING
@@ -252,11 +214,6 @@ TRACE_ID: [optional]
 TRACE_ENTRIES:
 - [NONE]
 
-TRACE_COMPLETENESS_NOTE:
-- COT_UPDATE_VERIFICATION verifies trace entries through PRIORITY_17.
-- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS appends the final PRIORITY_18 trace after verifier execution.
-- Post-verification trace closure is recorded in POST_VERIFICATION_PASS_AUDIT.
-
 === SECTION_BREAK ===
 
 === SECTION: OUTPUT_SURFACE_NORMALIZATION_AUDIT ===
@@ -274,26 +231,24 @@ NORMALIZATION_NOTES:
 
 === SECTION: DOMAIN_RUNTIME_SUMMARIES ===
 
-[[LLM_INSTRUCTION]]: All quantitative subfields use QUALITATIVE_INTENSITY bands or domain-specific qualitative enums. No numeric scales.
-
 ALTERATIONS_RUNTIME_SUMMARY:
 ACTIVE_ALTERATION_IDS:
 - [NONE]
 NOTES:
 
 BODY_RUNTIME_SUMMARY:
-AROUSAL_BAND: [QUALITATIVE_INTENSITY]
-FATIGUE_SIGNAL: [QUALITATIVE_INTENSITY]
+AROUSAL_BAND:
+FATIGUE_SIGNAL:
 NOTES:
 
 BELIEF_RUNTIME_SUMMARY:
 ACTIVE_DISSONANCE: FALSE
-MEANING_PRESSURE: [QUALITATIVE_INTENSITY]
+MEANING_PRESSURE:
 NOTES:
 
 COMMUNICATION_RUNTIME_SUMMARY:
-LEAKAGE_RISK: [QUALITATIVE_INTENSITY]
-MASKING_LOAD: [QUALITATIVE_INTENSITY]
+LEAKAGE_RISK:
+MASKING_LOAD:
 NOTES:
 
 COPE_RUNTIME_SUMMARY:
@@ -302,7 +257,7 @@ NOTES:
 
 GOALS_RUNTIME_SUMMARY:
 TOP_GOAL_ID:
-TOP_GOAL_URGENCY: [QUALITATIVE_INTENSITY]
+TOP_GOAL_URGENCY:
 CONFLICT_PATTERN:
 NOTES:
 
@@ -313,41 +268,30 @@ NOTES:
 
 RELATIONAL_RUNTIME_SUMMARY:
 TOP_SOCIAL_TARGET:
-SOCIAL_THREAT_LEVEL: [QUALITATIVE_INTENSITY]
+SOCIAL_THREAT_LEVEL:
 NOTES:
 
 SKILLS_RUNTIME_SUMMARY:
 TOP_PERFORMANCE_DOMAIN:
-EXECUTION_IMPAIRMENT_LEVEL: [QUALITATIVE_INTENSITY]
+EXECUTION_IMPAIRMENT_LEVEL:
 NOTES:
 
 TEMPORAL_RUNTIME_SUMMARY:
 TIME_SKIP_DETECTED: FALSE
-ROUTINE_DISRUPTION_LEVEL: [QUALITATIVE_INTENSITY]
+ROUTINE_DISRUPTION_LEVEL:
 NOTES:
 
 === SECTION_BREAK ===
 
 === SECTION: CYCLE_RESET_RULES ===
 
-[[LLM_INSTRUCTION]]: On new cycle start, instantiate fresh and clear all volatile payloads.
-
 RESET_POLICY:
-- Clear PROPOSED_UPDATES_REGISTRY.
-- Clear ACTIVE_IMPULSE_REGISTRY.
-- Reset CURRENT_DPF to empty snapshot.
-- Reset SELECTED_ACTION to schema defaults (CONFIDENCE: NONE).
-- Reset TEMPORARY_STATE_FLAGS to default FALSE values; preserve INSTANTIATION_MODE only if instantiation workflow remains active.
-- Clear STATE_COMMIT_AUDIT:
-  - PRIMARY_PASS_AUDIT validation results to PENDING
-  - POST_VERIFICATION_PASS_AUDIT validation results to PENDING or SKIPPED where defined
-- Clear CASCADE_TRACE.
-- Clear OUTPUT_SURFACE_NORMALIZATION_AUDIT (statuses to PENDING).
-- Clear DOMAIN_RUNTIME_SUMMARIES.
+- Clear proposals, impulses, CURRENT_DPF, audits, trace, normalization audit, runtime summaries, and optional flags.
+- Reset SELECTED_ACTION and required flags to defaults.
+- Preserve INSTANTIATION_MODE only while instantiation workflow remains active.
 
 WIPE_POINT:
-- Scratchpad wipe occurs after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
-- No proposal, trace, audit entry, selected action, runtime summary, or temporary flag survives into the next cycle unless committed to persistent STATE_* or STATE_GOVERNANCE_RUNTIME by STATE_GOVERNANCE_AND_COMMIT.
+- After STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
 
 === SECTION_BREAK ===
 

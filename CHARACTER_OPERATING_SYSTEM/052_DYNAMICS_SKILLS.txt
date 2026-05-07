@@ -1,73 +1,132 @@
 === SECTION: DYNAMICS_SKILLS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for skill progression, automation, atrophy, and plateau behavior.
+Immutable mechanics for skill acquisition, mastery progression, instinct automation, atrophy, plateau behavior, and skill-change thresholding.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
-Allowed operation references:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Skill acquisition uses SET pair: append SKL_XX to SKILL_REGISTRY, then SET full SKL_XX record.
+[[LLM_INSTRUCTION]]: Moment-to-moment execution quality uses STATE_TEMPORARY_MODIFIERS, not durable SKL_XX mutation.
 
-Forbidden operation references:
-- CREATE_NEW_RECORD
-- UPDATE
-- INCREMENT
-- DECREMENT
+=== SECTION_BREAK ===
 
-[[LLM_INSTRUCTION]]: New skill acquisition uses SET pair pattern:
-- SET [STATE_SKILLS][SKILL_REGISTRY] append SKL_XX
-- SET [STATE_SKILLS][SKL_XX] record payload
+=== SECTION: SKILL_CHANGE_THRESHOLD_POLICY ===
+
+[[LLM_INSTRUCTION]]: Permanent skill mutation is rare.
+
+PERMANENT_SKILL_CHANGE_GATE:
+A permanent skill transition is warranted only when at least one is true:
+- Deliberate practice is explicit, sustained, and skill-relevant.
+- Breakthrough event is memory-linked and salience-supported.
+- Repeated successful execution shows durable automation beyond one scene.
+- Extended non-use plausibly degrades retained ability.
+- Training, instruction, adaptation, injury, alteration, or technology changes durable baseline.
+
+NON_CHANGE_CASES:
+- One ordinary success.
+- One ordinary failure.
+- Stress/fatigue underperformance.
+- Environmental difficulty.
+- Temporary boost from alteration, stimulant, flow, or assistance.
+- Luck or outcome success without skill-change evidence.
 
 === SECTION_BREAK ===
 
 === SECTION: MASTERY_PROGRESSION ===
 
 ON_DELIBERATE_PRACTICE_EVENT:
-- If growth potential allows:
-  - Propose TRANSITION ONE_STEP_UP for mastery.
-  - Propose TRANSITION ONE_STEP_DOWN for growth potential where lawful.
-  - MECHANISM_TAG should indicate SKILL_STATE_CHANGE.
+- If gate is met and growth potential allows:
+  - PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
+    PROPOSED_VALUE: ONE_STEP_UP
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: deliberate practice supports mastery progression
+  - Optionally PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][GROWTH_POTENTIAL]
+    PROPOSED_VALUE: ONE_STEP_DOWN
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: progression consumes growth potential
 
 ON_BREAKTHROUGH_EVENT:
-- If memory linkage and salience threshold support:
-  - Propose TRANSITION mastery increase.
-  - Multi-step only via override proof.
+- If memory linkage and salience support:
+  - PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
+    PROPOSED_VALUE: ONE_STEP_UP
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: memory-linked breakthrough
+- Multi-step increases require override proof.
 
 === SECTION_BREAK ===
 
 === SECTION: INSTINCT_AUTOMATION ===
 
 ON_REPEATED_SUCCESSFUL_EXECUTION:
-- If mastery threshold met:
-  - Propose TRANSITION ONE_STEP_UP for instinct level.
-  - Must preserve invariant INSTINCT_LEVEL <= MASTERY_LEVEL.
+- If mastery threshold and durable automation support exist:
+  - PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][INSTINCT_LEVEL]
+    PROPOSED_VALUE: ONE_STEP_UP
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: repeated successful execution supports automation
+- Must preserve INSTINCT_LEVEL <= MASTERY_LEVEL.
+
+AUTOMATION_GATE:
+- Requires more than one isolated success.
+- Support may come from memory, training history, repeated scene pattern, or explicit practice.
 
 === SECTION_BREAK ===
 
 === SECTION: ATROPHY_AND_PLATEAU ===
 
 ON_EXTENDED_NON_USE:
-- Propose TRANSITION ONE_STEP_DOWN for mastery (bounded).
-- Propose TRANSITION ONE_STEP_DOWN for growth potential where applicable.
+- If meaningful enough to affect durable capability:
+  - PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
+    PROPOSED_VALUE: ONE_STEP_DOWN
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: extended non-use supports bounded atrophy
+- Optionally PROPOSE TRANSITION on GROWTH_POTENTIAL ONE_STEP_DOWN for stagnation.
+
+ATROPHY_GATE:
+- Requires major elapsed time, practice deprivation, impairment, loss of access, injury, alteration, or explicit cue.
+- Ordinary time passage without skill relevance is insufficient.
 
 ON_PLATEAU_REACHED:
-- If mastery at top bound:
-  - Propose SET growth potential to PLATEAUED.
+- If mastery is top bound or practice no longer progresses:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][GROWTH_POTENTIAL]
+    PROPOSED_VALUE: PLATEAUED
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: plateau reached
 
 === SECTION_BREAK ===
 
 === SECTION: NEW_SKILL_ACQUISITION ===
 
+NEW_SKILL_ADMISSION_GATE:
+A new SKL_XX is warranted only when:
+- Skill is distinct from existing SKL_XX records.
+- Character has explicit exposure, training, practice, instruction, alteration, or acquisition context.
+- Skill is likely to recur or matter to action, identity, goals, or narrative.
+- Proposed record contains lawful SKILL_DOMAIN, MASTERY_LEVEL, INSTINCT_LEVEL, GROWTH_POTENTIAL, UNIQUENESS_LEVEL, and ACQUISITION_CONTEXT.
+
 ON_EXPLICIT_LEARNING_EVENT:
-- Use SET pair pattern for SKL_XX creation with schema-valid defaults.
+- Use SET pair for SKL_XX creation only when gate is met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Permanent skill mutation requires SKILL_STATE_CHANGE and governance validation.
+- Momentary execution pressure flows through modifiers.
+- INSTINCT_LEVEL must not exceed MASTERY_LEVEL.
+- GROWTH_POTENTIAL cannot remain HIGH when MASTERY_LEVEL is MASTER.
+- New skill creation requires admission gate and registry-record coherence.
+- Multi-step skill changes require complete override proof.
 
 === SECTION_BREAK ===
 

@@ -25,4 +25,11 @@ VENTING_PROBABILITY:
 
 === SECTION_BREAK ===
 
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Acute coping pressure may use STATE_TEMPORARY_MODIFIERS. Selection and drift follow DYNAMICS_COPE.
+
+=== SECTION_BREAK ===
+
 [KEY_TERM: Document Complete]

@@ -1,162 +1,89 @@
 === SECTION: COT_MEMORY_FORMATION_CRITERIA ===
 
 [KEEP: Purpose & Role]
-This COT defines thresholds and decision trees for when transient experiences crystallize into persistent MEMORY records. It decides whether memory forms this cycle, salience and content shape, canonical linkage paths, and memory-driven impulses.
+Applies DYNAMICS_MEMORY to decide whether current experience forms persistent MEM_XX, whether reconsolidation is warranted, and whether memory-colored impulses arise. Conservative: vivid, novel, or emotional cues do not automatically become memories.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- STATE_MEMORY via proposals
-- relational, skill, alteration, and prediction context via linkage proposals
-Is Informed By:
-- [STATE_BODY]
-- stress cascade output
-- SCHEME_MEMORY and DYNAMICS_MEMORY
-- narrative input
+Informs: STATE_MEMORY proposals, linkage proposals, persistence clusters.
+Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF, STATE_TEMPORARY_MODIFIERS, stress cascade, SCHEME_MEMORY, DYNAMICS_MEMORY, narrative input.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: This COT is forbidden from direct persistent writes.
-All persistent intent must be proposal-only in [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
 
 === SECTION_BREAK ===
 
 === SECTION: FIRES_WHEN ===
 
-[[LLM_INSTRUCTION]]: This COT generates impulses and non-trace proposals only when at least one of the following conditions is present in the current cycle.
-
 ANCHOR_CUES:
-- Narrative input contains a high-emotional-arousal event, novelty event, or consequence event.
-- A salient state change occurred this cycle in STATE_BODY, STATE_ALTERATIONS, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, or STATE_DPF (resolution or falsification).
-- A flashbulb-class event is present per SCHEME_MEMORY thresholds.
-- An existing MEM_XX is undergoing reconsolidation pressure from new context.
+- Narrative input contains high-emotional-arousal, novelty, or consequence event.
+- Salient state change occurred this cycle.
+- Prediction was resolved, resolved negatively, or falsified.
+- Flashbulb-class event is present.
+- Existing MEM_XX has reconsolidation pressure.
+- Current cue may contribute to persistence cluster.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
-- Emit EMPTY_CYCLE_FORM trace entry per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
-- Do not generate reflect/avoid/obsess/integrate impulses.
-- Do not propose new MEM_XX records.
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
 
 === SECTION_BREAK ===
 
-=== SECTION: SALIENCE_EVALUATION ===
+=== SECTION: MEMORY_EVALUATION ===
 
-[[LLM_INSTRUCTION]]: Assess encoding potential from cue intensity, novelty, consequence, and emotional load. SALIENCE is a QUALITATIVE_INTENSITY band per SCHEME_MEMORY.
+[[LLM_INSTRUCTION]]: Apply DYNAMICS_MEMORY.MEMORY_ADMISSION_GATE.
 
-ON_HIGH_EMOTIONAL_AROUSAL:
-- increase salience estimate band
+SALience_EVALUATION:
+- Estimate SALIENCE from cue intensity, novelty, consequence, linkage relevance, and emotional load.
+- Emotional arousal raises salience only when consequence or linkage exists.
+- Flashbulb treatment requires DYNAMICS_MEMORY.FLASHBULB_GATE.
 
-ON_NOVELTY_OR_CONSEQUENCE:
-- increase salience estimate band
+FORMATION_DECISION:
+- If admission gate passes:
+  - PROPOSE SET pair:
+    - [STATE_MEMORY][MEMORY_REGISTRY] append MEM_XX
+    - [STATE_MEMORY][MEM_XX] schema-valid memory record
+  - include explicit SALIENCE and SYSTEM_LINKAGE.
+- If admission gate fails:
+  - do not propose MEM_XX.
+  - optional memory-colored impulse may still be emitted.
 
-ON_FLASHBULB_CRITERIA:
-- EXTREME salience band may support FLASHBULB_BREAKTHROUGH override pathway if independently justified
-
-ESTIMATED_SALIENCE_BAND:
-- QUALITATIVE_INTENSITY band derived from qualitative assessment of intensity, novelty, consequence, and arousal
+FORMATION_REQUIREMENTS:
+- At least one lawful canonical SYSTEM_LINKAGE path.
+- Schema-valid payload.
+- Per-cycle memory creation cap respected.
+- INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact, not raw reasoning.
+- FLASHBULB exceptions require INVOKED_RULE_NAME FLASHBULB_BREAKTHROUGH and full proof.
 
 === SECTION_BREAK ===
 
-=== SECTION: FORMATION_DECISION_UNDER_STRICT_OPS ===
+=== SECTION: RECONSOLIDATION_PRESSURE ===
 
-[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Use strict SET operations for registry plus record creation.
-
-IF_MEMORY_ADMISSION_THRESHOLD_IS_MET:
-- Proposal A:
-  OPERATION_TYPE: SET
-  TARGET_FIELD: [STATE_MEMORY][MEMORY_REGISTRY]
-  PROPOSED_VALUE: append MEM_XX
-  STRENGTH: estimated salience band
-  MECHANISM_TAG: MEMORY_FORMATION
-  EPISTEMIC_TAG: PERCEPTION
-  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: salience threshold met for new memory candidate
-
-- Proposal B:
-  OPERATION_TYPE: SET
-  TARGET_FIELD: [STATE_MEMORY][MEM_XX]
-  PROPOSED_VALUE:
-    MEMORY_ID: MEM_XX
-    MEMORY_METADATA:
-      TIMESTAMP: cycle timestamp
-      SALIENCE: estimated QUALITATIVE_INTENSITY band
-      EMOTIONAL_VALENCE: derived expression
-    NARRATIVE_CONTENT:
-      CORE_EVENT_SUMMARY: summary
-      SENSORY_IMPRINT: optional
-      INTERNAL_MONOLOGUE_EXCERPT: optional
-    SYSTEM_LINKAGE:
-      PRIMARY_TEMPLATE_AFFECTED: canonical path
-      SPECIFIC_FIELD_CHANGED: canonical path
-      ASSOCIATED_ENTITY_ID: optional
-      ASSOCIATED_SKILL_ID: optional
-      ASSOCIATED_ALTERATION_ID: optional
-      ASSOCIATED_PREDICTION_ID: optional
-  STRENGTH: estimated salience band
-  MECHANISM_TAG: MEMORY_FORMATION
-  EPISTEMIC_TAG: PERCEPTION
-  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: paired record payload for new memory
-
-FORMATION_RULES:
-- At least one lawful canonical linkage path must be present.
-- Record payload must be schema-valid.
-- Formation remains subject to per-cycle governance caps (max 1 memory creation per cycle; FLASHBULB_BREAKTHROUGH override raises to 2 with full proof).
-- If multiple candidates qualify, prioritize highest salience band first.
-
-ON_FLASHBULB_BREAKTHROUGH_OVERRIDE:
-- Add to both Proposal A and Proposal B:
-  INVOKED_RULE_NAME: FLASHBULB_BREAKTHROUGH
-  NARRATIVE_CUE_REFERENCE: cycle cue token identifying flashbulb event
-  SCHEME_INVARIANT_NOTE: SCHEME_MEMORY salience threshold and linkage requirements satisfied
-  MECHANISM_TAG: FLASHBULB_MEMORY_FORMATION
+ON_RETRIEVAL_WITH_NEW_CONTEXT:
+- Apply DYNAMICS_MEMORY.RECONSOLIDATION_RULES.
+- Propose bounded SET only for lawful mutable memory subfields.
+- Do not rewrite core event into contradictory past.
 
 === SECTION_BREAK ===
 
 === SECTION: BEHAVIORAL_IMPULSES ===
 
-[[LLM_INSTRUCTION]]: Generate memory-driven impulses.
-
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_MEMORY_FORMATION_CRITERIA
 IMPULSE_TYPE: REFLECT | AVOID | OBSESS | INTEGRATE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
-TARGET_ID: MEM_XX or ENT_XX or NONE
-JUSTIFICATION: brief cue-based reason
+TARGET_ID: MEM_XX | ENT_XX | NONE
+JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION_BREAK ===
 
-=== SECTION: SYSTEM_UPDATE_DIRECTIVES ===
+=== SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: After memory evaluation:
-- Write proposals only into [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
-- Write impulses only into [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
-- Append exactly one TRACE_ENTRY into [COGNITIVE_SCRATCHPAD][CASCADE_TRACE], even when no triggers fire (use EMPTY_CYCLE_FORM)
-
-TRACE_ENTRY_MINIMUM_FIELDS:
-COT_NAME: COT_MEMORY_FORMATION_CRITERIA
-KEY_OUTPUTS:
-- memory formed YES/NO
-- candidate count
-- top salience band
-GENERATED_IMPULSES:
-- list of impulse types or [NONE]
-PROPOSED_UPDATES_COUNT: number
-NOTES:
-- threshold basis, linkage validity summary, SCHEME_MEMORY compliance summary
-
-EMPTY_CYCLE_TRACE_ENTRY:
-COT_NAME: COT_MEMORY_FORMATION_CRITERIA
-KEY_OUTPUTS:
-- NO_TRIGGERS_FIRED
-GENERATED_IMPULSES:
-- [NONE]
-PROPOSED_UPDATES_COUNT: 0
-NOTES:
-- brief one-line memory-context observation or NONE
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include memory formed YES/NO, candidate count, top salience band, admission gate YES/NO, linkage validity, non-admission reason if relevant, impulses, proposal count, and SCHEME_MEMORY compliance.
 
 === SECTION_BREAK ===
 

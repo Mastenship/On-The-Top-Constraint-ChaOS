@@ -1,110 +1,110 @@
 === SECTION: DYNAMICS_ALTERATIONS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for alteration activation/deactivation, removal, rejection states, and cascade triggering.
+Immutable mechanics for alteration activation, deactivation, removal, rejection, cascade-class inference, and cascade triggering. Defines lawful transition patterns only; never performs direct writes.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
-Allowed operation references:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
-
-Forbidden operation references:
-- CREATE_NEW_RECORD
-- UPDATE
-- INCREMENT
-- DECREMENT
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: ALTERATION STATUS is categorical. STATUS changes use SET to explicit endpoints unless SCHEME_ALTERATIONS later declares an ordinal ladder.
 
 === SECTION_BREAK ===
 
 === SECTION: ACTIVATION_DEACTIVATION ===
 
 ON_CONSTRAINT_MET:
-- If STATUS = DORMANT and conditions are satisfied:
-  Propose TRANSITION:
+- If STATUS = DORMANT and activation conditions are satisfied:
+  - PROPOSE SET:
     TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
     PROPOSED_VALUE: ACTIVE
     JUSTIFICATION: activation condition satisfied
 
 ON_CONSTRAINT_UNMET:
-- If STATUS = ACTIVE:
-  Propose TRANSITION:
+- If STATUS = ACTIVE and activation conditions are no longer satisfied:
+  - PROPOSE SET:
     TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
     PROPOSED_VALUE: DORMANT
     JUSTIFICATION: activation condition no longer met
 
 ON_REMOVAL_EVENT:
-- Propose SET:
-  TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
-  PROPOSED_VALUE: INACTIVE or REMOVED
-  JUSTIFICATION: removal cue
+- If removal cue establishes that the alteration is no longer functionally present:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: INACTIVE | REMOVED
+    JUSTIFICATION: removal cue
+
+STATUS_ENDPOINTS:
+- ACTIVE: produces runtime-relevant effects.
+- DORMANT: present but inactive.
+- REJECTED: ego-dystonic or identity-threatening; may drive stress overlays.
+- INACTIVE: present in history or identity but non-functional.
+- REMOVED: no longer present; may trigger cascade reversal.
 
 === SECTION_BREAK ===
 
 === SECTION: PSYCHOLOGICAL_REJECTION ===
 
 ON_TRAUMATIC_REJECTION:
-- If linked memory salience threshold is met:
-  Propose TRANSITION:
+- If linked memory salience and awareness support rejection:
+  - PROPOSE SET:
     TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
     PROPOSED_VALUE: REJECTED
     JUSTIFICATION: trauma-linked rejection cue
+- Optionally trigger downstream stress overlay proposals.
 
-- Optionally trigger chronic stress overlay proposals via downstream COTs.
+REJECTION_GATE:
+- REJECTED requires explicit cue evidence of ego-dystonic, traumatic, alien, shameful, violating, or identity-threatening experience.
+- Mere inconvenience or dislike is insufficient.
 
 === SECTION_BREAK ===
 
 === SECTION: CASCADE_TRIGGER ===
 
 ON_STATUS_CHANGE:
-- Trigger COT_ALTERATION_CASCADE_EFFECTS for propagation proposals.
+- Trigger COT_ALTERATION_CASCADE_EFFECTS.
 - Dynamics does not directly write propagated effects.
+
+ON_REMOVED_STATUS:
+- Trigger downstream reversal evaluation for prior active overlays or state effects attributable to the removed alteration.
+- Reversal proposals remain bounded and must not erase memories, records, or audit history.
 
 === SECTION_BREAK ===
 
 === SECTION: CASCADE_EFFECT_CLASS_INFERENCE ===
 
-[[LLM_INSTRUCTION]]: Before generating cascade proposals, COT_ALTERATION_CASCADE_EFFECTS classifies each active or status-changed alteration into one or more of the following semantic effect classes. Classification is derived at runtime from the alteration record fields; no separate stored classification field is required.
+[[LLM_INSTRUCTION]]: COT_ALTERATION_CASCADE_EFFECTS classifies active or status-changed alterations at runtime from alteration record fields. No persistent classification field exists.
 
 INJURY_OR_ILLNESS_CLASS:
-- Infer this class when PHYSIOLOGICAL_CHANGES describes damage, disease, infection, organ impairment, wound, or compromised biological function.
-- Also infer when OBJECTIVE_SYSTEM_EFFECTS names a debilitating physiological condition as a direct outcome.
-- Drives: physiological state proposals targeting STATE_BODY fields (IMMUNE_MARKERS, WOUND_STATUS, or equivalent).
-- Focus: what the alteration does to the body's physical integrity or health state.
-- Distinction from DEBILITATING_CLASS: INJURY_OR_ILLNESS_CLASS addresses biological state and drives STATE_BODY proposals; DEBILITATING_CLASS addresses functional capability loss and drives STATE_TEMPORARY_MODIFIERS proposals. An alteration that causes both tissue damage and capability loss qualifies for both classes independently; MULTI_CLASS_RESOLUTION applies.
+- Infer from PHYSIOLOGICAL_CHANGES or OBJECTIVE_SYSTEM_EFFECTS describing damage, disease, infection, organ impairment, wound, or compromised biological function.
+- Drives STATE_BODY proposals.
+- Focus: biological integrity or health state.
 
 ENHANCEMENT_CLASS:
-- Infer this class when NEW_ABILITIES lists capabilities that exceed the character's prior unaided baseline.
-- Also infer when OBJECTIVE_SYSTEM_EFFECTS names performance augmentation, expanded sensory range, or added function.
-- Drives: temporary performance overlay proposals targeting STATE_TEMPORARY_MODIFIERS with EFFECT_FAMILY in the ALTERATION_SKILL_ENHANCEMENT family.
+- Infer from NEW_ABILITIES or OBJECTIVE_SYSTEM_EFFECTS describing added capability, performance augmentation, expanded sense, or new motor function.
+- Drives STATE_TEMPORARY_MODIFIERS enhancement overlays.
+- Persistent capability source remains the alteration record.
 
 DEBILITATING_CLASS:
-- Infer this class when VULNERABILITIES_CONSTRAINTS describes functional reduction, capacity loss, action restriction, or performance penalty.
-- Also infer when OBJECTIVE_SYSTEM_EFFECTS names a debilitating functional consequence separate from tissue integrity loss.
-- Drives: temporary degradation overlay proposals targeting STATE_TEMPORARY_MODIFIERS with EFFECT_FAMILY in the ALTERATION_SKILL_DEGRADATION family.
-- Focus: what the alteration prevents or degrades in terms of the character's functional capabilities and available actions.
-- Distinction from INJURY_OR_ILLNESS_CLASS: DEBILITATING_CLASS addresses capability state and drives STATE_TEMPORARY_MODIFIERS proposals; INJURY_OR_ILLNESS_CLASS addresses biological state and drives STATE_BODY proposals. An alteration involving tissue damage that also restricts function qualifies for both classes independently; MULTI_CLASS_RESOLUTION applies.
+- Infer from VULNERABILITIES_CONSTRAINTS or OBJECTIVE_SYSTEM_EFFECTS describing functional reduction, capacity loss, action restriction, or performance penalty.
+- Drives STATE_TEMPORARY_MODIFIERS degradation overlays.
+- Focus: functional capability loss.
 
 REJECTED_PSYCHOLOGICAL_CLASS:
-- Infer this class when STATUS = REJECTED and CHARACTER_AWARENESS.AWARENESS_STATUS is not UNAWARE.
-- Drives: chronic stress overlay proposals targeting STATE_TEMPORARY_MODIFIERS with EFFECT_FAMILY ALTERATION_REJECTION_STRESS, regardless of other class assignments.
+- Infer when STATUS = REJECTED and CHARACTER_AWARENESS.AWARENESS_STATUS is not UNAWARE.
+- Drives ALTERATION_REJECTION_STRESS overlays.
 
 MULTI_CLASS_RESOLUTION:
-- An alteration may satisfy multiple cascade effect classes simultaneously.
-- Each applicable class is evaluated independently; all warranted cascade proposals are generated within per-cycle governance caps defined in STATE_GOVERNANCE_OVERLAY.NON_NEGOTIABLE_WRITE_CONTRACT.STEP_LIMITS_PER_CYCLE.
-- No class takes precedence over another; when governance caps are reached, proposals are suppressed or resolved per the conflict-resolution precedence defined in STATE_GOVERNANCE_OVERLAY.CONFLICT_RESOLUTION_POLICY.
+- Classes are independent; an alteration may satisfy multiple classes.
+- Each applicable class may generate bounded proposals subject to governance caps.
+- No class takes precedence over another.
 
-CLASSIFICATION_SCOPE:
-- Classification is a runtime inference performed by the executing COT and recorded in its TRACE_ENTRY NOTES field.
-- Classification is not stored as a persistent field on the alteration record.
-- The verifier confirms class inference consistency against the alteration record when a CASCADE_TRACE entry is present for COT_ALTERATION_CASCADE_EFFECTS.
+CLASSIFICATION_TRACE:
+- Runtime classification is recorded in COT_ALTERATION_CASCADE_EFFECTS TRACE_ENTRY NOTES.
+- Verifier may inspect trace-classification consistency against the alteration record.
 
 === SECTION_BREAK ===
 

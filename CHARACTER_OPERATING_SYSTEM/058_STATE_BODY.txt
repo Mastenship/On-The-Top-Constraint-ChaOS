@@ -1,7 +1,7 @@
 === SECTION: STATE_BODY ===
 
 [KEEP: Purpose & Role]
-Mutable physiological/body state container. Contains current values only.
+Mutable physiological/body state container. Contains current committed body values only.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -41,6 +41,14 @@ ELECTROLYTE_BALANCE:
 
 SKIN_ELASTICITY:
 HAIR_DENSITY:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Pain is not a STATE_BODY field: drive pressure uses PAIN_AVOIDANCE; acute/local pain uses modifiers; chronic pain conditions use ALT_XX.
+[[LLM_INSTRUCTION]]: Momentary performance, stress, fatigue, pain, and environmental effects generally use STATE_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 

@@ -1,41 +1,42 @@
 === SECTION: CANONICAL_TOKEN_DICTIONARY ===
 
 [KEEP: Purpose & Role]
-Single source of truth for canonical bracket-path tokens, root naming, closed enums, structural override-proof vocabulary, read-visibility classes, and reservation patterns for surfaces declared but not yet active on the current substrate.
+Single source of truth for canonical paths, roots, ID prefixes, empty-value forms, strict operations, qualitative enums, epistemic/evidence rules, override vocabulary, read-visibility classes, reservations, and scheme subtype convention.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
 [KEEP: Relationship to Other Modules]
-Informs: All SCHEME_, DYNAMICS_, STATE_, COT_, and governance artifacts.
-Is Informed By: Nothing (constitutional system module).
+Informs: all SCHEME_, DYNAMICS_, STATE_, COT_, and governance artifacts.
+Is Informed By: Nothing.
 
 === SECTION_BREAK ===
 
 === SECTION: CANONICAL_STYLE_RULES ===
 
-[[LLM_INSTRUCTION]]: Canonical bracket-path tokens MUST be machine-stable.
-
 TOKEN_STYLE:
 - UPPER_SNAKE only
-- No spaces, hyphens, or mixed case
-- IDs uppercase with underscores (ENT_XX, SKL_XX, ALT_XX, MEM_XX, PRD_XX, GOAL_XX, MOD_XX, PUP_, ACT_)
+- no spaces, hyphens, mixed case, colon pseudo-paths, non-canonical roots, or legacy-root translation
 
 CANONICAL_PATH_FORMAT:
 - [MODULE_ROOT][GROUP_OR_ID][FIELD]
-- Nested groups extend with additional brackets.
+- nested groups extend with additional brackets
 
-PROHIBITED:
-- spaces in tokens
-- colon pseudo-paths
-- Title Case bracket tokens
-- non-canonical roots
-- legacy root translation
+ID_STYLE:
+- ENT_XX
+- SKL_XX
+- ALT_XX
+- MEM_XX
+- PRD_XX
+- GOAL_XX
+- MOD_XX
+- PUP_
+- ACT_
 
 === SECTION_BREAK ===
 
 === SECTION: MODULE_ROOT_POLICY ===
 
-[[LLM_INSTRUCTION]]: Roots outside CANONICAL_MODULE_ROOTS are rejected with INVALID_PATH_ROOT (LEGACY_ROOT_FORBIDDEN).
+[[LLM_INSTRUCTION]]: Roots outside CANONICAL_MODULE_ROOTS are rejected with INVALID_PATH_ROOT or LEGACY_ROOT_FORBIDDEN.
 
 CANONICAL_MODULE_ROOTS:
 - STATE_ALTERATIONS
@@ -127,6 +128,25 @@ RECORD_ROOT_TOKENS:
 
 === SECTION_BREAK ===
 
+=== SECTION: EMPTY_VALUE_FORMS ===
+
+EMPTY_FIELD:
+- Blank value after key.
+- Means uninitialized template or pre-instantiation value.
+
+NONE:
+- Explicit initialized scalar absence where schema permits.
+
+[NONE]:
+- Explicit empty list placeholder.
+- Never an ID token.
+
+[XX_XX] RECORD_STUB:
+- Bracketed stubs indicate schema shape only.
+- Concrete record requires registry membership plus matching concrete record block.
+
+=== SECTION_BREAK ===
+
 === SECTION: STRICT_OPERATION_VOCABULARY ===
 
 ALLOWED_OPERATION_TYPE:
@@ -143,9 +163,13 @@ FORBIDDEN_OPERATION_ALIASES:
 - INCREMENT
 - DECREMENT
 
-=== SECTION_BREAK ===
-
-=== SECTION: CANONICAL_RELATIVE_TRANSITION_DIRECTIVES ===
+OPERATION_SEMANTICS_MINIMUM:
+- SET names explicit lawful endpoint or schema-valid payload; it does not bypass movement, enum, invariant, cap, or override-proof limits.
+- TRANSITION applies canonical relative directive to lawful ordinal or SCHEME-declared ladder.
+- Categorical fields use SET unless SCHEME declares transition ladder.
+- ADD_MODIFIER and REMOVE_MODIFIER operate on STATE_TEMPORARY_MODIFIERS.
+- CAP applies bounded ceiling only where permitted.
+- VETO suppresses lower-precedence or disallowed mutation.
 
 CANONICAL_RELATIVE_TRANSITION_DIRECTIVES:
 - ONE_STEP_UP
@@ -153,31 +177,27 @@ CANONICAL_RELATIVE_TRANSITION_DIRECTIVES:
 - ONE_STEP_TOWARD_BASELINE
 - ONE_STEP_TOWARD_NEUTRAL
 
-NOTES:
-- Valid PROPOSED_VALUE forms for TRANSITION on lawful ordinal ladders.
-- BASELINE and NEUTRAL targets must be deterministically inferable from SCHEME_ definitions.
-
 === SECTION_BREAK ===
 
 === SECTION: QUALITATIVE_ENUMS ===
 
-[[LLM_INSTRUCTION]]: These enums replace prior numeric scales. Each is distinct in semantic role and not interchangeable.
-
 QUALITATIVE_INTENSITY: ENUM [MINIMAL, LOW, MODERATE, HIGH, EXTREME]
 QUALITATIVE_INTENSITY_GLOSS:
 - MINIMAL: trace presence
-- LOW: weak but behaviorally relevant
+- LOW: weak but relevant
 - MODERATE: clearly present
-- HIGH: behaviorally dominant within domain
+- HIGH: domain-dominant
 - EXTREME: acute saturating presence
+
 QUALITATIVE_INTENSITY_USAGE:
-- STRENGTH on proposals
-- IMPULSE_STRENGTH on impulses
-- SALIENCE on memory records
-- CERTAINTY on prediction records and CERTAINTY_LEVEL.VALUE on STATE_DPF
-- CONFIDENCE on goal records and SELECTED_ACTION
-- URGENCY, PROGRESS, COMMITMENT_LEVEL, VALUE_ALIGNMENT, IDENTITY_RELEVANCE on goal records
-- SUBSTANCE_USE_RISK and the five COPE_PROBABILITY_BIASES fields
+- proposal STRENGTH
+- impulse IMPULSE_STRENGTH
+- memory SALIENCE
+- prediction CERTAINTY
+- DPF CERTAINTY_LEVEL.VALUE
+- goal URGENCY, CONFIDENCE, PROGRESS, COMMITMENT_LEVEL, VALUE_ALIGNMENT, IDENTITY_RELEVANCE
+- SELECTED_ACTION.CONFIDENCE
+- COPE qualitative risk/probability fields
 
 QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
 QUALITATIVE_PERCENTILE_GLOSS:
@@ -186,20 +206,14 @@ QUALITATIVE_PERCENTILE_GLOSS:
 - AVERAGE: 40th to 60th percentile
 - HIGH: 60th to 80th percentile
 - VERY_HIGH: above 80th percentile
-QUALITATIVE_PERCENTILE_USAGE:
-- SCHEME_HEXACO trait markers
-- SCHEME_DARK_TRIAD trait markers
-- SCHEME_ASQ ATTACHMENT_SECURITY
 
 QUALITATIVE_T_SCORE: ENUM [NORMAL, MILD_ELEVATION, MODERATE, SIGNIFICANT, CLINICAL]
 QUALITATIVE_T_SCORE_GLOSS:
-- NORMAL: T-score below 55
+- NORMAL: below 55
 - MILD_ELEVATION: 55 to 65
 - MODERATE: 65 to 75
 - SIGNIFICANT: 75 to 85
 - CLINICAL: above 85
-QUALITATIVE_T_SCORE_USAGE:
-- SCHEME_MMPI clinical scale baselines
 
 QUALITATIVE_MAGNITUDE: ENUM [TRACE, LOW, MODERATE, HIGH, EXTREME]
 QUALITATIVE_MAGNITUDE_GLOSS:
@@ -207,9 +221,10 @@ QUALITATIVE_MAGNITUDE_GLOSS:
 - LOW: weak transient influence
 - MODERATE: clear situational influence
 - HIGH: strong situational influence
-- EXTREME: acute overriding pressure still bounded by governance
+- EXTREME: acute overriding pressure bounded by governance
+
 QUALITATIVE_MAGNITUDE_USAGE:
-- SCHEME_TEMPORARY_MODIFIERS.MAGNITUDE only (carries lifecycle semantics)
+- SCHEME_TEMPORARY_MODIFIERS.MAGNITUDE only
 
 === SECTION_BREAK ===
 
@@ -219,56 +234,41 @@ EPISTEMIC_TAG: ENUM [PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_RE
 
 RULES:
 - Required on every proposal.
-- COMMITTED_FACT requires structural EVIDENCE_REF (see EVIDENCE_REF_POLICY).
-- TOOL_REQUEST is reserved (see RUNNABLE_BUT_LIFTABLE_RESERVATIONS).
+- COMMITTED_FACT requires EVIDENCE_REF.
+- TOOL_REQUEST is reserved.
 
 === SECTION_BREAK ===
 
 === SECTION: EVIDENCE_REF_POLICY ===
 
-[[LLM_INSTRUCTION]]: COMMITTED_FACT proposals MUST carry structural evidence linkage.
-
 EVIDENCE_REF_FIELD:
-- Required when EPISTEMIC_TAG = COMMITTED_FACT
-- Optional otherwise
+- Required when EPISTEMIC_TAG = COMMITTED_FACT.
+- Optional otherwise.
 
 EVIDENCE_REF_VALUE_FORMS:
-- MEM_XX reference
-- PRD_XX reference (only when prediction is RESOLVED)
+- MEM_XX
+- PRD_XX only when RESOLVED
 - PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>
 - USER_CONFIRMATION:<CONFIRMATION_ID>
 - CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN>
-- [MEM_XX, MEM_XX, MEM_XX] (bounded list; use when a persistence cluster requires three or more memory records)
+- [MEM_XX, MEM_XX, MEM_XX] for persistence clusters of three or more memories
 
-EVIDENCE_REF_FORM_GLOSS:
-- MEM_XX reference: a specific committed memory record establishes the fact
-- PRD_XX reference: a committed and resolved prediction record establishes the fact
-- PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>: a prior governance commit in an identified cycle establishes the fact
-- USER_CONFIRMATION:<CONFIRMATION_ID>: explicit user confirmation during instantiation seeding establishes the fact; CONFIRMATION_ID is the instantiation-cycle confirmation reference
-- CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN>: a named cue from the current cycle's narrative input establishes the fact; use only when the cue is concrete enough to resolve the prediction or claim without additional inference
-- [MEM_XX, MEM_XX, MEM_XX]: a persistence cluster of three or more memory records collectively establishes the fact; list must contain at least three canonical MEM_XX tokens
+DISCLOSURE_BOUNDARY:
+- Direct disclosure may establish that a statement occurred.
+- Another entity's internal state remains INFERENCE or SPECULATION unless substrate grants direct access.
 
 ENFORCEMENT:
-- Missing EVIDENCE_REF on COMMITTED_FACT: COMMITTED_FACT_WITHOUT_EVIDENCE
-- Unresolvable EVIDENCE_REF: EVIDENCE_REF_UNRESOLVED
-- CYCLE_CUE form is not lawful when the epistemic weight of a cycle cue alone does not reach the COMMITTED_FACT threshold; in such cases use INFERENCE or PERCEPTION with the appropriate EPISTEMIC_TAG instead
+- Missing COMMITTED_FACT evidence: COMMITTED_FACT_WITHOUT_EVIDENCE
+- Unresolvable evidence: EVIDENCE_REF_UNRESOLVED
+- CYCLE_CUE is lawful only when cue alone reaches COMMITTED_FACT threshold.
 
 === SECTION_BREAK ===
 
 === SECTION: JUSTIFICATION_CATEGORY_ENUM ===
 
-[[LLM_INSTRUCTION]]: Required on every impulse and on every proposal originating from an impulse. Categorizes cognitive route, separately from epistemic stance.
-
 JUSTIFICATION_CATEGORY: ENUM [DIRECT_APPLICATION, INFERENTIAL_LEAP, UNJUSTIFIED_LEAP, GOAL_DIRECTED, TRAIT_GATED]
 
-GLOSS:
-- DIRECT_APPLICATION: direct cue-to-rule application
-- INFERENTIAL_LEAP: structured inference across multiple cues
-- UNJUSTIFIED_LEAP: associative or subconscious surfacing
-- GOAL_DIRECTED: active goal pursuit pressure
-- TRAIT_GATED: trait-threshold gating
-
-JUSTIFICATION_CATEGORY_TO_EPISTEMIC_TAG_MAPPING:
+MAPPING:
 - DIRECT_APPLICATION: PERCEPTION or INFERENCE
 - INFERENTIAL_LEAP: INFERENCE
 - UNJUSTIFIED_LEAP: SPECULATION
@@ -276,13 +276,11 @@ JUSTIFICATION_CATEGORY_TO_EPISTEMIC_TAG_MAPPING:
 - TRAIT_GATED: INFERENCE
 
 ENFORCEMENT:
-- Mismatch with mapping: JUSTIFICATION_CATEGORY_TAG_MISMATCH
+- Mismatch: JUSTIFICATION_CATEGORY_TAG_MISMATCH
 
 === SECTION_BREAK ===
 
 === SECTION: INVOKED_RULE_NAME_ENUM ===
-
-[[LLM_INSTRUCTION]]: Required on every proposal requesting override of step limits, magnitude caps, or baseline-rewrite restrictions. Closed enum; additions require constitutional update.
 
 INVOKED_RULE_NAME: ENUM [
   FLASHBULB_BREAKTHROUGH,
@@ -297,81 +295,63 @@ INVOKED_RULE_NAME: ENUM [
   GOVERNANCE_CORRECTIVE
 ]
 
-GLOSS:
-- FLASHBULB_BREAKTHROUGH: extreme-salience memory event
-- TRAUMA_INDUCED_ATROPHY: trauma-driven multi-step degradation
-- SECOND_WIND: bounded fatigue reversal
-- ALTERATION_ACTIVATION_OR_FAILURE: alteration status transition cascade
-- DPF_CONTRAST_EVENT: multi-axis dominant predictive frame contrast
-- SKILL_STATE_CHANGE: lawful permanent skill mutation
-- WATERSHED_BELIEF_SHIFT: identity-relevant belief field mutation
-- EXISTENTIAL_CRISIS_OVERRIDE: multi-axis worldview shift
-- PERSISTENT_EVIDENCE_ACCUMULATION: bounded baseline accommodation under accumulated cues
-- GOVERNANCE_CORRECTIVE: proposal admitted under QUARANTINE_MODE for governance restoration only
-
 === SECTION_BREAK ===
 
 === SECTION: STRUCTURAL_OVERRIDE_PROOF_FIELDS ===
 
-[[LLM_INSTRUCTION]]: Override proof is structural. Narrative justification text alone does not satisfy it.
-
 REQUIRED_FIELDS_WHEN_OVERRIDE_GATE_TRIGGERED:
 - INVOKED_RULE_NAME
-- NARRATIVE_CUE_REFERENCE: short canonical token or quoted cue fragment from cycle narrative input; must be cycle-resolvable
-- SCHEME_INVARIANT_NOTE: short statement naming the SCHEME_ invariant the override interacts with and asserting compatibility under the named rule
-- MECHANISM_TAG: domain-canonical mechanism name aligned with the relevant DYNAMICS_ pattern
+- NARRATIVE_CUE_REFERENCE: cycle-resolvable cue token or quoted cue fragment
+- SCHEME_INVARIANT_NOTE: names relevant invariant and asserts compatibility
+- MECHANISM_TAG: domain-canonical mechanism aligned with DYNAMICS pattern
 
 ENFORCEMENT:
-- Any required field missing or unlawful: OVERRIDE_PROOF_INCOMPLETE
+- Missing or unlawful proof field: OVERRIDE_PROOF_INCOMPLETE
 
 === SECTION_BREAK ===
 
 === SECTION: READ_VISIBILITY_CLASS_ENUM ===
 
-[[LLM_INSTRUCTION]]: Every persistent module declares a READ_VISIBILITY_CLASS in its [KEEP: Purpose & Role] block. The header declaration is the source of truth.
-
 READ_VISIBILITY_CLASS: ENUM [CHARACTER_VISIBLE, GOVERNANCE_INTERNAL]
 
 GLOSS:
-- CHARACTER_VISIBLE: readable by character-cognition COTs (priorities 01 through 15) and by governance and verification authorities
-- GOVERNANCE_INTERNAL: readable only by STATE_GOVERNANCE_AND_COMMIT (priority 16) and COT_UPDATE_VERIFICATION (priority 17)
+- CHARACTER_VISIBLE: readable by character-cognition COTs and governance.
+- GOVERNANCE_INTERNAL: readable only by governance band authorities.
 
 ENFORCEMENT:
-- A character-cognition COT reading a GOVERNANCE_INTERNAL module: READ_BOUNDARY_VIOLATION (raised by COT_UPDATE_VERIFICATION from CASCADE_TRACE inspection)
+- Character-cognition read of GOVERNANCE_INTERNAL: READ_BOUNDARY_VIOLATION
 
 === SECTION_BREAK ===
 
 === SECTION: RUNNABLE_BUT_LIFTABLE_RESERVATIONS ===
 
-[[LLM_INSTRUCTION]]: Surfaces declared but not actuatable on the current substrate use this pattern. Surface is canonically declared, annotated RESERVED, and governance enforces a deterministic suppression code on actuation attempts. Lifting to external governance consists of removing the suppression rule and supplying the actuation surface; no schema migration is required.
-
 CURRENTLY_RESERVED:
 - TOOL_REQUEST epistemic tag: TOOL_ACTUATION_NOT_ACTIVE
 - ROLLBACK remediation mode: ROLLBACK_NOT_ACTIVE
+
+RULE:
+- Reserved surfaces are declared but suppressed until external governance lifts them.
 
 === SECTION_BREAK ===
 
 === SECTION: SCHEME_MODULE_CONVENTION ===
 
-[[LLM_INSTRUCTION]]: SCHEME_ modules fall into two structural subtypes. Runtime behavior differs by subtype.
-
-SCHEME_SUBTYPE_DEFINITIONS:
-- STRUCTURAL_SCHEMA: defines field shapes, enum vocabularies, invariants, and creation requirements only; contains no character-specific values.
-- IMMUTABLE_BASELINE_BEARING: holds both the structural schema and character-specific instantiation-time baseline values that are set once and treated as immutable after instantiation.
+SCHEME_SUBTYPES:
+- STRUCTURAL_SCHEMA: field shapes, enums, invariants, creation requirements; no character-specific values.
+- IMMUTABLE_BASELINE_BEARING: schema plus instantiation-time baseline values fixed after seeding.
 
 IMMUTABLE_BASELINE_BEARING_MODULES:
-- SCHEME_HEXACO: HEXACO trait percentile baselines
-- SCHEME_DARK_TRIAD: Dark Triad trait percentile baselines
-- SCHEME_ASQ: attachment security and style baselines
-- SCHEME_MMPI: MMPI-like clinical scale baselines
-- SCHEME_BACKGROUND: formative world environment and outlook baselines
+- SCHEME_HEXACO
+- SCHEME_DARK_TRIAD
+- SCHEME_ASQ
+- SCHEME_MMPI
+- SCHEME_BACKGROUND
 
 RUNTIME_RULES:
-- STATE_ modules store mutable runtime values that change through lawful proposal-and-commit cycles.
-- STRUCTURAL_SCHEMA SCHEME_ modules (such as SCHEME_TEMPORARY_MODIFIERS and SCHEME_MEMORY) are read-only reference surfaces; they are never written during runtime.
-- IMMUTABLE_BASELINE_BEARING SCHEME_ modules are also read-only during runtime; their baseline values are consulted as interpretive priors and weighting inputs but are never directly mutated by ordinary runtime COTs.
-- Only instantiation-time seeding via COT_CHARACTER_INSTANTIATION_PROCESS or an explicit architecture-level override with watershed-equivalent justification may set immutable baseline values in SCHEME_ modules.
-- A COT that proposes a write targeting an IMMUTABLE_BASELINE_BEARING SCHEME_ module outside instantiation context will be flagged SCHEME_IMMUTABLE_BASELINE_WRITE by COT_UPDATE_VERIFICATION.
+- STATE_ modules store mutable runtime values.
+- SCHEME_ modules are read-only during runtime.
+- Immutable baseline-bearing SCHEME values may be set during instantiation only, or by explicit architecture-level watershed-equivalent override.
+- Runtime write to immutable baseline-bearing SCHEME outside instantiation: SCHEME_IMMUTABLE_BASELINE_WRITE.
 
 === SECTION_BREAK ===
 

@@ -1,111 +1,100 @@
 === SECTION: DYNAMICS_BELIEF_SYSTEMS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for belief stability, dissonance handling, and rare baseline accommodation shifts under operationalized persistence triggers. Preserves conceptual depth while ensuring worldview change remains lawful, bounded, and resistant to impulsive baseline rewrite.
+Immutable mechanics for belief stability, dissonance handling, categorical belief transitions, ordinal belief drift, and rare baseline accommodation under persistence or override proof. Belief change is semantic, bounded, evidence-led, and resistant to impulsive baseline rewrite.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Dynamics must reference strict operation vocabulary only.
-
-Allowed operation references:
-- SET
-- TRANSITION
-- ADD_MODIFIER
-- REMOVE_MODIFIER
-- CAP
-- VETO
-
-Forbidden operation references:
-- CREATE_NEW_RECORD
-- UPDATE
-- INCREMENT
-- DECREMENT
-
-[[LLM_INSTRUCTION]]: Belief-system change should prefer temporary dissonance overlays before durable baseline mutation.
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Prefer temporary dissonance/worldview-defense overlays before durable belief baseline mutation.
 
 === SECTION_BREAK ===
 
 === SECTION: BELIEF_STABILITY ===
 
-GENERAL_RULE:
+GENERAL_RULES:
 - Baseline belief shifts are rare.
-- Contradictions default to temporary dissonance overlays rather than immediate baseline rewrite.
-- Repeated coherent evidence is weighted more strongly than isolated anomalous cues.
-- Core worldview fields are identity-relevant and therefore stability-biased under governance.
+- Isolated contradiction defaults to temporary modifier, not baseline rewrite.
+- Repeated coherent evidence weighs more than isolated anomalous cue.
+- Core worldview fields are identity-relevant and stability-biased.
+- Strong contradictions are lawful only with compartmentalization, active BELIEF_DISSONANCE overlay, or persistence-cluster processing.
 
 === SECTION_BREAK ===
 
 === SECTION: PERSISTENCE_TRIGGER_RULE ===
 
-[[LLM_INSTRUCTION]]: Persistence is operationalized via the memory ledger. Repeated dissonance cues against the same belief field, recorded as memory records, constitute the cross-cycle evidence basis for baseline shift.
+[[LLM_INSTRUCTION]]: Persistence is operationalized through the memory ledger.
 
-PERSISTENCE_EVIDENCE_DEFINITION:
-- A persistence cluster exists for belief field F when:
-  - Three or more MEMORY records exist whose SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED references F or whose CORE_EVENT_SUMMARY explicitly cites F.
-  - All three records carry consistent valence direction relative to F (all reinforcing F, or all challenging F).
-  - At least one of the three records has SALIENCE band MODERATE or higher.
+PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN:
+- Three or more MEM_XX records reference field F through SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED or CORE_EVENT_SUMMARY.
+- Records share consistent direction relative to F: all reinforcing or all challenging.
+- At least one record has SALIENCE MODERATE or higher.
+- Records are distinct cue occasions, not duplicate encodings.
 
 PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
-- When a persistence cluster exists and current cycle adds new consistent cue evidence:
-  - Propose SET on the target belief field to the next lawful adjacent enum value in the consistent direction.
-  - Required override fields:
-    - INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
-    - NARRATIVE_CUE_REFERENCE: cycle cue token plus the three contributing MEM_XX references
-    - EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX] (the three or more contributing memory records)
-    - SCHEME_INVARIANT_NOTE: belief baseline shift accommodated under accumulated evidence; one adjacent enum step
-    - MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
+- When cluster exists and current cycle adds consistent cue evidence:
+  - ordinal fields: propose adjacent lawful value by SET or lawful TRANSITION when ladder direction is unambiguous
+  - categorical fields: propose SET to lawful mapped target from CATEGORICAL_FIELD_TRANSITION_MAPS
+
+REQUIRED_PROOF_FIELDS:
+- INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
+- NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
+- EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX]
+- SCHEME_INVARIANT_NOTE: accumulated evidence supports one adjacent enum step or lawful named categorical transition
+- MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
 
 PERSISTENCE_BOUNDS:
-- One adjacent enum step per persistence trigger, per cycle, per belief field.
-- Multi-step shifts in a single cycle require WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof in addition to persistence evidence.
-- A persistence cluster is consumed conceptually but not deleted; further shifts require new cue accumulation beyond the consumed cluster.
+- One adjacent movement per field per cycle.
+- Multi-step shift requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof in addition to persistence evidence.
+- Cluster is conceptually consumed; later shifts require new cue accumulation beyond consumed basis.
 
 === SECTION_BREAK ===
 
 === SECTION: SHIFT_TRIGGERS ===
 
 ON_TRAUMATIC_EVENT:
-- May justify bounded mutation in selected belief fields when the event directly challenges an identity-relevant worldview assumption.
-- Prefer:
-  - ADD_MODIFIER for acute dissonance or worldview destabilization
-  - narrowly scoped SET to explicit lawful enum endpoints only when cue support is sufficient
-- Override pathway: WATERSHED_BELIEF_SHIFT with full proof.
+- Prefer acute dissonance/worldview-destabilization overlay.
+- Durable field mutation requires direct challenge to identity-relevant worldview assumption.
+- Single-event major shift requires WATERSHED_BELIEF_SHIFT proof.
 
 ON_MIRACLE_OR_HIGHLY_ANOMALOUS_EXPERIENCE:
-- First prefer dissonance overlays.
-- Bounded accommodation only if the cue contributes to a persistence cluster or carries unusually strong narrative support.
+- Prefer dissonance overlay first.
+- Baseline accommodation requires persistence cluster or unusually strong narrative support.
+- Single anomalous cue ordinarily does not rewrite physical, spiritual, or epistemic baselines.
 
 ON_BETRAYAL:
-- May justify bounded SET updates to trust-, agency-, or human-nature-related fields when direct evidence is salient and identity-relevant.
-- Single-event multi-step shifts require WATERSHED_BELIEF_SHIFT proof.
+- May justify bounded SET to trust-, agency-, human-nature-, or justice-related fields when direct evidence is salient.
+- Belief shift and relational valence shift are separate proposals with independent justification.
 
 ON_REPEATED_EVIDENCE:
 - Initial resistance is expected.
-- Persistence cluster condition (see PERSISTENCE_TRIGGER_RULE) is the lawful pathway for accommodation.
-- Accommodation is field-specific, not broad worldview rewrite.
+- Persistence cluster is the normal accommodation path.
+- Accommodation is field-specific.
 
 ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
-- EXISTENTIAL_CRISIS_OVERRIDE pathway may allow multi-axis shift only if full proof requirements are met.
+- EXISTENTIAL_CRISIS_OVERRIDE may allow multi-axis shift only with full proof.
 
 === SECTION_BREAK ===
 
 === SECTION: DEFENSE_MECHANISMS ===
 
 ON_THREAT_TO_CORE_BELIEF:
-- Prefer reinforcement and dissonance overlays.
-- Use ADD_MODIFIER for worldview defense pressure before baseline mutation.
-- If contradiction remains unresolved across cycles, persistence cluster mechanism handles eventual bounded accommodation.
+- Prefer reinforcement, rationalization pressure, worldview-defense overlay, or BELIEF_DISSONANCE overlay.
+- Defensive rationalization may generate impulses or modifiers.
+- Defensive rationalization is not COMMITTED_FACT evidence.
+- If contradiction persists across cycles, persistence cluster handles bounded accommodation.
 
 === SECTION_BREAK ===
 
 === SECTION: ORDINAL_VS_CATEGORICAL_FIELD_CLASSIFICATION ===
 
-[[LLM_INSTRUCTION]]: Belief fields fall into two structural types. Transition rules differ by type.
+[[LLM_INSTRUCTION]]: Belief fields are either ordinal or categorical. Operation legality differs.
 
 ORDINAL_FIELDS:
-- These fields have a natural ranked ladder. ONE_STEP_UP and ONE_STEP_DOWN directives are lawful for persistence-triggered accommodation.
 - PHYSICAL_MATERIALISM
 - SPIRITUAL_DUALISM
 - JUST_WORLD_BELIEF
@@ -133,99 +122,112 @@ ORDINAL_FIELDS:
 - PEER_CONSENSUS
 - LOGIC_ARGUMENT
 - DETERMINISM
-- DETERMINISM ladder order: HARD → SOFT → LIBERTARIAN_FREE_WILL, from most constrained to most agentic.
+
+DETERMINISM_LADDER_ORDER:
+- HARD → SOFT → LIBERTARIAN_FREE_WILL from most constrained to most agentic.
+
+ORDINAL_RULE:
+- ONE_STEP_UP / ONE_STEP_DOWN are lawful only when direction is unambiguous.
+- Otherwise use SET to explicit adjacent endpoint.
 
 CATEGORICAL_FIELDS:
-- These fields use qualitatively distinct enum values with no universal ranking across all values. ONE_STEP_UP and ONE_STEP_DOWN are not defined for categorical fields.
 - SIMULATION_THEORY
 - MAGICAL_THINKING
 - LOCUS_OF_CONTROL
 - HUMAN_NATURE
 - SUCCESS_ATTRIBUTION
 - FAILURE_ATTRIBUTION
-- Proposals on categorical fields MUST name an explicit target enum value and carry cue-specific SET justification with SCHEME_INVARIANT_NOTE.
-- Persistence-triggered accommodation on categorical fields still requires the same persistence-cluster evidence threshold; the shift produces a named target value rather than a directional step.
+
+CATEGORICAL_RULE:
+- No ONE_STEP_UP / ONE_STEP_DOWN.
+- Use SET to explicit target value.
+- Persistence-triggered categorical movement must use CATEGORICAL_FIELD_TRANSITION_MAPS.
+- Unlisted categorical transition requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof.
 
 === SECTION_BREAK ===
 
 === SECTION: CATEGORICAL_FIELD_TRANSITION_MAPS ===
 
-[[LLM_INSTRUCTION]]: These maps enumerate lawful transitions for each categorical field. Unlisted transitions require WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof; persistence evidence alone does not authorize an unlisted transition. Where a persistence cluster exists for an unlisted transition, override proof is required in addition to the persistence evidence.
+[[LLM_INSTRUCTION]]: Listed transitions are lawful when cue support and required persistence/override conditions are met. Unlisted transitions require override proof.
 
 SIMULATION_THEORY [CONSIDERED, REJECTED, UNKNOWN]:
-LAWFUL_TRANSITIONS:
-- UNKNOWN → CONSIDERED: concept is introduced and character engages with the possibility
-- UNKNOWN → REJECTED: dismissal before substantial engagement; cue must establish prior exposure
-- CONSIDERED → REJECTED: character evaluates and chooses to dismiss after deliberation
-- REJECTED → CONSIDERED: anomalous experience or evidence reopens the question; requires at least moderate-salience cue
-- CONSIDERED → UNKNOWN: lawful only with WATERSHED_BELIEF_SHIFT proof and a compartmentalization or dissociation cue
-- REJECTED → UNKNOWN: lawful only with WATERSHED_BELIEF_SHIFT proof and a compartmentalization or dissociation cue
+- UNKNOWN → CONSIDERED: concept introduced and engaged.
+- UNKNOWN → REJECTED: dismissal after exposure.
+- CONSIDERED → REJECTED: evaluated and dismissed.
+- REJECTED → CONSIDERED: anomalous evidence reopens possibility.
+- CONSIDERED → UNKNOWN: requires WATERSHED_BELIEF_SHIFT plus compartmentalization/dissociation cue.
+- REJECTED → UNKNOWN: requires WATERSHED_BELIEF_SHIFT plus compartmentalization/dissociation cue.
 
 MAGICAL_THINKING [PRESENT, ABSENT, CONTEXTUAL]:
-LAWFUL_TRANSITIONS:
-- ABSENT → CONTEXTUAL: character adopts situational or culturally bounded magical thinking under specific cue pressure
-- CONTEXTUAL → PRESENT: situational magical thinking generalizes under repeated reinforcing cues
-- PRESENT → CONTEXTUAL: character retreats to context-bounded acceptance following disconfirmation cues
-- CONTEXTUAL → ABSENT: character rationalizes away all contextual instances; requires strong empirical or skepticism cue
-- PRESENT → ABSENT: full rejection following strong disconfirmation; requires override proof or persistence cluster
-- ABSENT → PRESENT: full conversion without contextual intermediate; requires override proof
+- ABSENT → CONTEXTUAL: situational/cultural magical framing adopted.
+- CONTEXTUAL → PRESENT: contextual framing generalizes under repeated reinforcement.
+- PRESENT → CONTEXTUAL: retreat to bounded acceptance after disconfirmation.
+- CONTEXTUAL → ABSENT: contextual cases rationalized away after strong empirical/skepticism cue.
+- PRESENT → ABSENT: full rejection; requires persistence cluster or override proof.
+- ABSENT → PRESENT: full conversion; requires override proof.
 
 LOCUS_OF_CONTROL [INTERNAL, EXTERNAL, BALANCED]:
-LAWFUL_TRANSITIONS:
-- INTERNAL → BALANCED: character begins crediting external factors for some outcomes under sustained helplessness or situational cues
-- EXTERNAL → BALANCED: character begins crediting their own agency for some outcomes under efficacy or autonomy cues
-- BALANCED → INTERNAL: character increasingly attributes outcomes to self under sustained agency-confirming cues
-- BALANCED → EXTERNAL: character increasingly externalizes outcomes under sustained helplessness or systemic-force cues
-- INTERNAL → EXTERNAL (direct): polar shift on an identity-relevant field; requires WATERSHED_BELIEF_SHIFT proof
-- EXTERNAL → INTERNAL (direct): polar shift on an identity-relevant field; requires WATERSHED_BELIEF_SHIFT proof
+- INTERNAL → BALANCED: external factors gain explanatory weight.
+- EXTERNAL → BALANCED: personal agency gains explanatory weight.
+- BALANCED → INTERNAL: sustained agency-confirming cues.
+- BALANCED → EXTERNAL: sustained helplessness/systemic-force cues.
+- INTERNAL → EXTERNAL: polar shift; requires WATERSHED_BELIEF_SHIFT.
+- EXTERNAL → INTERNAL: polar shift; requires WATERSHED_BELIEF_SHIFT.
 
 HUMAN_NATURE [INHERENTLY_GOOD, INHERENTLY_EVIL, TABULA_RASA, CONTEXTUAL]:
-LAWFUL_TRANSITIONS:
-- INHERENTLY_GOOD → CONTEXTUAL: repeated exposure to situationally bad behavior from previously trusted others erodes universal optimism
-- INHERENTLY_EVIL → CONTEXTUAL: repeated exposure to altruistic behavior erodes universal cynicism
-- TABULA_RASA → CONTEXTUAL: character adds situational dependency to an environmentalist view
-- CONTEXTUAL → INHERENTLY_GOOD: strong persistent evidence of universal prosocial behavior; requires persistence cluster
-- CONTEXTUAL → INHERENTLY_EVIL: strong persistent evidence of universal self-interest; requires persistence cluster
-- CONTEXTUAL → TABULA_RASA: character retreats to a pure environmentalist framing; requires explicit cue
-- INHERENTLY_GOOD → TABULA_RASA: character shifts from innate-goodness to environmentalism without full cynicism
-- INHERENTLY_EVIL → TABULA_RASA: character shifts from innate-evil to environmentalism without full optimism
-- INHERENTLY_GOOD → INHERENTLY_EVIL (direct): polar worldview shift; requires WATERSHED_BELIEF_SHIFT proof; EXISTENTIAL_CRISIS_OVERRIDE proof is also required when this shift co-occurs with concurrent multi-axis worldview reorganization
-- INHERENTLY_EVIL → INHERENTLY_GOOD (direct): polar worldview shift; requires WATERSHED_BELIEF_SHIFT proof; EXISTENTIAL_CRISIS_OVERRIDE proof is also required when this shift co-occurs with concurrent multi-axis worldview reorganization
-
-OVERRIDE_APPLICABILITY_NOTE:
-- WATERSHED_BELIEF_SHIFT is required whenever a single belief field undergoes a large identity-relevant mutation; it authorizes the field-level shift.
-- EXISTENTIAL_CRISIS_OVERRIDE is required in addition to WATERSHED_BELIEF_SHIFT when the shift co-occurs with concurrent multi-axis worldview reorganization; it authorizes the multi-axis scope. If only WATERSHED_BELIEF_SHIFT proof is met and no multi-axis co-occurrence is present, the field-level shift alone is lawful.
-- For LOCUS_OF_CONTROL polar shifts, WATERSHED_BELIEF_SHIFT is the required override; EXISTENTIAL_CRISIS_OVERRIDE does not apply unless concurrent multi-axis reorganization is independently justified.
-- For HUMAN_NATURE polar shifts, WATERSHED_BELIEF_SHIFT is always required; EXISTENTIAL_CRISIS_OVERRIDE is additionally required when the shift is part of a concurrent multi-axis collapse.
+- INHERENTLY_GOOD → CONTEXTUAL: trusted-bad behavior erodes universal optimism.
+- INHERENTLY_EVIL → CONTEXTUAL: altruism erodes universal cynicism.
+- TABULA_RASA → CONTEXTUAL: situational dependency added.
+- CONTEXTUAL → INHERENTLY_GOOD: persistent universal prosocial evidence.
+- CONTEXTUAL → INHERENTLY_EVIL: persistent universal self-interest evidence.
+- CONTEXTUAL → TABULA_RASA: retreat to pure environmental framing.
+- INHERENTLY_GOOD → TABULA_RASA: innate-goodness shifts to environmentalism.
+- INHERENTLY_EVIL → TABULA_RASA: innate-evil shifts to environmentalism.
+- INHERENTLY_GOOD → INHERENTLY_EVIL: polar shift; requires WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE if concurrent multi-axis reorganization.
+- INHERENTLY_EVIL → INHERENTLY_GOOD: polar shift; requires WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE if concurrent multi-axis reorganization.
 
 SUCCESS_ATTRIBUTION [INTERNAL_STABLE, INTERNAL_UNSTABLE, EXTERNAL]:
-LAWFUL_TRANSITIONS:
-- INTERNAL_STABLE → INTERNAL_UNSTABLE: character begins doubting the reliability of their capabilities after setbacks or inconsistent performance cues
-- INTERNAL_UNSTABLE → INTERNAL_STABLE: character gains evidence of consistent competence; requires agency-confirming or mastery cue
-- INTERNAL_STABLE → EXTERNAL: character externalizes credit for success entirely; requires strong luck-or-circumstance cue or depressive attribution shift
-- INTERNAL_UNSTABLE → EXTERNAL: character abandons internal attribution after repeated failure-adjacent cues
-- EXTERNAL → INTERNAL_UNSTABLE: character begins crediting their own contribution but with uncertainty; requires efficacy cue
-- EXTERNAL → INTERNAL_STABLE: full internalization of stable competence; requires persistence cluster or override proof
+- INTERNAL_STABLE → INTERNAL_UNSTABLE: reliability of capability doubted.
+- INTERNAL_UNSTABLE → INTERNAL_STABLE: consistent competence evidenced.
+- INTERNAL_STABLE → EXTERNAL: credit externalized by strong luck/circumstance cue.
+- INTERNAL_UNSTABLE → EXTERNAL: internal attribution abandoned after repeated failure-adjacent cues.
+- EXTERNAL → INTERNAL_UNSTABLE: partial self-credit after efficacy cue.
+- EXTERNAL → INTERNAL_STABLE: stable self-credit; requires persistence cluster or override proof.
 
 FAILURE_ATTRIBUTION [INTERNAL_STABLE, INTERNAL_UNSTABLE, EXTERNAL]:
-LAWFUL_TRANSITIONS:
-- INTERNAL_STABLE → INTERNAL_UNSTABLE: character begins questioning whether failures reflect enduring or situational flaws
-- INTERNAL_UNSTABLE → INTERNAL_STABLE: character consolidates a stable self-blame frame following repeated failure cues
-- INTERNAL_STABLE → EXTERNAL: character begins externalizing blame after betrayal, injustice, or systemic-obstacle cue
-- INTERNAL_UNSTABLE → EXTERNAL: character abandons self-attribution under sustained systemic-obstacle or fairness cues
-- EXTERNAL → INTERNAL_UNSTABLE: character begins accepting some personal responsibility; requires reflective or accountability cue
-- EXTERNAL → INTERNAL_STABLE: full stable internalization of fault; requires persistence cluster or strong identity-relevant cue with override proof
+- INTERNAL_STABLE → INTERNAL_UNSTABLE: enduring-fault belief questioned.
+- INTERNAL_UNSTABLE → INTERNAL_STABLE: stable self-blame consolidates.
+- INTERNAL_STABLE → EXTERNAL: blame externalized after betrayal, injustice, or systemic obstacle.
+- INTERNAL_UNSTABLE → EXTERNAL: self-attribution abandoned under sustained unfairness/systemic cue.
+- EXTERNAL → INTERNAL_UNSTABLE: partial responsibility accepted.
+- EXTERNAL → INTERNAL_STABLE: stable internalization of fault; requires persistence cluster or override proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OVERRIDE_APPLICABILITY ===
+
+WATERSHED_BELIEF_SHIFT:
+- Required for large identity-relevant mutation in one belief field.
+- Authorizes field-level shift when full proof is present.
+
+EXISTENTIAL_CRISIS_OVERRIDE:
+- Required in addition to WATERSHED_BELIEF_SHIFT when shift is part of concurrent multi-axis worldview reorganization.
+- Authorizes multi-axis scope.
+
+SPECIFIC_NOTES:
+- LOCUS_OF_CONTROL polar shifts require WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE only if multi-axis reorganization is independently justified.
+- HUMAN_NATURE polar shifts always require WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE when concurrent multi-axis collapse/reorganization occurs.
+- Persistence evidence alone does not authorize unlisted categorical transitions.
 
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- Belief shifts must resolve to explicit lawful field values rather than vague directional movement.
-- Temporary modifiers absorb acute contradiction, disorientation, and interpretive strain before durable identity-bearing fields are rewritten.
+- Belief shifts resolve to explicit lawful field values.
+- Temporary modifiers absorb acute contradiction before durable fields shift.
+- Persistence-triggered ordinal shifts are one adjacent movement.
+- Persistence-triggered categorical shifts use named mapped targets.
 - Multi-field worldview reorganization requires override proof and remains rare.
-- Persistence-triggered shifts are bounded one-step adjacent enum movements for ordinal fields.
-- Persistence-triggered shifts on categorical fields produce a named target value from the lawful transition map rather than a directional step.
-- Transitions not listed in the categorical field transition maps require WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof; persistence evidence alone is insufficient to authorize an unlisted categorical transition.
 
 === SECTION_BREAK ===
 

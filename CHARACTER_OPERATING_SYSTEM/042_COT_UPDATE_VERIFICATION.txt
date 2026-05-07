@@ -1,152 +1,118 @@
 === SECTION: COT_UPDATE_VERIFICATION ===
 
 [KEEP: Purpose & Role]
-Runs after STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS. Performs deterministic post-primary-commit verification against canonical, scheme, structural, epistemic, override-proof, read-boundary, output-congruence, and governance-runtime contracts. Proposes governance-runtime updates via the normal proposal pipeline so quarantine engagement, clear, and verification-result recording are committed by STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS in the same cycle before scratchpad wipe. Trace-rich; non-mutating with respect to persistent state.
+Post-primary-commit verifier. Checks audit closure, canonical form, scheme invariants, operation semantics, empty-value use, epistemic/evidence rules, override proof, read boundaries, output congruence, modifier lifecycle, and governance-runtime handoff. Persistent-state non-mutating; proposes STATE_GOVERNANCE_RUNTIME corrections only.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
 [KEEP: Relationship to Other Modules]
-Informs:
-- cycle integrity and debug trace quality
-- STATE_GOVERNANCE_RUNTIME via proposals to STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS, never direct writes
-
-Is Informed By:
-- [COGNITIVE_SCRATCHPAD]
-- STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS outputs
-- STATE_GOVERNANCE_RUNTIME
-- ATTENTION_ENGINEERING_PRINCIPLE
-- all relevant STATE_, SCHEME_, and DYNAMICS_ modules
+Informs: cycle integrity, debug trace, STATE_GOVERNANCE_RUNTIME via proposals.
+Is Informed By: COGNITIVE_SCRATCHPAD, STATE_GOVERNANCE_AND_COMMIT primary audit, STATE_GOVERNANCE_RUNTIME, ATTENTION_ENGINEERING_PRINCIPLE, CANONICAL_TOKEN_DICTIONARY, UPDATE_CASCADE_REGISTRY, relevant STATE_, SCHEME_, and DYNAMICS_ modules.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Verifier is non-mutating with respect to persistent state.
-
 ALLOWED_WRITES:
-- Append TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
-- Append governance-runtime update proposals to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] with TARGET_MODULE = STATE_GOVERNANCE_RUNTIME and INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] proposals targeting STATE_GOVERNANCE_RUNTIME with INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE
 
 FORBIDDEN_WRITES:
-- Direct mutation of any STATE_ module
-- Proposals targeting any non-governance-runtime module
-- Scratchpad structural mutation beyond the two allowed appends above
+- Direct STATE_* mutation
+- Non-governance-runtime proposals
+- Scratchpad structural mutation beyond allowed appends
 - Narrative output
 
-[[LLM_INSTRUCTION]]: Governance-runtime proposals from this COT are committed in the same cycle by STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS before scratchpad wipe. The verifier itself never writes to STATE_GOVERNANCE_RUNTIME.
+[[LLM_INSTRUCTION]]: Governance-runtime proposals are committed or suppressed same-cycle by STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS before scratchpad wipe.
 
 === SECTION_BREAK ===
 
 === SECTION: VERIFICATION_CHECKLIST ===
 
-[[LLM_INSTRUCTION]]: Run deterministically in this order. Each item produces PASS, WARN, or FAIL with a deterministic reason code per CHECKLIST_REASON_CODE_MAP below.
+[[LLM_INSTRUCTION]]: Run in order. Each check yields PASS, WARN, or FAIL and a reason code from CHECKLIST_REASON_CODE_MAP.
 
 01) AUDIT_CLOSURE
-- Verify every primary-pass PROPOSAL_ID appears exactly once in PRIMARY_PASS_AUDIT.FINAL_ACTION_LOG with PROPOSAL_ID, FINAL_ACTION, TARGET_FIELD, REASON_CODE.
+- Verify every primary-pass proposal has exactly one FINAL_ACTION_LOG closure: COMMITTED, SUPPRESSED, DOWNGRADED, or VETOED.
 
 02) OPERATION_VALIDITY
-- Verify OPERATION_TYPE values are members of the strict allowed set; no forbidden aliases.
+- Verify strict OPERATION_TYPE vocabulary, forbidden-alias absence, and operation behavior per CANONICAL_TOKEN_DICTIONARY and STATE_GOVERNANCE_AND_COMMIT.
 
 03) CANONICAL_PATH_INTEGRITY
-- Verify no legacy roots in proposals, commits, audits, or traces.
-- Verify TARGET_FIELD paths are canonical and scheme-valid.
+- Verify canonical roots, TARGET_MODULE/TARGET_FIELD agreement, no legacy roots, no [NONE] as ID, no record stubs as concrete records.
 
-04) ORDINAL_AND_ENUM_VALIDITY
-- Verify ONE_STEP rules unless override proof complete.
-- Verify enum values lawful per SCHEME_.
-- Verify QUALITATIVE_INTENSITY band shifts respect per-cycle limits.
-- Verify cumulative ordinal step count across all fields per cycle does not exceed 2 unless override proof complete.
+04) ORDINAL_AND_BAND_LIMITS
+- Verify enum legality, one-step ordinal limits, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, and categorical lifecycle SET usage.
 
-05) INVARIANTS_AND_CAPS
-- Verify SCHEME invariants honored.
-- Verify IMMUNE_MARKERS is not ROBUST when two or more TERMINAL_BIOCHEMICAL_STATES are concurrently present.
-- Verify INSTINCT_LEVEL <= MASTERY_LEVEL.
-- Verify memory creation caps and linkage requirements.
-- Verify modifier schema and orphan checks.
-- Verify modifier lifecycle legality per DYNAMICS_TEMPORARY_MODIFIERS.
-- Verify registry-record pair consistency across all registry-backed domains.
-- Verify DPF active prediction count <= MAX_ACTIVE_PREDICTIONS.
+05) EMPTY_VALUE_SEMANTICS
+- Verify blank, NONE, [NONE], record stubs, and registry-record pairs follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 
-06) COMMIT_PROVENANCE
-- Verify every primary-pass commit traces back to a proposal source; no orphans.
+06) INVARIANTS_AND_CAPS
+- Verify SCHEME invariants, immutable-baseline write prohibition, BODY terminal-state/immune rule, skill invariants, memory linkage/caps, modifier schema/lifecycle, registry-record coherence, DPF cap, prediction gate, goal gate, and permanent skill mutation support.
 
-07) EPISTEMIC_TAG_AND_JUSTIFICATION_CATEGORY
-- Verify valid EPISTEMIC_TAG and JUSTIFICATION_CATEGORY on every committed primary-pass proposal.
-- Verify mapping consistency per CANONICAL_TOKEN_DICTIONARY.JUSTIFICATION_CATEGORY_TO_EPISTEMIC_TAG_MAPPING.
-- Verify COMMITTED_FACT proposals carry resolvable EVIDENCE_REF.
+07) COMMIT_PROVENANCE
+- Verify every persistent change traces to committed proposal lineage; no orphaned commits; DYNAMICS directives were not direct writers; schematic directives were expanded before scratchpad entry.
 
-08) OVERRIDE_PROOF_INTEGRITY
-- Verify override-gate proposals carry all four STRUCTURAL_OVERRIDE_PROOF_FIELDS.
-- Verify INVOKED_RULE_NAME is closed-enum member.
-- Verify NARRATIVE_CUE_REFERENCE is cycle-resolvable.
+08) EPISTEMIC_AND_JUSTIFICATION
+- Verify EPISTEMIC_TAG, JUSTIFICATION_CATEGORY, mapping consistency, COMMITTED_FACT EVIDENCE_REF, disclosure boundary, and PERCEIVED_OTHER_VALENCE inference default.
 
-09) CANONICAL_FORM_CHECK
-- Verify all primary commit-bound artifacts normalized at STEP_05.
-- Verify no write-surface tokens altered.
-- Verify no artifact remains in non-canonical form.
+09) OVERRIDE_PROOF
+- Verify override-gate proposals carry lawful INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG.
 
-10) READ_BOUNDARY_INTEGRITY
-- Verify no CASCADE_TRACE entry shows a character-cognition COT (priorities 01-15) reading a GOVERNANCE_INTERNAL module.
+10) CANONICAL_FORM
+- Verify commit-bound artifacts normalized, write-surface tokens preserved, no non-canonical residue, and persistent modules declare READ_VISIBILITY_CLASS.
 
-11) TRACE_COMPLETENESS
-- Verify exactly one TRACE_ENTRY per priority slot from PRIORITY_01 through PRIORITY_17 before post-verification pass.
-- Verify empty cycles emit EMPTY_CYCLE_FORM trace entry per SCHEME_SCRATCHPAD where applicable.
-- Do not verify PRIORITY_18 here because STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS has not yet executed.
+11) READ_BOUNDARY
+- Verify character-cognition COTs did not read GOVERNANCE_INTERNAL modules; governance runtime was read only by governance band authorities.
 
-12) SELECTED_ACTION_INTEGRITY
-- Verify [COGNITIVE_SCRATCHPAD][SELECTED_ACTION] is schema-complete.
-- If [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY] was empty at synthesis: SELECTED_ACTION.ACTION_TYPE MUST be PASSIVE_OBSERVATION and ACTION_SOURCE_IMPULSE MUST be NONE.
+12) TRACE_COMPLETENESS
+- Verify exactly one trace per priority slot through PRIORITY_17; empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace. Do not verify PRIORITY_18 here.
 
-13) OUTPUT_CONGRUENCE_CHECK
-- Verify rendered output from COT_COMMUNICATION_PROCESSING references the same ACTION_TYPE and TARGET_ID resolution as SELECTED_ACTION.NARRATIVE_ACTION_DESCRIPTION.
+13) SELECTED_ACTION
+- Verify SELECTED_ACTION strict schema, empty-impulse PASSIVE_OBSERVATION fallback, ACTION_SOURCE_IMPULSE validity, and no presumed external success/world resolution/internal-state certainty.
 
-14) MODIFIER_LIFECYCLE_VALIDATION
-- Verify STATE_TEMPORARY_MODIFIERS functions as bounded active-overlay surface, not historical archive.
-- Verify REFRESH_EXISTING and REPLACE_EXISTING outcomes did not create unnecessary new MOD_XX records.
-- Verify materially different concurrent modifiers exist only when coexistence lawful and bounded.
-- Verify expired or removed modifiers do not remain on active surface.
-- Verify REMOVE_MODIFIER preserved registry-record coherence.
-- Verify stacking and cap outcomes did not produce covert baseline rewrite.
+14) OUTPUT_CONGRUENCE
+- Verify communication output matches SELECTED_ACTION action/target, remains subjective, marks inference, avoids unselected actions, and does not assert other entities' internal states as fact.
 
-15) INSTANTIATION_COMPLETENESS
-- On the first non-instantiation cycle following an instantiation workflow: verify all required SCHEME baselines and STATE seeds are populated.
-- Skipped on subsequent cycles unless re-instantiation is invoked.
+15) MODIFIER_LIFECYCLE
+- Verify active-overlay model, in-place refresh/replacement, lawful coexistence, expiry/removal clearance, registry coherence, and no covert baseline rewrite.
 
-16) FIRES_WHEN_DISCIPLINE
-- For each COT in priority 01 through 15 not exempt under ATTENTION_ENGINEERING_PRINCIPLE.FIRES_WHEN_DISCIPLINE.EXEMPTIONS:
-  - If the COT generated any impulse or any non-trace proposal this cycle, verify that at least one of its declared FIRES_WHEN ANCHOR_CUES is satisfied per the current cycle's narrative input, persistent state, and scratchpad contents.
-- Mismatch surfaces as COT_FIRED_WITHOUT_ANCHOR_CUE.
+16) INSTANTIATION_COMPLETENESS
+- On first non-instantiation cycle after instantiation, verify required SCHEME baselines and STATE seeds are populated; skip otherwise unless re-instantiation invoked.
+
+17) FIRES_WHEN_DISCIPLINE
+- For non-exempt priority 01–15 COTs, any impulse or non-trace proposal requires at least one satisfied FIRES_WHEN anchor cue.
 
 CHECKLIST_REASON_CODE_MAP:
 - 01: AUDIT_CLOSURE_INCOMPLETE (FAIL)
-- 02: OPERATION_TYPE_INVALID (FAIL)
-- 03: INVALID_PATH_ROOT or INVALID_TARGET_FIELD (FAIL)
+- 02: OPERATION_TYPE_INVALID or INVALID_ORDINAL_TRANSITION (FAIL)
+- 03: INVALID_PATH_ROOT or INVALID_TARGET_FIELD or REGISTRY_RECORD_PAIR_VIOLATION (FAIL)
 - 04: INVALID_ENUM_VALUE or INVALID_ORDINAL_TRANSITION or STEP_LIMIT_EXCEEDED (FAIL)
-- 05: SCHEME_INVARIANT_VIOLATION or REGISTRY_RECORD_PAIR_VIOLATION or MODIFIER_SCHEMA_VIOLATION or DPF_PREDICTION_CAP_EXCEEDED or IMMUNE_TERMINAL_STATE_CONFLICT (FAIL)
-- 06: COMMIT_ORPHANED (FAIL)
-- 07: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH or COMMITTED_FACT_WITHOUT_EVIDENCE or EVIDENCE_REF_UNRESOLVED (FAIL)
-- 08: OVERRIDE_PROOF_INCOMPLETE (FAIL)
-- 09: TRANSLATION_VIOLATION (FAIL)
-- 10: READ_BOUNDARY_VIOLATION (FAIL)
-- 11: COT_TRACE_MISSING (WARN)
-- 12: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
-- 13: OUTPUT_INCONGRUENCE (WARN)
-- 14: MODIFIER_LIFECYCLE_VIOLATION (FAIL; specific sub-codes per DYNAMICS_TEMPORARY_MODIFIERS)
-- 15: INSTANTIATION_INCOMPLETE (FAIL)
-- 16: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
+- 05: MALFORMED_PROPOSAL_SCHEMA or INVALID_ENUM_VALUE or LINKAGE_REFERENCE_VIOLATION or REGISTRY_RECORD_PAIR_VIOLATION or INSTANTIATION_INCOMPLETE (FAIL)
+- 06: SCHEME_INVARIANT_VIOLATION or SCHEME_IMMUTABLE_BASELINE_WRITE or REGISTRY_RECORD_PAIR_VIOLATION or MODIFIER_SCHEMA_VIOLATION or DPF_PREDICTION_CAP_EXCEEDED or IMMUNE_TERMINAL_STATE_CONFLICT (FAIL)
+- 07: COMMIT_ORPHANED (FAIL)
+- 08: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH or COMMITTED_FACT_WITHOUT_EVIDENCE or EVIDENCE_REF_UNRESOLVED (FAIL)
+- 09: OVERRIDE_PROOF_INCOMPLETE (FAIL)
+- 10: TRANSLATION_VIOLATION (FAIL)
+- 11: READ_BOUNDARY_VIOLATION (FAIL)
+- 12: COT_TRACE_MISSING (WARN)
+- 13: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
+- 14: OUTPUT_INCONGRUENCE (WARN)
+- 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL)
+- 16: INSTANTIATION_INCOMPLETE (FAIL)
+- 17: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
 
 === SECTION_BREAK ===
 
 === SECTION: REMEDIATION_PROPOSAL_GENERATION ===
 
-[[LLM_INSTRUCTION]]: After running the checklist, classify the cycle outcome and propose corresponding governance-runtime updates via the normal proposal pipeline. These proposals are committed or suppressed by STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS in the same cycle before scratchpad wipe.
+[[LLM_INSTRUCTION]]: Classify outcome and append governance-runtime SET proposals. Post-verification commit resolves them same-cycle.
 
 CYCLE_OUTCOME_CLASSIFICATION:
-- PASS: zero VIOLATIONs and zero WARNINGs
-- WARN: zero VIOLATIONs and one or more WARNINGs
-- FAIL: one or more VIOLATIONs
+- PASS: zero violations and zero warnings
+- WARN: zero violations and one or more warnings
+- FAIL: one or more violations
 
-SHARED_PROPOSAL_TEMPLATE:
+SHARED_PROPOSAL_FIELDS:
 - SOURCE_COT: COT_UPDATE_VERIFICATION
 - TARGET_MODULE: STATE_GOVERNANCE_RUNTIME
 - OPERATION_TYPE: SET
@@ -155,46 +121,37 @@ SHARED_PROPOSAL_TEMPLATE:
 - EPISTEMIC_TAG: INFERENCE
 - JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 - INVOKED_RULE_NAME: GOVERNANCE_CORRECTIVE
-- NARRATIVE_CUE_REFERENCE: outcome-specific token below
-- SCHEME_INVARIANT_NOTE: outcome-specific note below
 
 ON_PASS:
-- Emit two SHARED_PROPOSAL_TEMPLATE proposals:
-  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] PROPOSED_VALUE PASS, JUSTIFICATION verification passed
-  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID] PROPOSED_VALUE current commit cycle id, JUSTIFICATION cycle close
+- SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = PASS
+- SET [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID] = current commit cycle id
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
-- SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME LAST_VERIFICATION_RESULT overwrite-on-verification
+- SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME overwrite-on-verification
 
 ON_PASS_WHILE_QUARANTINE_ACTIVE:
-- Emit ON_PASS proposals.
-- Emit the three quarantine-clear SET proposals defined in DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.ON_VERIFICATION_PASS_CLEAN, each using SHARED_PROPOSAL_TEMPLATE.
+- Emit ON_PASS proposals plus DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR proposals.
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
-- SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME quarantine clear conditions satisfied
+- SCHEME_INVARIANT_NOTE: quarantine clear conditions satisfied
 
 ON_WARN:
-- Emit one SHARED_PROPOSAL_TEMPLATE proposal:
-  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] PROPOSED_VALUE WARN, JUSTIFICATION verification raised warnings
-- Do not engage quarantine for WARN-class outcomes per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY default.
+- SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = WARN
+- Do not engage quarantine.
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_WARNINGS_PRESENT
-- SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME warning result recorded without quarantine engagement
+- SCHEME_INVARIANT_NOTE: warning recorded without quarantine
 
 ON_FAIL:
-- Emit one SHARED_PROPOSAL_TEMPLATE proposal:
-  - TARGET_FIELD [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] PROPOSED_VALUE FAIL, JUSTIFICATION verification raised violations
-- If REMEDIATION_POLICY for the dominant violation is QUARANTINE_NEXT_CYCLE:
-  - Emit the three quarantine-engage SET proposals defined in DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT.ON_VIOLATION_CLASS_OUTCOME, each using SHARED_PROPOSAL_TEMPLATE.
-  - NARRATIVE_CUE_REFERENCE: <dominant violation reason code>
-  - SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME quarantine engagement conditions satisfied
-- If REMEDIATION_POLICY is WARN_AND_PROCEED: emit only the LAST_VERIFICATION_RESULT update.
-- If REMEDIATION_POLICY is ROLLBACK: suppress with reason code ROLLBACK_NOT_ACTIVE per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; emit WARN_AND_PROCEED behavior in its place.
+- SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = FAIL
+- If dominant violation maps to QUARANTINE_NEXT_CYCLE, emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
+- If remediation is WARN_AND_PROCEED, emit only LAST_VERIFICATION_RESULT.
+- If remediation is ROLLBACK, suppress rollback with ROLLBACK_NOT_ACTIVE and use WARN_AND_PROCEED behavior.
+- NARRATIVE_CUE_REFERENCE: dominant violation reason code
+- SCHEME_INVARIANT_NOTE: violation remediation policy applied
 
 === SECTION_BREAK ===
 
 === SECTION: TRACE_OUTPUT ===
 
-[[LLM_INSTRUCTION]]: Append exactly one TRACE_ENTRY to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
-
-TRACE_ENTRY_FIELDS:
+TRACE_ENTRY:
 COT_NAME: COT_UPDATE_VERIFICATION
 KEY_OUTPUTS:
 - RESULT: PASS | WARN | FAIL
@@ -205,12 +162,13 @@ KEY_OUTPUTS:
 - POST_VERIFICATION_PASS_REQUIRED: TRUE
 GENERATED_IMPULSES:
 - [NONE]
-PROPOSED_UPDATES_COUNT: <number of governance-runtime proposals generated>
+PROPOSED_UPDATES_COUNT:
 NOTES:
-- VIOLATIONS: [list of VIOLATION reason codes with brief context, or NONE]
-- WARNINGS: [list of WARNING reason codes with brief context, or NONE]
-- SCHEME_COMPLIANCE_SUMMARY: [one-line summary of invariant compliance across domains]
-- POST_VERIFICATION_HANDOFF: verifier proposals await same-cycle STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
+- VIOLATIONS: reason codes with brief context or NONE
+- WARNINGS: reason codes with brief context or NONE
+- SCHEME_COMPLIANCE_SUMMARY:
+- OPERATION_SEMANTICS_SUMMARY:
+- POST_VERIFICATION_HANDOFF: verifier proposals await same-cycle post-verification commit
 
 === SECTION_BREAK ===
 
