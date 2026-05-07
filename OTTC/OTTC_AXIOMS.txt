@@ -1,3 +1,21 @@
+=== SECTION: AXIOMS_VS_RECTANGLE_RELATIONSHIP ===
+
+[KEEP: Reading guidance]
+
+This file lists fifteen axioms in terse form. The companion file OTTC_RECTANGLE_AXIOMS lists nine MANDATORY constitutional invariants in expanded form, plus several EXTENSIONS and the mandatory engineering qualification step. The two files are complementary, not redundant, and they operate at different levels of abstraction.
+
+The fifteen axioms in this file are the framework's broader philosophical commitments. They include foundational claims about what the substrate is (SUBSTRATE_AXIOM), how meaning travels (RECEIVER_MEANING_AXIOM), and what governance pattern applies across human and machine cognition (HUMAN_PARALLEL_AXIOM). These are framework-level claims about the constitutional theory as a whole.
+
+The nine MANDATORY invariants in OTTC_RECTANGLE_AXIOMS are the kernel of any specific compliant architecture. They define the minimal constitutional shape an architecture must satisfy to be OTTC-compliant: canonical addressing, propose-commit separation, single-writer state, explicit operations, hard-state versus soft-modifier distinction, step limits with override triggers, deterministic conflict resolution, audit closure, and post-commit verification. These nine are the rectangle.
+
+A practitioner building or assessing a specific architecture should reference OTTC_RECTANGLE_AXIOMS as the operational kernel. A reader engaging with the framework's broader theoretical commitments should reference both: this file for the philosophical commitments that motivate the architecture, OTTC_RECTANGLE_AXIOMS for the invariants any compliant architecture must enforce.
+
+The relationship can be stated compactly: the fifteen axioms include the nine, and add framework-level commitments that the nine kernel invariants instantiate but do not exhaustively name. An architecture that satisfies the nine kernel invariants honors the framework. The additional axioms here name what the framework as a whole is about, beyond what any single architecture's kernel can carry.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OTTC_AXIOMS ===
+
 === SECTION: OTTC_AXIOMS ===
 
 1) SUBSTRATE_AXIOM
