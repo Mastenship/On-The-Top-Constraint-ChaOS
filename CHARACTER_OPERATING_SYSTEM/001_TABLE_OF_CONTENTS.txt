@@ -124,7 +124,7 @@ VOLATILE_LAYER:
 
 === SECTION: LOAD_ORDER_VS_EXECUTION_ORDER ===
 
-DROP_ORDER:
+SESSION_LOAD_ORDER_BEHAVIOR:
 - LOAD_ORDINAL 001 through 069, including 002A, is session load order.
 - Persistent layers remain loaded across cycles.
 - Scratchpad structure is loaded once; scratchpad instance resets per cycle.

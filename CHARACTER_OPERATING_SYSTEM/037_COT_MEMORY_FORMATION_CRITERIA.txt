@@ -36,7 +36,7 @@ DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 
 [[LLM_INSTRUCTION]]: Apply DYNAMICS_MEMORY.MEMORY_ADMISSION_GATE.
 
-SALience_EVALUATION:
+SALIENCE_EVALUATION:
 - Estimate SALIENCE from cue intensity, novelty, consequence, linkage relevance, and emotional load.
 - Emotional arousal raises salience only when consequence or linkage exists.
 - Flashbulb treatment requires DYNAMICS_MEMORY.FLASHBULB_GATE.

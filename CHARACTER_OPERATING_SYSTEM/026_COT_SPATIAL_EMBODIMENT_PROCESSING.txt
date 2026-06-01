@@ -11,6 +11,14 @@ Is Informed By: MAP_DATA, scene geometry, STATE_BODY, STATE_ALTERATIONS, STATE_R
 
 === SECTION_BREAK ===
 
+=== SECTION: EXTERNAL_INPUT_NOTE ===
+
+MAP_DATA:
+- External narrative/substrate input, not a canonical module root.
+- Spatial feature references from MAP_DATA or scene geometry belong in JUSTIFICATION unless a canonical spatial ID namespace is later introduced.
+
+=== SECTION_BREAK ===
+
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
 [[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
@@ -118,9 +126,13 @@ IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_SPATIAL_EMBODIMENT_PROCESSING
 IMPULSE_TYPE: APPROACH | RETREAT | EXPLORE | CLAIM_SPACE | HIDE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
-TARGET_ID: spatial feature | ENT_XX | NONE
+TARGET_ID: ENT_XX | NONE
 JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+TARGET_REFERENCE_RULE:
+- TARGET_ID must be a canonical ID token or NONE per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA.
+- Spatial feature references belong in JUSTIFICATION unless a canonical spatial ID namespace is later introduced.
 
 === SECTION_BREAK ===
 

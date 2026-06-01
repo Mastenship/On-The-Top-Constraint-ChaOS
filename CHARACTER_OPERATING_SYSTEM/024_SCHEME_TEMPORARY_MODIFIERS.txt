@@ -46,6 +46,18 @@ JUSTIFICATION: STRING_DESCRIPTIVE
 
 === SECTION_BREAK ===
 
+=== SECTION: MODIFIER_TYPE_RESERVATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: BIOCHEMICAL_MODIFIER and OTHER are declared forward-compatibility modifier types but are currently reserved.
+
+RULES:
+- BIOCHEMICAL_MODIFIER and OTHER are valid MODIFIER_TYPE enum literals.
+- They are currently uncreatable because DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_REGISTRY assigns them [NONE].
+- A creation attempt using either type surfaces as MODIFIER_SCHEMA_VIOLATION with diagnostic MODIFIER_TYPE_RESERVED_NO_FAMILY.
+- Populating either family list requires constitutional update.
+
+=== SECTION_BREAK ===
+
 === SECTION: MINIMUM_CREATION_REQUIREMENTS ===
 
 REQUIRED_ON_CREATION:
@@ -70,6 +82,7 @@ ADDITIONAL_REQUIREMENTS:
 - TARGET_ID is required for record-specific or entity-specific scope and empty for DOMAIN_GLOBAL or domain-global scope.
 - EFFECT_EXPRESSION must distinguish the transient effect.
 - LAST_REFRESHED may be empty on first creation.
+- BIOCHEMICAL_MODIFIER and OTHER are currently reserved and have no lawful EFFECT_FAMILY pairing until constitutional update.
 
 === SECTION_BREAK ===
 
@@ -120,6 +133,7 @@ DYNAMICS_OWNS:
 - Temporary modifiers must not bypass baseline governance.
 - TARGET_FIELD must be a lawful MODIFIER_TARGET_FIELD_FORM.
 - EFFECT_FAMILY must be a registry token paired with MODIFIER_TYPE.
+- BIOCHEMICAL_MODIFIER and OTHER are reserved until a constitutional update assigns lawful EFFECT_FAMILY pairings.
 - MAGNITUDE must be QUALITATIVE_MAGNITUDE.
 - EXPIRY_CONDITION and JUSTIFICATION are required for creation and refresh.
 - Active modifiers must not be orphaned from registry or target path.

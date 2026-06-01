@@ -1,7 +1,7 @@
-=== SECTION: DYNAMICS_TEMPORARY_MODIFIERS ===
+=== SECTION: DYNAMICS_TEMPORAL_DYNAMICS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for modifier refresh, collision handling, stacking, expiry, removal, and the closed EFFECT_FAMILY and MECHANISM_TAG vocabularies. Treats STATE_TEMPORARY_MODIFIERS as a bounded active-overlay surface, not history.
+Immutable mechanics for circadian alignment, fatigue progression/recovery, routine effects, and subjective time distortion.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -10,222 +10,108 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Relative directives: ONE_STEP_UP, ONE_STEP_DOWN, ONE_STEP_TOWARD_BASELINE, ONE_STEP_TOWARD_NEUTRAL.
+[[LLM_INSTRUCTION]]: TIME_PERCEPTION_STATE fields are PERCEPTUAL_SNAPSHOT per SCHEME_TEMPORAL_DYNAMICS and are SET to any lawful endpoint without one-step limitation.
 
 === SECTION_BREAK ===
 
-=== SECTION: EFFECT_FAMILY_REGISTRY ===
+=== SECTION: CIRCADIAN_CYCLE ===
 
-[[LLM_INSTRUCTION]]: EFFECT_FAMILY is a closed token set. Each token is lawful only with its paired MODIFIER_TYPE. A token outside this registry, or paired with a non-listed MODIFIER_TYPE, surfaces as MODIFIER_SCHEMA_VIOLATION.
+ON_TIME_OF_DAY_CUES:
+- Align alertness overlays with chronotype and peak windows.
+- Prefer ADD_MODIFIER for short-horizon performance modulation.
+- Chronotype and peak-window baselines remain stable after instantiation unless override proof is complete.
 
-PERFORMANCE_MODIFIER:
-- PEAK_ALERTNESS
-- FATIGUE_PENALTY
-- UNDER_AROUSAL_DAMPENING
-- FLOW_ENHANCEMENT
-- OVERACTIVATION_CHOKING
-- GROSS_MOTOR_BIAS
-- ALTERATION_SKILL_ENHANCEMENT
-- ALTERATION_SKILL_DEGRADATION
+ON_SLEEP_RECOVERY_EVENT:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
+  PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
+  JUSTIFICATION: sleep recovery cue
 
-COGNITIVE_MODIFIER:
-- COGNITIVE_OVERLOAD
-- COGNITIVE_LOAD_INTERFERENCE
-- BELIEF_DISSONANCE
-- WORLDVIEW_DEFENSE
-- REALITY_CONTACT_DEGRADATION
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+  PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
+  JUSTIFICATION: debt recovery cue
 
-PSYCHOLOGICAL_MODIFIER:
-- HYPERVIGILANCE
-- RELAXATION_OPENNESS
-- DISORIENTATION
-- GUT_FEELING
-- SUBCONSCIOUS_BIAS
-- CHRONIC_LOAD_NUMBING
-- GOAL_CONFLICT_PRESSURE
-- ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION
-- ALTERATION_REJECTION_STRESS
-
-COMMUNICATION_MODIFIER:
-- DECEPTION_LEAKAGE_CONTROL
-- MASKING_LOAD
-- EMOTIONAL_LEAKAGE
-- FATIGUE_DELIVERY_DEGRADATION
-- COMMUNICATION_COMPLEXITY_COMPRESSION
-- COMMUNICATION_GUARDEDNESS
-- SPEECH_RATE_PRESSURE
-
-RELATIONAL_MODIFIER:
-- ALLY_PROXIMITY_COMFORT
-- RELATIONAL_FRICTION_AMPLIFICATION
-
-ENVIRONMENTAL_MODIFIER:
-- ENVIRONMENTAL_EXECUTION_CONTEXT
-
-BIOCHEMICAL_MODIFIER:
-- [NONE]
-
-OTHER:
-- [NONE]
-
-RESERVED_TYPE_RULE:
-[[LLM_INSTRUCTION]]: BIOCHEMICAL_MODIFIER and OTHER are RESERVED modifier types per CANONICAL_TOKEN_DICTIONARY.RUNNABLE_BUT_LIFTABLE_RESERVATIONS and SCHEME_TEMPORARY_MODIFIERS.MODIFIER_TYPE_RESERVATION_NOTE.
-- Their family lists are [NONE]; no EFFECT_FAMILY pairing is presently lawful for them.
-- A creation attempt using either type surfaces as MODIFIER_SCHEMA_VIOLATION with diagnostic MODIFIER_TYPE_RESERVED_NO_FAMILY.
-- Populating either list requires a constitutional update; until then these types are declared-but-suppressed forward-compatibility surfaces.
-
-REGISTRY_RULES:
-- Additions require constitutional update.
-- EFFECT_FAMILY equality in MATCH_KEY_TUPLE is exact token equality against this registry.
-- Semantically adjacent effects with distinct registry tokens are materially different families and do not collide.
+RECOVERY_GATE:
+- Requires explicit rest, sleep, treatment, or recovery cue.
+- Brief pause without recovery may justify overlay stabilization, not fatigue baseline reduction.
 
 === SECTION_BREAK ===
 
-=== SECTION: MECHANISM_TAG_POLICY ===
+=== SECTION: FATIGUE_PROGRESSION ===
 
-[[LLM_INSTRUCTION]]: MECHANISM_TAG is a UPPER_SNAKE canonical short token naming the generating mechanism. It participates in MATCH_KEY_TUPLE as exact token equality.
+ON_TIME_PASSAGE_WITHOUT_REST:
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: time passage without rest
 
-RULES:
-- MECHANISM_TAG is COT-supplied and domain-canonical, aligned to the generating DYNAMICS pattern.
-- MECHANISM_TAG carries no free narrative; descriptive content belongs in EFFECT_EXPRESSION or JUSTIFICATION.
-- Distinct MECHANISM_TAG tokens are materially different for collision purposes even under the same EFFECT_FAMILY.
+- PROPOSE TRANSITION:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+  PROPOSED_VALUE: ONE_STEP_UP
+  JUSTIFICATION: sleep debt accumulation
 
-=== SECTION_BREAK ===
+FATIGUE_DEBT_COUPLING_NOTE:
+[[LLM_INSTRUCTION]]: When both fatigue transitions above fire one step upward under the same time-passage event, they form the FATIGUE_DEBT coupled set and count as one cumulative step per STATE_GOVERNANCE_OVERLAY.COUPLED_MOVEMENT_REGISTRY and SCHEME_TEMPORAL_DYNAMICS.FATIGUE_COUPLING_NOTE. The same coupling applies to the paired toward-baseline recovery in ON_SLEEP_RECOVERY_EVENT when both move one step in the same direction under one recovery event.
 
-=== SECTION: ACTIVE_SURFACE_MODEL ===
+ON_STRESS_OR_EXERTION:
+- Additional fatigue may be one lawful extra step when governance permits, or a temporary modifier when transient.
+- Multi-step increase requires override proof.
 
-ACTIVE_SURFACE_RULES:
-- Temporary modifiers are active transient overlays, not historical records.
-- Expired or removed modifiers leave the active surface.
-- Lifecycle closure belongs in governance audit and trace.
-- Active modifiers modulate targets; they do not mutate target baselines.
-
-=== SECTION_BREAK ===
-
-=== SECTION: MATCH_KEY_TUPLE ===
-
-[[LLM_INSTRUCTION]]: Material sameness requires exact match on all tuple components.
-
-MATCH_KEY_TUPLE_COMPONENTS:
-- MODIFIER_TYPE
-- MECHANISM_TAG
-- TARGET_FIELD
-- TARGET_ID (NONE compares as NONE)
-- EFFECT_FAMILY
-
-EFFECT_FAMILY_RULE:
-- EFFECT_FAMILY is a closed registry token per EFFECT_FAMILY_REGISTRY.
-- Same EFFECT_FAMILY with different EFFECT_EXPRESSION is materially same only when all tuple components match.
-- Same EFFECT_EXPRESSION with different EFFECT_FAMILY is materially different.
-
-TARGET_FIELD_RULE:
-- TARGET_FIELD compares by canonical form per CANONICAL_TOKEN_DICTIONARY.MODIFIER_TARGET_FIELD_FORMS.
-- A canonical path and a DOMAIN_GLOBAL scope never compare as equal.
-
-MATERIAL_SAMENESS_OUTCOME:
-- All components match: refresh-or-replace pathway.
-- Any component differs: coexistence pathway.
+ON_SECOND_WIND_OR_STIMULANT:
+- Prefer ADD_MODIFIER for temporary reversal or performance sustain.
+- Baseline fatigue and sleep debt remain bounded unless override proof is complete.
+- Second wind does not erase sleep debt.
 
 === SECTION_BREAK ===
 
-=== SECTION: REFRESH_AND_COLLISION ===
+=== SECTION: ROUTINE_EFFECTS ===
 
-DETERMINISTIC_RESOLUTION_ORDER:
-1) Search active modifiers for MATCH_KEY_TUPLE collision.
-2) If no collision: create new MOD_XX only when coexistence is lawful.
-3) If materially same and STACKING_RULE = REPLACE: replace existing in place using same MOD_XX.
-4) If materially same and STACKING_RULE is not REPLACE: refresh existing in place using same MOD_XX.
-5) If materially different on same target: create new only if coexistence is lawful and bounded; otherwise suppress.
+ON_ROUTINE_ADHERENCE:
+- Prefer temporary comfort overlays and routine-pull impulses.
 
-IN_PLACE_RULE:
-- REFRESH_EXISTING and REPLACE_EXISTING do not create a new MOD_XX.
-- Registry remains unchanged.
-- LAST_REFRESHED updates.
-- CREATED_TIMESTAMP is preserved.
+ON_ROUTINE_DISRUPTION:
+- Prefer ADD_MODIFIER for disorientation or stress.
+- SET routine fields only when evidence persists beyond transient disruption.
 
-=== SECTION_BREAK ===
-
-=== SECTION: STACKING_AND_CAP_BEHAVIOR ===
-
-STACKING_RULE_INTERPRETATION:
-- STACK: bounded concurrent overlays when materially different.
-- REPLACE: newer materially same payload supersedes existing in place.
-- CAP: aggregate effect cannot exceed qualitative ceiling.
-- MULTIPLY: rare; requires explicit bounded justification.
-
-COEXISTENCE_RULE:
-- Concurrent modifiers require material difference, target compatibility, and governance cap compliance.
-- Same-family pressure on same target normally refreshes or replaces.
-- Multiple modifiers must not simulate permanent baseline change without lawful persistent proposal.
-
-CAP_BEHAVIOR:
-- CAP limits aggregate modifier effect.
-- CAP does not mutate target baseline.
-- CAP outcomes must be audit- or trace-visible.
+ON_DEADLINE_APPROACH:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][TIME_PRESSURE_PERCEPTION]
+  PROPOSED_VALUE: HIGH_URGENCY
+  JUSTIFICATION: explicit deadline cue
+- TIME_PRESSURE_PERCEPTION is PERCEPTUAL_SNAPSHOT; SET straight to HIGH_URGENCY is lawful in one cycle and is not a STEP_LIMIT_EXCEEDED breach.
 
 === SECTION_BREAK ===
 
-=== SECTION: EXPIRY_TRANSITIONS ===
+=== SECTION: TIME_PERCEPTION_DISTORTION ===
 
-ON_EXPIRY_CONDITION_MET:
-- Propose REMOVE_MODIFIER.
-- Justification: expiry condition satisfied.
+ON_HIGH_AROUSAL:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW]
+  PROPOSED_VALUE: TIME_FLIES
+  JUSTIFICATION: arousal distortion cue
 
-ON_SCENE_CLOSURE:
-- Remove SCENE-duration modifiers unless refreshed.
+ON_BOREDOM_OR_FATIGUE:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_TEMPORAL_DYNAMICS][TIME_PERCEPTION_STATE][SUBJECTIVE_TIME_FLOW]
+  PROPOSED_VALUE: TIME_DRAGS
+  JUSTIFICATION: low-engagement or fatigue cue
 
-ON_UNTIL_CONDITION_RESOLUTION:
-- Remove UNTIL_CONDITION modifiers when named condition no longer applies.
-
-ON_FIXED_CYCLE_LAPSE:
-- Remove FIXED_CYCLES modifiers when cycle bound is exhausted.
-
-ON_PERSISTENT_UNTIL_REFRESH_STALE:
-- Refresh only if originating condition remains active.
-- Otherwise propose REMOVE_MODIFIER.
-
-EXPIRY_RESULT:
-- Active influence ends.
-- Persistent retention inside STATE_TEMPORARY_MODIFIERS is not required.
-
-=== SECTION_BREAK ===
-
-=== SECTION: REMOVE_MODIFIER_BEHAVIOR ===
-
-ON_REMOVE_MODIFIER_PROPOSAL:
-- Remove targeted modifier record.
-- Remove corresponding MOD_XX from MODIFIER_REGISTRY.
-- Preserve lifecycle closure in governance audit and trace.
-
-=== SECTION_BREAK ===
-
-=== SECTION: VERIFICATION_HANDOFF ===
-
-[[LLM_INSTRUCTION]]: COT_UPDATE_VERIFICATION.VERIFICATION_CHECKLIST item 15) MODIFIER_LIFECYCLE inspects these outcomes.
-
-VIOLATION_SUB_CODES:
-- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS
-- MODIFIER_COEXISTENCE_UNLAWFUL
-- MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE
-- MODIFIER_REMOVE_REGISTRY_INCOHERENCE
-- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
-
-SUB_CODE_QUARANTINE_INHERITANCE:
-[[LLM_INSTRUCTION]]: Each sub-code above inherits the QUARANTINE_NEXT_CYCLE class of the umbrella MODIFIER_LIFECYCLE_VIOLATION per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP.
-- A FAIL whose dominant violation is any of these five engages quarantine exactly as MODIFIER_LIFECYCLE_VIOLATION would.
-- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE in particular must engage quarantine; it is the covert-baseline-rewrite failure this subsystem exists to prevent.
+PERSISTENCE_NOTE:
+- Use SET for cycle-relevant time-perception state; PERCEPTUAL_SNAPSHOT fields carry no durable identity meaning.
+- Use modifiers for momentary delivery effects.
 
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- Temporary modifiers absorb short-horizon situational effects.
-- Material sameness is exclusively MATCH_KEY_TUPLE.
-- EFFECT_FAMILY and MECHANISM_TAG are closed canonical vocabularies.
-- Reserved modifier types have no lawful family until constitutional update.
-- Refresh/replacement prefer in-place mutation when lawful.
-- Removal and expiry clear obsolete active modifiers.
-- Modifier lifecycle sub-codes inherit umbrella quarantine class.
-- Modifiers must not bypass canonical state governance.
+- Temporal drift resolves to TRANSITION directives or explicit SET endpoints.
+- Time-perception PERCEPTUAL_SNAPSHOT fields are SET without one-step limitation.
+- Fatigue and sleep-debt co-movement counts as one cumulative step per FATIGUE_DEBT_COUPLING_NOTE.
+- Short-horizon distortions prefer modifiers.
+- Fatigue and sleep debt remain one-step bounded per field unless override proof is complete.
+- Second wind and stimulant effects must not rewrite fatigue baseline.
 
 === SECTION_BREAK ===
 

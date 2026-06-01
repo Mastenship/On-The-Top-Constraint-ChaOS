@@ -39,6 +39,12 @@ ID_STYLE:
 [[LLM_INSTRUCTION]]: Roots outside CANONICAL_MODULE_ROOTS are rejected with INVALID_PATH_ROOT or LEGACY_ROOT_FORBIDDEN.
 [[LLM_INSTRUCTION]]: Canonical recognition is not the same as write-eligibility. A root may be canonical for identity reference yet forbidden as a persistent write TARGET_MODULE. See WRITE_ELIGIBILITY.
 
+CANONICAL_MODULE_ROOTS_SCOPE:
+- CANONICAL_MODULE_ROOTS governs bracket-path recognition.
+- It is not the complete session module manifest.
+- A loaded module may have MODULE_ID identity without being a lawful bracket-path root.
+- TABLE_OF_CONTENTS, ATTENTION_ENGINEERING_PRINCIPLE, and CANONICAL_TOKEN_DICTIONARY may be loaded governance artifacts without being persistent write TARGET_MODULE roots.
+
 CANONICAL_MODULE_ROOTS:
 - STATE_ALTERATIONS
 - STATE_BODY
@@ -251,6 +257,12 @@ ORDINAL_DECLARATION_RULE:
 - ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL resolve toward BASELINE_ANCHOR.
 - A field may declare OFF_LADDER <member>; an off-ladder member is reached only by SET, never by relative transition.
 - A field treated as ordinal by any DYNAMICS module without an ORDINAL declaration in its owning SCHEME surfaces as SCHEME_INVARIANT_VIOLATION.
+
+NO_BASELINE_DRIFT_MARKER:
+- A SCHEME ordinal field may declare NO_BASELINE_DRIFT inline.
+- ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL are unlawful on that field.
+- Movement must use explicit lawful TRANSITION or SET mechanics declared by the owning DYNAMICS module.
+- BASELINE_ANCHOR may still be declared for ladder formality but is not a drift target.
 
 CATEGORICAL_DECLARATION_RULE:
 - A field declared ENUM without ORDINAL is categorical.

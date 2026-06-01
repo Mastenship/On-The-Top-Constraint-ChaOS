@@ -67,6 +67,12 @@ BIOCHEMICAL_MODIFIER:
 OTHER:
 - [NONE]
 
+RESERVED_TYPE_RULE:
+[[LLM_INSTRUCTION]]: BIOCHEMICAL_MODIFIER and OTHER are RESERVED modifier types per CANONICAL_TOKEN_DICTIONARY.RUNNABLE_BUT_LIFTABLE_RESERVATIONS and SCHEME_TEMPORARY_MODIFIERS.MODIFIER_TYPE_RESERVATION_NOTE.
+- Their family lists are [NONE]; no EFFECT_FAMILY pairing is presently lawful for them.
+- A creation attempt using either type surfaces as MODIFIER_SCHEMA_VIOLATION with diagnostic MODIFIER_TYPE_RESERVED_NO_FAMILY.
+- Populating either list requires a constitutional update; until then these types are declared-but-suppressed forward-compatibility surfaces.
+
 REGISTRY_RULES:
 - Additions require constitutional update.
 - EFFECT_FAMILY equality in MATCH_KEY_TUPLE is exact token equality against this registry.
@@ -203,6 +209,11 @@ VIOLATION_SUB_CODES:
 - MODIFIER_REMOVE_REGISTRY_INCOHERENCE
 - MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
 
+SUB_CODE_QUARANTINE_INHERITANCE:
+[[LLM_INSTRUCTION]]: Each sub-code above inherits the QUARANTINE_NEXT_CYCLE class of the umbrella MODIFIER_LIFECYCLE_VIOLATION per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP.
+- A FAIL whose dominant violation is any of these five engages quarantine exactly as MODIFIER_LIFECYCLE_VIOLATION would.
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE in particular must engage quarantine; it is the covert-baseline-rewrite failure this subsystem exists to prevent.
+
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
@@ -210,8 +221,10 @@ VIOLATION_SUB_CODES:
 - Temporary modifiers absorb short-horizon situational effects.
 - Material sameness is exclusively MATCH_KEY_TUPLE.
 - EFFECT_FAMILY and MECHANISM_TAG are closed canonical vocabularies.
+- Reserved modifier types have no lawful family until constitutional update.
 - Refresh/replacement prefer in-place mutation when lawful.
 - Removal and expiry clear obsolete active modifiers.
+- Modifier lifecycle sub-codes inherit umbrella quarantine class.
 - Modifiers must not bypass canonical state governance.
 
 === SECTION_BREAK ===

@@ -30,6 +30,36 @@ PROXEMICS_PREFERENCE: ENUM [DISTANT, STANDARD, CLOSE, INTIMATE]
 
 === SECTION_BREAK ===
 
+=== SECTION: COMMUNICATION_FIELD_TRANSITION_MAPS ===
+
+[[LLM_INSTRUCTION]]: Communication fields are categorical ENUM fields with SCHEME-declared transition maps for persistence-triggered adjacent baseline shifts. Relative transition directives remain unlawful unless a field is later declared ORDINAL. Persistence-triggered movement uses SET to the adjacent endpoint named by the relevant map.
+
+VERBAL_FIELD_ORDERS:
+- VERBOSITY_LEVEL_ORDER: CONCISE < MODERATE < VERBOSE < RAMBLING
+- SPEECH_RATE_ORDER: SLOW < MODERATE < FAST < RAPID
+- COMPLEXITY_LEVEL_ORDER: SIMPLE < MODERATE < COMPLEX < ELABORATE
+- DIRECTNESS_LEVEL_ORDER: INDIRECT < MODERATE < DIRECT < BLUNT
+- EMOTIONAL_EXPRESSIVENESS_ORDER: RESTRAINED < MODERATE < OPEN < DRAMATIC
+- IDIOM_USE_ORDER: LOW < MODERATE < HIGH
+
+NON_VERBAL_FIELD_ORDERS:
+- EYE_CONTACT_ORDER: AVOIDANT < INTERMITTENT < STEADY < INTENSE
+- GESTURE_FREQUENCY_ORDER: MINIMAL < MODERATE < ANIMATED < EXCESSIVE
+- POSTURE_ORDER: CLOSED < NEUTRAL < OPEN < DOMINANT
+- FACIAL_EXPRESSIVENESS_ORDER: MASKED < NEUTRAL < SUBTLE < EXAGGERATED
+- PROXEMICS_PREFERENCE_ORDER: DISTANT < STANDARD < CLOSE < INTIMATE
+
+CATEGORICAL_ADAPTATION_FIELDS:
+- VOCABULARY_STYLE
+- POLITENESS_STRATEGY
+
+CATEGORICAL_ADAPTATION_RULE:
+- VOCABULARY_STYLE and POLITENESS_STRATEGY have no universal adjacency ladder.
+- Durable shifts on these fields require SET to explicit lawful endpoint with cue support and DYNAMICS_COMMUNICATION_DIALOGUE persistence evidence.
+- If adjacency is needed for these fields in a future revision, add a field-specific transition map by constitutional update.
+
+=== SECTION_BREAK ===
+
 === SECTION: TRANSIENT_MODULATION_NOTE ===
 
 [[LLM_INSTRUCTION]]: This scheme defines stable communication identity only.
@@ -41,6 +71,8 @@ PROXEMICS_PREFERENCE: ENUM [DISTANT, STANDARD, CLOSE, INTIMATE]
 === SECTION: INVARIANTS ===
 
 - Stable communication identity fields shift slowly unless override proof or persistence-cluster conditions apply per DYNAMICS_COMMUNICATION_DIALOGUE.
+- Persistence-triggered adjacent baseline shifts on mapped fields follow COMMUNICATION_FIELD_TRANSITION_MAPS.
+- VOCABULARY_STYLE and POLITENESS_STRATEGY require explicit SET endpoint support unless a future transition map is declared.
 - DIRECTNESS_LEVEL and POLITENESS_STRATEGY should remain culturally coherent.
 - Transient modulation must not bypass the modifier surface to inject persistent identity changes.
 

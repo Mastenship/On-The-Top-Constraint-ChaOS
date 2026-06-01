@@ -68,7 +68,10 @@ FORBIDDEN_WRITES:
 - Distinguish lawful CASCADE_TRACE append by character cognition from unlawful read-back per SCHEME_SCRATCHPAD.CASCADE_TRACE_ACCESS_ASYMMETRY_NOTE; only read-back is READ_BOUNDARY_VIOLATION.
 
 12) TRACE_COMPLETENESS
-- Verify exactly one trace per priority slot for PRIORITY_01 through PRIORITY_16 plus this verifier's own PRIORITY_17 self-emit; empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace. Do not verify PRIORITY_18 of the current cycle here.
+- Verify existing traces for PRIORITY_01 through PRIORITY_16 in the current cycle.
+- Confirm COT_UPDATE_VERIFICATION will append exactly one PRIORITY_17 trace before post-verification handoff.
+- Empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace.
+- Do not verify PRIORITY_18 of the current cycle here.
 - PRIOR_CYCLE_POST_VERIFICATION_TRACE: verify the immediately prior cycle emitted a STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace before scratchpad wipe. Absence surfaces as POST_VERIFICATION_TRACE_MISSING (WARN). This is the standing evaluator for the PRIORITY_18 trace per STATE_GOVERNANCE_AND_COMMIT.NEXT_CYCLE_VERIFICATION_NOTE. Skip this sub-check on the first cycle after instantiation when no prior cycle exists.
 
 13) SELECTED_ACTION
@@ -180,6 +183,7 @@ NOTES:
 - WARNINGS: reason codes with brief context or NONE
 - SCHEME_COMPLIANCE_SUMMARY:
 - OPERATION_SEMANTICS_SUMMARY:
+- TRACE_COMPLETENESS_SUMMARY:
 - POST_VERIFICATION_HANDOFF: verifier proposals await same-cycle post-verification commit
 
 === SECTION_BREAK ===
