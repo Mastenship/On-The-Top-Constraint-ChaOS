@@ -304,7 +304,7 @@ PROCEDURE:
   - impulses (if any) go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
   - trace goes to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
 
-2) Use the standard PROPOSAL_ENTRY_SCHEMA:
+2) Use the standard PROPOSAL_ENTRY_SCHEMA (minimal/base form):
 - PROPOSAL_ID
 - SOURCE_COT
 - TARGET_MODULE
@@ -315,6 +315,14 @@ PROCEDURE:
 - MECHANISM_TAG
 - JUSTIFICATION
 - NOTES (optional)
+
+2B) EXTENDED SCHEMA WHEN EPI IS ACTIVE (POV-bounded machines):
+- If the EPISTEMIC_STATUS_TAGGING extension is active, the proposal schema is the EXTENDED form and additionally requires:
+  - EPISTEMIC_TAG (closed enum: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST)
+  - JUSTIFICATION_CATEGORY
+  - EVIDENCE_REF (conditionally required when EPISTEMIC_TAG = COMMITTED_FACT)
+  - INVOKED_RULE_NAME + NARRATIVE_CUE_REFERENCE + SCHEME_INVARIANT_NOTE (conditionally required at override gates)
+- Do not ship the minimal schema for a POV-bounded machine. Under-building the proposal schema silently disables epistemic governance, because intake and verification have no tag to check.
 
 3) Keep COT logic qualitative and bounded:
 - prefer enums/ordinals over free numeric updates
@@ -337,6 +345,7 @@ HUMAN_CHECK:
 - All proposals use canonical TARGET_FIELD paths.
 - Each COT has a trace entry schema.
 - No COT assumes direct in-model numeric analytics as commit authority.
+- If the machine is POV-bounded, confirm the EXTENDED proposal schema (with EPISTEMIC_TAG and JUSTIFICATION_CATEGORY) is used, not the minimal schema.
 
 === SECTION_BREAK ===
 
@@ -350,9 +359,24 @@ PROCEDURE:
 - add new COTs to execution priority order
 - ensure governance and verification remain last
 
-2) Confirm conflict policy is present:
-- precedence order (VETO > TRANSITION > SET > ADD_MODIFIER ...)
-- tie-breakers (strength, priority, specificity, conservative fallback, invariants first)
+2) Confirm conflict policy is present and deterministic. Precedence is PROPERTY-BASED, not operation-type-based:
+- CANONICAL PRECEDENCE ORDER (applied before any write):
+  1) SCHEME invariant preservation
+  2) canonical path and operation validity
+  3) complete override proof
+  4) COMMITTED_FACT with resolvable evidence reference
+  5) higher STRENGTH
+  6) more specific TARGET_FIELD
+  7) earlier source execution priority
+  8) conservative no-change or downgrade
+- TIE-BREAKERS (applied in order, only after the precedence order does not resolve):
+  - prefer deterministic bounded downgrade over suppression
+  - prefer temporary modifier over durable baseline mutation for short-horizon effects
+  - prefer existing-record update over new record creation when lawful
+  - prefer in-place modifier refresh/replacement over new record when materially same
+  - if still tied, suppress the less-evidenced proposal
+- VETO is a SUPPRESSION POLICY applied within this ordering, not a precedence rank.
+- OPERATION TYPE DOES NOT DETERMINE PRECEDENCE. A common error is to rank operations (e.g., "VETO > TRANSITION > SET > ADD_MODIFIER"). This is NOT the OTTC conflict model. Two proposals of the same operation type are resolved by the property-based order above; two proposals of different operation types are also resolved by it. Operation type only governs WHAT a lawful mutation does, never WHICH proposal wins a conflict.
 
 3) Confirm deterministic governance boundary:
 - identify which checks execute in-model vs external deterministic layer
@@ -364,8 +388,9 @@ OUTPUT_ARTIFACTS:
 - GOVERNANCE_BOUNDARY_MAP (recommended)
 
 HUMAN_CHECK:
-- Single writer remains: STATE_GOVERNANCE_AND_COMMIT.
+- Single writer remains the designated commit authority (e.g., STATE_GOVERNANCE_AND_COMMIT).
 - Deterministic ordering exists even if some COTs are optional.
+- Conflict precedence is property-based; no operation-type precedence ladder is present.
 - External deterministic checks are mapped where risk requires.
 
 === SECTION_BREAK ===
@@ -409,6 +434,7 @@ PROCEDURE:
 - canonical style unchanged: YES/NO
 - step limits unchanged: YES/NO
 - audit closure unchanged: YES/NO
+- conflict precedence property-based (no operation-type ladder): YES/NO
 - assay-first gate enforced: YES/NO
 
 2) Maintain a qualification integrity rollup:
@@ -430,7 +456,7 @@ PROCEDURE:
 - always rerun regression after build changes
 
 HUMAN_CHECK:
-- Watch for architectural drift: new write surfaces, “helpful” shortcuts, implicit commits, synonym creep, or skipped assay gates.
+- Watch for architectural drift: new write surfaces, “helpful” shortcuts, implicit commits, synonym creep, operation-type precedence creep, or skipped assay gates.
 
 === SECTION_BREAK ===
 
@@ -442,8 +468,8 @@ HUMAN_CHECK:
 - [ ] STEP_02 GO decision explicitly recorded
 - [ ] STEP_03 ontology surface defined
 - [ ] STEP_04 laws defined (including canonicalization rules when needed)
-- [ ] STEP_05 COT proposers defined (no direct writes)
-- [ ] STEP_06 deterministic cascade/commit order set + governance boundary mapped
+- [ ] STEP_05 COT proposers defined (no direct writes; extended schema if POV-bounded)
+- [ ] STEP_06 deterministic cascade/commit order set + property-based conflict precedence + governance boundary mapped
 - [ ] STEP_07 post-build retest passed (labeled regression)
 - [ ] STEP_08 kernel lock + iteration safeguards updated
 
