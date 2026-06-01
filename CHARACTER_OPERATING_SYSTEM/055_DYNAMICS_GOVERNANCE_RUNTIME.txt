@@ -11,6 +11,7 @@ READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
 [[LLM_INSTRUCTION]]: Governance-runtime updates use SET only. QUARANTINE_REASON_CODES cap behavior is intrinsic to its SET operation.
+[[LLM_INSTRUCTION]]: The only lawful empty-list value is [NONE] per CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 
 === SECTION_BREAK ===
 
@@ -64,13 +65,20 @@ ON_VERIFICATION_PASS_CLEAN:
 - If QUARANTINE_MODE is TRUE and verification result is PASS:
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] = FALSE
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
-  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = empty list
+  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
   - JUSTIFICATION: verification passed clean
 
 ON_GOVERNANCE_CORRECTIVE_RESOLUTION:
 - If current-cycle GOVERNANCE_CORRECTIVE structurally resolves active quarantine root cause:
-  - same three SET proposals as ON_VERIFICATION_PASS_CLEAN
+  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] = FALSE
+  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
+  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
   - JUSTIFICATION: governance-corrective root cause resolved
+
+SAME_CYCLE_GUARD:
+- This path must not clear quarantine in the same cycle it was engaged.
+- If QUARANTINE_ENGAGED_CYCLE_ID equals the current commit cycle id, clear is deferred and quarantine persists for at least one full corrective cycle per STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.SCOPE_DECLARATION.
+- Clear via this path is lawful only when QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle.
 
 === SECTION_BREAK ===
 
@@ -81,7 +89,7 @@ ON_NORMAL_CYCLE:
 - Ordinary runtime behavior does not modify this field.
 
 ON_LIFT_EVENT:
-- RESERVED. Current substrate suppresses lift-hook activation with ROLLBACK_NOT_ACTIVE.
+- RESERVED. Current substrate suppresses lift-hook activation with LIFT_HOOK_NOT_ACTIVE.
 - If external governance becomes active, SET to EXTERNAL_GOVERNANCE_ACTIVE becomes lawful.
 
 === SECTION_BREAK ===

@@ -44,6 +44,17 @@ SELECTION_POLICY:
 
 === SECTION_BREAK ===
 
+=== SECTION: CONFLICT_SIGNAL_WRITE ===
+
+[[LLM_INSTRUCTION]]: SELECTED_ACTION.CONFLICT_FLAG is the canonical conflict signal per SCHEME_SCRATCHPAD.CONFLICT_SIGNAL_AUTHORITY.
+
+RULES:
+- Set SELECTED_ACTION.CONFLICT_FLAG from arbitration outcome.
+- Write [TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] equal to SELECTED_ACTION.CONFLICT_FLAG.
+- Divergence between the two surfaces as OUTPUT_INCONGRUENCE at verification.
+
+=== SECTION_BREAK ===
+
 === SECTION: EMPTY_IMPULSE_FALLBACK ===
 
 ON_EMPTY_IMPULSE_REGISTRY:
@@ -81,7 +92,7 @@ TRACE_MUST_INCLUDE:
 - selected ACTION_TYPE
 - CONFIDENCE
 - EMPTY_IMPULSE_FALLBACK YES/NO
-- conflict state
+- conflict state with CONFLICT_DETECTED mirror confirmation
 - feasibility filters
 - weighting rationale summary
 - PROPOSED_UPDATES_COUNT: 0

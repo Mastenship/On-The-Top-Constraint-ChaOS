@@ -1,7 +1,7 @@
 === SECTION: SCHEME_SKILLS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of skills state. Defines domains, skill record schema, ordinals, registry rules, and invariants.
+Immutable structural definition of skills state. Defines domains, skill record schema, ordinal ladders, instinct-mastery coupling, registry rules, and invariants.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -23,21 +23,32 @@ SURVIVAL
 
 === SECTION: SKILL_RECORD_SCHEMA ===
 
+[[LLM_INSTRUCTION]]: Ordinal fields per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
+
 SKILL_ID: ID_TOKEN (SKL_XX)
 SKILL_NAME: STRING_DESCRIPTIVE
 SKILL_DOMAIN: ENUM per SKILL_DOMAINS
 MASTERY_LEVEL: ORDINAL [NOVICE, COMPETENT, EXPERT, MASTER]
 INSTINCT_LEVEL: ORDINAL [CONSCIOUS, PRACTICED, INSTINCTIVE]
-GROWTH_POTENTIAL: ORDINAL [HIGH, MEDIUM, LOW, PLATEAUED]
+GROWTH_POTENTIAL: ORDINAL [PLATEAUED, LOW, MEDIUM, HIGH] BASELINE_ANCHOR MEDIUM
 UNIQUENESS_LEVEL: ORDINAL [COMMON, UNCOMMON, RARE, UNIQUE]
 ACQUISITION_CONTEXT: STRING_DESCRIPTIVE
 ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
 
-ORDINALS:
-MASTERY_LEVEL_ORDER: NOVICE < COMPETENT < EXPERT < MASTER
-INSTINCT_LEVEL_ORDER: CONSCIOUS < PRACTICED < INSTINCTIVE
-GROWTH_POTENTIAL_ORDER: PLATEAUED < LOW < MEDIUM < HIGH
-UNIQUENESS_LEVEL_ORDER: COMMON < UNCOMMON < RARE < UNIQUE
+=== SECTION_BREAK ===
+
+=== SECTION: INSTINCT_MASTERY_COUPLING ===
+
+[[LLM_INSTRUCTION]]: INSTINCT_LEVEL is bounded by MASTERY_LEVEL through explicit rank thresholds, not raw cross-scale position.
+
+COUPLING_RULE:
+- CONSCIOUS: lawful at any MASTERY_LEVEL.
+- PRACTICED: lawful only when MASTERY_LEVEL is COMPETENT, EXPERT, or MASTER.
+- INSTINCTIVE: lawful only when MASTERY_LEVEL is EXPERT or MASTER.
+
+ENFORCEMENT:
+- INSTINCT_LEVEL exceeding its MASTERY_LEVEL threshold surfaces as SCHEME_INVARIANT_VIOLATION.
+- An INSTINCT_LEVEL increase that would violate the coupling is suppressed or downgraded by governance.
 
 === SECTION_BREAK ===
 
@@ -54,7 +65,7 @@ UNIQUENESS_LEVEL_ORDER: COMMON < UNCOMMON < RARE < UNIQUE
 === SECTION: INVARIANTS ===
 
 - All ordinal fields obey one-step transitions unless override proof is valid.
-- INSTINCT_LEVEL must not exceed MASTERY_LEVEL.
+- INSTINCT_LEVEL must satisfy INSTINCT_MASTERY_COUPLING.
 - GROWTH_POTENTIAL cannot remain HIGH when MASTERY_LEVEL is MASTER.
 - UNIQUENESS_LEVEL changes require explicit evidence and justification.
 

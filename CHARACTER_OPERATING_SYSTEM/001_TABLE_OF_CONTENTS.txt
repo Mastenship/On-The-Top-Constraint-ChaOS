@@ -3,15 +3,36 @@
 [KEEP: Purpose & Role]
 Canonical session anchor and load order for ChaOS. Runtime priority and commit semantics live in UPDATE_CASCADE_REGISTRY, STATE_GOVERNANCE_OVERLAY, STATE_GOVERNANCE_AND_COMMIT, and COT_UPDATE_VERIFICATION.
 
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
 [KEEP: Relationship to Other Modules]
 Informs: session-load operations.
 Is Informed By: Nothing.
 
 === SECTION_BREAK ===
 
+=== SECTION: FILE_MANIFEST ===
+
+[[LLM_INSTRUCTION]]: MODULE_ID is the stable canonical key. LOAD_ORDINAL is a presentational load attribute only. Identity references use MODULE_ID; load operations use LOAD_ORDINAL. The ordinal range is non-contiguous by declaration.
+
+CANONICAL_FILE_COUNT: 70
+LAST_LOAD_ORDINAL: 069
+ORDINAL_CONTINUITY: NON_CONTIGUOUS
+LAWFUL_NON_NUMERIC_ORDINALS:
+- 002A
+
+MANIFEST_RULES:
+- CANONICAL_FILE_COUNT is the authoritative module total.
+- LAST_LOAD_ORDINAL is the final load position and is not the file count.
+- A gap or suffixed ordinal is lawful when declared in LAWFUL_NON_NUMERIC_ORDINALS or implied by NON_CONTIGUOUS continuity.
+- Tooling reads CANONICAL_FILE_COUNT for totals and MODULE_ID for identity; it must not infer either from LAST_LOAD_ORDINAL.
+- Every MODULE_ID with a CANONICAL_MODULE_ROOTS counterpart must match CANONICAL_TOKEN_DICTIONARY.CANONICAL_MODULE_ROOTS exactly.
+
+=== SECTION_BREAK ===
+
 === SECTION: SESSION_LOAD_ORDER ===
 
-[[LLM_INSTRUCTION]]: Load all files below in exact order before cycle execution. File order is session load order only; runtime order is UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY. 069_COGNITIVE_SCRATCHPAD is structural at session load and re-instantiated per cycle.
+[[LLM_INSTRUCTION]]: Load all modules below in exact LOAD_ORDINAL order before cycle execution. File order is session load order only; runtime order is UPDATE_CASCADE_REGISTRY.EXECUTION_ORDER_PRIORITY. COGNITIVE_SCRATCHPAD is structural at session load and re-instantiated per cycle.
 
 CONSTITUTIONAL_LAYER:
 001_TABLE_OF_CONTENTS
@@ -102,7 +123,7 @@ VOLATILE_LAYER:
 === SECTION: LOAD_ORDER_VS_EXECUTION_ORDER ===
 
 DROP_ORDER:
-- 001 through 069, including 002A, is session load order.
+- LOAD_ORDINAL 001 through 069, including 002A, is session load order.
 - Persistent layers remain loaded across cycles.
 - Scratchpad structure is loaded once; scratchpad instance resets per cycle.
 
@@ -115,15 +136,9 @@ EXECUTION_ORDER:
 - Post-verification commit is a restricted second invocation of STATE_GOVERNANCE_AND_COMMIT, not another file or writer.
 
 VOLATILE_AND_GOVERNANCE_SIGNAL:
-- 069_COGNITIVE_SCRATCHPAD resets each cycle and is wiped after PRIORITY_18.
-- 068_STATE_GOVERNANCE_RUNTIME is the sole persistent cross-cycle governance signal.
-- Verification/quarantine updates reach 068 only through post-verification commit.
-
-=== SECTION_BREAK ===
-
-=== SECTION: VERSION_NOTE ===
-
-Canonical post-Phase-1 TOC. Total file count: 70 entries because 002A is inserted while numbering still ends at 069.
+- COGNITIVE_SCRATCHPAD resets each cycle and is wiped after PRIORITY_18.
+- STATE_GOVERNANCE_RUNTIME is the sole persistent cross-cycle governance signal.
+- Verification/quarantine updates reach STATE_GOVERNANCE_RUNTIME only through post-verification commit.
 
 === SECTION_BREAK ===
 

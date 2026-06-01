@@ -1,7 +1,7 @@
 === SECTION: STATE_GOVERNANCE_AND_COMMIT ===
 
 [KEEP: Purpose & Role]
-Single persistent-state writer. Runs twice per ordinary cycle: PRIMARY_PASS commits ordinary lawful proposals; POST_VERIFICATION_PASS commits verifier-originated STATE_GOVERNANCE_RUNTIME proposals before scratchpad wipe. Validates proposals against canonical, scheme, operation, empty-value, epistemic, evidence, override-proof, conflict, and limit contracts; commits lawful updates; records audit closure.
+Single persistent-state writer. Runs twice per ordinary cycle: PRIMARY_PASS commits ordinary lawful proposals; POST_VERIFICATION_PASS commits verifier-originated STATE_GOVERNANCE_RUNTIME proposals before scratchpad wipe. Validates proposals against canonical, scheme, operation, empty-value, epistemic, evidence, override-proof, conflict, cross-field invariant, and limit contracts; commits lawful updates; records audit closure.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -54,12 +54,12 @@ POST_VERIFICATION_PASS:
 - Scratchpad wipe occurs only after this pass completes.
 
 POST_VERIFICATION_GATE:
-Lawful post-verification proposals must satisfy:
+Lawful post-verification proposals must satisfy all:
 - SOURCE_COT: COT_UPDATE_VERIFICATION
 - TARGET_MODULE: STATE_GOVERNANCE_RUNTIME
 - INVOKED_RULE_NAME: GOVERNANCE_CORRECTIVE
 - OPERATION_TYPE: SET
-- EPISTEMIC_TAG: PERCEPTION | INFERENCE
+- EPISTEMIC_TAG: PERCEPTION or INFERENCE
 - JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 POST_VERIFICATION_LAWFUL_TARGETS:
@@ -72,6 +72,7 @@ POST_VERIFICATION_LAWFUL_TARGETS:
 POST_VERIFICATION_SUPPRESSION:
 - Non-governance-runtime target: POST_VERIFICATION_TARGET_FORBIDDEN
 - Governance-runtime proposal not emitted by COT_UPDATE_VERIFICATION during PRIORITY_17: POST_VERIFICATION_SOURCE_INVALID
+- EPISTEMIC_TAG or JUSTIFICATION_CATEGORY outside the gate: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH
 
 SINGLE_WRITER_PRESERVATION:
 - COT_UPDATE_VERIFICATION never writes persistent state directly.
@@ -104,10 +105,11 @@ STEP_02_SCHEMA_AND_EMPTY_VALUE_VALIDATION:
 STEP_03_CANONICAL_PATH_VALIDATION:
 - Validate module root, bracket path, TARGET_MODULE/TARGET_FIELD agreement, target legality, registry use, and record-stub non-instantiation.
 - Suppress with INVALID_PATH_ROOT, LEGACY_ROOT_FORBIDDEN, INVALID_TARGET_FIELD, or REGISTRY_RECORD_PAIR_VIOLATION.
+- ADD_MODIFIER outer TARGET_FIELD record-stub is lawful per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.ADD_MODIFIER_TARGET_FIELD_RULE and is not a REGISTRY_RECORD_PAIR_VIOLATION.
 
 STEP_04_SCHEME_AND_OPERATION_VALIDATION:
-- Validate operation vocabulary, enum legality, ordinal legality, record schema, invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
-- Operation semantics follow CANONICAL_TOKEN_DICTIONARY and UPDATE_CASCADE_REGISTRY.
+- Validate operation vocabulary, enum legality, ordinal ladder legality, transition-directive binding, record schema, single-proposal invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
+- Ordinal step legality evaluates against the field's declared ladder per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
 - Suppress with OPERATION_TYPE_INVALID, INVALID_ENUM_VALUE, INVALID_ORDINAL_TRANSITION, REGISTRY_RECORD_PAIR_VIOLATION, SCHEME_INVARIANT_VIOLATION, SCHEME_IMMUTABLE_BASELINE_WRITE, MODIFIER_SCHEMA_VIOLATION, LINKAGE_REFERENCE_VIOLATION, or IMMUNE_TERMINAL_STATE_CONFLICT.
 
 IMMUTABLE_BASELINE_WRITE_RULE:
@@ -152,15 +154,22 @@ STEP_08_OVERRIDE_PROOF_VALIDATION:
 STEP_09_CONFLICT_RECONCILIATION:
 - Group by effective target.
 - Apply STATE_GOVERNANCE_OVERLAY.CONFLICT_RESOLUTION_POLICY.
-- Produce final candidate actions.
+- Produce provisional candidate actions.
 
 STEP_10_LIMIT_AND_DOWNGRADE_EVALUATION:
 - Enforce STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.
 - SET endpoint placement and TRANSITION movement share ordinal/band limits.
+- Enforce CUMULATIVE_ORDINAL_RULE across all provisional ordinary movements.
 - Enforce MAX_ACTIVE_PREDICTIONS.
 - Apply override-proof results.
 - Downgrade only when nearest lawful bounded outcome is deterministic.
 - Otherwise suppress with STEP_LIMIT_EXCEEDED, OVERRIDE_PROOF_MISSING, BASELINE_REWRITE_NOT_JUSTIFIED, or DPF_PREDICTION_CAP_EXCEEDED.
+
+STEP_10A_CROSS_FIELD_INVARIANT_EVALUATION:
+- Project committed state from surviving candidate actions.
+- Evaluate STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING invariants against the projected state.
+- Where a cross-field invariant is breached, downgrade or suppress the lowest-precedence contributing candidates until projected state is lawful.
+- Suppress residual breach with IMMUNE_TERMINAL_STATE_CONFLICT or SCHEME_INVARIANT_VIOLATION as applicable.
 
 STEP_11_PERSISTENT_COMMIT_AND_AUDIT:
 - Apply final lawful writes.
@@ -196,14 +205,13 @@ PV_STEP_04_GOVERNANCE_RUNTIME_VALUE_VALIDATION:
 - LAST_VERIFICATION_RESULT: PASS | WARN | FAIL | PENDING
 - QUARANTINE_MODE: TRUE | FALSE
 - QUARANTINE_ENGAGED_CYCLE_ID: current commit cycle id | NONE
-- QUARANTINE_REASON_CODES: cap 5, FIFO overflow
+- QUARANTINE_REASON_CODES: cap 5, FIFO overflow, empty form [NONE]
 - Suppress invalid values with INVALID_ENUM_VALUE or SCHEME_INVARIANT_VIOLATION.
 
 PV_STEP_05_TRANSLATION_AND_EPISTEMIC_VALIDATION:
 - Normalize narrative fields and preserve write-surface tokens.
-- Validate EPISTEMIC_TAG and JUSTIFICATION_CATEGORY mapping.
+- Validate EPISTEMIC_TAG and JUSTIFICATION_CATEGORY against POST_VERIFICATION_GATE.
 - Suppress with TRANSLATION_VIOLATION, EPISTEMIC_TAG_VIOLATION, or JUSTIFICATION_CATEGORY_TAG_MISMATCH.
-- Verifier governance-runtime proposals SHOULD use PERCEPTION or INFERENCE.
 
 PV_STEP_06_RECONCILIATION_AND_COMMIT:
 - Group retained proposals by target field.
@@ -230,14 +238,14 @@ SET:
 - POST_VERIFICATION_PASS SET is limited to POST_VERIFICATION_LAWFUL_TARGETS.
 
 TRANSITION:
-- Resolve relative directive against current value and lawful ordering.
+- Resolve relative directive against current value and declared ladder.
 - Valid directives:
   - ONE_STEP_UP
   - ONE_STEP_DOWN
   - ONE_STEP_TOWARD_BASELINE
   - ONE_STEP_TOWARD_NEUTRAL
-- Lawful only for explicit ordinal ladders or SCHEME-declared transition ladders.
-- Not lawful for categorical fields without declared ladder.
+- Lawful only for fields declared ORDINAL with a ladder.
+- Not lawful for categorical fields or off-ladder members.
 - Not lawful during POST_VERIFICATION_PASS.
 
 ADD_MODIFIER:
@@ -318,6 +326,7 @@ GOVERNANCE_RUNTIME:
 RESERVED:
 - TOOL_ACTUATION_NOT_ACTIVE
 - ROLLBACK_NOT_ACTIVE
+- LIFT_HOOK_NOT_ACTIVE
 
 VERIFIER_EMITTED_CODES:
 - COT_TRACE_MISSING (WARN)
@@ -384,6 +393,7 @@ TRANSLATION_NORMALIZATION_RESULT: PASS | WARN | FAIL
 EPISTEMIC_TAG_VALIDATION_RESULT: PASS | WARN | FAIL
 EVIDENCE_REF_VALIDATION_RESULT: PASS | WARN | FAIL | SKIPPED
 OVERRIDE_PROOF_VALIDATION_RESULT: PASS | WARN | FAIL
+CROSS_FIELD_INVARIANT_VALIDATION_RESULT: PASS | WARN | FAIL
 NOTES:
 
 === SECTION_BREAK ===

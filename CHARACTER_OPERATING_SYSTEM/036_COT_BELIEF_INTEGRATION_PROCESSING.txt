@@ -1,7 +1,7 @@
 === SECTION: COT_BELIEF_INTEGRATION_PROCESSING ===
 
 [KEEP: Purpose & Role]
-Processes how beliefs filter perception, constrain options, and generate meaning. Prefers temporary dissonance overlays over baseline rewrites unless persistence-cluster or watershed conditions are met per DYNAMICS_BELIEF_SYSTEMS.
+Processes how beliefs filter perception, constrain options, and generate meaning. Prefers temporary dissonance and worldview-defense overlays over baseline rewrites unless persistence-cluster or watershed conditions are met per DYNAMICS_BELIEF_SYSTEMS.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -21,7 +21,7 @@ Is Informed By: STATE_BELIEF_SYSTEMS, STATE_MEMORY, STATE_TEMPORARY_MODIFIERS, S
 
 ANCHOR_CUES:
 - Narrative input aligns with or contradicts a core belief field.
-- Active BELIEF_DISSONANCE or worldview-defense modifier exists.
+- Active BELIEF_DISSONANCE or WORLDVIEW_DEFENSE modifier exists.
 - Persistence cluster exists and current cycle adds consistent cue evidence.
 - Watershed or existential cue is present.
 - Memory or DPF cue raises belief-relevant contradiction, meaning, justice, or worldview pressure.
@@ -43,6 +43,7 @@ ON_CUE_CONTRADICTING_CORE_BELIEF:
   PROPOSED_VALUE:
     MODIFIER_TYPE: COGNITIVE_MODIFIER
     EFFECT_FAMILY: BELIEF_DISSONANCE
+    TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
     EFFECT_EXPRESSION: dissonance pressure from cue contradicting core belief
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -53,6 +54,27 @@ ON_CUE_CONTRADICTING_CORE_BELIEF:
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
   JUSTIFICATION: contradiction to core belief
+
+ON_ACTIVE_DEFENSE_OF_THREATENED_CORE_BELIEF:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: COGNITIVE_MODIFIER
+    EFFECT_FAMILY: WORLDVIEW_DEFENSE
+    TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
+    EFFECT_EXPRESSION: protective rationalization sustaining a threatened core belief under contradiction
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: threat resolves or accommodation begins
+  STRENGTH: MODERATE
+  MECHANISM_TAG: WORLDVIEW_DEFENSE_SUSTAIN
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: defended contradiction sustained by structured marker
+
+MARKER_NOTE:
+- A coexisting strong-strong contradiction is lawful only while a BELIEF_DISSONANCE or WORLDVIEW_DEFENSE marker is active, or a persistence-cluster accommodation is in progress, per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_MARKER_REQUIREMENT.
 
 === SECTION_BREAK ===
 
@@ -100,7 +122,7 @@ JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP | DIRECT_APPLICATION
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated belief themes, dissonance YES/NO, impulses, proposal count, and SCHEME/DYNAMICS compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated belief themes, dissonance YES/NO, worldview-defense YES/NO, impulses, proposal count, and SCHEME/DYNAMICS compliance.
 
 === SECTION_BREAK ===
 

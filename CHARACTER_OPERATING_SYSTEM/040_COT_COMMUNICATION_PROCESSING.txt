@@ -111,12 +111,15 @@ OUTPUT_LENGTH_DISCIPLINE:
 - Elaboration requires selected action, communication style, and context support.
 
 TRANSIENT_LEAKAGE_OVERLAY:
+- [[LLM_INSTRUCTION]]: Resolve the EFFECT_FAMILY alternative to one concrete registry token before scratchpad entry.
+- [[LLM_INSTRUCTION]]: This overlay commits at PRIORITY_16 and colors subsequent-cycle realization; it does not retroactively alter current-cycle output already produced under SELECTED_ACTION.
 - If masking load, physiological leakage, communication strain, or emotional tell pressure is salient:
   - PROPOSE ADD_MODIFIER:
     TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
     PROPOSED_VALUE:
       MODIFIER_TYPE: COMMUNICATION_MODIFIER
       EFFECT_FAMILY: MASKING_LOAD | EMOTIONAL_LEAKAGE
+      TARGET_FIELD: DOMAIN_GLOBAL:COMMUNICATION
       EFFECT_EXPRESSION: communication strain or involuntary tell signature
       MAGNITUDE: LOW
       STACKING_RULE: REPLACE

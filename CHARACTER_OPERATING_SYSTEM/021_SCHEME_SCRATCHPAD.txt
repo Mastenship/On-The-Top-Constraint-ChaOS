@@ -11,6 +11,31 @@ Is Informed By: narrative input, SCHEME_ constraints, UPDATE_CASCADE_REGISTRY, S
 
 === SECTION_BREAK ===
 
+=== SECTION: SUBFIELD_VISIBILITY ===
+
+[[LLM_INSTRUCTION]]: Default module visibility is CHARACTER_VISIBLE. Governance-produced subfields override to GOVERNANCE_INTERNAL per CANONICAL_TOKEN_DICTIONARY.SUBFIELD_VISIBILITY_RULE.
+
+GOVERNANCE_INTERNAL_SUBFIELDS:
+- STATE_COMMIT_AUDIT
+- OUTPUT_SURFACE_NORMALIZATION_AUDIT
+- CASCADE_TRACE
+
+CHARACTER_VISIBLE_SUBFIELDS:
+- PROPOSED_UPDATES_REGISTRY
+- ACTIVE_IMPULSE_REGISTRY
+- CURRENT_DPF
+- SELECTED_ACTION
+- TEMPORARY_STATE_FLAGS
+- DOMAIN_RUNTIME_SUMMARIES
+
+ACCESS_RULES:
+- Character-cognition COTs write into PROPOSED_UPDATES_REGISTRY, ACTIVE_IMPULSE_REGISTRY, and CASCADE_TRACE, and read CHARACTER_VISIBLE subfields.
+- Character-cognition COTs append to CASCADE_TRACE but do not read committed audit closure, suppression, downgrade, veto, or reason-code content.
+- STATE_COMMIT_AUDIT and OUTPUT_SURFACE_NORMALIZATION_AUDIT are written by STATE_GOVERNANCE_AND_COMMIT and read by governance band authorities only.
+- Character-cognition read of a GOVERNANCE_INTERNAL subfield surfaces as READ_BOUNDARY_VIOLATION.
+
+=== SECTION_BREAK ===
+
 === SECTION: LIFECYCLE ===
 
 LIFECYCLE_ORDER:
@@ -70,6 +95,11 @@ REQUIRED_FIELDS:
 - CONFLICT_FLAG: BOOLEAN
 - NARRATIVE_ACTION_DESCRIPTION: one concise first-person sentence
 
+CONFLICT_SIGNAL_AUTHORITY:
+- SELECTED_ACTION.CONFLICT_FLAG is the canonical cycle conflict signal.
+- [TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] mirrors CONFLICT_FLAG and must equal it after COT_DECISION_SYNTHESIS.
+- Divergence between the two surfaces as OUTPUT_INCONGRUENCE at verification.
+
 === SECTION_BREAK ===
 
 === SECTION: TEMPORARY_STATE_FLAGS_MINIMUM_SCHEMA ===
@@ -82,6 +112,9 @@ REQUIRED_FLAG_FIELDS:
 - TOOL_RESIDUE_DETECTED: BOOLEAN
 - DISPLAY_NORMALIZATION_REQUIRED: BOOLEAN
 - INSTANTIATION_MODE: BOOLEAN
+
+CONFLICT_DETECTED_RULE:
+- CONFLICT_DETECTED is the mirror of SELECTED_ACTION.CONFLICT_FLAG per CONFLICT_SIGNAL_AUTHORITY.
 
 OPTIONAL_FLAG_EXTENSION_SCHEMA:
 - FLAG_NAME
@@ -118,6 +151,7 @@ PASS_AUDIT_REQUIRED_FIELDS:
 - EPISTEMIC_TAG_VALIDATION_RESULT
 - EVIDENCE_REF_VALIDATION_RESULT
 - OVERRIDE_PROOF_VALIDATION_RESULT
+- CROSS_FIELD_INVARIANT_VALIDATION_RESULT
 - NOTES
 
 FINAL_ACTION_LOG_ENTRY_MINIMUM_FIELDS:
@@ -199,8 +233,10 @@ REQUIRED_SUMMARY_BLOCKS:
 === SECTION: INVARIANTS ===
 
 - Scratchpad is volatile and fully wiped after post-verification governance pass.
+- Governance-produced subfields are GOVERNANCE_INTERNAL per SUBFIELD_VISIBILITY.
 - Proposal and impulse packets must match UPDATE_CASCADE_REGISTRY schemas.
 - SELECTED_ACTION must match strict schema before communication processing.
+- CONFLICT_DETECTED equals SELECTED_ACTION.CONFLICT_FLAG after decision synthesis.
 - Governance audit must close every received proposal in each commit pass.
 - Normalization audit is populated when commit-bound or display-bound normalization is relevant.
 - Cross-cycle governance signal lives in STATE_GOVERNANCE_RUNTIME, not scratchpad.

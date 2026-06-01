@@ -35,7 +35,7 @@ DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 === SECTION: PERFORMANCE_MODULATION ===
 
 [[LLM_INSTRUCTION]]: Moment-to-moment execution effects prefer STATE_TEMPORARY_MODIFIERS.
-[[LLM_INSTRUCTION]]: Patterns below are schematic directives. Runtime must expand them to complete proposal packets per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Patterns below are schematic directives. Runtime expands them to complete proposal packets per UPDATE_CASCADE_REGISTRY, including STRENGTH calibrated to cue intensity.
 
 ON_LOW_AROUSAL:
 - PROPOSE ADD_MODIFIER:
@@ -43,6 +43,7 @@ ON_LOW_AROUSAL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: UNDER_AROUSAL_DAMPENING
+    TARGET_FIELD: DOMAIN_GLOBAL:SKILL_EXECUTION
     EFFECT_EXPRESSION: low arousal dampens speed, initiative, and execution sharpness
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -59,6 +60,7 @@ ON_OPTIMAL_AROUSAL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: FLOW_ENHANCEMENT
+    TARGET_FIELD: DOMAIN_GLOBAL:SKILL_EXECUTION
     EFFECT_EXPRESSION: optimal arousal supports fluid execution and efficient attention
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -75,6 +77,7 @@ ON_HIGH_AROUSAL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: OVERACTIVATION_CHOKING
+    TARGET_FIELD: DOMAIN_GLOBAL:SKILL_EXECUTION
     EFFECT_EXPRESSION: high arousal disrupts fine control and narrows execution flexibility
     MAGNITUDE: HIGH
     STACKING_RULE: REPLACE
@@ -91,6 +94,7 @@ ON_ELEVATED_ADRENALINE:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PERFORMANCE_MODIFIER
     EFFECT_FAMILY: GROSS_MOTOR_BIAS
+    TARGET_FIELD: DOMAIN_GLOBAL:SKILL_EXECUTION
     EFFECT_EXPRESSION: adrenaline biases execution toward gross motor action over fine precision
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -107,6 +111,7 @@ ON_HIGH_CORTISOL:
   PROPOSED_VALUE:
     MODIFIER_TYPE: COGNITIVE_MODIFIER
     EFFECT_FAMILY: COGNITIVE_LOAD_INTERFERENCE
+    TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
     EFFECT_EXPRESSION: cortisol strain interferes with working memory and complex execution
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -123,6 +128,7 @@ ON_ENVIRONMENTAL_PRESSURE:
   PROPOSED_VALUE:
     MODIFIER_TYPE: ENVIRONMENTAL_MODIFIER
     EFFECT_FAMILY: ENVIRONMENTAL_EXECUTION_CONTEXT
+    TARGET_FIELD: DOMAIN_GLOBAL:SKILL_EXECUTION
     EFFECT_EXPRESSION: environmental pressure alters execution reliability and available tactics
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -147,7 +153,7 @@ ON_SKILL_CHANGE_CANDIDATE:
 
 REQUIREMENTS:
 - MECHANISM_TAG: SKILL_STATE_CHANGE.
-- Preserve SCHEME_SKILLS invariants.
+- Preserve SCHEME_SKILLS invariants, including INSTINCT_MASTERY_COUPLING.
 - Major movement requires INVOKED_RULE_NAME: SKILL_STATE_CHANGE and full override proof.
 - Momentary success, failure, stress, fatigue, flow, or environmental pressure is insufficient.
 

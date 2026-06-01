@@ -74,7 +74,7 @@ POLICY:
 - Impulses enter [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
 - Trace entries enter [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
 - STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
-- Character-cognition COTs must not read GOVERNANCE_INTERNAL modules.
+- Character-cognition COTs must not read GOVERNANCE_INTERNAL modules or subfields; canonical conformance is compiled in per CANONICAL_TOKEN_DICTIONARY.READ_DERIVATION_RULE.
 - Paths, roots, operations, empty values, and epistemic tags follow CANONICAL_TOKEN_DICTIONARY.
 
 === SECTION_BREAK ===
@@ -107,6 +107,10 @@ NORMALIZATION_RULE:
 - JUSTIFICATION, NOTES, NARRATIVE_CUE_REFERENCE, and SCHEME_INVARIANT_NOTE are narrative fields.
 - All other fields are write-surface tokens and remain untouched.
 
+ADD_MODIFIER_TARGET_FIELD_RULE:
+- For OPERATION_TYPE ADD_MODIFIER, the outer TARGET_FIELD is the creation-site stub [STATE_TEMPORARY_MODIFIERS][MOD_XX]. It denotes where the record is minted, not a concrete-record reference, and is exempt from record-stub suppression in STATE_GOVERNANCE_AND_COMMIT.STEP_03 because ADD_MODIFIER creates the MOD_XX by registry-record SET behavior.
+- CANONICAL_TOKEN_DICTIONARY.MODIFIER_TARGET_FIELD_FORMS enforcement (canonical path or DOMAIN_GLOBAL:<SCOPE>) applies to the inner PROPOSED_VALUE.TARGET_FIELD, not the outer TARGET_FIELD.
+
 === SECTION_BREAK ===
 
 === SECTION: IMPULSE_ENTRY_SCHEMA ===
@@ -120,6 +124,10 @@ REQUIRED_FIELDS:
 - JUSTIFICATION
 - JUSTIFICATION_CATEGORY
 
+IMPULSE_VALIDATION_NOTE:
+- Impulses carry JUSTIFICATION_CATEGORY without EPISTEMIC_TAG per CANONICAL_TOKEN_DICTIONARY.IMPULSE_JUSTIFICATION_RULE.
+- Impulse JUSTIFICATION_CATEGORY is advisory provenance and is not subject to JUSTIFICATION_CATEGORY_TAG_MISMATCH enforcement.
+
 === SECTION_BREAK ===
 
 === SECTION: STRICT_OPERATION_POLICY ===
@@ -128,7 +136,7 @@ REQUIRED_FIELDS:
 
 COT_AUTHOR_GUIDANCE:
 - Record creation: SET registry append + SET record block.
-- Relative ordinal movement: TRANSITION with canonical directive.
+- Relative ordinal movement: TRANSITION with canonical directive against declared ladder.
 - Explicit endpoint: SET.
 - Categorical lifecycle movement: SET unless SCHEME declares ladder.
 - Generic update: SET.
@@ -163,9 +171,11 @@ VERIFICATION:
 - primary proposal closure
 - operation validity
 - canonical path integrity
-- enum/ordinal/band limits
+- enum/ordinal-ladder/band limits
+- cumulative ordinal movement limit
 - empty-value semantics
-- SCHEME invariants and caps
+- single-proposal SCHEME invariants and caps
+- cross-field invariant projection
 - commit provenance
 - epistemic/evidence rules
 - override proof
@@ -201,6 +211,7 @@ RUNTIME_EXPANSION_REQUIREMENT:
   - PROPOSAL_ID
   - SOURCE_COT
   - TARGET_MODULE
+  - STRENGTH when the directive omits it and a single lawful band is implied
 - Conditional fields must be injected when conditions are met.
 
 DYNAMICS_DIRECTIVE_RULE:

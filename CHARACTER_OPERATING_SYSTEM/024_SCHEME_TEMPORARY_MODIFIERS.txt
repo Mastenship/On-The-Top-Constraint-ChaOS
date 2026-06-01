@@ -24,10 +24,10 @@ MODIFIER_TYPE: ENUM [
 ]
 
 SOURCE_COT: STRING_DESCRIPTIVE
-MECHANISM_TAG: STRING_DESCRIPTIVE
-EFFECT_FAMILY: STRING_DESCRIPTIVE
+MECHANISM_TAG: MECHANISM_TAG_TOKEN per DYNAMICS_TEMPORARY_MODIFIERS.MECHANISM_TAG_POLICY
+EFFECT_FAMILY: EFFECT_FAMILY_TOKEN per DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_REGISTRY
 
-TARGET_FIELD: CANONICAL_PATH
+TARGET_FIELD: MODIFIER_TARGET_FIELD_FORM per CANONICAL_TOKEN_DICTIONARY.MODIFIER_TARGET_FIELD_FORMS
 TARGET_ID: OPTIONAL_ID
 
 EFFECT_EXPRESSION: STRING_DESCRIPTIVE
@@ -65,9 +65,9 @@ REQUIRED_ON_CREATION:
 - JUSTIFICATION
 
 ADDITIONAL_REQUIREMENTS:
-- TARGET_FIELD must be canonical and valid.
-- TARGET_ID is required for record-specific/entity-specific scope.
-- EFFECT_FAMILY must be a canonical short semantic token per DYNAMICS_TEMPORARY_MODIFIERS.
+- EFFECT_FAMILY must be a registry token paired with MODIFIER_TYPE per DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_REGISTRY.
+- TARGET_FIELD must be a lawful MODIFIER_TARGET_FIELD_FORM: a canonical path, or DOMAIN_GLOBAL:<SCOPE> for diffuse overlays.
+- TARGET_ID is required for record-specific or entity-specific scope and empty for DOMAIN_GLOBAL or domain-global scope.
 - EFFECT_EXPRESSION must distinguish the transient effect.
 - LAST_REFRESHED may be empty on first creation.
 
@@ -78,10 +78,12 @@ ADDITIONAL_REQUIREMENTS:
 TARGET_FIELD_RULES:
 - TARGET_FIELD identifies the state domain or field being modulated.
 - TARGET_FIELD does not authorize direct mutation of the target.
+- Scoped modulation uses a canonical path.
+- Diffuse modulation with no single canonical field uses DOMAIN_GLOBAL:<SCOPE> per CANONICAL_TOKEN_DICTIONARY.DOMAIN_GLOBAL_SCOPES.
 
 TARGET_ID_RULES:
 - Use TARGET_ID when scoped to concrete ENT_XX, SKL_XX, GOAL_XX, MEM_XX, or other canonical record.
-- TARGET_ID may be empty for domain-global modifiers.
+- TARGET_ID is empty for DOMAIN_GLOBAL and domain-global modifiers.
 
 === SECTION_BREAK ===
 
@@ -99,9 +101,11 @@ ACTIVE_SURFACE_RULES:
 
 === SECTION: LIFECYCLE_AUTHORITY_NOTE ===
 
-[[LLM_INSTRUCTION]]: This SCHEME defines structure only. DYNAMICS_TEMPORARY_MODIFIERS defines lifecycle mechanics.
+[[LLM_INSTRUCTION]]: This SCHEME defines structure only. DYNAMICS_TEMPORARY_MODIFIERS defines lifecycle mechanics and the EFFECT_FAMILY and MECHANISM_TAG vocabularies.
 
 DYNAMICS_OWNS:
+- EFFECT_FAMILY registry
+- MECHANISM_TAG policy
 - refresh legality
 - collision and identity matching
 - replacement behavior
@@ -114,7 +118,8 @@ DYNAMICS_OWNS:
 === SECTION: INVARIANTS ===
 
 - Temporary modifiers must not bypass baseline governance.
-- TARGET_FIELD must be canonical and valid.
+- TARGET_FIELD must be a lawful MODIFIER_TARGET_FIELD_FORM.
+- EFFECT_FAMILY must be a registry token paired with MODIFIER_TYPE.
 - MAGNITUDE must be QUALITATIVE_MAGNITUDE.
 - EXPIRY_CONDITION and JUSTIFICATION are required for creation and refresh.
 - Active modifiers must not be orphaned from registry or target path.

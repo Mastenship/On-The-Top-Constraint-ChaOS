@@ -1,7 +1,8 @@
 === SECTION: SCHEME_DPF ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of dominant predictive frame (DPF) state. Defines core interpretive fields, metrics, prediction record schema, registry rules, active prediction cap, and invariants.
+Immutable structural definition of dominant predictive frame (DPF) state. Defines core interpretive fields, metrics, field operation classes, prediction record schema, registry rules, active prediction cap, and invariants.
+
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
@@ -38,6 +39,29 @@ SOURCE: STRING_DESCRIPTIVE
 
 === SECTION_BREAK ===
 
+=== SECTION: DPF_FIELD_OPERATION_CLASS ===
+
+[[LLM_INSTRUCTION]]: DPF field operation legality depends on whether the field is ordinal or categorical.
+
+ORDINAL_FIELDS:
+- CERTAINTY_LEVEL.VALUE is QUALITATIVE_INTENSITY and is ordinal per CANONICAL_TOKEN_DICTIONARY.
+
+CATEGORICAL_FIELDS:
+- EMOTIONAL_VALENCE
+- SOURCE_CAUSALITY
+- SOCIAL_STANCE
+- PACE
+
+CATEGORICAL_RULE:
+- Categorical DPF fields have no adjacency and move by SET to explicit lawful endpoint only.
+- Relative transition directives are unlawful on categorical DPF fields.
+
+DRIFT_RULE:
+- Bounded drift toward baseline interpretive state applies only to CERTAINTY_LEVEL as a one-band ordinal movement.
+- EMOTIONAL_VALENCE, SOURCE_CAUSALITY, SOCIAL_STANCE, and PACE do not drift; they change only by cue-supported SET.
+
+=== SECTION_BREAK ===
+
 === SECTION: PREDICTION_RECORD_SCHEMA ===
 
 PREDICTION_ID: ID_TOKEN (PRD_XX)
@@ -61,7 +85,7 @@ ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
 - PREDICTION_ID uses prefix PRD_.
 - No duplicate PREDICTION_ID.
 - New prediction insertion follows strict SET pair contract.
-- Active prediction count is governance-capped per STATE_GOVERNANCE_OVERLAY.MAX_ACTIVE_PREDICTIONS (current value: 10).
+- Active prediction count is governance-capped per STATE_GOVERNANCE_OVERLAY.MAX_ACTIVE_PREDICTIONS.
 - Excess creations are suppressed with DPF_PREDICTION_CAP_EXCEEDED unless override proof concurrently resolves or falsifies the lowest-certainty existing prediction.
 
 === SECTION_BREAK ===

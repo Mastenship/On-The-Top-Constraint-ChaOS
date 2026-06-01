@@ -1,7 +1,7 @@
 === SECTION: CANONICAL_TOKEN_DICTIONARY ===
 
 [KEEP: Purpose & Role]
-Single source of truth for canonical paths, roots, ID prefixes, empty-value forms, strict operations, qualitative enums, epistemic/evidence rules, override vocabulary, read-visibility classes, reservations, and scheme subtype convention.
+Single source of truth for canonical paths, roots, ID prefixes, empty-value forms, strict operations, ordinal ladder convention, qualitative enums, epistemic/evidence rules, override vocabulary, read-visibility classes, read-derivation rule, modifier vocabulary authority, modifier target-field forms, reservations, and scheme subtype convention.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -145,6 +145,10 @@ NONE:
 - Bracketed stubs indicate schema shape only.
 - Concrete record requires registry membership plus matching concrete record block.
 
+EMPTY_LIST_CANONICAL_RULE:
+- The only lawful empty-list value is [NONE].
+- Empty-list expressions such as empty list, blank list, or omitted list are non-canonical and surface as INVALID_ENUM_VALUE or INVALID_TARGET_FIELD as applicable.
+
 === SECTION_BREAK ===
 
 === SECTION: STRICT_OPERATION_VOCABULARY ===
@@ -165,7 +169,7 @@ FORBIDDEN_OPERATION_ALIASES:
 
 OPERATION_SEMANTICS_MINIMUM:
 - SET names explicit lawful endpoint or schema-valid payload; it does not bypass movement, enum, invariant, cap, or override-proof limits.
-- TRANSITION applies canonical relative directive to lawful ordinal or SCHEME-declared ladder.
+- TRANSITION applies canonical relative directive to lawful ordinal ladder.
 - Categorical fields use SET unless SCHEME declares transition ladder.
 - ADD_MODIFIER and REMOVE_MODIFIER operate on STATE_TEMPORARY_MODIFIERS.
 - CAP applies bounded ceiling only where permitted.
@@ -177,11 +181,34 @@ CANONICAL_RELATIVE_TRANSITION_DIRECTIVES:
 - ONE_STEP_TOWARD_BASELINE
 - ONE_STEP_TOWARD_NEUTRAL
 
+TRANSITION_DIRECTIVE_BINDING_RULE:
+- A relative transition directive is lawful only as the PROPOSED_VALUE of an OPERATION_TYPE TRANSITION proposal.
+- A relative transition directive appearing as a SET payload is a malformed proposal payload.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ORDINAL_LADDER_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Ordinal step legality and one-step movement are evaluable only against a declared ladder. An ordinal field declares its ladder inline in its owning SCHEME as ORDINAL with members in ascending order.
+
+ORDINAL_DECLARATION_RULE:
+- An ordinal field is declared ORDINAL with members in ascending ladder order.
+- Bracket position is the canonical ladder; step counting uses bracket position.
+- BASELINE_ANCHOR defaults to the first bracket member; a field whose baseline differs declares BASELINE_ANCHOR <member> inline after the bracket.
+- ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL resolve toward BASELINE_ANCHOR.
+- A field may declare OFF_LADDER <member>; an off-ladder member is reached only by SET, never by relative transition.
+- A field treated as ordinal by any DYNAMICS module without an ORDINAL declaration in its owning SCHEME surfaces as SCHEME_INVARIANT_VIOLATION.
+
+CATEGORICAL_DECLARATION_RULE:
+- A field declared ENUM without ORDINAL is categorical.
+- Categorical movement uses SET to explicit endpoint or a SCHEME-declared transition map.
+- Relative transition directives are unlawful on categorical fields.
+
 === SECTION_BREAK ===
 
 === SECTION: QUALITATIVE_ENUMS ===
 
-QUALITATIVE_INTENSITY: ENUM [MINIMAL, LOW, MODERATE, HIGH, EXTREME]
+QUALITATIVE_INTENSITY: ORDINAL [MINIMAL, LOW, MODERATE, HIGH, EXTREME]
 QUALITATIVE_INTENSITY_GLOSS:
 - MINIMAL: trace presence
 - LOW: weak but relevant
@@ -199,7 +226,7 @@ QUALITATIVE_INTENSITY_USAGE:
 - SELECTED_ACTION.CONFIDENCE
 - COPE qualitative risk/probability fields
 
-QUALITATIVE_PERCENTILE: ENUM [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
+QUALITATIVE_PERCENTILE: ORDINAL [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
 QUALITATIVE_PERCENTILE_GLOSS:
 - VERY_LOW: below 20th percentile
 - LOW: 20th to 40th percentile
@@ -207,7 +234,7 @@ QUALITATIVE_PERCENTILE_GLOSS:
 - HIGH: 60th to 80th percentile
 - VERY_HIGH: above 80th percentile
 
-QUALITATIVE_T_SCORE: ENUM [NORMAL, MILD_ELEVATION, MODERATE, SIGNIFICANT, CLINICAL]
+QUALITATIVE_T_SCORE: ORDINAL [NORMAL, MILD_ELEVATION, MODERATE, SIGNIFICANT, CLINICAL]
 QUALITATIVE_T_SCORE_GLOSS:
 - NORMAL: below 55
 - MILD_ELEVATION: 55 to 65
@@ -215,7 +242,7 @@ QUALITATIVE_T_SCORE_GLOSS:
 - SIGNIFICANT: 75 to 85
 - CLINICAL: above 85
 
-QUALITATIVE_MAGNITUDE: ENUM [TRACE, LOW, MODERATE, HIGH, EXTREME]
+QUALITATIVE_MAGNITUDE: ORDINAL [TRACE, LOW, MODERATE, HIGH, EXTREME]
 QUALITATIVE_MAGNITUDE_GLOSS:
 - TRACE: barely perceptible transient influence
 - LOW: weak transient influence
@@ -225,6 +252,12 @@ QUALITATIVE_MAGNITUDE_GLOSS:
 
 QUALITATIVE_MAGNITUDE_USAGE:
 - SCHEME_TEMPORARY_MODIFIERS.MAGNITUDE only
+
+QUALITATIVE_SCALE_BASELINE_ANCHOR:
+- QUALITATIVE_INTENSITY: MODERATE
+- QUALITATIVE_PERCENTILE: AVERAGE
+- QUALITATIVE_T_SCORE: NORMAL
+- QUALITATIVE_MAGNITUDE: TRACE
 
 === SECTION_BREAK ===
 
@@ -278,6 +311,11 @@ MAPPING:
 ENFORCEMENT:
 - Mismatch: JUSTIFICATION_CATEGORY_TAG_MISMATCH
 
+IMPULSE_JUSTIFICATION_RULE:
+- Impulse packets carry JUSTIFICATION_CATEGORY without EPISTEMIC_TAG.
+- Impulse JUSTIFICATION_CATEGORY is advisory provenance, not a commit-gated mapping.
+- Mapping enforcement applies to proposals only.
+
 === SECTION_BREAK ===
 
 === SECTION: INVOKED_RULE_NAME_ENUM ===
@@ -318,8 +356,62 @@ GLOSS:
 - CHARACTER_VISIBLE: readable by character-cognition COTs and governance.
 - GOVERNANCE_INTERNAL: readable only by governance band authorities.
 
+SUBFIELD_VISIBILITY_RULE:
+- A module may declare a default READ_VISIBILITY_CLASS and override visibility on named subfields.
+- A subfield declared GOVERNANCE_INTERNAL inside a CHARACTER_VISIBLE module is readable only by governance band authorities.
+
 ENFORCEMENT:
-- Character-cognition read of GOVERNANCE_INTERNAL: READ_BOUNDARY_VIOLATION
+- Character-cognition read of GOVERNANCE_INTERNAL module or subfield: READ_BOUNDARY_VIOLATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: READ_DERIVATION_RULE ===
+
+[[LLM_INSTRUCTION]]: An Informs relationship from a GOVERNANCE_INTERNAL module to a character-cognition template denotes design-time derivation, not runtime read.
+
+RULES:
+- Canonical token, path, operation, epistemic, and ID conformance is compiled into character-cognition COT templates at authoring time.
+- Character-cognition COTs satisfy canonical contracts without runtime read of any GOVERNANCE_INTERNAL module.
+- Conformance compiled into a template is not a READ_BOUNDARY_VIOLATION; only a runtime read of a GOVERNANCE_INTERNAL surface by a character-cognition COT is.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_VOCABULARY_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Modifier semantic vocabularies are closed and centrally owned.
+
+EFFECT_FAMILY_AUTHORITY:
+- DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_REGISTRY is the closed canonical EFFECT_FAMILY set.
+- An EFFECT_FAMILY token outside the registry surfaces as MODIFIER_SCHEMA_VIOLATION.
+
+MECHANISM_TAG_AUTHORITY:
+- DYNAMICS_TEMPORARY_MODIFIERS.MECHANISM_TAG_POLICY governs MECHANISM_TAG form and MATCH_KEY_TUPLE participation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_TARGET_FIELD_FORMS ===
+
+[[LLM_INSTRUCTION]]: A modifier TARGET_FIELD identifies what is modulated. It does not authorize direct mutation of the target.
+
+LAWFUL_TARGET_FIELD_FORMS:
+- CANONICAL_PATH: a concrete canonical state field path for scoped modulation.
+- DOMAIN_GLOBAL:<SCOPE>: a diffuse overlay scoped to one DOMAIN_GLOBAL_SCOPE.
+
+DOMAIN_GLOBAL_SCOPES: ENUM [
+  PERCEPTION,
+  COGNITION,
+  AROUSAL,
+  AFFECT,
+  BODY,
+  COMMUNICATION,
+  RELATIONAL,
+  SKILL_EXECUTION,
+  TEMPORAL_PERCEPTION
+]
+
+ENFORCEMENT:
+- TARGET_FIELD that is neither a canonical path nor a lawful DOMAIN_GLOBAL:<SCOPE>: MODIFIER_SCHEMA_VIOLATION.
+- DOMAIN_GLOBAL scope outside DOMAIN_GLOBAL_SCOPES: MODIFIER_SCHEMA_VIOLATION.
 
 === SECTION_BREAK ===
 
@@ -328,6 +420,7 @@ ENFORCEMENT:
 CURRENTLY_RESERVED:
 - TOOL_REQUEST epistemic tag: TOOL_ACTUATION_NOT_ACTIVE
 - ROLLBACK remediation mode: ROLLBACK_NOT_ACTIVE
+- LIFT_HOOK transition: LIFT_HOOK_NOT_ACTIVE
 
 RULE:
 - Reserved surfaces are declared but suppressed until external governance lifts them.

@@ -12,6 +12,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
 [[LLM_INSTRUCTION]]: Prediction creation uses SET pair: append PRD_XX to PREDICTION_REGISTRY, then SET full PRD_XX record.
 [[LLM_INSTRUCTION]]: DPF certainty fields are QUALITATIVE_INTENSITY bands; SET endpoints remain one-band bounded unless override proof is complete.
+[[LLM_INSTRUCTION]]: Drift applies only to CERTAINTY_LEVEL per SCHEME_DPF.DRIFT_RULE. EMOTIONAL_VALENCE, SOURCE_CAUSALITY, SOCIAL_STANCE, and PACE are categorical and change only by cue-supported SET.
 
 === SECTION_BREAK ===
 
@@ -72,10 +73,19 @@ ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
 - Create PRD_XX only when PREDICTION_RECORD_ADMISSION_CRITERIA are met.
 
 ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
-- Propose bounded SET drift to:
-  - [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
-  - [STATE_DPF][DPF_CORE_STATE][EMOTIONAL_VALENCE][VALUE]
-  when cue support indicates drift toward current baseline interpretive state.
+- Propose bounded SET drift to [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE] when cue support indicates drift toward current baseline interpretive certainty.
+- EMOTIONAL_VALENCE does not drift; valence change requires explicit cue-supported SET to a lawful endpoint.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EMOTIONAL_VALENCE_HANDLING ===
+
+[[LLM_INSTRUCTION]]: EMOTIONAL_VALENCE is categorical with no adjacency.
+
+VALENCE_RULES:
+- Change EMOTIONAL_VALENCE only by SET to an explicit lawful endpoint with direct cue support.
+- No relative transition directive is lawful on EMOTIONAL_VALENCE.
+- Transient mood texture without a durable valence change uses an affect-scoped temporary modifier rather than a STATE_DPF write.
 
 === SECTION_BREAK ===
 
@@ -94,6 +104,7 @@ ON_DPF_CONTRAST_EVENT:
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
 - DPF certainty updates are bounded SET operations.
+- Only CERTAINTY_LEVEL drifts; other DPF fields change by cue-supported SET.
 - Prediction lifecycle uses explicit STATE enum endpoints.
 - Recalculation gating is volatile scratchpad coordination.
 - Prediction creation is capped and gated.

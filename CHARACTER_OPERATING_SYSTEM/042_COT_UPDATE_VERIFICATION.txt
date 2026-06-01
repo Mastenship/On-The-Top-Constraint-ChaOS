@@ -1,7 +1,7 @@
 === SECTION: COT_UPDATE_VERIFICATION ===
 
 [KEEP: Purpose & Role]
-Post-primary-commit verifier. Checks audit closure, canonical form, scheme invariants, operation semantics, empty-value use, epistemic/evidence rules, override proof, read boundaries, output congruence, modifier lifecycle, and governance-runtime handoff. Persistent-state non-mutating; proposes STATE_GOVERNANCE_RUNTIME corrections only.
+Post-primary-commit verifier. Checks audit closure, canonical form, scheme invariants, cross-field invariants, operation semantics, empty-value use, epistemic/evidence rules, override proof, read boundaries, output congruence, modifier lifecycle, and governance-runtime handoff. Persistent-state non-mutating; proposes STATE_GOVERNANCE_RUNTIME corrections only.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -35,43 +35,43 @@ FORBIDDEN_WRITES:
 - Verify every primary-pass proposal has exactly one FINAL_ACTION_LOG closure: COMMITTED, SUPPRESSED, DOWNGRADED, or VETOED.
 
 02) OPERATION_VALIDITY
-- Verify strict OPERATION_TYPE vocabulary, forbidden-alias absence, and operation behavior per CANONICAL_TOKEN_DICTIONARY and STATE_GOVERNANCE_AND_COMMIT.
+- Verify strict OPERATION_TYPE vocabulary, forbidden-alias absence, transition-directive binding, and operation behavior per CANONICAL_TOKEN_DICTIONARY and STATE_GOVERNANCE_AND_COMMIT.
 
 03) CANONICAL_PATH_INTEGRITY
 - Verify canonical roots, TARGET_MODULE/TARGET_FIELD agreement, no legacy roots, no [NONE] as ID, no record stubs as concrete records.
 
-04) ORDINAL_AND_BAND_LIMITS
-- Verify enum legality, one-step ordinal limits, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, and categorical lifecycle SET usage.
+04) ORDINAL_BAND_AND_CUMULATIVE_LIMITS
+- Verify enum legality, one-step ordinal limits against declared ladders, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, categorical lifecycle SET usage, and the cumulative ordinal movement limit per STATE_GOVERNANCE_OVERLAY.
 
 05) EMPTY_VALUE_SEMANTICS
 - Verify blank, NONE, [NONE], record stubs, and registry-record pairs follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 
-06) INVARIANTS_AND_CAPS
-- Verify SCHEME invariants, immutable-baseline write prohibition, BODY terminal-state/immune rule, skill invariants, memory linkage/caps, modifier schema/lifecycle, registry-record coherence, DPF cap, prediction gate, goal gate, and permanent skill mutation support.
+06) INVARIANTS_CAPS_AND_CROSS_FIELD
+- Verify single-proposal SCHEME invariants, immutable-baseline write prohibition, skill INSTINCT_MASTERY_COUPLING and GROWTH_POTENTIAL ceiling, memory linkage/caps, modifier schema/lifecycle, registry-record coherence, DPF cap, prediction gate, goal gate, permanent skill mutation support, and cross-field invariants against projected committed state per STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.
 
 07) COMMIT_PROVENANCE
 - Verify every persistent change traces to committed proposal lineage; no orphaned commits; DYNAMICS directives were not direct writers; schematic directives were expanded before scratchpad entry.
 
 08) EPISTEMIC_AND_JUSTIFICATION
-- Verify EPISTEMIC_TAG, JUSTIFICATION_CATEGORY, mapping consistency, COMMITTED_FACT EVIDENCE_REF, disclosure boundary, and PERCEIVED_OTHER_VALENCE inference default.
+- Verify EPISTEMIC_TAG, JUSTIFICATION_CATEGORY, mapping consistency, COMMITTED_FACT EVIDENCE_REF, disclosure boundary, and PERCEIVED_OTHER_VALENCE inference default. Impulse JUSTIFICATION_CATEGORY is advisory and exempt from mapping enforcement.
 
 09) OVERRIDE_PROOF
 - Verify override-gate proposals carry lawful INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG.
 
 10) CANONICAL_FORM
-- Verify commit-bound artifacts normalized, write-surface tokens preserved, no non-canonical residue, and persistent modules declare READ_VISIBILITY_CLASS.
+- Verify commit-bound artifacts normalized, write-surface tokens preserved, no non-canonical residue, EFFECT_FAMILY and MECHANISM_TAG within closed vocabularies, modifier TARGET_FIELD a lawful form, and persistent modules declare READ_VISIBILITY_CLASS.
 
 11) READ_BOUNDARY
-- Verify character-cognition COTs did not read GOVERNANCE_INTERNAL modules; governance runtime was read only by governance band authorities.
+- Verify character-cognition COTs did not read GOVERNANCE_INTERNAL modules or GOVERNANCE_INTERNAL subfields; governance runtime and governance audit subfields were read only by governance band authorities.
 
 12) TRACE_COMPLETENESS
-- Verify exactly one trace per priority slot through PRIORITY_17; empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace. Do not verify PRIORITY_18 here.
+- Verify exactly one trace per priority slot for PRIORITY_01 through PRIORITY_16 plus this verifier's own PRIORITY_17 self-emit; empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace. Do not verify PRIORITY_18 here.
 
 13) SELECTED_ACTION
 - Verify SELECTED_ACTION strict schema, empty-impulse PASSIVE_OBSERVATION fallback, ACTION_SOURCE_IMPULSE validity, and no presumed external success/world resolution/internal-state certainty.
 
 14) OUTPUT_CONGRUENCE
-- Verify communication output matches SELECTED_ACTION action/target, remains subjective, marks inference, avoids unselected actions, and does not assert other entities' internal states as fact.
+- Verify communication output matches SELECTED_ACTION action/target, remains subjective, marks inference, avoids unselected actions, does not assert other entities' internal states as fact, and that CONFLICT_DETECTED equals SELECTED_ACTION.CONFLICT_FLAG.
 
 15) MODIFIER_LIFECYCLE
 - Verify active-overlay model, in-place refresh/replacement, lawful coexistence, expiry/removal clearance, registry coherence, and no covert baseline rewrite.
@@ -92,7 +92,7 @@ CHECKLIST_REASON_CODE_MAP:
 - 07: COMMIT_ORPHANED (FAIL)
 - 08: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH or COMMITTED_FACT_WITHOUT_EVIDENCE or EVIDENCE_REF_UNRESOLVED (FAIL)
 - 09: OVERRIDE_PROOF_INCOMPLETE (FAIL)
-- 10: TRANSLATION_VIOLATION (FAIL)
+- 10: TRANSLATION_VIOLATION or MODIFIER_SCHEMA_VIOLATION (FAIL)
 - 11: READ_BOUNDARY_VIOLATION (FAIL)
 - 12: COT_TRACE_MISSING (WARN)
 - 13: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)

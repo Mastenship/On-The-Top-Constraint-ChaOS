@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_BELIEF_SYSTEMS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for belief stability, dissonance handling, categorical belief transitions, ordinal belief drift, and rare baseline accommodation under persistence or override proof. Belief change is semantic, bounded, evidence-led, and resistant to impulsive baseline rewrite.
+Immutable mechanics for belief stability, dissonance handling, categorical belief transitions, ordinal belief drift, contradiction-marker emission, and rare baseline accommodation under persistence or override proof. Belief change is semantic, bounded, evidence-led, and resistant to impulsive baseline rewrite.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -14,6 +14,22 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
+=== SECTION: LADDER_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Ordinal belief fields and their step order are declared inline in SCHEME_BELIEF_SYSTEMS via ORDINAL [...] BASELINE_ANCHOR declarations within CORE_WORLDVIEW, ATTRIBUTION_STYLES, and COGNITIVE_BIASES, per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. This module references those inline ladders and does not redeclare order.
+
+ORDINAL_FIELD_CLASS:
+- Fields carrying an inline ORDINAL declaration in SCHEME_BELIEF_SYSTEMS are ordinal.
+- Ordinal movement uses TRANSITION when direction is unambiguous, otherwise SET to explicit adjacent endpoint.
+- One adjacent movement per field per cycle unless override proof is complete.
+
+CATEGORICAL_FIELD_CLASS:
+- SIMULATION_THEORY, MAGICAL_THINKING, LOCUS_OF_CONTROL, HUMAN_NATURE, SUCCESS_ATTRIBUTION, FAILURE_ATTRIBUTION are categorical.
+- Categorical movement uses SET to explicit target and, when persistence-triggered, CATEGORICAL_FIELD_TRANSITION_MAPS.
+- LOGIC_ARGUMENT VARIABLE is off-ladder per SCHEME; entry or exit uses SET only.
+
+=== SECTION_BREAK ===
+
 === SECTION: BELIEF_STABILITY ===
 
 GENERAL_RULES:
@@ -21,7 +37,30 @@ GENERAL_RULES:
 - Isolated contradiction defaults to temporary modifier, not baseline rewrite.
 - Repeated coherent evidence weighs more than isolated anomalous cue.
 - Core worldview fields are identity-relevant and stability-biased.
-- Strong contradictions are lawful only with compartmentalization, active BELIEF_DISSONANCE overlay, or persistence-cluster processing.
+- Strong contradictions are lawful only with an active contradiction marker or persistence-cluster processing per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_MARKER_REQUIREMENT.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONTRADICTION_MARKER_EMISSION ===
+
+[[LLM_INSTRUCTION]]: A coexisting strong-strong contradiction requires a structured marker in committed state. The executing COT supplies the complete modifier packet per UPDATE_CASCADE_REGISTRY; this module defines lawful marker mechanics only.
+
+MARKER_FAMILIES:
+- BELIEF_DISSONANCE: dissonance pressure from coexisting strong contradictory commitments.
+- WORLDVIEW_DEFENSE: protective rationalization sustaining a threatened core belief.
+
+MARKER_MECHANICS:
+- MODIFIER_TYPE: COGNITIVE_MODIFIER
+- TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
+- STACKING_RULE: REPLACE
+- DURATION_TYPE: UNTIL_CONDITION
+- EXPIRY_CONDITION: contradiction resolves, one position weakens, or accommodation completes
+
+EMISSION_RULE:
+- Strong-strong contradiction present or imminent emits BELIEF_DISSONANCE.
+- Active defense of a threatened core belief emits WORLDVIEW_DEFENSE.
+- A lawful marker is BELIEF_DISSONANCE, WORLDVIEW_DEFENSE, or an in-progress persistence-cluster accommodation.
+- Absent a lawful marker, committed strong-strong contradiction surfaces as SCHEME_INVARIANT_VIOLATION.
 
 === SECTION_BREAK ===
 
@@ -83,66 +122,10 @@ ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
 === SECTION: DEFENSE_MECHANISMS ===
 
 ON_THREAT_TO_CORE_BELIEF:
-- Prefer reinforcement, rationalization pressure, worldview-defense overlay, or BELIEF_DISSONANCE overlay.
+- Prefer reinforcement, rationalization pressure, WORLDVIEW_DEFENSE overlay, or BELIEF_DISSONANCE overlay per CONTRADICTION_MARKER_EMISSION.
 - Defensive rationalization may generate impulses or modifiers.
 - Defensive rationalization is not COMMITTED_FACT evidence.
 - If contradiction persists across cycles, persistence cluster handles bounded accommodation.
-
-=== SECTION_BREAK ===
-
-=== SECTION: ORDINAL_VS_CATEGORICAL_FIELD_CLASSIFICATION ===
-
-[[LLM_INSTRUCTION]]: Belief fields are either ordinal or categorical. Operation legality differs.
-
-ORDINAL_FIELDS:
-- PHYSICAL_MATERIALISM
-- SPIRITUAL_DUALISM
-- JUST_WORLD_BELIEF
-- UNIVERSAL_ETHICS
-- RELATIVISM
-- VIRTUE_ETHICS
-- CONSEQUENTIALISM
-- EMPIRICISM
-- RATIONALISM
-- FAITH_BASED
-- SKEPTICISM
-- NIHILISM_EXISTENTIALISM
-- RELIGIOUS_TRANSCENDENCE
-- HUMANISTIC
-- NATURALISTIC
-- OPTIMISM_PESSIMISM
-- AGENCY_BELIEF
-- CONFIRMATION_BIAS_STRENGTH
-- DUNNING_KRUGER_TENDENCY
-- ANTHROPOMORPHISM
-- BINARY_THINKING
-- DIALECTICAL_THINKING
-- DIRECT_EXPERIENCE
-- TRUSTED_AUTHORITY
-- PEER_CONSENSUS
-- LOGIC_ARGUMENT
-- DETERMINISM
-
-DETERMINISM_LADDER_ORDER:
-- HARD → SOFT → LIBERTARIAN_FREE_WILL from most constrained to most agentic.
-
-ORDINAL_RULE:
-- ONE_STEP_UP / ONE_STEP_DOWN are lawful only when direction is unambiguous.
-- Otherwise use SET to explicit adjacent endpoint.
-
-CATEGORICAL_FIELDS:
-- SIMULATION_THEORY
-- MAGICAL_THINKING
-- LOCUS_OF_CONTROL
-- HUMAN_NATURE
-- SUCCESS_ATTRIBUTION
-- FAILURE_ATTRIBUTION
-
-CATEGORICAL_RULE:
-- No ONE_STEP_UP / ONE_STEP_DOWN.
-- Use SET to explicit target value.
-- Persistence-triggered categorical movement must use CATEGORICAL_FIELD_TRANSITION_MAPS.
-- Unlisted categorical transition requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof.
 
 === SECTION_BREAK ===
 
@@ -225,6 +208,7 @@ SPECIFIC_NOTES:
 
 - Belief shifts resolve to explicit lawful field values.
 - Temporary modifiers absorb acute contradiction before durable fields shift.
+- Strong-strong contradictions carry a structured marker per SCHEME_BELIEF_SYSTEMS.
 - Persistence-triggered ordinal shifts are one adjacent movement.
 - Persistence-triggered categorical shifts use named mapped targets.
 - Multi-field worldview reorganization requires override proof and remains rare.

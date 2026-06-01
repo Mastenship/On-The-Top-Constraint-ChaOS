@@ -1,7 +1,7 @@
 === SECTION: STATE_GOVERNANCE_OVERLAY ===
 
 [KEEP: Purpose & Role]
-Governance policy overlay for single-writer enforcement, conflict resolution, per-cycle limits, remediation, quarantine, and read boundaries. Defines policy only; STATE_GOVERNANCE_AND_COMMIT performs commits.
+Governance policy overlay for single-writer enforcement, conflict resolution, per-cycle limits, cross-field invariant timing, remediation, quarantine, and read boundaries. Defines policy only; STATE_GOVERNANCE_AND_COMMIT performs commits.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -27,14 +27,18 @@ RULES:
 
 === SECTION: STEP_LIMITS_PER_CYCLE ===
 
-[[LLM_INSTRUCTION]]: Per-cycle movement is bounded unless complete override proof is present.
+[[LLM_INSTRUCTION]]: Per-cycle movement is bounded unless complete override proof is present. Limits are hard; breach surfaces as STEP_LIMIT_EXCEEDED.
 
 GENERAL_LIMITS:
-- One ordinal step per field.
+- One ordinal step per field against its declared ladder.
 - One qualitative band per field.
 - SET endpoint placement is subject to the same movement limits as TRANSITION.
-- Cumulative ordinary ordinal movement across all fields should not exceed two steps.
 - Multi-step movement requires STRUCTURAL_OVERRIDE_PROOF_FIELDS.
+
+CUMULATIVE_ORDINAL_RULE:
+- Cumulative ordinary ordinal movement is the sum of absolute step distances across all committed ordinal and qualitative fields in the cycle.
+- Override-proof-backed movements are excluded from the cumulative count.
+- Cumulative ordinary movement exceeding two steps is breach; the lowest-precedence ordinary movements are downgraded toward no-change until the count is two or fewer, otherwise surplus movements are suppressed with STEP_LIMIT_EXCEEDED.
 
 MEMORY_LIMITS:
 - Ordinary memory creation cap: 1 MEM_XX per cycle.
@@ -59,13 +63,28 @@ GOAL_LIMITS:
 
 SKILL_LIMITS:
 - Permanent skill mutation requires SKILL_STATE_CHANGE support.
-- INSTINCT_LEVEL must not exceed MASTERY_LEVEL.
+- INSTINCT_LEVEL must satisfy SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING.
 - Momentary performance effects use modifiers.
 - Multi-step skill movement requires complete override proof.
 
 BELIEF_AND_COMMUNICATION_LIMITS:
 - Durable belief and communication baseline shifts require relevant DYNAMICS support.
 - Persistence-triggered shifts require memory-ledger evidence and bounded movement.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CROSS_FIELD_INVARIANT_TIMING ===
+
+[[LLM_INSTRUCTION]]: Cross-field invariants depend on resulting committed state, not single proposals.
+
+RULES:
+- Cross-field invariants evaluate against projected committed state after conflict reconciliation and limit evaluation, before persistent commit.
+- Governed cross-field invariants:
+  - SCHEME_BODY immune/terminal-state suppression: IMMUNE_TERMINAL_STATE_CONFLICT.
+  - SCHEME_BELIEF_SYSTEMS strong-strong contradiction marker requirement: SCHEME_INVARIANT_VIOLATION.
+  - SCHEME_SKILLS INSTINCT_MASTERY_COUPLING: SCHEME_INVARIANT_VIOLATION.
+  - SCHEME_SKILLS GROWTH_POTENTIAL ceiling (GROWTH_POTENTIAL must not remain HIGH when MASTERY_LEVEL is MASTER): SCHEME_INVARIANT_VIOLATION.
+- A proposal set whose members each pass individually but jointly violate a cross-field invariant is resolved jointly: the lowest-precedence contributing proposals are downgraded or suppressed until the projected state is lawful.
 
 === SECTION_BREAK ===
 
@@ -163,6 +182,11 @@ ENGAGEMENT:
 - STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS commits or suppresses the proposal.
 - Quarantine persists in STATE_GOVERNANCE_RUNTIME.
 
+SCOPE_DECLARATION:
+- Quarantine is a whole-cycle penalty band, not a per-domain hold.
+- A single QUARANTINE_NEXT_CYCLE violation suspends ordinary character-cognition commitment for the following cycle.
+- This blast radius is intentional: it forces a clean corrective cycle before ordinary state evolution resumes.
+
 EFFECT_WHEN_ACTIVE:
 - PRIMARY_PASS admits only GOVERNANCE_CORRECTIVE proposals.
 - Others are suppressed with QUARANTINE_ACTIVE.
@@ -186,9 +210,10 @@ GOVERNANCE_BAND:
 - PRIORITY_16 through PRIORITY_18
 
 RULES:
-- CHARACTER_VISIBLE modules may be read by character-cognition COTs.
-- GOVERNANCE_INTERNAL modules may be read only by governance-band authorities.
+- CHARACTER_VISIBLE modules and subfields may be read by character-cognition COTs.
+- GOVERNANCE_INTERNAL modules and subfields may be read only by governance-band authorities.
 - Character-cognition COTs must not read governance internals.
+- Canonical-contract conformance is compiled into character-cognition templates at authoring time per CANONICAL_TOKEN_DICTIONARY.READ_DERIVATION_RULE and is not a runtime read.
 - Violations are detected by COT_UPDATE_VERIFICATION through trace inspection.
 
 === SECTION_BREAK ===
@@ -198,6 +223,7 @@ RULES:
 - This module defines policy only.
 - STATE_GOVERNANCE_AND_COMMIT is the sole persistent writer.
 - SET/TRANSITION semantics and empty-value forms follow CANONICAL_TOKEN_DICTIONARY.
+- Cross-field invariants evaluate against projected committed state.
 - Quarantine state lives only in STATE_GOVERNANCE_RUNTIME.
 - Scratchpad artifacts survive only by lawful commit.
 

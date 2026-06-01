@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_TEMPORARY_MODIFIERS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for modifier refresh, collision handling, stacking, expiry, and removal. Treats STATE_TEMPORARY_MODIFIERS as a bounded active-overlay surface, not history.
+Immutable mechanics for modifier refresh, collision handling, stacking, expiry, removal, and the closed EFFECT_FAMILY and MECHANISM_TAG vocabularies. Treats STATE_TEMPORARY_MODIFIERS as a bounded active-overlay surface, not history.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -10,6 +10,78 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EFFECT_FAMILY_REGISTRY ===
+
+[[LLM_INSTRUCTION]]: EFFECT_FAMILY is a closed token set. Each token is lawful only with its paired MODIFIER_TYPE. A token outside this registry, or paired with a non-listed MODIFIER_TYPE, surfaces as MODIFIER_SCHEMA_VIOLATION.
+
+PERFORMANCE_MODIFIER:
+- PEAK_ALERTNESS
+- FATIGUE_PENALTY
+- UNDER_AROUSAL_DAMPENING
+- FLOW_ENHANCEMENT
+- OVERACTIVATION_CHOKING
+- GROSS_MOTOR_BIAS
+- ALTERATION_SKILL_ENHANCEMENT
+- ALTERATION_SKILL_DEGRADATION
+
+COGNITIVE_MODIFIER:
+- COGNITIVE_OVERLOAD
+- COGNITIVE_LOAD_INTERFERENCE
+- BELIEF_DISSONANCE
+- WORLDVIEW_DEFENSE
+- REALITY_CONTACT_DEGRADATION
+
+PSYCHOLOGICAL_MODIFIER:
+- HYPERVIGILANCE
+- RELAXATION_OPENNESS
+- DISORIENTATION
+- GUT_FEELING
+- SUBCONSCIOUS_BIAS
+- CHRONIC_LOAD_NUMBING
+- GOAL_CONFLICT_PRESSURE
+- ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION
+- ALTERATION_REJECTION_STRESS
+
+COMMUNICATION_MODIFIER:
+- DECEPTION_LEAKAGE_CONTROL
+- MASKING_LOAD
+- EMOTIONAL_LEAKAGE
+- FATIGUE_DELIVERY_DEGRADATION
+- COMMUNICATION_COMPLEXITY_COMPRESSION
+- COMMUNICATION_GUARDEDNESS
+- SPEECH_RATE_PRESSURE
+
+RELATIONAL_MODIFIER:
+- ALLY_PROXIMITY_COMFORT
+- RELATIONAL_FRICTION_AMPLIFICATION
+
+ENVIRONMENTAL_MODIFIER:
+- ENVIRONMENTAL_EXECUTION_CONTEXT
+
+BIOCHEMICAL_MODIFIER:
+- [NONE]
+
+OTHER:
+- [NONE]
+
+REGISTRY_RULES:
+- Additions require constitutional update.
+- EFFECT_FAMILY equality in MATCH_KEY_TUPLE is exact token equality against this registry.
+- Semantically adjacent effects with distinct registry tokens are materially different families and do not collide.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MECHANISM_TAG_POLICY ===
+
+[[LLM_INSTRUCTION]]: MECHANISM_TAG is a UPPER_SNAKE canonical short token naming the generating mechanism. It participates in MATCH_KEY_TUPLE as exact token equality.
+
+RULES:
+- MECHANISM_TAG is COT-supplied and domain-canonical, aligned to the generating DYNAMICS pattern.
+- MECHANISM_TAG carries no free narrative; descriptive content belongs in EFFECT_EXPRESSION or JUSTIFICATION.
+- Distinct MECHANISM_TAG tokens are materially different for collision purposes even under the same EFFECT_FAMILY.
 
 === SECTION_BREAK ===
 
@@ -35,9 +107,13 @@ MATCH_KEY_TUPLE_COMPONENTS:
 - EFFECT_FAMILY
 
 EFFECT_FAMILY_RULE:
-- EFFECT_FAMILY is the canonical semantic effect token supplied by the proposing COT.
+- EFFECT_FAMILY is a closed registry token per EFFECT_FAMILY_REGISTRY.
 - Same EFFECT_FAMILY with different EFFECT_EXPRESSION is materially same only when all tuple components match.
 - Same EFFECT_EXPRESSION with different EFFECT_FAMILY is materially different.
+
+TARGET_FIELD_RULE:
+- TARGET_FIELD compares by canonical form per CANONICAL_TOKEN_DICTIONARY.MODIFIER_TARGET_FIELD_FORMS.
+- A canonical path and a DOMAIN_GLOBAL scope never compare as equal.
 
 MATERIAL_SAMENESS_OUTCOME:
 - All components match: refresh-or-replace pathway.
@@ -133,6 +209,7 @@ VIOLATION_SUB_CODES:
 
 - Temporary modifiers absorb short-horizon situational effects.
 - Material sameness is exclusively MATCH_KEY_TUPLE.
+- EFFECT_FAMILY and MECHANISM_TAG are closed canonical vocabularies.
 - Refresh/replacement prefer in-place mutation when lawful.
 - Removal and expiry clear obsolete active modifiers.
 - Modifiers must not bypass canonical state governance.

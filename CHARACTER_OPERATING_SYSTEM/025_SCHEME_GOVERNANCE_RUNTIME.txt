@@ -86,7 +86,7 @@ LIFT_HOOK_STATUS:
 - All writes occur via STATE_GOVERNANCE_AND_COMMIT only.
 - No character-cognition COT (priorities 01 through 15) may read this module. Read attempts surface as READ_BOUNDARY_VIOLATION.
 - QUARANTINE_REASON_CODES MUST NOT exceed cap of 5 entries.
-- LIFT_HOOK_STATUS transitions are RESERVED on the current substrate per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; transition attempts on the current substrate are suppressed with ROLLBACK_NOT_ACTIVE.
+- LIFT_HOOK_STATUS transitions are RESERVED on the current substrate per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; transition attempts on the current substrate are suppressed with LIFT_HOOK_NOT_ACTIVE.
 - All field clear conditions defined above must be honored on every cycle.
 - Field set is closed; additions require constitutional update.
 

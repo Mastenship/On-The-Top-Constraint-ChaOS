@@ -55,6 +55,7 @@ ATTACHMENT_THREAT_OVERLAY_PATTERN:
   PROPOSED_VALUE:
     MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
     EFFECT_FAMILY: ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION
+    TARGET_FIELD: DOMAIN_GLOBAL:PERCEPTION
     EFFECT_EXPRESSION: amplified perception of social threat or rejection
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
@@ -77,11 +78,11 @@ RELATIONAL_MOVEMENT:
 
 ON_POSITIVE_SOCIAL_CUE:
 - If meaningful-interaction gate fails: prefer impulse or temporary overlay.
-- If gate passes: may propose ONE_STEP_UP AFFECTIVE_VALENCE.
+- If gate passes: may propose TRANSITION with PROPOSED_VALUE ONE_STEP_UP on AFFECTIVE_VALENCE.
 
 ON_NEGATIVE_SOCIAL_CUE:
 - If meaningful-interaction gate fails: prefer impulse or temporary overlay.
-- If gate passes: may propose ONE_STEP_DOWN AFFECTIVE_VALENCE.
+- If gate passes: may propose TRANSITION with PROPOSED_VALUE ONE_STEP_DOWN on AFFECTIVE_VALENCE.
 
 ON_ATTACHMENT_TRIGGER:
 - Propose bounded coping probability movement when cue support exists.
