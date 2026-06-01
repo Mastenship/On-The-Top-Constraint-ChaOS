@@ -280,11 +280,17 @@ EVIDENCE_REF_FIELD:
 
 EVIDENCE_REF_VALUE_FORMS:
 - MEM_XX
-- PRD_XX only when RESOLVED
+- PRD_XX only when RESOLVED or RESOLVED_NEGATIVE
 - PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>
 - USER_CONFIRMATION:<CONFIRMATION_ID>
 - CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN>
 - [MEM_XX, MEM_XX, MEM_XX] for persistence clusters of three or more memories
+
+EVIDENCE_REF_PREDICTION_RULE:
+- A PRD_XX is evidence-eligible only in a settled outcome state: RESOLVED or RESOLVED_NEGATIVE.
+- Both forms establish a settled prediction outcome as fact.
+- FALSIFIED is not a clean resolution event and is not evidence-eligible.
+- ACTIVE predictions are never evidence-eligible.
 
 DISCLOSURE_BOUNDARY:
 - Direct disclosure may establish that a statement occurred.

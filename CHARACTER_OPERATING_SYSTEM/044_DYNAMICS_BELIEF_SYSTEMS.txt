@@ -37,16 +37,16 @@ GENERAL_RULES:
 - Isolated contradiction defaults to temporary modifier, not baseline rewrite.
 - Repeated coherent evidence weighs more than isolated anomalous cue.
 - Core worldview fields are identity-relevant and stability-biased.
-- Strong contradictions are lawful only with an active contradiction marker or persistence-cluster processing per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_MARKER_REQUIREMENT.
+- Matrix-band contradictions are lawful only with an active contradiction marker or persistence-cluster processing per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_MARKER_REQUIREMENT.
 
 === SECTION_BREAK ===
 
 === SECTION: CONTRADICTION_MARKER_EMISSION ===
 
-[[LLM_INSTRUCTION]]: A coexisting strong-strong contradiction requires a structured marker in committed state. The executing COT supplies the complete modifier packet per UPDATE_CASCADE_REGISTRY; this module defines lawful marker mechanics only.
+[[LLM_INSTRUCTION]]: A coexisting matrix-band contradiction (both fields at their named contradiction band per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_BAND_RULE) requires a structured marker in committed state. The executing COT supplies the complete modifier packet per UPDATE_CASCADE_REGISTRY; this module defines lawful marker mechanics only.
 
 MARKER_FAMILIES:
-- BELIEF_DISSONANCE: dissonance pressure from coexisting strong contradictory commitments.
+- BELIEF_DISSONANCE: dissonance pressure from coexisting contradictory commitments at matrix band.
 - WORLDVIEW_DEFENSE: protective rationalization sustaining a threatened core belief.
 
 MARKER_MECHANICS:
@@ -54,13 +54,13 @@ MARKER_MECHANICS:
 - TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
 - STACKING_RULE: REPLACE
 - DURATION_TYPE: UNTIL_CONDITION
-- EXPIRY_CONDITION: contradiction resolves, one position weakens, or accommodation completes
+- EXPIRY_CONDITION: contradiction resolves, one field drops below its named contradiction band, or accommodation completes
 
 EMISSION_RULE:
-- Strong-strong contradiction present or imminent emits BELIEF_DISSONANCE.
+- Matrix-band contradiction present or imminent emits BELIEF_DISSONANCE.
 - Active defense of a threatened core belief emits WORLDVIEW_DEFENSE.
 - A lawful marker is BELIEF_DISSONANCE, WORLDVIEW_DEFENSE, or an in-progress persistence-cluster accommodation.
-- Absent a lawful marker, committed strong-strong contradiction surfaces as SCHEME_INVARIANT_VIOLATION.
+- Absent a lawful marker, committed matrix-band contradiction surfaces as SCHEME_INVARIANT_VIOLATION.
 
 === SECTION_BREAK ===
 
@@ -208,7 +208,7 @@ SPECIFIC_NOTES:
 
 - Belief shifts resolve to explicit lawful field values.
 - Temporary modifiers absorb acute contradiction before durable fields shift.
-- Strong-strong contradictions carry a structured marker per SCHEME_BELIEF_SYSTEMS.
+- Matrix-band contradictions carry a structured marker per SCHEME_BELIEF_SYSTEMS.
 - Persistence-triggered ordinal shifts are one adjacent movement.
 - Persistence-triggered categorical shifts use named mapped targets.
 - Multi-field worldview reorganization requires override proof and remains rare.

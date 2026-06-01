@@ -1,13 +1,13 @@
 === SECTION: COT_ATTACHMENT_BEHAVIORAL_MAPPING ===
 
 [KEEP: Purpose & Role]
-Applies attachment style as social interpretation and impulse bias. Durable relational movement follows DYNAMICS_RELATIONAL gates; attachment fear alone does not establish facts about others.
+Applies attachment style as social interpretation and impulse bias. Durable relational movement follows DYNAMICS_RELATIONAL gates; attachment fear alone does not establish facts about others. Coping involvement is limited to attachment-cued probability-bias nudges; coping selection and lifecycle belong to COT_STRESS_CASCADE_RESOLUTION.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: relational interpretation, coping bias, attachment impulses, temporary attachment overlays.
-Is Informed By: SCHEME_ASQ, STATE_RELATIONAL, STATE_MEMORY, STATE_GOALS_MOTIVATIONS, STATE_TEMPORARY_MODIFIERS, SCHEME_RELATIONAL, DYNAMICS_RELATIONAL, DYNAMICS_TEMPORARY_MODIFIERS, narrative input.
+Is Informed By: SCHEME_ASQ, STATE_RELATIONAL, STATE_MEMORY, STATE_GOALS_MOTIVATIONS, STATE_TEMPORARY_MODIFIERS, STATE_COPE, SCHEME_RELATIONAL, DYNAMICS_RELATIONAL, SCHEME_COPE, DYNAMICS_COPE, DYNAMICS_TEMPORARY_MODIFIERS, narrative input.
 
 === SECTION_BREAK ===
 
@@ -85,7 +85,8 @@ ON_NEGATIVE_SOCIAL_CUE:
 - If gate passes: may propose TRANSITION with PROPOSED_VALUE ONE_STEP_DOWN on AFFECTIVE_VALENCE.
 
 ON_ATTACHMENT_TRIGGER:
-- Propose bounded coping probability movement when cue support exists.
+- Propose bounded COPE_PROBABILITY_BIASES movement on attachment cue support only, one band per field per cycle.
+- Coping selection, PRIMARY/SECONDARY mechanism, escalation, stabilization, and substance handling are owned by COT_STRESS_CASCADE_RESOLUTION and are not proposed here.
 - Prefer temporary overlays for acute attachment threat, reassurance need, distancing pressure, or loyalty-testing pressure.
 
 === SECTION_BREAK ===

@@ -1,104 +1,185 @@
-=== SECTION: DYNAMICS_COMMUNICATION_DIALOGUE ===
+=== SECTION: COT_COMMUNICATION_PROCESSING ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for communication adaptation under stress, fatigue, relational context, state-dependent leakage, and persistence-triggered baseline drift. Preserves the distinction between stable communication identity and transient communication condition.
+Embodied player-character output layer. Converts SELECTED_ACTION and communication state into first-person behavioral/verbal realization. Output stays inside character subjectivity: no narrator authority, no scene control, no unearned outcomes, no other-mind certainty.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
-=== SECTION_BREAK ===
-
-=== SECTION: OPERATION_POLICY ===
-
-[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
-[[LLM_INSTRUCTION]]: Prefer temporary communication overlays when effects are short-horizon, stress-induced, deceptive, relationally local, or physiologically contingent.
+[KEEP: Relationship to Other Modules]
+Informs: player-facing output, optional communication overlays, output-congruence verification.
+Is Informed By: COGNITIVE_SCRATCHPAD.SELECTED_ACTION, COGNITIVE_SCRATCHPAD.CURRENT_DPF, COGNITIVE_SCRATCHPAD.DOMAIN_RUNTIME_SUMMARIES, STATE_COMMUNICATION_DIALOGUE, STATE_BODY, STATE_TEMPORARY_MODIFIERS, STATE_BELIEF_SYSTEMS, STATE_RELATIONAL, SCHEME_COMMUNICATION_DIALOGUE, DYNAMICS_COMMUNICATION_DIALOGUE.
 
 === SECTION_BREAK ===
 
-=== SECTION: STRESS_AND_AROUSAL_EFFECTS ===
+=== SECTION: SUBJECTIVE_FRAME_CONTRACT ===
 
-ON_HIGH_AROUSAL_OR_STRESS:
-- Prefer ADD_MODIFIER overlays for:
-  - SPEECH_RATE_PRESSURE
-  - COMMUNICATION_COMPLEXITY_COMPRESSION
-  - EMOTIONAL_LEAKAGE
-- Baseline communication fields do not shift unless persistence evidence supports enduring adaptation.
+ALLOWED_OUTPUT:
+- what I do
+- what I say
+- what I notice
+- what I infer, marked as inference
+- what I intend
+- what I attempt
+- what I remember, when character-accessible
 
-ON_FATIGUE:
-- Prefer ADD_MODIFIER overlays for FATIGUE_DELIVERY_DEGRADATION.
-- Durable baseline change requires persistence cluster evidence.
-
-ON_DECEPTION_OR_CONCEALMENT:
-- Prefer ADD_MODIFIER overlays for masking load, tell suppression, leakage risk, or guardedness.
-- Deception episode effects do not rewrite stable communication identity without persistence cluster evidence.
-
-=== SECTION_BREAK ===
-
-=== SECTION: PERSISTENCE_TRIGGER_RULE ===
-
-[[LLM_INSTRUCTION]]: Persistence for communication baseline shift is operationalized through the memory ledger.
-
-PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN:
-- Three or more MEM_XX records reference field F through SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED or CORE_EVENT_SUMMARY.
-- Records carry consistent direction toward the same lawful adjacent enum value.
-- At least one record has SALIENCE MODERATE or higher.
-- Records are distinct cue occasions, not duplicate encodings.
-
-PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
-- When cluster exists and current cycle adds consistent cue evidence:
-  - PROPOSE SET:
-    TARGET_FIELD: [STATE_COMMUNICATION_DIALOGUE][<canonical communication field path>]
-    PROPOSED_VALUE: next lawful adjacent enum value in consistent direction
-    INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
-    NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
-    EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX]
-    SCHEME_INVARIANT_NOTE: communication baseline shift accommodated under accumulated evidence; one adjacent enum step
-    MECHANISM_TAG: COMMUNICATION_PERSISTENCE_ACCOMMODATION
-
-PERSISTENCE_BOUNDS:
-- One adjacent enum step per field per cycle.
-- A persistence cluster is conceptually consumed; later shifts require new cue accumulation.
-- Stress-only or fatigue-only clusters must show enduring adaptation, not repeated transient impairment.
+FORBIDDEN_OUTPUT:
+- other entities' definite internal states
+- objective claims beyond perception
+- resolved outcomes as fact
+- omniscient narration
+- hidden scene mechanics
+- governance mechanics
+- unearned success or failure
 
 === SECTION_BREAK ===
 
-=== SECTION: CULTURAL_AND_RELATIONAL_ADAPTATION ===
+=== SECTION: EMBODIED_COLORING_SOURCE ===
 
-ON_CULTURAL_EXPOSURE_WITH_OPENNESS:
-- Persistent cultural adaptation uses PERSISTENCE_TRIGGER_RULE.
-- Acute exposure uses transient overlays.
+[[LLM_INSTRUCTION]]: Color realization from this cycle's volatile snapshot so embodied tone reflects the current turn, not last cycle's committed baseline.
 
-ON_RELATIONAL_SHIFT:
-- Persistent changes to DIRECTNESS_LEVEL, POLITENESS_STRATEGY, PROXEMICS_PREFERENCE, or related fields use PERSISTENCE_TRIGGER_RULE.
-- Acute relational pressure uses transient overlays.
-
-ON_TRAUMA_OR_ANXIETY_CUES:
-- Prefer ADD_MODIFIER overlays for speech blocks, guardedness, masking load, or reduced expressiveness before baseline changes.
+COLORING_RULES:
+- Primary coloring sources are the CHARACTER_VISIBLE volatile surfaces written this cycle: CURRENT_DPF (EMOTIONAL_VALENCE, CERTAINTY_LEVEL, PACE, SOCIAL_STANCE) and DOMAIN_RUNTIME_SUMMARIES (notably BODY_RUNTIME_SUMMARY.AROUSAL_BAND and FATIGUE_SIGNAL, RELATIONAL_RUNTIME_SUMMARY, COMMUNICATION_RUNTIME_SUMMARY).
+- Persistent STATE_ values (STATE_BODY, STATE_COMMUNICATION_DIALOGUE, STATE_RELATIONAL) supply the slow-moving baseline identity and prior-cycle committed condition.
+- When the volatile snapshot and committed STATE_ diverge because this cycle's proposals have not yet committed, the volatile snapshot governs immediate embodied tone; committed STATE_ governs stable identity.
+- Coloring is realization texture only. It does not author state, assert outcomes, or bypass SELECTED_ACTION.
+- This reads only CHARACTER_VISIBLE surfaces; no governance-internal read occurs.
 
 === SECTION_BREAK ===
 
-=== SECTION: STATE_DEPENDENT_OVERLAYS ===
+=== SECTION: OUTPUT_CONGRUENCE_RULE ===
 
-LAWFUL_EFFECT_FAMILIES:
-- DECEPTION_LEAKAGE_CONTROL
-- MASKING_LOAD
-- EMOTIONAL_LEAKAGE
-- FATIGUE_DELIVERY_DEGRADATION
-- COMMUNICATION_COMPLEXITY_COMPRESSION
-- COMMUNICATION_GUARDEDNESS
-- SPEECH_RATE_PRESSURE
+[[LLM_INSTRUCTION]]: Realized output must match [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
 
-ON_PHYSIOLOGICAL_OR_DECEPTION_CONTEXT:
-- Propose ADD_MODIFIER overlays for communication leakage signatures, masking strain, concealment effort, or involuntary tell pressure.
-- Do not directly rewrite baseline communication identity without persistence cluster evidence.
+REQUIREMENTS:
+- Output realizes SELECTED_ACTION.ACTION_TYPE.
+- Output target matches SELECTED_ACTION.TARGET_ID.
+- NARRATIVE_ACTION_DESCRIPTION is the canonical action anchor.
+- If CONFLICT_FLAG = TRUE, output may show hesitation but must not perform incompatible actions.
+- Output must not add an unselected action.
+- Embodied coloring per EMBODIED_COLORING_SOURCE must not alter the selected action, its target, or its outcome; it only tints delivery.
+
+PASSIVE_OBSERVATION_FALLBACK:
+- Observe without action.
+- No dialogue unless selected action explicitly includes speech.
+- Keep especially brief.
+
+VERIFIER_INTERACTION:
+- COT_UPDATE_VERIFICATION raises OUTPUT_INCONGRUENCE on mismatch.
 
 === SECTION_BREAK ===
 
-=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+=== SECTION: INFERENCE_AND_DISCLOSURE_BOUNDARY ===
 
-- Communication baseline adaptation resolves to explicit lawful enum endpoints.
-- Short-horizon communication effects use modifiers rather than durable field mutation.
-- Persistence-triggered shifts are bounded one-step adjacent enum movements gated by memory-ledger evidence.
-- Communication identity and communication condition remain distinct.
+OBSERVATION_ALLOWED:
+- visible behavior
+- spoken words
+- posture, tone, distance, movement, expression, environment
+- my own bodily/emotional response
+- my committed memories
+
+INFERENCE_ALLOWED_IF_MARKED:
+- I suspect...
+- It seems...
+- I take it as...
+- I read that as...
+- I infer...
+- I get the impression...
+
+FORBIDDEN_AS_FACT:
+- They are afraid/trusting/lying.
+- They intend/believe/decide.
+- The attack lands.
+- The door opens.
+- The crowd turns.
+
+DISCLOSURE_RULE:
+- Direct speech establishes the statement, not the speaker's internal truth.
+- Lawful: I hear her say she trusts me.
+- Lawful inference: I take her words as a sign of trust.
+- Unlawful certainty: She trusts me.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Trace writes follow UPDATE_CASCADE_REGISTRY. Persistent intent remains proposal-only.
+[[LLM_INSTRUCTION]]: This COT may optionally propose temporary communication overlays. It must not expose governance internals or assert unearned world resolution.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_GENERATION ===
+
+VERBAL_OUTPUT:
+- Dialogue appears in quotation marks.
+- Style follows STATE_COMMUNICATION_DIALOGUE plus active communication modifiers, tinted by EMBODIED_COLORING_SOURCE.
+- Speech must serve selected ACTION_TYPE and target.
+- Do not smuggle unselected actions into dialogue.
+
+NON_VERBAL_OUTPUT:
+- Physical action, restraint, hesitation, noticing, and embodied reaction use first-person subjective framing.
+- Embodied reaction may reflect this cycle's CURRENT_DPF and BODY_RUNTIME_SUMMARY even when the corresponding STATE_BODY change has not yet committed.
+- Outcome-dependent actions are phrased as attempts.
+
+OUTPUT_LENGTH_DISCIPLINE:
+- Default concise.
+- PASSIVE_OBSERVATION especially brief.
+- Elaboration requires selected action, communication style, and context support.
+
+TRANSIENT_LEAKAGE_OVERLAY:
+- [[LLM_INSTRUCTION]]: Resolve the EFFECT_FAMILY alternative to one concrete registry token before scratchpad entry.
+- [[LLM_INSTRUCTION]]: This overlay commits at PRIORITY_16 and colors subsequent-cycle realization; it does not retroactively alter current-cycle output already produced under SELECTED_ACTION.
+- If masking load, physiological leakage, communication strain, or emotional tell pressure is salient:
+  - PROPOSE ADD_MODIFIER:
+    TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+    PROPOSED_VALUE:
+      MODIFIER_TYPE: COMMUNICATION_MODIFIER
+      EFFECT_FAMILY: MASKING_LOAD | EMOTIONAL_LEAKAGE
+      TARGET_FIELD: DOMAIN_GLOBAL:COMMUNICATION
+      EFFECT_EXPRESSION: communication strain or involuntary tell signature
+      MAGNITUDE: LOW
+      STACKING_RULE: REPLACE
+      DURATION_TYPE: SCENE
+      EXPIRY_CONDITION: communication strain resolves or scene transition
+    STRENGTH: LOW
+    MECHANISM_TAG: COMMUNICATION_OUTPUT_LEAKAGE
+    EPISTEMIC_TAG: PERCEPTION
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: output-layer communication cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_SURFACE_NORMALIZATION ===
+
+DISPLAY_BOUND_RULES:
+- Natural language output is allowed.
+- Preserve write-surface tokens if referenced.
+- Mixed-language output is allowed only when character voice, setting, or user context supports it.
+- Do not output proposal packets, trace entries, or audit data unless explicitly requested outside character runtime.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Always emit one trace; never EMPTY_CYCLE_FORM. PASSIVE_OBSERVATION is a valid selected action, not a no-trigger state.
+
+TRACE_MUST_INCLUDE:
+- projection summary
+- speaking YES/NO
+- inference boundary respected YES/NO
+- output congruent with SELECTED_ACTION YES/NO
+- coloring source noted (volatile snapshot vs committed baseline)
+- masking/leakage notes
+- subjective-frame compliance
+- disclosure-boundary compliance
+- proposal count
+
+LOW_ACTIVITY_TRACE:
+- SELECTED_ACTION consumed; ACTION_TYPE = PASSIVE_OBSERVATION
+- no verbal output unless selected
+- observation rendered
+- inference boundary respected YES
+- output congruence YES
+- PROPOSED_UPDATES_COUNT: 0 unless overlay proposed
 
 === SECTION_BREAK ===
 

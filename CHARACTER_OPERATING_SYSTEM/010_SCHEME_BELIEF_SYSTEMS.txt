@@ -70,7 +70,7 @@ LOGIC_ARGUMENT: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE OFF_LA
 
 === SECTION: CONTRADICTION_MATRIX ===
 
-[[LLM_INSTRUCTION]]: Two belief fields are contradictory when their values jointly imply mutually exclusive worldview commitments. Contradictions trigger BELIEF_DISSONANCE overlays per DYNAMICS_BELIEF_SYSTEMS unless one position is at WEAK or REJECTED band.
+[[LLM_INSTRUCTION]]: Two belief fields are contradictory when their values jointly reach the matrix-specified contradiction band for that pair, implying mutually exclusive worldview commitments. A contradiction triggers BELIEF_DISSONANCE overlays per DYNAMICS_BELIEF_SYSTEMS unless at least one field is below its specified contradiction band.
 
 CANONICAL_CONTRADICTION_PAIRS:
 - PHYSICAL_MATERIALISM at STRONG vs SPIRITUAL_DUALISM at STRONG
@@ -85,11 +85,16 @@ CANONICAL_CONTRADICTION_PAIRS:
 - NIHILISM_EXISTENTIALISM at STRONG vs RELIGIOUS_TRANSCENDENCE at STRONG
 - BINARY_THINKING at BLACK_WHITE vs DIALECTICAL_THINKING at FULL_SPECTRUM
 
+CONTRADICTION_BAND_RULE:
+- Each pair above names the exact band on each side at which the contradiction holds; these are the pair's contradiction bands.
+- A pair is in active contradiction only when both fields are at their named contradiction band.
+- If either field is below its named contradiction band (for ordinal fields, any value short of the named band; for categorical fields, any value other than the named value), the pair is not in active contradiction and requires no marker.
+
 === SECTION_BREAK ===
 
 === SECTION: CONTRADICTION_MARKER_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: A coexisting strong-strong contradiction is lawful only when a structured contradiction marker is present in committed state. Prose assertion of compartmentalization is not a lawful marker.
+[[LLM_INSTRUCTION]]: A coexisting matrix-band contradiction (both fields at their named contradiction band) is lawful only when a structured contradiction marker is present in committed state. Prose assertion of compartmentalization is not a lawful marker.
 
 LAWFUL_CONTRADICTION_MARKERS:
 - An active STATE_TEMPORARY_MODIFIERS record with EFFECT_FAMILY BELIEF_DISSONANCE targeting the contradicted belief domain.
@@ -97,8 +102,8 @@ LAWFUL_CONTRADICTION_MARKERS:
 - A persistence-cluster accommodation in progress for one of the contradicted fields per DYNAMICS_BELIEF_SYSTEMS.
 
 MARKER_RESOLUTION:
-- Strong-strong contradiction without one lawful marker surfaces as SCHEME_INVARIANT_VIOLATION.
-- A contradiction where one position is at WEAK or REJECTED does not require a marker.
+- A matrix-band contradiction without one lawful marker surfaces as SCHEME_INVARIANT_VIOLATION.
+- A pair with at least one field below its named contradiction band does not require a marker.
 - The verifier inspects committed STATE_BELIEF_SYSTEMS values against active markers in STATE_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
@@ -108,8 +113,8 @@ MARKER_RESOLUTION:
 [[LLM_INSTRUCTION]]: Contradiction-matrix invariants are cross-field invariants.
 
 TIMING_RULE:
-- Strong-strong contradiction invariants evaluate against projected committed state after conflict reconciliation, not per isolated proposal.
-- A proposal set producing a strong-strong contradiction jointly is evaluated jointly at STATE_GOVERNANCE_AND_COMMIT reconciliation.
+- Matrix-band contradiction invariants evaluate against projected committed state after conflict reconciliation, not per isolated proposal.
+- A proposal set producing a matrix-band contradiction jointly is evaluated jointly at STATE_GOVERNANCE_AND_COMMIT reconciliation.
 
 === SECTION_BREAK ===
 
@@ -117,7 +122,7 @@ TIMING_RULE:
 
 - Beliefs are stability-biased; baseline shifts require persistence-cluster evidence or watershed cues.
 - Ordinal belief fields obey one-step movement against declared ladders unless override proof is complete.
-- Strong-strong contradictions per CONTRADICTION_MATRIX require a lawful contradiction marker.
+- Matrix-band contradictions per CONTRADICTION_MATRIX require a lawful contradiction marker.
 - Update-trigger profile must remain coherent with agency and control stance.
 
 === SECTION_BREAK ===

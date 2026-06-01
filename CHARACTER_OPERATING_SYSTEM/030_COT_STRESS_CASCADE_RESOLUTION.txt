@@ -1,13 +1,13 @@
 === SECTION: COT_STRESS_CASCADE_RESOLUTION ===
 
 [KEEP: Purpose & Role]
-Translates stressor cues into proposed physiological transitions, temporary overlays, and stress-driven impulses.
+Translates stressor cues into proposed physiological transitions, temporary overlays, and stress-driven impulses. Runtime owner of coping selection, maladaptive escalation, stabilization, and substance-risk handling per DYNAMICS_COPE. Supplies complete runtime packets; never writes persistent state directly.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs: STATE_BODY proposals, STATE_COPE pressure proposals, STATE_TEMPORARY_MODIFIERS overlays, DECISION impulses.
-Is Informed By: STATE_MEMORY, personality schemes, STATE_RELATIONAL, narrative input, SCHEME_BODY, DYNAMICS_BODY.
+Informs: STATE_BODY proposals, STATE_COPE proposals, STATE_TEMPORARY_MODIFIERS overlays, DECISION impulses.
+Is Informed By: STATE_MEMORY, personality schemes, STATE_RELATIONAL, STATE_COPE, STATE_TEMPORAL_DYNAMICS, narrative input, SCHEME_BODY, DYNAMICS_BODY, SCHEME_COPE, DYNAMICS_COPE.
 
 === SECTION_BREAK ===
 
@@ -24,6 +24,8 @@ ANCHOR_CUES:
 - STATE_BODY biochemical markers are above baseline.
 - Active modifier targets HYPERVIGILANCE or CHRONIC_LOAD_NUMBING.
 - SIGNIFICANT or CLINICAL MMPI scale interacts with moderate cue per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
+- Substance-use event relevant to coping is present.
+- A maladaptive PRIMARY_MECHANISM (DENIAL, SUBSTANCE_USE, VENTING) persisted from the prior cycle with the stressor unresolved, or a stressor resolves while coping bands remain off baseline.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -112,6 +114,38 @@ ON_CHRONIC_PATTERN:
 
 === SECTION_BREAK ===
 
+=== SECTION: COPE_PROCESSING ===
+
+[[LLM_INSTRUCTION]]: This COT owns runtime coping. COT_ATTACHMENT_BEHAVIORAL_MAPPING owns only attachment-cued probability-bias nudges and never selects mechanisms. Mechanics live in DYNAMICS_COPE; this COT runs the gates and supplies complete runtime packets. All coping band movement is one band per field per cycle under governance limits; arbitration belongs to governance.
+
+ON_ACUTE_STRESS:
+- Run DYNAMICS_COPE.COPE_SELECTION_RULE for the effective coping route.
+- Propose bounded SET on cue-supported COPE_PROBABILITY_BIASES fields toward the selected route.
+
+ON_MALADAPTIVE_PERSISTENCE:
+- Apply DYNAMICS_COPE.MALADAPTIVE_ESCALATION; propose bounded SET on the relevant probability field (and SUBSTANCE_USE_RISK for substance) plus the family-named escalation modifier defined there.
+
+ON_STABILIZATION:
+- Apply DYNAMICS_COPE.STABILIZATION; propose bounded SET toward baseline when the stressor resolves and no reinforcing cues remain.
+
+ON_SUBSTANCE_USE_EVENT:
+- Apply DYNAMICS_COPE.ON_SUBSTANCE_USE_EVENT; physiological effects route through PHYSIOLOGICAL_PROPAGATION and DYNAMICS_BODY.
+
+ON_SUSTAINED_SELECTION_DRIFT:
+- When the selected mechanism differs from PRIMARY_MECHANISM and persists:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_COPE][ACTIVE_COPE_CONFIGURATION][PRIMARY_MECHANISM]
+    PROPOSED_VALUE: selected mechanism
+    MECHANISM_TAG: COPE_SELECTION_DRIFT
+    EPISTEMIC_TAG: INFERENCE
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: sustained coping selection drift
+
+DISTINCTNESS_RULE:
+- If a PRIMARY_MECHANISM SET would equal current SECONDARY_MECHANISM, propose a paired bounded SET moving SECONDARY_MECHANISM to the displaced prior PRIMARY_MECHANISM, preserving the SCHEME_COPE distinctness invariant.
+
+=== SECTION_BREAK ===
+
 === SECTION: BEHAVIORAL_IMPULSE_GENERATION ===
 
 IMPULSE_OUTPUT_FORMAT:
@@ -128,7 +162,7 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include stressor classification, impulses, proposal count, and SCHEME_BODY compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include stressor classification, selected coping mechanism, coping escalation/stabilization direction, substance-risk movement, impulses, proposal count, and SCHEME_BODY plus SCHEME_COPE compliance.
 
 === SECTION_BREAK ===
 
