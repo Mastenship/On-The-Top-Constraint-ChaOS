@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_BODY ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for physiological transitions, stress recovery, bounded biomedical drift, and cross-scheme trait precedence. Defines lawful transition patterns only; never performs direct writes.
+Immutable mechanics for physiological transitions, stress recovery, bounded biomedical drift, cardiovascular perceptual-snapshot derivation, and cross-scheme trait precedence. Defines lawful transition patterns only; never performs direct writes.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -11,7 +11,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
 [[LLM_INSTRUCTION]]: Relative directives: ONE_STEP_UP, ONE_STEP_DOWN, ONE_STEP_TOWARD_BASELINE, ONE_STEP_TOWARD_NEUTRAL.
-[[LLM_INSTRUCTION]]: SET endpoint proposals on ordinal or qualitative fields remain governance step-limited unless override proof is complete.
+[[LLM_INSTRUCTION]]: SET endpoint proposals on ordinal or qualitative fields remain governance step-limited unless override proof is complete. PERCEPTUAL_SNAPSHOT cardiovascular fields are exempt from one-step limits per SCHEME_BODY.
 
 === SECTION_BREAK ===
 
@@ -47,6 +47,55 @@ VERIFIER_NOTE:
 
 === SECTION_BREAK ===
 
+=== SECTION: CARDIOVASCULAR_SNAPSHOT ===
+
+[[LLM_INSTRUCTION]]: HEART_RATE, BLOOD_PRESSURE, and RESPIRATORY_RATE are PERCEPTUAL_SNAPSHOT categorical fields per SCHEME_BODY. They are perceptual readouts of current arousal and biochemical state, written by SET to any lawful endpoint, and exempt from one-step limits. They carry no durable identity meaning and require no persistence evidence.
+
+ON_ACUTE_AROUSAL_OR_ADRENALINE_RISE:
+- When ADRENALINE moves to HEIGHTENED or higher, or an acute-threat cue is present:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][CARDIOVASCULAR][HEART_RATE]
+    PROPOSED_VALUE: ELEVATED | TACHYCARDIC
+    MECHANISM_TAG: SYMPATHETIC_CARDIOVASCULAR_READOUT
+    EPISTEMIC_TAG: PERCEPTION
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: acute arousal cardiovascular readout
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][CARDIOVASCULAR][RESPIRATORY_RATE]
+    PROPOSED_VALUE: ELEVATED | TACHYPNEA
+    MECHANISM_TAG: SYMPATHETIC_CARDIOVASCULAR_READOUT
+    EPISTEMIC_TAG: PERCEPTION
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: acute arousal respiratory readout
+  - Resolve the pipe alternative to one concrete endpoint by cue intensity before scratchpad entry.
+
+ON_SUSTAINED_CORTISOL_ELEVATION:
+- When CORTISOL is SPIKE or higher:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][CARDIOVASCULAR][BLOOD_PRESSURE]
+    PROPOSED_VALUE: HYPERTENSION
+    MECHANISM_TAG: CORTISOL_CARDIOVASCULAR_READOUT
+    EPISTEMIC_TAG: INFERENCE
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: sustained cortisol cardiovascular readout
+
+ON_RECOVERY_OR_BASELINE_RETURN:
+- When ADRENALINE and CORTISOL are at or returning toward baseline and no acute cue remains:
+  - PROPOSE SET cardiovascular fields toward NORMAL endpoints:
+    - HEART_RATE: NORMAL
+    - BLOOD_PRESSURE: NORMAL
+    - RESPIRATORY_RATE: NORMAL
+  - MECHANISM_TAG: CARDIOVASCULAR_BASELINE_RETURN
+  - EPISTEMIC_TAG: INFERENCE
+  - JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  - JUSTIFICATION: cardiovascular readout returns to baseline
+
+SNAPSHOT_NOTE:
+- Cardiovascular snapshots track biochemical state; they do not independently drift and are not subject to cumulative-ordinal counting because they are not ordinal.
+- LOW and the clinical poles (HYPOTENSION, BRADYPNEA) are reached by SET only under explicit matching cue.
+
+=== SECTION_BREAK ===
+
 === SECTION: ENDOCRINE_RECOVERY ===
 
 ON_REST_CYCLE_WITHOUT_ACTIVE_STRESS:
@@ -74,6 +123,7 @@ ON_SIGNIFICANT_INJURY_OR_ILLNESS:
   TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS]
   PROPOSED_VALUE: COMPROMISED
   JUSTIFICATION: injury or illness cue
+- IMMUNE_MARKERS is ordinal per SCHEME_BODY; a move from ROBUST to COMPROMISED is multi-step and requires override proof. From NORMAL, COMPROMISED is one lawful step.
 
 ON_SUBSTANCE_USE_EVENT:
 - If NEUROCHEMICAL_BALANCE = BALANCED:
@@ -93,13 +143,18 @@ ON_MALNUTRITION_OR_DEHYDRATION:
 - ELECTROLYTE_BALANCE may move one lawful step toward CRITICAL.
 - Stronger deterioration requires override proof or governance downgrade/suppression.
 
+IMMUNE_TERMINAL_RECONCILIATION_NOTE:
+[[LLM_INSTRUCTION]]: When two or more terminal biochemical states project concurrently with IMMUNE_MARKERS = ROBUST, governance applies IMMUNE_TERMINAL_STATE_RECONCILIATION: terminal-state transitions commit and IMMUNE_MARKERS is force-corrected one band off ROBUST toward NORMAL. DYNAMICS does not need to emit a separate immune-demotion proposal for this; the bounded correction is governance-side. DYNAMICS may still emit an explicit injury/illness IMMUNE_MARKERS proposal where a direct cue exists.
+
 === SECTION_BREAK ===
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
 - Physiological drift resolves to canonical TRANSITION directives or explicit lawful SET endpoints.
-- SET endpoint proposals on bounded fields remain step-, band-, and invariant-limited.
+- Cardiovascular PERCEPTUAL_SNAPSHOT fields are SET from biochemical/arousal state and are limit-exempt.
+- SET endpoint proposals on bounded ordinal fields remain step-, band-, and invariant-limited.
 - Multi-step deterioration requires override proof.
+- The immune/terminal cross-field invariant is resolved by bounded force-correction, not by suppressing physiological decline.
 - Trait modulation respects CROSS_SCHEME_TRAIT_PRECEDENCE.
 - Dynamics may describe degradation conceptually; proposals must resolve to concrete lawful values.
 

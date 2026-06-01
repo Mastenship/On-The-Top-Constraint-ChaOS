@@ -1,111 +1,118 @@
-=== SECTION: SCHEME_GOALS_MOTIVATIONS ===
+=== SECTION: DYNAMICS_GOALS_MOTIVATIONS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of goals and motivations. Defines drive fields as ordinal ladders, goal record schema, registry rules, and invariants.
+Immutable mechanics for drive escalation, goal formation, goal-worthiness gating, conflict handling, and temporal goal pressure.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
-=== SECTION: DRIVE_STATES ===
+=== SECTION: OPERATION_POLICY ===
 
-[[LLM_INSTRUCTION]]: Drive fields are ordinal per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. Bracket order ascends from least to most severe; BASELINE_ANCHOR defaults to the first member unless declared.
-
-PHYSIOLOGICAL_DRIVES:
-HUNGER: ORDINAL [SATIATED, MILD, MODERATE, SEVERE, STARVATION]
-THIRST: ORDINAL [HYDRATED, MILD, MODERATE, SEVERE, DEHYDRATION]
-SLEEP: ORDINAL [RESTED, MILD_FATIGUE, MODERATE_FATIGUE, SEVERE_FATIGUE, EXHAUSTED]
-TEMPERATURE: ORDINAL [COMFORTABLE, MILD_DISCOMFORT, MODERATE, SEVERE]
-PAIN_AVOIDANCE: ORDINAL [NONE, MILD, MODERATE, SEVERE, CRITICAL]
-
-SAFETY_DRIVES:
-PHYSICAL_SAFETY: ORDINAL [SECURE, MILD_THREAT, MODERATE_THREAT, THREATENED, ENDANGERED]
-EMOTIONAL_SAFETY: ORDINAL [SECURE, MILD_UNCERTAINTY, MODERATE, THREATENED, VIOLATED]
-
-ATTACHMENT_DRIVES:
-INTIMACY: ORDINAL [SATIATED, MILD_NEED, MODERATE, STRONG, DESPERATE]
-BELONGING: ORDINAL [CONNECTED, MILD_LONELINESS, MODERATE, STRONG_ISOLATION, ALIENATED]
-REJECTION_SENSITIVITY: ORDINAL [LOW, MODERATE, HIGH, HYPERSENSITIVE]
-
-ESTEEM_DRIVES:
-COMPETENCE: ORDINAL [CONFIDENT, MILD_DOUBT, MODERATE, STRONG_DOUBT, HELPLESS]
-AUTONOMY: ORDINAL [FREE, MILD_CONSTRAINT, MODERATE, STRONG_CONSTRAINT, CONTROLLED]
-STATUS: ORDINAL [RESPECTED, NEUTRAL, MILD_DISRESPECT, STRONG_DISRESPECT, HUMILIATED] BASELINE_ANCHOR NEUTRAL
-
-COGNITIVE_DRIVES:
-CURIOSITY: ORDINAL [SATIATED, MILD, MODERATE, STRONG, OBSESSIVE]
-MEANING_MAKING: ORDINAL [CLEAR, MILD_UNCERTAINTY, MODERATE, STRONG_EXISTENTIAL, CRISIS]
-
-TRANSCENDENCE_DRIVES:
-SELF_ACTUALIZATION: ORDINAL [FULFILLED, MILD_ASPIRATION, MODERATE, STRONG, BLOCKED]
-LEGACY: ORDINAL [SECURE, MILD_CONCERN, MODERATE, STRONG, IRRELEVANT]
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Goal creation uses SET pair: append GOAL_XX to GOAL_REGISTRY, then SET full GOAL_XX record.
+[[LLM_INSTRUCTION]]: Drive and qualitative goal-field movement uses lawful SET endpoints or TRANSITION where ordinal; governance enforces one-step/one-band limits unless override proof is complete.
 
 === SECTION_BREAK ===
 
-=== SECTION: FATIGUE_REPRESENTATION_COHERENCE_NOTE ===
+=== SECTION: DRIVE_ESCALATION ===
 
-[[LLM_INSTRUCTION]]: The SLEEP drive and STATE_TEMPORAL_DYNAMICS.CURRENT_FATIGUE_LEVEL are distinct surfaces and are intentionally not coupled.
+ON_PHYSIOLOGICAL_DEPRIVATION:
+- Propose SET to next more severe lawful drive value.
+- Stronger deterioration requires override proof or governance downgrade/suppression.
 
-COHERENCE_RULE:
-- SLEEP here is a motivational drive: the pressure to rest, owned by DYNAMICS_GOALS_MOTIVATIONS.
-- CURRENT_FATIGUE_LEVEL in SCHEME_TEMPORAL_DYNAMICS is physiological fatigue load, owned by DYNAMICS_TEMPORAL_DYNAMICS.
-- Both share the ascending rung vocabulary RESTED, MILD_FATIGUE, MODERATE_FATIGUE, SEVERE_FATIGUE, EXHAUSTED for readability.
-- The two may lawfully diverge; no cross-field invariant binds them. Drive pressure and physiological load respond to different cues on different cadences.
+ON_SAFETY_THREAT:
+- Propose SET to next more severe lawful value in PHYSICAL_SAFETY and/or EMOTIONAL_SAFETY as cue type warrants.
+- Higher-order drive suppression requires explicit governance-readable proposals.
 
-=== SECTION_BREAK ===
-
-=== SECTION: GOAL_RECORD_SCHEMA ===
-
-GOAL_ID: ID_TOKEN (GOAL_XX)
-GOAL_DESCRIPTION: STRING_DESCRIPTIVE
-SUCCESS_CRITERIA: STRING_DESCRIPTIVE
-DRIVE_SERVED: STRING_DESCRIPTIVE
-URGENCY: QUALITATIVE_INTENSITY
-CONFIDENCE: QUALITATIVE_INTENSITY
-PARENT_GOAL_ID: OPTIONAL_GOAL_ID
-RESOURCES_REQUIRED: STRING_DESCRIPTIVE
-PROGRESS: QUALITATIVE_INTENSITY
-MILESTONE_BREAKDOWN: STRING_DESCRIPTIVE
-OBSTACLES_ANTICIPATED: STRING_DESCRIPTIVE
-COMMITMENT_LEVEL: QUALITATIVE_INTENSITY
-VALUE_ALIGNMENT: QUALITATIVE_INTENSITY
-IDENTITY_RELEVANCE: QUALITATIVE_INTENSITY
-FLEXIBILITY: ENUM [RIGID, MODERATE, FLEXIBLE, ABANDONABLE]
-LEGACY_COMPONENT: ENUM [NONE, MINOR, MODERATE, MAJOR]
-SELF_ACTUALIZATION: ENUM [NONE, MINOR, MODERATE, MAJOR]
-STATUS: ENUM [DORMANT, ACTIVE, BLOCKED, ABANDONED, ACHIEVED]
-
-GOAL_FIELD_OPERATION_CLASS:
-- QUALITATIVE_INTENSITY fields move one band per cycle by SET or TRANSITION under governance limits.
-- FLEXIBILITY, LEGACY_COMPONENT, SELF_ACTUALIZATION, STATUS are categorical lifecycle fields and move by SET to explicit endpoint.
+ON_ATTACHMENT_EVENT:
+- Positive cues may SET attachment drive fields less severe.
+- Negative cues may SET attachment drive fields more severe.
+- Minor social texture should not change durable drive fields unless attachment-relevant, repeated, or state-salient.
 
 === SECTION_BREAK ===
 
-=== SECTION: TEMPORAL_GOAL_DYNAMICS ===
+=== SECTION: GOAL_WORTHINESS_GATE ===
 
-TIME_PERSPECTIVE: ENUM [PAST_FOCUS, PRESENT_FOCUS, FUTURE_FOCUS, BALANCED]
-DEADLINE_RESPONSE: ENUM [ENERGIZED, PARALYZED, STEADY]
+[[LLM_INSTRUCTION]]: Not every desire, impulse, or immediate action intent becomes GOAL_XX.
+
+GOAL_RECORD_ADMISSION_CRITERIA:
+A new GOAL_XX is warranted only when all are true:
+- Pressure is action-organizing beyond a single moment.
+- No existing ACTIVE, BLOCKED, or DORMANT GOAL_XX captures it.
+- Success criteria are describable.
+- It serves drive, value, safety, attachment, competence, meaning, legacy, or self-actualization pressure.
+- It can persist across cycles or structure multiple actions.
+
+NON_ADMISSION_CASES:
+- Passing wants.
+- Single-turn tactical actions.
+- Momentary impulses handled by COT_DECISION_SYNTHESIS.
+- Duplicates of existing goals.
+- Emotional pressure better represented as temporary modifier.
+- Predictions better represented as PRD_XX.
+- Memories better represented as MEM_XX.
+
+ADMISSION_RESULT:
+- If not admitted, express as impulse, selected action, modifier, or DPF interpretation.
+- If admitted, use SET pair with schema-valid payload.
 
 === SECTION_BREAK ===
 
-=== SECTION: REGISTRY_RULES ===
+=== SECTION: GOAL_FORMATION ===
 
-- [STATE_GOALS_MOTIVATIONS][GOAL_REGISTRY] lists all GOAL_ID tokens.
-- Each listed GOAL_ID must have exactly one corresponding [STATE_GOALS_MOTIVATIONS][GOAL_XX] record.
-- GOAL_ID uses prefix GOAL_.
-- No duplicate GOAL_ID.
-- New goal creation follows strict SET pair contract.
+ON_HIGH_URGENCY_DRIVE:
+- Form GOAL_XX only when GOAL_RECORD_ADMISSION_CRITERIA are met.
+- Initial URGENCY and CONFIDENCE must cohere with drive intensity, resources, body state, and skills.
+
+ON_OPPORTUNITY_OR_OBSTACLE:
+- Prefer SET updates to existing GOAL_XX when lawful.
+- Create new GOAL_XX only when existing records do not capture the pressure and admission criteria are met.
 
 === SECTION_BREAK ===
 
-=== SECTION: INVARIANTS ===
+=== SECTION: CONFLICT_RESOLUTION ===
 
-- Drive fields are ordinal and obey one-step transitions unless override proof is valid.
-- URGENCY band must align with DRIVE_SERVED intensity.
-- CONFIDENCE band must be plausible against resource, body, and skill context.
-- PARENT_GOAL_ID must reference existing GOAL_ID when non-empty.
-- STATUS transitions require explicit cue or event support.
-- HIGH or EXTREME urgency goals should trigger DPF prediction linkage behavior per DYNAMICS_GOALS_MOTIVATIONS.
+ON_GOAL_CONFLICT:
+- Classify conflict.
+- Propose bounded SET to URGENCY, STATUS, or CONFIDENCE when cue support exists.
+- Use ADD_MODIFIER for short-horizon conflict pressure when more lawful than durable goal rewrite.
+
+CONFLICT_TYPES:
+- RESOURCE_CONFLICT
+- VALUE_CONFLICT
+- SAFETY_VS_DESIRE
+- ATTACHMENT_VS_AUTONOMY
+- SHORT_TERM_VS_LONG_TERM
+- IDENTITY_VS_SURVIVAL
+- TIME_PRESSURE_CONFLICT
+
+=== SECTION_BREAK ===
+
+=== SECTION: TEMPORAL_DYNAMICS ===
+
+ON_DEADLINE_APPROACH:
+- Propose bounded SET increases to GOAL_XX urgency when time pressure is explicit.
+- Propose SET to DEADLINE_RESPONSE when cue support is sufficient.
+
+ON_TIME_PERSPECTIVE_SHIFT:
+- Propose SET to TIME_PERSPECTIVE when cue support is sufficient.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_FORMATION_LINK ===
+
+ON_ACTIVE_HIGH_URGENCY_GOAL:
+- Trigger DPF prediction evaluation when anticipatory framing is warranted and DYNAMICS_DPF.PREDICTION_RECORD_ADMISSION_CRITERIA are met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Goal-drive severity resolves to explicit lawful values.
+- Qualitative goal fields are bounded SET or lawful TRANSITION.
+- Short-horizon pressure should prefer modifiers.
+- New GOAL_XX requires admission criteria and registry-record coherence.
 
 === SECTION_BREAK ===
 

@@ -1,7 +1,7 @@
 === SECTION: STATE_GOVERNANCE_OVERLAY ===
 
 [KEEP: Purpose & Role]
-Governance policy overlay for single-writer enforcement, conflict resolution, per-cycle limits, cross-field invariant timing, remediation, quarantine, and read boundaries. Defines policy only; STATE_GOVERNANCE_AND_COMMIT performs commits.
+Governance policy overlay for single-writer enforcement, conflict resolution, per-cycle limits, cross-field invariant timing, invariant-forced correction, remediation, quarantine, and read boundaries. Defines policy only; STATE_GOVERNANCE_AND_COMMIT performs commits.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -20,8 +20,9 @@ RULES:
 - STATE_GOVERNANCE_AND_COMMIT is the only persistent-state writer.
 - COT_UPDATE_VERIFICATION is persistent-state non-mutating and may propose only GOVERNANCE_CORRECTIVE updates to STATE_GOVERNANCE_RUNTIME.
 - Post-verification governance proposals are committed or suppressed before scratchpad wipe.
-- Canonical paths, strict operations, empty-value forms, and forbidden aliases follow CANONICAL_TOKEN_DICTIONARY.
+- Canonical paths, write-eligibility, strict operations, empty-value forms, and forbidden aliases follow CANONICAL_TOKEN_DICTIONARY.
 - Proposal schemas and schematic directive expansion follow UPDATE_CASCADE_REGISTRY.
+- INVARIANT_FORCED_CORRECTION is the only governance-originated state write permitted outside the proposal pipeline; it is enumerated, bounded, and audit-logged per CROSS_FIELD_INVARIANT_TIMING.
 
 === SECTION_BREAK ===
 
@@ -34,11 +35,29 @@ GENERAL_LIMITS:
 - One qualitative band per field.
 - SET endpoint placement is subject to the same movement limits as TRANSITION.
 - Multi-step movement requires STRUCTURAL_OVERRIDE_PROOF_FIELDS.
+- PERCEPTUAL_SNAPSHOT categorical fields are exempt from one-step limits per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
 
 CUMULATIVE_ORDINAL_RULE:
 - Cumulative ordinary ordinal movement is the sum of absolute step distances across all committed ordinal and qualitative fields in the cycle.
 - Override-proof-backed movements are excluded from the cumulative count.
+- A COUPLED_MOVEMENT_SET of same-direction movements driven by one mechanistic event counts as a single step toward the cumulative total per COUPLED_MOVEMENT_REGISTRY.
 - Cumulative ordinary movement exceeding two steps is breach; the lowest-precedence ordinary movements are downgraded toward no-change until the count is two or fewer, otherwise surplus movements are suppressed with STEP_LIMIT_EXCEEDED.
+
+INTENTIONAL_THROTTLE_NOTE:
+- The two-step cumulative cap is deliberate throttling and is expected behavior.
+- COT and DYNAMICS layers over-propose by design; not every lawful single-field proposal commits in an eventful cycle.
+- CONFLICT_RESOLUTION_POLICY.PRECEDENCE_ORDER determines which movements commit; lower-precedence housekeeping movements such as decay and drift may defer to a later cycle rather than crowd out a primary event.
+- Authors should not assume their proposals commit independently in a busy cycle.
+
+COUPLED_MOVEMENT_REGISTRY:
+- Named same-direction co-activations that count as one cumulative step because they are one mechanistic event:
+  - SYMPATHETIC_HPA: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ADRENALINE] with [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]
+  - FATIGUE_DEBT: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL] with [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+  - CERTAINTY_DECAY: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE] with [STATE_DPF][PRD_XX][CERTAINTY]
+- A coupled set counts once only when every member moves one step in the same ladder direction in the same cycle under aligned mechanism.
+- Members moving independently, in opposite directions, or beyond one step each count separately and are not collapsed.
+- Coupling never raises a member above its own one-step-per-field limit.
+- Additions require constitutional update.
 
 MEMORY_LIMITS:
 - Ordinary memory creation cap: 1 MEM_XX per cycle.
@@ -84,7 +103,17 @@ RULES:
   - SCHEME_BELIEF_SYSTEMS strong-strong contradiction marker requirement: SCHEME_INVARIANT_VIOLATION.
   - SCHEME_SKILLS INSTINCT_MASTERY_COUPLING: SCHEME_INVARIANT_VIOLATION.
   - SCHEME_SKILLS GROWTH_POTENTIAL ceiling (GROWTH_POTENTIAL must not remain HIGH when MASTERY_LEVEL is MASTER): SCHEME_INVARIANT_VIOLATION.
-- A proposal set whose members each pass individually but jointly violate a cross-field invariant is resolved jointly: the lowest-precedence contributing proposals are downgraded or suppressed until the projected state is lawful.
+- A proposal set whose members each pass individually but jointly violate a cross-field invariant is resolved jointly: the lowest-precedence contributing proposals are downgraded or suppressed until the projected state is lawful, except where an INVARIANT_FORCED_CORRECTION is the designated resolution below.
+
+IMMUNE_TERMINAL_STATE_RECONCILIATION:
+[[LLM_INSTRUCTION]]: This invariant is resolved by correcting the immune flag, not by blocking physiological decline.
+- Trigger: projected committed state holds IMMUNE_MARKERS = ROBUST with two or more terminal biochemical states present.
+- Designated resolution: an INVARIANT_FORCED_CORRECTION that moves IMMUNE_MARKERS one band off ROBUST toward NORMAL on its declared ladder.
+- The contributing terminal-state transitions are preserved and committed; they are not suppressed to protect a stale ROBUST value.
+- INVARIANT_FORCED_CORRECTION is a bounded governance reconciliation write to a single existing committed field per CANONICAL_TOKEN_DICTIONARY.GOVERNANCE_RECONCILIATION_ACTIONS; it is audit-logged and is not character-cognition proposal generation.
+- If projected IMMUNE_MARKERS is already below ROBUST, the invariant is satisfied and no correction is applied.
+- A severe single-cycle immune drop greater than one band (for example ROBUST directly to COMPROMISED) requires override proof on an IMMUNE_MARKERS proposal exactly like other multi-step physiological deterioration.
+- Residual unresolved breach surfaces as IMMUNE_TERMINAL_STATE_CONFLICT.
 
 === SECTION_BREAK ===
 
@@ -99,7 +128,7 @@ CONFLICT_GROUPING:
 
 PRECEDENCE_ORDER:
 1) SCHEME invariant preservation.
-2) Canonical path and operation validity.
+2) Canonical path, write-eligibility, and operation validity.
 3) Complete override proof.
 4) COMMITTED_FACT with resolvable EVIDENCE_REF.
 5) Higher STRENGTH.
@@ -123,6 +152,7 @@ DOWNGRADE_POLICY:
 - Lawful only when nearest bounded outcome is deterministic.
 - May convert excessive movement to one-step/one-band.
 - May redirect short-horizon baseline mutation to lawful modifier pattern.
+- May apply an INVARIANT_FORCED_CORRECTION where a cross-field invariant designates it as the resolution; this corrects one existing field one band rather than suppressing the contributing proposals.
 - If no deterministic downgrade exists, suppress.
 
 === SECTION_BREAK ===
@@ -163,12 +193,24 @@ QUARANTINE_NEXT_CYCLE_VIOLATIONS:
 - READ_BOUNDARY_VIOLATION
 - SELECTED_ACTION_FALLBACK_VIOLATION
 - MODIFIER_LIFECYCLE_VIOLATION
+- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS
+- MODIFIER_COEXISTENCE_UNLAWFUL
+- MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE
+- MODIFIER_REMOVE_REGISTRY_INCOHERENCE
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
 - INSTANTIATION_INCOMPLETE
+
+MODIFIER_LIFECYCLE_SUBCODE_ROLLUP:
+[[LLM_INSTRUCTION]]: The modifier lifecycle sub-codes inherit the quarantine class of the umbrella code.
+- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS, MODIFIER_COEXISTENCE_UNLAWFUL, MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE, MODIFIER_REMOVE_REGISTRY_INCOHERENCE, and MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE each inherit the quarantine class of MODIFIER_LIFECYCLE_VIOLATION.
+- A FAIL whose dominant violation is any of these engages QUARANTINE_NEXT_CYCLE exactly as MODIFIER_LIFECYCLE_VIOLATION would.
+- Listing them explicitly above is for tooling clarity; the roll-up is authoritative if either source drifts.
 
 WARN_AND_PROCEED_WARNINGS:
 - COT_TRACE_MISSING
 - OUTPUT_INCONGRUENCE
 - COT_FIRED_WITHOUT_ANCHOR_CUE
+- POST_VERIFICATION_TRACE_MISSING
 
 RESERVED_REMEDIATION:
 - ROLLBACK is reserved; current substrate suppresses with ROLLBACK_NOT_ACTIVE and uses WARN_AND_PROCEED behavior.
@@ -193,7 +235,7 @@ EFFECT_WHEN_ACTIVE:
 
 CLEARING:
 - Clears on clean PASS or structurally sufficient GOVERNANCE_CORRECTIVE resolution.
-- Clearing mechanics follow DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.
+- Clearing mechanics follow DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR, including the same-cycle guard that applies to every clear path.
 
 REASON_CODE_CAP:
 - QUARANTINE_REASON_CODES cap: 5.
@@ -213,6 +255,7 @@ RULES:
 - CHARACTER_VISIBLE modules and subfields may be read by character-cognition COTs.
 - GOVERNANCE_INTERNAL modules and subfields may be read only by governance-band authorities.
 - Character-cognition COTs must not read governance internals.
+- A lawful character-cognition append to an append-only GOVERNANCE_INTERNAL subfield (CASCADE_TRACE) is not a read per CANONICAL_TOKEN_DICTIONARY.WRITE_VERSUS_READ_NOTE; only a read-back of GOVERNANCE_INTERNAL content is a violation.
 - Canonical-contract conformance is compiled into character-cognition templates at authoring time per CANONICAL_TOKEN_DICTIONARY.READ_DERIVATION_RULE and is not a runtime read.
 - Violations are detected by COT_UPDATE_VERIFICATION through trace inspection.
 
@@ -224,6 +267,7 @@ RULES:
 - STATE_GOVERNANCE_AND_COMMIT is the sole persistent writer.
 - SET/TRANSITION semantics and empty-value forms follow CANONICAL_TOKEN_DICTIONARY.
 - Cross-field invariants evaluate against projected committed state.
+- INVARIANT_FORCED_CORRECTION resolves designated cross-field invariants by bounded single-field correction.
 - Quarantine state lives only in STATE_GOVERNANCE_RUNTIME.
 - Scratchpad artifacts survive only by lawful commit.
 

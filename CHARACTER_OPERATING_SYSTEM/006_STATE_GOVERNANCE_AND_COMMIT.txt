@@ -1,7 +1,7 @@
 === SECTION: STATE_GOVERNANCE_AND_COMMIT ===
 
 [KEEP: Purpose & Role]
-Single persistent-state writer. Runs twice per ordinary cycle: PRIMARY_PASS commits ordinary lawful proposals; POST_VERIFICATION_PASS commits verifier-originated STATE_GOVERNANCE_RUNTIME proposals before scratchpad wipe. Validates proposals against canonical, scheme, operation, empty-value, epistemic, evidence, override-proof, conflict, cross-field invariant, and limit contracts; commits lawful updates; records audit closure.
+Single persistent-state writer. Runs twice per ordinary cycle: PRIMARY_PASS commits ordinary lawful proposals; POST_VERIFICATION_PASS commits verifier-originated STATE_GOVERNANCE_RUNTIME proposals before scratchpad wipe. Validates proposals against canonical, write-eligibility, scheme, operation, empty-value, epistemic, evidence, override-proof, conflict, cross-field invariant, and limit contracts; commits lawful updates; applies bounded invariant-forced corrections; records audit closure.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -16,6 +16,7 @@ Is Informed By: STATE_GOVERNANCE_OVERLAY, CANONICAL_TOKEN_DICTIONARY, UPDATE_CAS
 ALLOWED_WRITES:
 - persistent STATE_* modules
 - STATE_GOVERNANCE_RUNTIME
+- bounded INVARIANT_FORCED_CORRECTION writes to a single existing committed STATE_* field, only as designated by STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING
 - instantiation-time immutable baseline-bearing SCHEME_* modules, only when [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][INSTANTIATION_MODE] = TRUE and target module is one of:
   - SCHEME_HEXACO
   - SCHEME_DARK_TRIAD
@@ -30,9 +31,17 @@ FORBIDDEN_WRITES:
 - unconstrained proposal generation
 - proposal-registry bypass
 - non-canonical mutation
+- persistent write to an IDENTITY_ONLY_ROOT per CANONICAL_TOKEN_DICTIONARY.WRITE_ELIGIBILITY
 - prose narrative output during commit execution
 
-[[LLM_INSTRUCTION]]: Commit execution is reduction-only and audit-structured.
+INVARIANT_FORCED_CORRECTION_BOUNDARY:
+- INVARIANT_FORCED_CORRECTION is not unconstrained generation. It is permitted only when:
+  - a cross-field invariant in STATE_GOVERNANCE_OVERLAY designates it as the resolution,
+  - it adjusts exactly one existing committed field by one band on its declared ladder,
+  - the target field is write-eligible, and
+  - it is recorded in the commit audit with reason INVARIANT_FORCED_CORRECTION_APPLIED.
+
+[[LLM_INSTRUCTION]]: Commit execution is reduction-only and audit-structured, except for enumerated INVARIANT_FORCED_CORRECTION writes.
 
 === SECTION_BREAK ===
 
@@ -43,6 +52,7 @@ PRIMARY_PASS:
 - Trace COT_NAME: STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS.
 - Consumes proposals present before COT_UPDATE_VERIFICATION.
 - Commits lawful ordinary STATE_* proposals, STATE_TEMPORARY_MODIFIERS proposals, and lawful primary-intake governance-corrective proposals.
+- Applies any designated INVARIANT_FORCED_CORRECTION during cross-field reconciliation.
 - Emits PRIMARY_PASS_AUDIT and one trace.
 
 POST_VERIFICATION_PASS:
@@ -52,6 +62,10 @@ POST_VERIFICATION_PASS:
 - Consumes only verifier-originated proposals from PRIORITY_17.
 - Emits POST_VERIFICATION_PASS_AUDIT and one trace.
 - Scratchpad wipe occurs only after this pass completes.
+
+NEXT_CYCLE_VERIFICATION_NOTE:
+- The PRIORITY_18 trace is not verified in its own cycle.
+- The next cycle's COT_UPDATE_VERIFICATION confirms the prior cycle emitted a POST_VERIFICATION_PASS trace before scratchpad wipe, raising POST_VERIFICATION_TRACE_MISSING (WARN) if absent, per COT_UPDATE_VERIFICATION.VERIFICATION_CHECKLIST item 12.
 
 POST_VERIFICATION_GATE:
 Lawful post-verification proposals must satisfy all:
@@ -77,6 +91,7 @@ POST_VERIFICATION_SUPPRESSION:
 SINGLE_WRITER_PRESERVATION:
 - COT_UPDATE_VERIFICATION never writes persistent state directly.
 - The second pass is a restricted invocation of the same writer, not another writer.
+- INVARIANT_FORCED_CORRECTION does not introduce a second writer; it is this module acting during reconciliation.
 
 === SECTION_BREAK ===
 
@@ -103,13 +118,15 @@ STEP_02_SCHEMA_AND_EMPTY_VALUE_VALIDATION:
 - Suppress invalid empty-value use with INVALID_ENUM_VALUE, INVALID_TARGET_FIELD, or LINKAGE_REFERENCE_VIOLATION as applicable.
 
 STEP_03_CANONICAL_PATH_VALIDATION:
-- Validate module root, bracket path, TARGET_MODULE/TARGET_FIELD agreement, target legality, registry use, and record-stub non-instantiation.
+- Validate module root, write-eligibility per CANONICAL_TOKEN_DICTIONARY.WRITE_ELIGIBILITY, bracket path, TARGET_MODULE/TARGET_FIELD agreement, target legality, registry use, and record-stub non-instantiation.
+- Suppress persistent writes to IDENTITY_ONLY_ROOTS with INVALID_TARGET_FIELD.
 - Suppress with INVALID_PATH_ROOT, LEGACY_ROOT_FORBIDDEN, INVALID_TARGET_FIELD, or REGISTRY_RECORD_PAIR_VIOLATION.
 - ADD_MODIFIER outer TARGET_FIELD record-stub is lawful per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.ADD_MODIFIER_TARGET_FIELD_RULE and is not a REGISTRY_RECORD_PAIR_VIOLATION.
 
 STEP_04_SCHEME_AND_OPERATION_VALIDATION:
 - Validate operation vocabulary, enum legality, ordinal ladder legality, transition-directive binding, record schema, single-proposal invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
 - Ordinal step legality evaluates against the field's declared ladder per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
+- PERCEPTUAL_SNAPSHOT categorical fields are exempt from one-step limits.
 - Suppress with OPERATION_TYPE_INVALID, INVALID_ENUM_VALUE, INVALID_ORDINAL_TRANSITION, REGISTRY_RECORD_PAIR_VIOLATION, SCHEME_INVARIANT_VIOLATION, SCHEME_IMMUTABLE_BASELINE_WRITE, MODIFIER_SCHEMA_VIOLATION, LINKAGE_REFERENCE_VIOLATION, or IMMUNE_TERMINAL_STATE_CONFLICT.
 
 IMMUTABLE_BASELINE_WRITE_RULE:
@@ -159,7 +176,7 @@ STEP_09_CONFLICT_RECONCILIATION:
 STEP_10_LIMIT_AND_DOWNGRADE_EVALUATION:
 - Enforce STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.
 - SET endpoint placement and TRANSITION movement share ordinal/band limits.
-- Enforce CUMULATIVE_ORDINAL_RULE across all provisional ordinary movements.
+- Enforce CUMULATIVE_ORDINAL_RULE across all provisional ordinary movements, collapsing COUPLED_MOVEMENT_REGISTRY sets to one step each.
 - Enforce MAX_ACTIVE_PREDICTIONS.
 - Apply override-proof results.
 - Downgrade only when nearest lawful bounded outcome is deterministic.
@@ -168,11 +185,12 @@ STEP_10_LIMIT_AND_DOWNGRADE_EVALUATION:
 STEP_10A_CROSS_FIELD_INVARIANT_EVALUATION:
 - Project committed state from surviving candidate actions.
 - Evaluate STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING invariants against the projected state.
-- Where a cross-field invariant is breached, downgrade or suppress the lowest-precedence contributing candidates until projected state is lawful.
+- For the immune/terminal invariant, apply IMMUNE_TERMINAL_STATE_RECONCILIATION: emit an INVARIANT_FORCED_CORRECTION moving IMMUNE_MARKERS one band off ROBUST toward NORMAL, and preserve the contributing terminal-state transitions. Record the correction with reason INVARIANT_FORCED_CORRECTION_APPLIED.
+- For all other cross-field invariants, downgrade or suppress the lowest-precedence contributing candidates until projected state is lawful.
 - Suppress residual breach with IMMUNE_TERMINAL_STATE_CONFLICT or SCHEME_INVARIANT_VIOLATION as applicable.
 
 STEP_11_PERSISTENT_COMMIT_AND_AUDIT:
-- Apply final lawful writes.
+- Apply final lawful writes, including any INVARIANT_FORCED_CORRECTION.
 - Write PRIMARY_PASS_AUDIT.
 - Append STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS trace.
 
@@ -218,12 +236,14 @@ PV_STEP_06_RECONCILIATION_AND_COMMIT:
 - Apply conflict policy.
 - Commit lawful STATE_GOVERNANCE_RUNTIME updates.
 - Apply QUARANTINE_REASON_CODES cap-aware SET behavior.
+- Honor DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
 - Close final action for each post-verification proposal.
 
 PV_STEP_07_POST_VERIFICATION_AUDIT_AND_TRACE:
 - Write POST_VERIFICATION_PASS_AUDIT.
 - Append STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace.
 - Do not invoke COT_UPDATE_VERIFICATION again in the same cycle.
+- The next cycle's verifier confirms this trace was emitted per NEXT_CYCLE_VERIFICATION_NOTE.
 
 === SECTION_BREAK ===
 
@@ -232,7 +252,7 @@ PV_STEP_07_POST_VERIFICATION_AUDIT_AND_TRACE:
 SET:
 - Apply explicit value or payload to lawful target.
 - Registry SET pair must preserve registry-record coherence.
-- Ordinal or qualitative endpoint SET remains one-step/one-band bounded unless override proof is complete.
+- Ordinal or qualitative endpoint SET remains one-step/one-band bounded unless override proof is complete or the field is PERCEPTUAL_SNAPSHOT.
 - Categorical fields require explicit lawful enum endpoint.
 - Ordinary categorical lifecycle movement uses SET unless SCHEME declares transition ladder.
 - POST_VERIFICATION_PASS SET is limited to POST_VERIFICATION_LAWFUL_TARGETS.
@@ -269,6 +289,12 @@ CAP:
 
 VETO:
 - Suppress lower-precedence conflicting or disallowed mutation.
+- Not lawful during POST_VERIFICATION_PASS.
+
+INVARIANT_FORCED_CORRECTION:
+- Not a proposal OPERATION_TYPE; a governance reconciliation action emitted only at STEP_10A on enumerated invariants.
+- Moves one existing committed field one band on its declared ladder to restore lawful projected state.
+- Audit-logged with reason INVARIANT_FORCED_CORRECTION_APPLIED.
 - Not lawful during POST_VERIFICATION_PASS.
 
 === SECTION_BREAK ===
@@ -316,6 +342,9 @@ OVERRIDE_AND_LIMITS:
 - BASELINE_REWRITE_NOT_JUSTIFIED
 - DPF_PREDICTION_CAP_EXCEEDED
 
+RECONCILIATION:
+- INVARIANT_FORCED_CORRECTION_APPLIED
+
 GOVERNANCE_RUNTIME:
 - QUARANTINE_ACTIVE
 - READ_BOUNDARY_VIOLATION
@@ -327,6 +356,7 @@ RESERVED:
 - TOOL_ACTUATION_NOT_ACTIVE
 - ROLLBACK_NOT_ACTIVE
 - LIFT_HOOK_NOT_ACTIVE
+- MODIFIER_TYPE_RESERVED_NO_FAMILY
 
 VERIFIER_EMITTED_CODES:
 - COT_TRACE_MISSING (WARN)
@@ -341,6 +371,9 @@ VERIFIER_EMITTED_CODES:
 - MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE (FAIL)
 - MODIFIER_REMOVE_REGISTRY_INCOHERENCE (FAIL)
 - MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE (FAIL)
+
+MODIFIER_SUBCODE_QUARANTINE_NOTE:
+- The five MODIFIER_ sub-codes above inherit the QUARANTINE_NEXT_CYCLE class of MODIFIER_LIFECYCLE_VIOLATION per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP.
 
 === SECTION_BREAK ===
 
@@ -360,6 +393,7 @@ TOTAL_PROPOSALS_COMMITTED:
 TOTAL_PROPOSALS_SUPPRESSED:
 TOTAL_PROPOSALS_DOWNGRADED:
 TOTAL_PROPOSALS_VETOED:
+TOTAL_INVARIANT_FORCED_CORRECTIONS:
 
 FINAL_ID_ASSIGNMENTS:
 - DOMAIN:
@@ -379,6 +413,13 @@ DOWNGRADE_LOG:
 VETO_LOG:
 - PROPOSAL_ID:
   REASON_CODE:
+
+FORCED_CORRECTION_LOG:
+- TARGET_FIELD:
+  FROM_VALUE:
+  TO_VALUE:
+  INVARIANT:
+  REASON_CODE: INVARIANT_FORCED_CORRECTION_APPLIED
 
 FINAL_ACTION_LOG:
 - PROPOSAL_ID:
@@ -410,6 +451,7 @@ KEY_OUTPUTS:
 - TOTAL_PROPOSALS_SUPPRESSED
 - TOTAL_PROPOSALS_DOWNGRADED
 - TOTAL_PROPOSALS_VETOED
+- TOTAL_INVARIANT_FORCED_CORRECTIONS
 GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: 0

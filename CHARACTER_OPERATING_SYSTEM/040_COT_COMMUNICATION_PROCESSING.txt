@@ -33,6 +33,31 @@ FORBIDDEN_OUTPUT:
 
 === SECTION_BREAK ===
 
+=== SECTION: PRE_REALIZATION_CONGRUENCE_SELF_CHECK ===
+
+[[LLM_INSTRUCTION]]: Output is realized at PRIORITY_15, before governance verification at PRIORITY_17. Because realization precedes verification, this COT runs a mandatory self-check that gates its own output. The PRIORITY_17 OUTPUT_CONGRUENCE check remains a retrospective WARN backstop; this self-check is the in-cycle gate.
+
+SELF_CHECK_SEQUENCE:
+- Read [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
+- Confirm SELECTED_ACTION matches the strict schema and is not default NONE; if synthesis has not produced a valid action, realize the PASSIVE_OBSERVATION fallback rather than inventing one.
+- Confirm intended realization ACTION_TYPE equals SELECTED_ACTION.ACTION_TYPE.
+- Confirm intended target equals SELECTED_ACTION.TARGET_ID.
+- Confirm no unselected action is introduced.
+- Confirm CONFLICT_FLAG handling: if TRUE, realization may show hesitation but must not perform incompatible actions.
+- Confirm subjective-frame and disclosure boundaries below are satisfied.
+
+SELF_CHECK_RESULT:
+- If every check passes: realize output.
+- If any check fails: do not emit the divergent output. Re-derive realization from SELECTED_ACTION, or fall back to PASSIVE_OBSERVATION realization if SELECTED_ACTION is unusable.
+- Record the self-check outcome in this COT's trace (CONGRUENCE_SELF_CHECK: PASS or CORRECTED).
+- This self-check cannot mutate persistent state; it only governs which realization text is produced this cycle.
+
+RELATIONSHIP_TO_VERIFIER:
+- The PRIORITY_17 verifier still inspects realized output against SELECTED_ACTION and raises OUTPUT_INCONGRUENCE (WARN) on residual mismatch.
+- The self-check is intended to make that WARN rare; it is the preventive gate, the verifier is the audit backstop.
+
+=== SECTION_BREAK ===
+
 === SECTION: OUTPUT_CONGRUENCE_RULE ===
 
 [[LLM_INSTRUCTION]]: Realized output must match [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
@@ -43,6 +68,7 @@ REQUIREMENTS:
 - NARRATIVE_ACTION_DESCRIPTION is the canonical action anchor.
 - If CONFLICT_FLAG = TRUE, output may show hesitation but must not perform incompatible actions.
 - Output must not add an unselected action.
+- PRE_REALIZATION_CONGRUENCE_SELF_CHECK gates output before emission.
 
 PASSIVE_OBSERVATION_FALLBACK:
 - Observe without action.
@@ -50,7 +76,7 @@ PASSIVE_OBSERVATION_FALLBACK:
 - Keep especially brief.
 
 VERIFIER_INTERACTION:
-- COT_UPDATE_VERIFICATION raises OUTPUT_INCONGRUENCE on mismatch.
+- COT_UPDATE_VERIFICATION raises OUTPUT_INCONGRUENCE on mismatch as a retrospective WARN backstop.
 
 === SECTION_BREAK ===
 
@@ -152,6 +178,7 @@ TRACE_MUST_INCLUDE:
 - speaking YES/NO
 - inference boundary respected YES/NO
 - output congruent with SELECTED_ACTION YES/NO
+- CONGRUENCE_SELF_CHECK: PASS or CORRECTED
 - masking/leakage notes
 - subjective-frame compliance
 - disclosure-boundary compliance
@@ -163,6 +190,7 @@ LOW_ACTIVITY_TRACE:
 - observation rendered
 - inference boundary respected YES
 - output congruence YES
+- CONGRUENCE_SELF_CHECK: PASS
 - PROPOSED_UPDATES_COUNT: 0 unless overlay proposed
 
 === SECTION_BREAK ===

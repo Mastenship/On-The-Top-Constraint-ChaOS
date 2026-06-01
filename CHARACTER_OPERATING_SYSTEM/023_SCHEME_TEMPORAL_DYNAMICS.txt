@@ -1,7 +1,7 @@
 === SECTION: SCHEME_TEMPORAL_DYNAMICS ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of temporal dynamics state. Defines circadian profile, fatigue schema, routine dependency, and time-perception fields.
+Immutable structural definition of temporal dynamics state. Defines circadian profile, fatigue schema, routine dependency, time-perception fields, and perceptual-snapshot declarations.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -27,6 +27,9 @@ ORDINALS:
 CURRENT_FATIGUE_LEVEL_ORDER: RESTED < MILD_FATIGUE < MODERATE_FATIGUE < SEVERE_FATIGUE < EXHAUSTED
 ACCUMULATED_SLEEP_DEBT_ORDER: NONE < MILD < MODERATE < SEVERE < CRITICAL
 
+FATIGUE_COUPLING_NOTE:
+[[LLM_INSTRUCTION]]: CURRENT_FATIGUE_LEVEL and ACCUMULATED_SLEEP_DEBT moving one step upward together under one time-passage event form the FATIGUE_DEBT coupled set and count as one cumulative step per STATE_GOVERNANCE_OVERLAY.COUPLED_MOVEMENT_REGISTRY. Independent or opposite movement counts separately.
+
 === SECTION_BREAK ===
 
 === SECTION: ROUTINE_DEPENDENCY ===
@@ -39,15 +42,22 @@ HABIT_STRENGTH: ENUM [WEAK, MODERATE, STRONG]
 
 === SECTION: TIME_PERCEPTION_STATE ===
 
-SUBJECTIVE_TIME_FLOW: ENUM [TIME_DRAGS, NORMAL, TIME_FLIES]
-TIME_PRESSURE_PERCEPTION: ENUM [NO_PRESSURE, MILD, MODERATE, HIGH_URGENCY]
+[[LLM_INSTRUCTION]]: Time-perception fields are PERCEPTUAL_SNAPSHOT categorical readings per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. They represent the current subjective reading and may SET to any lawful endpoint in one cycle; they are exempt from one-step movement limits by design.
+
+SUBJECTIVE_TIME_FLOW: ENUM [TIME_DRAGS, NORMAL, TIME_FLIES] PERCEPTUAL_SNAPSHOT
+TIME_PRESSURE_PERCEPTION: ENUM [NO_PRESSURE, MILD, MODERATE, HIGH_URGENCY] PERCEPTUAL_SNAPSHOT
+
+TIME_PERCEPTION_DERIVATION_NOTE:
+[[LLM_INSTRUCTION]]: These fields are subjective readouts driven by arousal, fatigue, and explicit deadline cues per DYNAMICS_TEMPORAL_DYNAMICS. They do not carry durable identity meaning and do not require persistence evidence. The PERCEPTUAL_SNAPSHOT exemption is intentional so that an explicit deadline can move TIME_PRESSURE_PERCEPTION straight to HIGH_URGENCY in one cycle.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
 - Fatigue/sleep debt transitions obey bounded step logic unless override proof is provided.
+- Fatigue and sleep-debt co-movement under one time-passage event counts as one cumulative step per FATIGUE_COUPLING_NOTE.
 - CHRONOTYPE remains stable post-instantiation.
+- Time-perception PERCEPTUAL_SNAPSHOT fields are exempt from one-step limits and are written by DYNAMICS_TEMPORAL_DYNAMICS.
 - SUBJECTIVE_TIME_FLOW shifts should cohere with arousal/fatigue conditions.
 
 === SECTION_BREAK ===

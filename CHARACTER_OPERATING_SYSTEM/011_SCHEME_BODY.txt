@@ -1,7 +1,7 @@
 === SECTION: SCHEME_BODY ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of physiological/body state. Defines body field schemas, ordinal ladders, safety invariants, cross-field invariant timing, and pain-representation convention.
+Immutable structural definition of physiological/body state. Defines body field schemas, ordinal ladders, perceptual-snapshot fields, safety invariants, cross-field invariant timing, immune/terminal reconciliation reference, and pain-representation convention.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -18,12 +18,24 @@ BODY_COMPOSITION: ENUM [LEAN, AVERAGE, MUSCULAR, STOCKY, FRAIL]
 
 === SECTION: PHYSIOLOGICAL_HEALTH ===
 
-CARDIOVASCULAR:
-HEART_RATE: ENUM [LOW, NORMAL, ELEVATED, TACHYCARDIC]
-BLOOD_PRESSURE: ENUM [LOW, NORMAL, HYPOTENSION, HYPERTENSION]
-RESPIRATORY_RATE: ENUM [LOW, NORMAL, ELEVATED, BRADYPNEA, TACHYPNEA]
+[[LLM_INSTRUCTION]]: Cardiovascular fields are PERCEPTUAL_SNAPSHOT categorical readings per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. They represent an instantaneous clinical snapshot driven by current arousal/biochemical state and may SET to any lawful endpoint in one cycle. They are exempt from one-step movement limits by design.
 
-IMMUNE_MARKERS: ENUM [ROBUST, NORMAL, COMPROMISED, SUPPRESSED]
+CARDIOVASCULAR:
+HEART_RATE: ENUM [LOW, NORMAL, ELEVATED, TACHYCARDIC] PERCEPTUAL_SNAPSHOT
+BLOOD_PRESSURE: ENUM [LOW, NORMAL, HYPOTENSION, HYPERTENSION] PERCEPTUAL_SNAPSHOT
+RESPIRATORY_RATE: ENUM [LOW, NORMAL, ELEVATED, BRADYPNEA, TACHYPNEA] PERCEPTUAL_SNAPSHOT
+
+CARDIOVASCULAR_DERIVATION_NOTE:
+[[LLM_INSTRUCTION]]: Cardiovascular fields are not free-floating. They are perceptual readouts of arousal and biochemical state and are written by DYNAMICS_BODY.CARDIOVASCULAR_SNAPSHOT in response to ADRENALINE and CORTISOL movement, acute-stress cues, or recovery cues. They do not require persistence evidence and do not carry durable identity meaning.
+
+IMMUNE_MARKERS: ORDINAL [ROBUST, NORMAL, COMPROMISED, SUPPRESSED] BASELINE_ANCHOR NORMAL
+
+IMMUNE_MARKERS_NOTE:
+[[LLM_INSTRUCTION]]: IMMUNE_MARKERS is ordinal so that the immune/terminal cross-field invariant resolves by a bounded one-band correction toward NORMAL rather than by suppressing legitimate physiological decline.
+- Ladder ascends ROBUST < NORMAL < COMPROMISED < SUPPRESSED in declared bracket position; BASELINE_ANCHOR is NORMAL.
+- Ordinary movement is one band per cycle by SET or TRANSITION unless override proof is complete.
+- The terminal-state invariant is resolved by STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.IMMUNE_TERMINAL_STATE_RECONCILIATION, which moves IMMUNE_MARKERS one band off ROBUST toward NORMAL via INVARIANT_FORCED_CORRECTION.
+- A single-cycle drop greater than one band (for example ROBUST directly to COMPROMISED) requires override proof exactly like other multi-step physiological deterioration.
 
 === SECTION_BREAK ===
 
@@ -71,6 +83,7 @@ TERMINAL_BIOCHEMICAL_STATES:
 
 INVARIANT_RULE:
 - IMMUNE_MARKERS = ROBUST is suppressed when two or more terminal biochemical states are concurrently present.
+- The suppression is enacted by a bounded one-band INVARIANT_FORCED_CORRECTION on IMMUNE_MARKERS toward NORMAL, not by blocking the contributing terminal-state transitions.
 - Single terminal biochemical state does not alone bar ROBUST but should be noted in commit audit.
 
 === SECTION_BREAK ===
@@ -81,14 +94,17 @@ INVARIANT_RULE:
 
 TIMING_RULE:
 - The IMMUNE_MARKERS ROBUST suppression evaluates against projected committed state after conflict reconciliation, not per isolated proposal.
-- A proposal set jointly producing two or more terminal biochemical states with IMMUNE_MARKERS ROBUST is evaluated jointly at STATE_GOVERNANCE_AND_COMMIT reconciliation and surfaces as IMMUNE_TERMINAL_STATE_CONFLICT.
+- A proposal set jointly producing two or more terminal biochemical states with IMMUNE_MARKERS ROBUST is evaluated jointly at STATE_GOVERNANCE_AND_COMMIT reconciliation.
+- Resolution follows STATE_GOVERNANCE_OVERLAY.IMMUNE_TERMINAL_STATE_RECONCILIATION: the terminal-state transitions commit and IMMUNE_MARKERS is force-corrected one band off ROBUST.
+- Residual unlawful projected state surfaces as IMMUNE_TERMINAL_STATE_CONFLICT.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
 - Ordinal fields obey one-step transition policy unless override proof is complete.
-- IMMUNE_MARKERS cannot be ROBUST when two or more terminal biochemical states are present.
+- IMMUNE_MARKERS cannot be ROBUST when two or more terminal biochemical states are present; the invariant is enforced by bounded force-correction toward NORMAL.
+- Cardiovascular PERCEPTUAL_SNAPSHOT fields are exempt from one-step limits and are written by DYNAMICS_BODY.CARDIOVASCULAR_SNAPSHOT.
 - Physiological changes must respect governance caps and deterministic reconciliation.
 - Pain must follow PAIN_REPRESENTATION_CONVENTION.
 

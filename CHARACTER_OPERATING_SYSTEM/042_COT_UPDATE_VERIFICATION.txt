@@ -1,7 +1,7 @@
 === SECTION: COT_UPDATE_VERIFICATION ===
 
 [KEEP: Purpose & Role]
-Post-primary-commit verifier. Checks audit closure, canonical form, scheme invariants, cross-field invariants, operation semantics, empty-value use, epistemic/evidence rules, override proof, read boundaries, output congruence, modifier lifecycle, and governance-runtime handoff. Persistent-state non-mutating; proposes STATE_GOVERNANCE_RUNTIME corrections only.
+Post-primary-commit verifier. Checks audit closure, canonical form, write-eligibility, scheme invariants, cross-field invariants, invariant-forced corrections, operation semantics, empty-value use, epistemic/evidence rules, override proof, read boundaries, output congruence, modifier lifecycle, prior-cycle post-verification trace, and governance-runtime handoff. Persistent-state non-mutating; proposes STATE_GOVERNANCE_RUNTIME corrections only.
 
 READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
 
@@ -33,24 +33,26 @@ FORBIDDEN_WRITES:
 
 01) AUDIT_CLOSURE
 - Verify every primary-pass proposal has exactly one FINAL_ACTION_LOG closure: COMMITTED, SUPPRESSED, DOWNGRADED, or VETOED.
+- Verify any INVARIANT_FORCED_CORRECTION is recorded in FORCED_CORRECTION_LOG with reason INVARIANT_FORCED_CORRECTION_APPLIED.
 
 02) OPERATION_VALIDITY
 - Verify strict OPERATION_TYPE vocabulary, forbidden-alias absence, transition-directive binding, and operation behavior per CANONICAL_TOKEN_DICTIONARY and STATE_GOVERNANCE_AND_COMMIT.
 
 03) CANONICAL_PATH_INTEGRITY
-- Verify canonical roots, TARGET_MODULE/TARGET_FIELD agreement, no legacy roots, no [NONE] as ID, no record stubs as concrete records.
+- Verify canonical roots, write-eligibility per CANONICAL_TOKEN_DICTIONARY.WRITE_ELIGIBILITY, TARGET_MODULE/TARGET_FIELD agreement, no legacy roots, no persistent write to IDENTITY_ONLY_ROOTS, no [NONE] as ID, no record stubs as concrete records.
 
 04) ORDINAL_BAND_AND_CUMULATIVE_LIMITS
-- Verify enum legality, one-step ordinal limits against declared ladders, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, categorical lifecycle SET usage, and the cumulative ordinal movement limit per STATE_GOVERNANCE_OVERLAY.
+- Verify enum legality, one-step ordinal limits against declared ladders, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, categorical lifecycle SET usage, PERCEPTUAL_SNAPSHOT exemptions, and the cumulative ordinal movement limit (with COUPLED_MOVEMENT_REGISTRY collapsing) per STATE_GOVERNANCE_OVERLAY.
 
 05) EMPTY_VALUE_SEMANTICS
 - Verify blank, NONE, [NONE], record stubs, and registry-record pairs follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 
 06) INVARIANTS_CAPS_AND_CROSS_FIELD
 - Verify single-proposal SCHEME invariants, immutable-baseline write prohibition, skill INSTINCT_MASTERY_COUPLING and GROWTH_POTENTIAL ceiling, memory linkage/caps, modifier schema/lifecycle, registry-record coherence, DPF cap, prediction gate, goal gate, permanent skill mutation support, and cross-field invariants against projected committed state per STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.
+- For the immune/terminal invariant, verify resolution followed IMMUNE_TERMINAL_STATE_RECONCILIATION: contributing terminal-state transitions were preserved and IMMUNE_MARKERS was force-corrected one band off ROBUST. A reconciliation that instead suppressed terminal-state transitions to protect ROBUST is itself a SCHEME_INVARIANT_VIOLATION.
 
 07) COMMIT_PROVENANCE
-- Verify every persistent change traces to committed proposal lineage; no orphaned commits; DYNAMICS directives were not direct writers; schematic directives were expanded before scratchpad entry.
+- Verify every persistent change traces to committed proposal lineage or a logged INVARIANT_FORCED_CORRECTION; no orphaned commits; DYNAMICS directives were not direct writers; schematic directives were expanded before scratchpad entry.
 
 08) EPISTEMIC_AND_JUSTIFICATION
 - Verify EPISTEMIC_TAG, JUSTIFICATION_CATEGORY, mapping consistency, COMMITTED_FACT EVIDENCE_REF, disclosure boundary, and PERCEIVED_OTHER_VALENCE inference default. Impulse JUSTIFICATION_CATEGORY is advisory and exempt from mapping enforcement.
@@ -59,22 +61,26 @@ FORBIDDEN_WRITES:
 - Verify override-gate proposals carry lawful INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG.
 
 10) CANONICAL_FORM
-- Verify commit-bound artifacts normalized, write-surface tokens preserved, no non-canonical residue, EFFECT_FAMILY and MECHANISM_TAG within closed vocabularies, modifier TARGET_FIELD a lawful form, and persistent modules declare READ_VISIBILITY_CLASS.
+- Verify commit-bound artifacts normalized, write-surface tokens preserved, no non-canonical residue, EFFECT_FAMILY and MECHANISM_TAG within closed vocabularies, MODIFIER_TYPE non-reserved, modifier TARGET_FIELD a lawful form, and persistent modules declare READ_VISIBILITY_CLASS.
 
 11) READ_BOUNDARY
 - Verify character-cognition COTs did not read GOVERNANCE_INTERNAL modules or GOVERNANCE_INTERNAL subfields; governance runtime and governance audit subfields were read only by governance band authorities.
+- Distinguish lawful CASCADE_TRACE append by character cognition from unlawful read-back per SCHEME_SCRATCHPAD.CASCADE_TRACE_ACCESS_ASYMMETRY_NOTE; only read-back is READ_BOUNDARY_VIOLATION.
 
 12) TRACE_COMPLETENESS
-- Verify exactly one trace per priority slot for PRIORITY_01 through PRIORITY_16 plus this verifier's own PRIORITY_17 self-emit; empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace. Do not verify PRIORITY_18 here.
+- Verify exactly one trace per priority slot for PRIORITY_01 through PRIORITY_16 plus this verifier's own PRIORITY_17 self-emit; empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace. Do not verify PRIORITY_18 of the current cycle here.
+- PRIOR_CYCLE_POST_VERIFICATION_TRACE: verify the immediately prior cycle emitted a STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace before scratchpad wipe. Absence surfaces as POST_VERIFICATION_TRACE_MISSING (WARN). This is the standing evaluator for the PRIORITY_18 trace per STATE_GOVERNANCE_AND_COMMIT.NEXT_CYCLE_VERIFICATION_NOTE. Skip this sub-check on the first cycle after instantiation when no prior cycle exists.
 
 13) SELECTED_ACTION
 - Verify SELECTED_ACTION strict schema, empty-impulse PASSIVE_OBSERVATION fallback, ACTION_SOURCE_IMPULSE validity, and no presumed external success/world resolution/internal-state certainty.
 
 14) OUTPUT_CONGRUENCE
 - Verify communication output matches SELECTED_ACTION action/target, remains subjective, marks inference, avoids unselected actions, does not assert other entities' internal states as fact, and that CONFLICT_DETECTED equals SELECTED_ACTION.CONFLICT_FLAG.
+- Confirm COT_COMMUNICATION_PROCESSING recorded a CONGRUENCE_SELF_CHECK outcome; a missing self-check record is noted but the residual-mismatch signal remains OUTPUT_INCONGRUENCE (WARN).
 
 15) MODIFIER_LIFECYCLE
 - Verify active-overlay model, in-place refresh/replacement, lawful coexistence, expiry/removal clearance, registry coherence, and no covert baseline rewrite.
+- A modifier FAIL surfaces as MODIFIER_LIFECYCLE_VIOLATION or a specific DYNAMICS_TEMPORARY_MODIFIERS sub-code; per STATE_GOVERNANCE_OVERLAY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP every such sub-code inherits the umbrella's QUARANTINE_NEXT_CYCLE class for dominant-violation classification.
 
 16) INSTANTIATION_COMPLETENESS
 - On first non-instantiation cycle after instantiation, verify required SCHEME baselines and STATE seeds are populated; skip otherwise unless re-instantiation invoked.
@@ -94,10 +100,10 @@ CHECKLIST_REASON_CODE_MAP:
 - 09: OVERRIDE_PROOF_INCOMPLETE (FAIL)
 - 10: TRANSLATION_VIOLATION or MODIFIER_SCHEMA_VIOLATION (FAIL)
 - 11: READ_BOUNDARY_VIOLATION (FAIL)
-- 12: COT_TRACE_MISSING (WARN)
+- 12: COT_TRACE_MISSING (WARN) or POST_VERIFICATION_TRACE_MISSING (WARN)
 - 13: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
 - 14: OUTPUT_INCONGRUENCE (WARN)
-- 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL)
+- 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL); sub-codes inherit MODIFIER_LIFECYCLE_VIOLATION quarantine class
 - 16: INSTANTIATION_INCOMPLETE (FAIL)
 - 17: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
 
@@ -111,6 +117,10 @@ CYCLE_OUTCOME_CLASSIFICATION:
 - PASS: zero violations and zero warnings
 - WARN: zero violations and one or more warnings
 - FAIL: one or more violations
+
+DOMINANT_VIOLATION_RULE:
+- The dominant violation is the highest-severity FAIL-class reason code present.
+- For modifier lifecycle sub-codes, classify quarantine eligibility via the MODIFIER_LIFECYCLE_SUBCODE_ROLLUP so a dominant modifier sub-code engages QUARANTINE_NEXT_CYCLE exactly as MODIFIER_LIFECYCLE_VIOLATION.
 
 SHARED_PROPOSAL_FIELDS:
 - SOURCE_COT: COT_UPDATE_VERIFICATION
@@ -130,6 +140,7 @@ ON_PASS:
 
 ON_PASS_WHILE_QUARANTINE_ACTIVE:
 - Emit ON_PASS proposals plus DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR proposals.
+- QUARANTINE_CLEAR proposals are subject to DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
 - SCHEME_INVARIANT_NOTE: quarantine clear conditions satisfied
 
@@ -141,7 +152,7 @@ ON_WARN:
 
 ON_FAIL:
 - SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = FAIL
-- If dominant violation maps to QUARANTINE_NEXT_CYCLE, emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
+- If dominant violation maps to QUARANTINE_NEXT_CYCLE (including rolled-up modifier sub-codes), emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
 - If remediation is WARN_AND_PROCEED, emit only LAST_VERIFICATION_RESULT.
 - If remediation is ROLLBACK, suppress rollback with ROLLBACK_NOT_ACTIVE and use WARN_AND_PROCEED behavior.
 - NARRATIVE_CUE_REFERENCE: dominant violation reason code
@@ -159,6 +170,7 @@ KEY_OUTPUTS:
 - WARNINGS_COUNT
 - QUARANTINE_PROPOSED: TRUE | FALSE
 - QUARANTINE_CLEAR_PROPOSED: TRUE | FALSE
+- PRIOR_POST_VERIFICATION_TRACE_PRESENT: TRUE | FALSE | SKIPPED
 - POST_VERIFICATION_PASS_REQUIRED: TRUE
 GENERATED_IMPULSES:
 - [NONE]

@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_COPE ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for coping selection, maladaptive escalation, stabilization, and deterministic selection arbitration.
+Immutable mechanics for coping selection, maladaptive escalation, stabilization, deterministic selection arbitration, and PRIMARY/SECONDARY distinctness preservation.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -11,6 +11,18 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
 [[LLM_INSTRUCTION]]: QUALITATIVE_INTENSITY movement uses bounded SET to explicit adjacent endpoints unless override proof is complete.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DISTINCTNESS_PRESERVATION_RULE ===
+
+[[LLM_INSTRUCTION]]: SCHEME_COPE requires PRIMARY_MECHANISM and SECONDARY_MECHANISM to differ. Any directive in this module that SETs PRIMARY_MECHANISM must preserve that invariant at packet-construction time.
+
+DISTINCTNESS_RULE:
+- If a proposed PRIMARY_MECHANISM SET would equal the current SECONDARY_MECHANISM, the executing COT must emit a paired bounded SET moving SECONDARY_MECHANISM to the displaced prior PRIMARY_MECHANISM.
+- The two SETs are a linked unit; neither commits without the other.
+- This rule applies to every PRIMARY_MECHANISM SET directive in this module (COPE_SELECTION_RULE.SELECTION_OUTCOME, ACUTE_SELECTION.ON_SUBSTANCE_USE_EVENT, and any future PRIMARY_MECHANISM directive).
+- COT_STRESS_CASCADE_RESOLUTION.DISTINCTNESS_RULE is the runtime owner of packet construction; this rule makes the requirement explicit in the mechanic itself so the DYNAMICS pattern is self-consistent in isolation.
 
 === SECTION_BREAK ===
 
@@ -39,6 +51,7 @@ SELECTION_OUTCOME:
     TARGET_FIELD: [STATE_COPE][ACTIVE_COPE_CONFIGURATION][PRIMARY_MECHANISM]
     PROPOSED_VALUE: selected mechanism
     JUSTIFICATION: sustained selection drift
+  - Apply DISTINCTNESS_PRESERVATION_RULE: if selected mechanism equals current SECONDARY_MECHANISM, emit the paired SECONDARY_MECHANISM SET to the displaced prior PRIMARY_MECHANISM as a linked unit.
 
 === SECTION_BREAK ===
 
@@ -56,6 +69,7 @@ ON_SUBSTANCE_USE_EVENT:
     TARGET_FIELD: [STATE_COPE][ACTIVE_COPE_CONFIGURATION][PRIMARY_MECHANISM]
     PROPOSED_VALUE: SUBSTANCE_USE
     JUSTIFICATION: substance coping selected under cue pressure
+  - Apply DISTINCTNESS_PRESERVATION_RULE: if SECONDARY_MECHANISM is currently SUBSTANCE_USE, emit the paired SECONDARY_MECHANISM SET to the displaced prior PRIMARY_MECHANISM as a linked unit.
 
 === SECTION_BREAK ===
 
@@ -93,6 +107,7 @@ ON_STABILIZATION_WITHOUT_ACTIVE_STRESS:
 
 - COPE_SELECTION_RULE is deterministic and cycle-resolvable.
 - Probability and risk bands move one band per cycle unless override proof is complete.
+- Every PRIMARY_MECHANISM SET preserves PRIMARY/SECONDARY distinctness via DISTINCTNESS_PRESERVATION_RULE.
 - Maladaptive escalation requires cross-cycle PRIMARY_MECHANISM continuity.
 - Stabilization is cue-supported, not automatic reset.
 

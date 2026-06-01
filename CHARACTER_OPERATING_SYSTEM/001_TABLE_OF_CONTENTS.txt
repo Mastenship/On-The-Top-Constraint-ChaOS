@@ -13,18 +13,20 @@ Is Informed By: Nothing.
 
 === SECTION: FILE_MANIFEST ===
 
-[[LLM_INSTRUCTION]]: MODULE_ID is the stable canonical key. LOAD_ORDINAL is a presentational load attribute only. Identity references use MODULE_ID; load operations use LOAD_ORDINAL. The ordinal range is non-contiguous by declaration.
+[[LLM_INSTRUCTION]]: MODULE_ID is the stable canonical key. LOAD_ORDINAL is a presentational load attribute only. Identity references use MODULE_ID; load operations use LOAD_ORDINAL. The ordinal range is gap-free except for one declared suffix.
 
 CANONICAL_FILE_COUNT: 70
 LAST_LOAD_ORDINAL: 069
-ORDINAL_CONTINUITY: NON_CONTIGUOUS
+ORDINAL_CONTINUITY: CONTIGUOUS_WITH_SUFFIX
 LAWFUL_NON_NUMERIC_ORDINALS:
 - 002A
 
 MANIFEST_RULES:
 - CANONICAL_FILE_COUNT is the authoritative module total.
 - LAST_LOAD_ORDINAL is the final load position and is not the file count.
-- A gap or suffixed ordinal is lawful when declared in LAWFUL_NON_NUMERIC_ORDINALS or implied by NON_CONTIGUOUS continuity.
+- The numeric sequence 001 through 069 is gap-free; the only lawful deviation is the declared 002A suffix.
+- A suffixed ordinal is lawful when declared in LAWFUL_NON_NUMERIC_ORDINALS or implied by CONTIGUOUS_WITH_SUFFIX continuity.
+- CONTIGUOUS_WITH_SUFFIX means tooling must not flag a missing number; it must instead expect each declared suffix in LAWFUL_NON_NUMERIC_ORDINALS.
 - Tooling reads CANONICAL_FILE_COUNT for totals and MODULE_ID for identity; it must not infer either from LAST_LOAD_ORDINAL.
 - Every MODULE_ID with a CANONICAL_MODULE_ROOTS counterpart must match CANONICAL_TOKEN_DICTIONARY.CANONICAL_MODULE_ROOTS exactly.
 

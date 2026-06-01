@@ -14,7 +14,7 @@ ENTITY_NAME: STRING_DESCRIPTIVE
 PERCEIVED_RELATIONSHIP_TYPE: STRING_DESCRIPTIVE
 AFFECTIVE_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED] BASELINE_ANCHOR NEUTRAL
 PERCEIVED_OTHER_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED] BASELINE_ANCHOR NEUTRAL
-COGNITIVE_COMPLEXITY: ORDINAL [ONE_DIMENSIONAL, SIMPLE, NUANCED, COMPLEX]
+COGNITIVE_COMPLEXITY: ORDINAL [ONE_DIMENSIONAL, SIMPLE, NUANCED, COMPLEX] BASELINE_ANCHOR ONE_DIMENSIONAL NO_BASELINE_DRIFT
 INTERACTION_FREQUENCY_ESTIMATE: STRING_DESCRIPTIVE
 DEFINING_MEMORY_SUMMARY: STRING_DESCRIPTIVE
 ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
@@ -24,6 +24,13 @@ ORDINALS:
 AFFECTIVE_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
 PERCEIVED_OTHER_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
 COGNITIVE_COMPLEXITY_ORDER: ONE_DIMENSIONAL < SIMPLE < NUANCED < COMPLEX
+
+COGNITIVE_COMPLEXITY_DIRECTION_NOTE:
+[[LLM_INSTRUCTION]]: COGNITIVE_COMPLEXITY accumulates with interaction depth; it does not drift toward baseline.
+- The NO_BASELINE_DRIFT marker declares that ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL are unlawful on this field.
+- Upward movement uses ONE_STEP_UP on accumulated interaction depth per DYNAMICS_RELATIONAL.
+- Downward movement is rare and uses explicit SET to a lower lawful band with cue support and usually override proof per DYNAMICS_RELATIONAL.
+- No decay or toward-baseline directive may lower this field; the BASELINE_ANCHOR is declared only to satisfy ladder formality and must not be used as a drift target.
 
 === SECTION_BREAK ===
 
@@ -47,6 +54,7 @@ EVIDENCE_TYPES:
 BASELINE_ANCHOR_NOTE:
 - Both valence ladders anchor at NEUTRAL.
 - ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL on either valence resolve toward NEUTRAL from either direction.
+- COGNITIVE_COMPLEXITY does not participate in toward-baseline movement per COGNITIVE_COMPLEXITY_DIRECTION_NOTE.
 
 === SECTION_BREAK ===
 
@@ -64,7 +72,7 @@ BASELINE_ANCHOR_NOTE:
 
 - Ordinal transitions on both valence fields obey one-step policy unless override proof is valid.
 - AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE move independently on independent evidence.
-- COGNITIVE_COMPLEXITY moves on accumulated interaction depth, independent of either valence direction.
+- COGNITIVE_COMPLEXITY moves on accumulated interaction depth, independent of either valence direction, and never drifts toward baseline.
 - CURRENT_CONCERN should clear on resolution unless refreshed by new cues.
 
 === SECTION_BREAK ===

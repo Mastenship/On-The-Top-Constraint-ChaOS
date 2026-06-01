@@ -60,6 +60,12 @@ ANTHROPOMORPHISM: ORDINAL [LOW, MODERATE, HIGH] BASELINE_ANCHOR MODERATE
 BINARY_THINKING: ORDINAL [BLACK_WHITE, SOME_GREY, FULL_SPECTRUM] BASELINE_ANCHOR SOME_GREY
 DIALECTICAL_THINKING: ORDINAL [BLACK_WHITE, SOME_GREY, FULL_SPECTRUM] BASELINE_ANCHOR SOME_GREY
 
+BINARY_DIALECTICAL_REPRESENTATION_NOTE:
+[[LLM_INSTRUCTION]]: BINARY_THINKING and DIALECTICAL_THINKING are intentionally retained as two independent ordinal fields rather than one field, so that mixed-mode cognition (for example concrete in moral reasoning yet dialectical in social reasoning) is representable.
+- The representation is deliberately denormalized.
+- The only incoherent corner (BINARY_THINKING at BLACK_WHITE jointly with DIALECTICAL_THINKING at FULL_SPECTRUM) is policed by the CONTRADICTION_MATRIX as a standing invariant obligation.
+- Authors must not collapse these into a single field; downstream contradiction handling depends on both being present.
+
 BELIEF_UPDATE_TRIGGERS:
 DIRECT_EXPERIENCE: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
 TRUSTED_AUTHORITY: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
@@ -123,6 +129,7 @@ TIMING_RULE:
 - Beliefs are stability-biased; baseline shifts require persistence-cluster evidence or watershed cues.
 - Ordinal belief fields obey one-step movement against declared ladders unless override proof is complete.
 - Matrix-band contradictions per CONTRADICTION_MATRIX require a lawful contradiction marker.
+- BINARY_THINKING and DIALECTICAL_THINKING remain independent fields per BINARY_DIALECTICAL_REPRESENTATION_NOTE.
 - Update-trigger profile must remain coherent with agency and control stance.
 
 === SECTION_BREAK ===

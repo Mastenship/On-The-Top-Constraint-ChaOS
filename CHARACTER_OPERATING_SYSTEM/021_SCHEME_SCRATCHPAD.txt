@@ -28,8 +28,15 @@ CHARACTER_VISIBLE_SUBFIELDS:
 - TEMPORARY_STATE_FLAGS
 - DOMAIN_RUNTIME_SUMMARIES
 
+CASCADE_TRACE_ACCESS_ASYMMETRY_NOTE:
+[[LLM_INSTRUCTION]]: CASCADE_TRACE is GOVERNANCE_INTERNAL for read access but append-eligible by character cognition.
+- Character-cognition COTs (PRIORITY_01 through PRIORITY_15) lawfully append their own TRACE_ENTRY to CASCADE_TRACE.
+- A lawful append is not a read and is not a READ_BOUNDARY_VIOLATION, per CANONICAL_TOKEN_DICTIONARY.WRITE_VERSUS_READ_NOTE.
+- Reading back any existing CASCADE_TRACE content, including other COTs' entries, by a character-cognition COT is a READ_BOUNDARY_VIOLATION.
+- The verifier (item 11 READ_BOUNDARY) distinguishes append from read-back when inspecting traces.
+
 ACCESS_RULES:
-- Character-cognition COTs write into PROPOSED_UPDATES_REGISTRY, ACTIVE_IMPULSE_REGISTRY, and CASCADE_TRACE, and read CHARACTER_VISIBLE subfields.
+- Character-cognition COTs write into PROPOSED_UPDATES_REGISTRY, ACTIVE_IMPULSE_REGISTRY, and CASCADE_TRACE (append-only), and read CHARACTER_VISIBLE subfields.
 - Character-cognition COTs append to CASCADE_TRACE but do not read committed audit closure, suppression, downgrade, veto, or reason-code content.
 - STATE_COMMIT_AUDIT and OUTPUT_SURFACE_NORMALIZATION_AUDIT are written by STATE_GOVERNANCE_AND_COMMIT and read by governance band authorities only.
 - Character-cognition read of a GOVERNANCE_INTERNAL subfield surfaces as READ_BOUNDARY_VIOLATION.
@@ -140,10 +147,12 @@ PASS_AUDIT_REQUIRED_FIELDS:
 - TOTAL_PROPOSALS_SUPPRESSED
 - TOTAL_PROPOSALS_DOWNGRADED
 - TOTAL_PROPOSALS_VETOED
+- TOTAL_INVARIANT_FORCED_CORRECTIONS
 - FINAL_ID_ASSIGNMENTS
 - SUPPRESSION_LOG
 - DOWNGRADE_LOG
 - VETO_LOG
+- FORCED_CORRECTION_LOG
 - FINAL_ACTION_LOG
 - CANONICAL_PATH_VALIDATION_RESULT
 - SCHEME_INVARIANT_VALIDATION_RESULT
@@ -209,6 +218,7 @@ EMPTY_CYCLE_FORM:
 TRACE_COMPLETENESS_NOTE:
 - COT_UPDATE_VERIFICATION verifies traces through PRIORITY_17.
 - STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS emits PRIORITY_18 trace afterward.
+- The PRIORITY_18 trace is verified by the next cycle's verifier per STATE_GOVERNANCE_AND_COMMIT.NEXT_CYCLE_VERIFICATION_NOTE.
 
 === SECTION_BREAK ===
 
@@ -234,6 +244,7 @@ REQUIRED_SUMMARY_BLOCKS:
 
 - Scratchpad is volatile and fully wiped after post-verification governance pass.
 - Governance-produced subfields are GOVERNANCE_INTERNAL per SUBFIELD_VISIBILITY.
+- CASCADE_TRACE append by character cognition is lawful; read-back is a READ_BOUNDARY_VIOLATION per CASCADE_TRACE_ACCESS_ASYMMETRY_NOTE.
 - Proposal and impulse packets must match UPDATE_CASCADE_REGISTRY schemas.
 - SELECTED_ACTION must match strict schema before communication processing.
 - CONFLICT_DETECTED equals SELECTED_ACTION.CONFLICT_FLAG after decision synthesis.

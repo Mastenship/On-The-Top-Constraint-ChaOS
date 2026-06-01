@@ -57,9 +57,14 @@ ON_VIOLATION_CLASS_OUTCOME:
     PROPOSED_VALUE: append violation reason code; FIFO-evict oldest on overflow at cap 5
     JUSTIFICATION: violation reason capture
 
+QUARANTINE_ELIGIBLE_DOMINANT_CODES_NOTE:
+[[LLM_INSTRUCTION]]: Dominant-violation eligibility for quarantine follows STATE_GOVERNANCE_OVERLAY.QUARANTINE_NEXT_CYCLE_VIOLATIONS, which includes the five modifier lifecycle sub-codes via MODIFIER_LIFECYCLE_SUBCODE_ROLLUP. A dominant modifier sub-code engages quarantine here exactly as the umbrella code.
+
 === SECTION_BREAK ===
 
 === SECTION: QUARANTINE_CLEAR ===
+
+[[LLM_INSTRUCTION]]: SAME_CYCLE_GUARD below governs every clear path in this section, both ON_VERIFICATION_PASS_CLEAN and ON_GOVERNANCE_CORRECTIVE_RESOLUTION.
 
 ON_VERIFICATION_PASS_CLEAN:
 - If QUARANTINE_MODE is TRUE and verification result is PASS:
@@ -67,6 +72,7 @@ ON_VERIFICATION_PASS_CLEAN:
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
   - JUSTIFICATION: verification passed clean
+  - Subject to SAME_CYCLE_GUARD.
 
 ON_GOVERNANCE_CORRECTIVE_RESOLUTION:
 - If current-cycle GOVERNANCE_CORRECTIVE structurally resolves active quarantine root cause:
@@ -74,11 +80,14 @@ ON_GOVERNANCE_CORRECTIVE_RESOLUTION:
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
   - JUSTIFICATION: governance-corrective root cause resolved
+  - Subject to SAME_CYCLE_GUARD.
 
 SAME_CYCLE_GUARD:
-- This path must not clear quarantine in the same cycle it was engaged.
+- This guard applies to every clear path in QUARANTINE_CLEAR, both ON_VERIFICATION_PASS_CLEAN and ON_GOVERNANCE_CORRECTIVE_RESOLUTION.
+- No clear path may clear quarantine in the same cycle it was engaged.
 - If QUARANTINE_ENGAGED_CYCLE_ID equals the current commit cycle id, clear is deferred and quarantine persists for at least one full corrective cycle per STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.SCOPE_DECLARATION.
-- Clear via this path is lawful only when QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle.
+- Clear via any path is lawful only when QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle.
+- Rationale: engagement and clearing in one cycle would defeat the intentional one-cycle penalty band, regardless of which clear path is taken.
 
 === SECTION_BREAK ===
 
@@ -98,6 +107,7 @@ ON_LIFT_EVENT:
 
 - This module reads only governance runtime, commit outcome, and verification outcome.
 - This module never produces character-visible effects.
+- SAME_CYCLE_GUARD governs all quarantine clear paths.
 - Governance-runtime proposals must be committed or suppressed before scratchpad wipe.
 
 === SECTION_BREAK ===
