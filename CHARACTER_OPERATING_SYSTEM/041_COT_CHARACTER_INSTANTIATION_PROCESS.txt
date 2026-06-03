@@ -1,127 +1,124 @@
 === SECTION: COT_CHARACTER_INSTANTIATION_PROCESS ===
 
 [KEEP: Purpose & Role]
-Interactive guided workflow for first-time character seeding. Produces proposal-only initialization packets for mutable STATE_ values and instantiation-time immutable baseline SCHEME values. Governance commits approved seed proposals.
+Interactive guided workflow for first-time character seeding. Produces proposal-only initialization packets for mutable STATE_ values and instantiation-time immutable baseline SCHEME values. Includes generative cross-instrument coherence interrogation at LAYER_08.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
-
-[KEEP: Relationship to Other Modules]
-Informs: initial STATE_* seeds and permitted immutable baseline SCHEME seeds.
-Is Informed By: user concept/background, SCHEME_ bounds, DYNAMICS_ bounds, CANONICAL_TOKEN_DICTIONARY, UPDATE_CASCADE_REGISTRY.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
 [[LLM_INSTRUCTION]]: No direct persistent writes. All seeding intent is proposal-only.
-[[LLM_INSTRUCTION]]: SET [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][INSTANTIATION_MODE] TRUE on workflow entry. Governance clears it on first non-instantiation cycle.
+[[LLM_INSTRUCTION]]: SET [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][INSTANTIATION_MODE] = TRUE on entry. Governance clears on first non-instantiation cycle.
 
 === SECTION_BREAK ===
 
 === SECTION: INTERACTIVE_WALKTHROUGH_STRUCTURE ===
 
 LAYER_01_PERSONALITY_BASELINES:
-- HEXACO, DARK_TRIAD, MMPI, ASQ, moral/social/emotional profile.
+- HEXACO, DARK_TRIAD, MMPI, ASQ.
 
 LAYER_02_BACKGROUND_AND_WORLD_NORMS:
-- formative environment, culture, technology, authority, law, outsiders, future outlook.
+- Formative environment and worldview priors.
 
 LAYER_03_PHYSIOLOGICAL_AND_TEMPORAL:
-- age, body baseline, health, chronotype, fatigue tendencies.
+- Body, health, chronotype.
 
 LAYER_04_SKILLS_AND_ACQUISITION:
-- competencies, specialties, learning history, growth profile.
+- Competencies and growth profile.
 
 LAYER_05_RELATIONAL_AND_MEMORY_SEEDS:
-- key entities, formative relationships, defining events.
+- Key entities and formative events.
 
 LAYER_06_COMMUNICATION_BELIEFS_AND_DPF:
-- speech profile, worldview axes, predictive stance, interpretive style.
+- Speech profile, worldview, predictive stance.
 
 LAYER_07_GOALS_AND_DRIVES:
-- initial motivations, drives, active goals.
+- Motivations and active goals.
 
 LAYER_08_COLLABORATIVE_VERIFICATION:
-- user coherence review and final seed approval.
+- Cross-instrument coherence interrogation (LAYER_08_CROSS_INSTRUMENT_COHERENCE).
+- User review and final approval.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LAYER_08_CROSS_INSTRUMENT_COHERENCE ===
+
+[[LLM_INSTRUCTION]]: After all baseline instruments are assembled but before user presentation, examine the full set of proposed values across HEXACO, DARK_TRIAD, MMPI, ASQ, BACKGROUND, BELIEF_SYSTEMS, GOALS_MOTIVATIONS, and COPE. Identify significant internal tensions or implausible combinations. Do not forbid any configuration. Surface tension so the operator can decide whether it represents character, conflict, context, or seeding artifact.
+
+TENSION_DETECTION_RULE:
+- Use trained psychological knowledge to detect when instruments pull in incompatible directions.
+- Common vectors include clinical elevation vs trait profile, attachment style vs Dark Triad/HEXACO configuration, belief commitments vs clinical or trait pattern, and drive structure vs overall personality architecture.
+- Report only meaningful tensions. Absence of tension is valid output.
+
+REQUIRED_OUTPUT:
+COHERENCE_REPORT:
+- OVERALL_ASSESSMENT: one sentence on whether the profile reads as one coherent person.
+- TENSIONS:
+  - For each tension: INSTRUMENTS, DESCRIPTION, POSSIBLE_READINGS (flaw / conflict / context / artifact), USER_ACTION (accept / discuss / adjust).
+- NO_SIGNIFICANT_TENSION: TRUE | FALSE
+
+[[LLM_INSTRUCTION]]: The report is written to trace and presented during collaborative verification. The model judges; the operator resolves.
 
 === SECTION_BREAK ===
 
 === SECTION: STRICT_SEEDING_CONTRACT ===
 
-[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD is forbidden. Registry-backed seeds use SET pair.
-[[LLM_INSTRUCTION]]: Immutable baseline-bearing SCHEME seeds are lawful only during INSTANTIATION_MODE and only for modules listed in CANONICAL_TOKEN_DICTIONARY.IMMUTABLE_BASELINE_BEARING_MODULES.
+[[LLM_INSTRUCTION]]: CREATE_NEW_RECORD forbidden. Registry-backed seeds use SET pair.
+[[LLM_INSTRUCTION]]: Immutable baseline-bearing SCHEME seeds lawful only during INSTANTIATION_MODE for modules listed in CANONICAL_TOKEN_DICTIONARY.IMMUTABLE_BASELINE_BEARING_MODULES.
 
 REGISTRY_ENTRY_SET_PAIR:
-- Proposal A:
-  OPERATION_TYPE: SET
-  TARGET_FIELD: [STATE_<DOMAIN>][<DOMAIN>_REGISTRY]
-  PROPOSED_VALUE: append <ID_TOKEN>
-- Proposal B:
-  OPERATION_TYPE: SET
-  TARGET_FIELD: [STATE_<DOMAIN>][<ID_TOKEN>]
-  PROPOSED_VALUE: schema-valid full record
+- Proposal A: SET registry append.
+- Proposal B: SET schema-valid record.
 
 MUTABLE_STATE_BASELINE_SEEDS:
-- Use SET to canonical STATE_ path with COMMON_SEED_FIELDS.
+- SET to canonical STATE_ path using COMMON_SEED_FIELDS.
 
 IMMUTABLE_SCHEME_BASELINE_SEEDS:
-- Use SET to canonical path inside one immutable baseline-bearing SCHEME module.
-- Lawful target modules:
-  - SCHEME_HEXACO
-  - SCHEME_DARK_TRIAD
-  - SCHEME_ASQ
-  - SCHEME_MMPI
-  - SCHEME_BACKGROUND
-- Requires INSTANTIATION_MODE = TRUE.
-- Outside instantiation, attempted immutable baseline mutation is SCHEME_IMMUTABLE_BASELINE_WRITE.
+- Lawful only under INSTANTIATION_MODE = TRUE and SOURCE_COT = COT_CHARACTER_INSTANTIATION_PROCESS.
+- Outside instantiation: SCHEME_IMMUTABLE_BASELINE_WRITE.
 
 COMMON_SEED_FIELDS:
-- SOURCE_COT: COT_CHARACTER_INSTANTIATION_PROCESS
-- STRENGTH: HIGH
-- MECHANISM_TAG: INSTANTIATION_SEEDING
-- EPISTEMIC_TAG: COMMITTED_FACT
-- EVIDENCE_REF: USER_CONFIRMATION:<instantiation confirmation id>
-- JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-- JUSTIFICATION: instantiation seeding
+- SOURCE_COT, STRENGTH: HIGH, MECHANISM_TAG: INSTANTIATION_SEEDING, EPISTEMIC_TAG: COMMITTED_FACT, EVIDENCE_REF: USER_CONFIRMATION, JUSTIFICATION_CATEGORY: DIRECT_APPLICATION.
 
 PACKET_COMPLETENESS:
-- Every proposal must satisfy UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA before scratchpad entry.
-- Pipe alternatives, placeholders, or unresolved candidate values must be resolved before scratchpad entry.
+- Every proposal must satisfy UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Resolve alternatives before scratchpad entry.
 
 === SECTION_BREAK ===
 
 === SECTION: INSTANTIATION_BOUNDARY_RULE ===
 
-- This COT is the lawful first-time seeding exception path.
-- Immutable baseline SCHEME values may be prepared only during instantiation.
-- Ordinary runtime COTs do not mutate immutable baseline domains.
-- INSTANTIATION_MODE distinguishes seeding from runtime mutation.
-- Governance remains the sole persistent writer; this COT only proposes seed packets.
+- Lawful first-time seeding exception path only.
+- Immutable baseline SCHEME mutation permitted solely during INSTANTIATION_MODE.
+- INSTANTIATION_MODE distinguishes seeding from runtime.
+- Governance is sole persistent writer.
 
 === SECTION_BREAK ===
 
 === SECTION: FINAL_SEEDING ===
 
 AFTER_EXPLICIT_USER_CONFIRMATION:
-- Emit complete seed proposal set into PROPOSED_UPDATES_REGISTRY.
-- Do not commit directly.
+- Emit complete seed proposal set.
+- Present LAYER_08 coherence report and record resolutions.
 - Governance validates and commits.
-- INSTANTIATION_MODE remains TRUE through final commit cycle.
+- INSTANTIATION_MODE remains TRUE through final commit.
 
 === SECTION_BREAK ===
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace after each major layer and final seeding. This COT runs only during active instantiation and does not emit EMPTY_CYCLE_FORM outside that workflow.
+[[LLM_INSTRUCTION]]: Emit one trace after each major layer and after final seeding. Never EMPTY_CYCLE_FORM during active instantiation.
 
 TRACE_MUST_INCLUDE:
-- layer completed
-- key decisions
+- Layer completed
+- Key decisions
 - INSTANTIATION_MODE: TRUE
-- user alignment status
-- unresolved questions
-- proposal count
-- proposal completeness summary
+- User alignment status
+- Unresolved questions
+- Proposal count
+- For LAYER_08: full COHERENCE_REPORT or confirmation of no significant tension
 
 === SECTION_BREAK ===
 
