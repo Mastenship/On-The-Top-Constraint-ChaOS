@@ -11,11 +11,12 @@ This SOP is assay-first by design:
 The documents are the method. No external code is required. External validators/tools may be layered later without changing OTTC compliance.
 
 [KEEP: Success Criteria]
-- All OTTC kernel invariants remain intact.
+- All OTTC kernel invariants remain intact (ten for any hypothesis machine / mixed-provenance build; nine is the governability floor).
 - Assay-first qualification is executed and recorded before build authorization.
-- New ontology is addressable via canonical paths.
+- New ontology is addressable via canonical paths, in the surface form discovered to couple on the target substrate.
 - All mutation occurs via propose→commit with a single writer.
 - Step limits and hard-vs-soft separation exist and are enforced.
+- Epistemic-status typing is present and checked at intake and verification when the machine must function as a hypothesis machine.
 - Audit closure and post-commit verification exist and are non-theatrical.
 - Qualification results are re-run as a post-build retest (regression gate) after meaningful changes.
 
@@ -88,6 +89,14 @@ KERNEL_INVARIANTS:
 7) DETERMINISTIC_CONFLICT_RESOLUTION
 8) AUDIT_CLOSURE_EVERY_PROPOSAL_ACCOUNTED_FOR
 9) POST_COMMIT_VERIFICATION_TRACE_ONLY
+10) EPISTEMIC_STATUS_TYPING_PRESENT
+
+[KEEP: Cardinality note]
+Invariants 1–9 make the mutation boundary governable. Invariant 10 (epistemic-status typing) is kernel
+for any architecture required to function as a hypothesis machine (predictive processing + Popperian
+falsification over cycles), which is any architecture with mixed-provenance durable state. Confirm 1–9
+for every build; confirm 10 additionally whenever the machine must reason, predict, and be refuted. Only
+in the degenerate single-provenance case is 10 strengthening rather than necessity.
 
 HUMAN_CHECK:
 - If any kernel invariant is missing or weakened, stop. Restore it before proceeding.
@@ -109,13 +118,13 @@ PRECONDITIONS (MANDATORY):
 REQUIRED_ASSAYS (run in order; stop early on severe failure):
 A) CANONICAL_ADDRESS_OBEDIENCE (CAA)
 B) WRITE_SURFACE_DISCIPLINE (WSD)
-C) EPISTEMIC_POV_INTEGRITY (EPI) (if output is POV-bounded)
+C) EPISTEMIC_POV_INTEGRITY (EPI) (required for any hypothesis-machine / PP+PF claim; otherwise when output is POV-bounded)
 D) AUDIT_NON_THEATER (ANT)
 
 MINIMUM_PASS_CONDITIONS:
-- CAA: no non-canonical write-surface paths in proposals.
+- CAA: no non-canonical write-surface paths in proposals (canonical = the surface form discovered to couple on this substrate).
 - WSD: no direct writes to persistent STATE_* outside commit authority.
-- EPI (if applicable): no outcome narration or unsupported certainty beyond role bounds.
+- EPI (when applicable): no outcome narration or unsupported certainty beyond role bounds; epistemic-status tags applied truthfully (no COMMITTED_FACT without resolvable evidence).
 - ANT: every PROPOSAL_ID accounted for exactly once with explicit outcome/reason.
 
 SCORING:
@@ -131,13 +140,15 @@ RECORD_OUTPUT:
   - per-assay score
   - failure signatures observed
   - coupling regime hypothesis (A/B/C if used)
+  - selected canonical surface form and candidate forms tested (per DSL discovery)
   - deterministic externalization recommendation
   - remediation recommendation
 
 HUMAN_CHECK:
 - If session is not fresh/blind, Step 01 is invalid and must be rerun.
 - If WSD=0 or ANT=0, default outcome is NO-GO for single-model in-context governance.
-- If CAA drifts, strengthen canonical anchors before build.
+- If EPI=0 for a hypothesis-machine claim, default outcome is NO-GO for that claim.
+- If CAA drifts, strengthen canonical anchors (or reselect surface form) before build.
 - Never bypass this step due to schedule pressure.
 
 === SECTION_BREAK ===
@@ -154,10 +165,11 @@ PROCEDURE:
 1) Run a minimal assay subset in each intended operating language (at least CAA + WSD; include EPI/ANT when role requires).
 2) Compare failure signatures by language.
 3) Record any language-specific drift and governance implications.
+4) Confirm the canonical surface form still couples in each language; reselect per-language if a delimiter/marker fragments.
 
 DECISION_USE:
 - Use this evidence to shape:
-  - canonical lexicon choices
+  - canonical lexicon and surface-form choices
   - translation-before-commit policy
   - deterministic boundary placement
   - role split/externalization level
@@ -181,6 +193,7 @@ DECISION_POLICY:
 - NO-GO (build blocked) when:
   - kernel degraded, or
   - unresolved WSD/ANT failure exists, or
+  - EPI=0 while a hypothesis-machine claim is retained, or
   - coupling is too weak for intended authority level.
 
 IF_NO_GO_REQUIRED_ACTIONS:
@@ -205,8 +218,16 @@ Define what the machine can talk about and update, without yet defining how it u
 PROCEDURE:
 1) Name the new persistent module roots (STATE_ and SCHEME_ and DYNAMICS_).
 2) Define 5–12 high-value groups (avoid “everything”).
-3) Define field tokens as UPPER_SNAKE only.
+3) Define field tokens in the canonical surface form discovered for this substrate.
 4) Define record ID prefixes if you have registries (e.g., ENT_, MEM_, OBS_, HYP_, etc.).
+
+[KEEP: Surface form is substrate-conditioned, not decreed]
+The bracket-path / UPPER_SNAKE token forms used throughout the OTTC corpus are the ChaOS reference
+instantiation on an English semantic manifold — a worked example of the dual-readership property, not a
+mandate. The canonical surface form for THIS build is whatever Step 01 discovered to be alien-to-prose
+and human-legible on this substrate and language (it may be slash-, sigil-, or bracket-delimited; the
+casing convention likewise). Use the discovered form consistently here; do not import another square's
+glyphs without re-measuring (see DSL_AND_DUAL_READERSHIP).
 
 OUTPUT_ARTIFACTS:
 - CANONICAL_TOKEN_DICTIONARY additions (only if new roots/tokens are needed)
@@ -214,7 +235,7 @@ OUTPUT_ARTIFACTS:
 - STATE_NEW_DOMAIN_* files (empty containers only)
 
 HUMAN_CHECK:
-- All tokens are canonical style.
+- All tokens use the discovered canonical surface form consistently.
 - Every lever has exactly one address.
 - No synonyms at the write surface.
 
@@ -225,7 +246,7 @@ HUMAN_CHECK:
 [[LLM_INSTRUCTION]]: This section defines the domain-knowledge translation obligation that precedes and informs Step 03.
 
 CORE_PRINCIPLE:
-OTTC is a rectangle. A domain implementation is a square. The rectangle provides the nine kernel invariants and the SOP. The square requires the domain expert to translate their field's constitutional world into OTTC-legible form.
+OTTC is a rectangle. A domain implementation is a square. The rectangle provides the ten kernel invariants and the SOP. The square requires the domain expert to translate their field's constitutional world into OTTC-legible form.
 
 WHAT_DOMAIN_ONTOLOGY_TRANSLATION_MEANS:
 - Identify what things in your domain are durable and must be mutable (the state surfaces).
@@ -274,7 +295,7 @@ PROCEDURE:
 - Define override triggers when multi-step changes are permitted.
 
 3) Define translation and canonicalization law (if multilingual or mixed-language deliberation expected):
-- canonical write-surface tokens are immutable and non-translatable
+- canonical write-surface tokens are immutable and non-translatable (in the discovered surface form)
 - narrative fields may be translated
 - non-canonicalized commit-bound artifacts must be suppressed with explicit reason codes
 
@@ -287,7 +308,7 @@ HUMAN_CHECK:
 - Step limits are explicit for hard state.
 - Overrides require: MECHANISM_TAG + narrative cue(s) + rule name + scheme compliance note.
 - Invariants are not contradictory.
-- Translation policy cannot alter canonical write-surface tokens.
+- Translation policy cannot alter canonical write-surface tokens (in whatever surface form was discovered).
 
 === SECTION_BREAK ===
 
@@ -303,6 +324,7 @@ PROCEDURE:
   - proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY]
   - impulses (if any) go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY]
   - trace goes to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+  (paths shown in the ChaOS reference surface form; use the form discovered for this build)
 
 2) Use the standard PROPOSAL_ENTRY_SCHEMA (minimal/base form):
 - PROPOSAL_ID
@@ -316,13 +338,14 @@ PROCEDURE:
 - JUSTIFICATION
 - NOTES (optional)
 
-2B) EXTENDED SCHEMA WHEN EPI IS ACTIVE (POV-bounded machines):
-- If the EPISTEMIC_STATUS_TAGGING extension is active, the proposal schema is the EXTENDED form and additionally requires:
-  - EPISTEMIC_TAG (closed enum: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST)
+2B) EXTENDED SCHEMA IS THE DEFAULT FOR HYPOTHESIS MACHINES (mixed-provenance state):
+- If the machine must function as a hypothesis machine — i.e., it has mixed-provenance durable state, the normal case — the proposal schema is the EXTENDED form and additionally requires:
+  - EPISTEMIC_TAG (closed enum: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST) — kernel INVARIANT 10
   - JUSTIFICATION_CATEGORY
   - EVIDENCE_REF (conditionally required when EPISTEMIC_TAG = COMMITTED_FACT)
   - INVOKED_RULE_NAME + NARRATIVE_CUE_REFERENCE + SCHEME_INVARIANT_NOTE (conditionally required at override gates)
-- Do not ship the minimal schema for a POV-bounded machine. Under-building the proposal schema silently disables epistemic governance, because intake and verification have no tag to check.
+- The minimal schema is lawful ONLY in the degenerate single-provenance case (every field touched by exactly one epistemic mode for all time). For any non-trivial stateful agent, default to the extended schema.
+- Do not ship the minimal schema for a hypothesis machine. Under-building the proposal schema silently disables epistemic governance, because intake and verification have no tag to check — and it silently breaks deterministic conflict resolution, whose precedence rank for COMMITTED_FACT cannot be computed without the tag (see Step 06).
 
 3) Keep COT logic qualitative and bounded:
 - prefer enums/ordinals over free numeric updates
@@ -342,10 +365,10 @@ OUTPUT_ARTIFACTS:
 
 HUMAN_CHECK:
 - No COT writes directly into STATE_*.
-- All proposals use canonical TARGET_FIELD paths.
+- All proposals use canonical TARGET_FIELD paths in the discovered surface form.
 - Each COT has a trace entry schema.
 - No COT assumes direct in-model numeric analytics as commit authority.
-- If the machine is POV-bounded, confirm the EXTENDED proposal schema (with EPISTEMIC_TAG and JUSTIFICATION_CATEGORY) is used, not the minimal schema.
+- If the machine is a hypothesis machine (mixed-provenance), confirm the EXTENDED proposal schema (with EPISTEMIC_TAG and JUSTIFICATION_CATEGORY) is used, not the minimal schema.
 
 === SECTION_BREAK ===
 
@@ -378,6 +401,14 @@ PROCEDURE:
 - VETO is a SUPPRESSION POLICY applied within this ordering, not a precedence rank.
 - OPERATION TYPE DOES NOT DETERMINE PRECEDENCE. A common error is to rank operations (e.g., "VETO > TRANSITION > SET > ADD_MODIFIER"). This is NOT the OTTC conflict model. Two proposals of the same operation type are resolved by the property-based order above; two proposals of different operation types are also resolved by it. Operation type only governs WHAT a lawful mutation does, never WHICH proposal wins a conflict.
 
+[KEEP: Precedence rank 4 depends on the tenth invariant]
+Precedence rank 4 ("COMMITTED_FACT with resolvable evidence reference") is only computable when proposals
+carry epistemic-status tags. Deterministic conflict resolution therefore silently presumes kernel
+INVARIANT 10 for any architecture that uses evidence-bound facts in precedence. If the machine is a
+hypothesis machine and the extended schema was not shipped (Step 05.2B), this rank cannot be evaluated
+and the conflict model is incomplete. This is one of the reasons epistemic typing is kernel, not
+extension.
+
 3) Confirm deterministic governance boundary:
 - identify which checks execute in-model vs external deterministic layer
 - ensure single writer/commit authority is explicit and auditable
@@ -391,6 +422,7 @@ HUMAN_CHECK:
 - Single writer remains the designated commit authority (e.g., STATE_GOVERNANCE_AND_COMMIT).
 - Deterministic ordering exists even if some COTs are optional.
 - Conflict precedence is property-based; no operation-type precedence ladder is present.
+- If evidence-bound precedence (rank 4) is used, confirm epistemic tags are present to compute it.
 - External deterministic checks are mapped where risk requires.
 
 === SECTION_BREAK ===
@@ -401,13 +433,14 @@ HUMAN_CHECK:
 Verify that newly added ontology/laws/COTs still couple under stress and did not introduce drift channels.
 
 REQUIRED_RETEST:
-- Re-run CAA, WSD, EPI (if applicable), ANT against the updated machine.
+- Re-run CAA, WSD, EPI (when applicable; always for hypothesis-machine claims), ANT against the updated machine.
 - Include at least one scenario that exercises each newly added module.
 - Include malformed proposal cases to test suppression and audit closure.
+- Include at least one epistemic-tag violation case (COMMITTED_FACT without resolvable EVIDENCE_REF; tag/justification mismatch) when EPI applies.
 
 PASS_CRITERIA:
 - No direct persistent writes outside commit.
-- Canonical paths remain stable.
+- Canonical paths remain stable in the discovered surface form.
 - Audit covers every proposal exactly once.
 - Verification outputs PASS/WARN/FAIL based on actual violations.
 - New modules do not weaken kernel invariants.
@@ -429,9 +462,10 @@ Make future edits safe by protecting invariants and preserving assay-first disci
 
 PROCEDURE:
 1) Maintain a kernel rollup (human-visible checklist):
-- kernel invariants present: YES/NO
+- kernel invariants present (ten for hypothesis machine; nine floor): YES/NO
+- epistemic-status typing present and checked when applicable: YES/NO
 - ops list unchanged: YES/NO
-- canonical style unchanged: YES/NO
+- canonical surface form unchanged (and still coupling): YES/NO
 - step limits unchanged: YES/NO
 - audit closure unchanged: YES/NO
 - conflict precedence property-based (no operation-type ladder): YES/NO
@@ -456,19 +490,19 @@ PROCEDURE:
 - always rerun regression after build changes
 
 HUMAN_CHECK:
-- Watch for architectural drift: new write surfaces, “helpful” shortcuts, implicit commits, synonym creep, operation-type precedence creep, or skipped assay gates.
+- Watch for architectural drift: new write surfaces, “helpful” shortcuts, implicit commits, synonym creep, operation-type precedence creep, epistemic-tag erosion, surface-form drift, or skipped assay gates.
 
 === SECTION_BREAK ===
 
 === SECTION: QUICK_START_CHECKLIST (OPERATOR_VIEW) ===
 
-- [ ] STEP_00 kernel precheck passed
+- [ ] STEP_00 kernel precheck passed (ten invariants for hypothesis machine; nine floor)
 - [ ] STEP_01 qualification range executed in fresh blind session and recorded
 - [ ] STEP_01B language/culture coupling check completed (if applicable)
 - [ ] STEP_02 GO decision explicitly recorded
-- [ ] STEP_03 ontology surface defined
+- [ ] STEP_03 ontology surface defined in the discovered canonical surface form
 - [ ] STEP_04 laws defined (including canonicalization rules when needed)
-- [ ] STEP_05 COT proposers defined (no direct writes; extended schema if POV-bounded)
+- [ ] STEP_05 COT proposers defined (no direct writes; extended schema if hypothesis machine)
 - [ ] STEP_06 deterministic cascade/commit order set + property-based conflict precedence + governance boundary mapped
 - [ ] STEP_07 post-build retest passed (labeled regression)
 - [ ] STEP_08 kernel lock + iteration safeguards updated

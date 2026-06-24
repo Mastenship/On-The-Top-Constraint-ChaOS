@@ -5,6 +5,18 @@ OTTC - On the Top Constraint for LLMs, Rectangle Axioms (Kernel Invariants)
 
 === SECTION_BREAK ===
 
+[KEEP: Kernel cardinality note]
+This kernel comprises TEN mandatory invariants. Nine of them define a governable mutation boundary.
+The tenth — MANDATORY_EPISTEMIC_STATUS_TYPING — becomes constitutional the moment an architecture is
+required to function as a hypothesis machine: to perform predictive processing and Popperian
+falsification over cycles. Because any architecture with mixed-provenance durable state (the same
+surface updated sometimes by perception, sometimes by inference, sometimes by speculation) requires
+epistemic typing to remain a true predictive-falsificationist system, the tenth invariant is treated
+as part of the kernel for any serious build. Nine is the governability floor; ten is the kernel for a
+system that must reason, predict, and be refuted.
+
+=== SECTION_BREAK ===
+
 === SECTION: MANDATORY_CANONICAL_ADDRESS_SPACE ===
 
 STATEMENT:
@@ -79,7 +91,7 @@ ENFORCEMENT:
 Multi-step changes without proven override are downgraded or suppressed.
 
 WHY_IT_MATTERS:
-Gives persistent state inertia and makes earned change legible in any long-horizon agent.
+Gives persistent state inertia and makes earned change legible in any long-horizon agent. In predictive-processing terms, the override-with-proof requirement is precision-weighting: a large posterior update is permitted only against named, evidence-bound justification. Epistemic-status typing (INVARIANT 10) grades that proof, turning a binary gate into an ordinal precision lattice.
 
 === SECTION_BREAK ===
 
@@ -94,6 +106,13 @@ Precedence order and tie-breakers are applied by the commit authority before any
 WHY_IT_MATTERS:
 Eliminates thrash and guarantees replayability for any long-horizon agent.
 
+[KEEP: Dependency note]
+The canonical property-based precedence order includes a rank for "COMMITTED_FACT with resolvable
+evidence reference." That rank is only computable when proposals carry epistemic-status tags. The
+conflict model therefore presumes INVARIANT 10 for any architecture that uses evidence-bound facts in
+precedence. This is one of the reasons epistemic typing is kernel, not extension: deterministic
+conflict resolution silently depends on it.
+
 === SECTION_BREAK ===
 
 === SECTION: MANDATORY_AUDIT_CLOSURE ===
@@ -105,7 +124,7 @@ ENFORCEMENT:
 The commit audit must list every PROPOSAL_ID exactly once.
 
 WHY_IT_MATTERS:
-Prevents hidden governance and makes every decision inspectable in any long-horizon agent.
+Prevents hidden governance and makes every decision inspectable in any long-horizon agent. Audit closure is also what makes falsification possible over cycles: no falsifying evidence can vanish before it is tested, because every proposal's fate is on the record.
 
 === SECTION_BREAK ===
 
@@ -118,14 +137,62 @@ ENFORCEMENT:
 The verification step runs after every commit and can return FAIL.
 
 WHY_IT_MATTERS:
-Provides the final safety net and forces the system to stay self-consistent across any long-horizon agent.
+Provides the final safety net and forces the system to stay self-consistent across any long-horizon agent. The verification pass that can return FAIL is the falsifier proper: it is the test whose output can contradict a committed claim. Combined with epistemic-status typing, a FAIL on a COMMITTED_FACT proposal is not a generic error but a typed, directional prediction-error signal — an assertion offered as settled that the evidence layer refused.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MANDATORY_EPISTEMIC_STATUS_TYPING ===
+
+STATEMENT:
+Every proposal submitted to the proposal registry MUST carry a required, closed, canonical
+EPISTEMIC_TAG field drawn from this exact enum: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT,
+TOOL_REQUEST. A claim's footing in evidence is part of its content and must be declared, not inferred.
+
+ENFORCEMENT:
+Governance intake and post-commit verification MUST check tag consistency with JUSTIFICATION,
+MECHANISM_TAG, SYSTEM_LINKAGE, and role bounds. The COMMITTED_FACT tag is permitted only when supported
+by resolvable, verified evidence linkage. Proposals with invalid, missing, or mismatched tags are
+suppressed with explicit reason code EPISTEMIC_TAG_VIOLATION.
+
+WHY_IT_MATTERS:
+This invariant is what makes an OTTC machine a hypothesis machine. Without epistemic typing, a
+verification FAIL types the operation (which kind of mutation) but not the assertion (which kind of
+claim about reality) — and predictive processing requires the latter to direct an update. An untyped
+error signal collapses every failure to "revise something," with no way to route the correction to the
+perception, the inference, or the overconfident prior that produced it. With typing, the propose→commit→
+verify cycle is simultaneously conjecture→test→refute (falsification) and predict→compare→update
+(predictive processing). Epistemic typing also upgrades the step-limit precision gate (INVARIANT 6) from
+a binary proof/no-proof threshold to an ordinal precision lattice (SPECULATION < INFERENCE < PERCEPTION <
+evidence-bound COMMITTED_FACT), and supplies the discrete semantic units from which downstream
+deterministic governance (the Semantic Abacus) estimates continuous, channel-conditioned precision over
+the horizon.
+
+[KEEP: Necessity note]
+This invariant is strictly necessary for any architecture with mixed-provenance durable state — that is,
+any surface that may be updated by perception on one cycle and by inference or speculation on another.
+In such architectures, downstream reconstruction of epistemic status from provenance is underdetermined,
+so the tag must be declared at the write surface. Only in the degenerate single-provenance case (every
+field touched by exactly one epistemic mode for all time) does this invariant reduce to strengthening
+rather than necessity. Because mixed-provenance state is the normal case for any non-trivial stateful
+agent, this invariant is treated as kernel.
 
 === SECTION_BREAK ===
 
 === SECTION: WHAT_THIS_BUYS_YOU ===
 
 STATEMENT:
-The nine invariants together create a minimal constitutional shape that any long-horizon agent can inhabit. They are deliberately terse so the kernel remains universal.
+The ten invariants together create a minimal constitutional shape that any long-horizon agent can
+inhabit. The first nine make the mutation boundary governable. The tenth makes it a
+predictive-falsificationist system: it can predict, be refuted, and attribute its own errors over
+cycles. They are deliberately terse so the kernel remains universal.
+
+[KEEP: Two-tier summary]
+- Nine invariants: a governable mutation boundary (durable state cannot be changed without canonical
+  address, single accountable writer, bounded ops, step limits, deterministic conflict resolution,
+  audit closure, and post-commit verification).
+- Ten invariants: all of the above, plus epistemic-status typing — a mutation boundary that is also a
+  self-correcting, falsifiable inference engine. Required for any hypothesis machine and for any
+  architecture with mixed-provenance state.
 
 === SECTION_BREAK ===
 
@@ -138,7 +205,7 @@ ENFORCEMENT:
 Tool intent is treated as a proposal with OPERATION_TYPE TOOL_REQUEST. Actuation occurs only after commit and verification. Unauthorized tool calls are suppressed with reason code TOOL_ACTUATION_VIOLATION.
 
 INTEGRATION:
-Add TOOL_REQUEST to EPISTEMIC_TAG enum (if EST is active). Extend verification checklist to include tool-actuation provenance.
+TOOL_REQUEST is a member of the EPISTEMIC_TAG enum defined in INVARIANT 10. Extend the verification checklist to include tool-actuation provenance.
 
 === SECTION_BREAK ===
 
@@ -168,16 +235,20 @@ Document risk-tier policy in the governance overlay. Update maturation doctrine 
 
 === SECTION_BREAK ===
 
-=== SECTION: EXTENSION_EPISTEMIC_STATUS_TAGGING ===
+=== SECTION: EXTENSION_EPISTEMIC_STATUS_TAGGING (PROMOTED) ===
 
-STATEMENT:
-For OTTC systems in which lawful point-of-view is a first-class governance requirement, every proposal submitted to the proposal registry MUST carry a required closed canonical EPISTEMIC_TAG field drawn from this exact enum: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST.
+[KEEP: Promotion note]
+This section previously defined epistemic-status tagging as an optional extension scoped to
+"OTTC systems in which lawful point-of-view is a first-class governance requirement." It has been
+PROMOTED to a kernel invariant: see MANDATORY_EPISTEMIC_STATUS_TYPING (INVARIANT 10) above.
 
-ENFORCEMENT:
-Governance intake and post-commit verification MUST check tag consistency with JUSTIFICATION, MECHANISM_TAG, SYSTEM_LINKAGE, and role bounds. COMMITTED_FACT tag is only permitted when supported by verified evidence linkage. Proposals with invalid, missing, or mismatched tags are suppressed with explicit reason code EPISTEMIC_TAG_VIOLATION.
+The promotion was made because epistemic-status typing is necessary for any architecture required to
+function as a hypothesis machine (predictive processing + Popperian falsification over cycles), which is
+effectively any architecture with mixed-provenance durable state. The original "POV-bounded" trigger was
+a special case of a deeper trigger: predict-and-be-refuted intent.
 
-INTEGRATION:
-Add enum to CANONICAL_TOKEN_DICTIONARY. Add field to the proposal schema. Add EPISTEMIC_TAG_VALID_AND_CONSISTENT_WITH_LINKAGE_AND_ROLE check to the verification step.
+This section is retained as a pointer only. The normative content now lives in INVARIANT 10 and is
+checked by the verification step via EPISTEMIC_TAG_VALID_AND_CONSISTENT_WITH_LINKAGE_AND_ROLE.
 
 === SECTION_BREAK ===
 
@@ -192,6 +263,13 @@ Run a blind pre-build qualification assay (fresh session, minimal law excerpt on
 Post-build retests are required for regression hygiene, but they are never a substitute for the pre-build blind gate.
 
 This step is non-negotiable for any OTTC-compliant architecture.
+
+[KEEP: Note on EPI and the tenth invariant]
+Because epistemic-status typing is now a kernel invariant for hypothesis machines, the EPI assay
+(Epistemic POV Integrity) is no longer applicable "only if output is POV-bounded." For any architecture
+claiming predictive-processing + falsification behavior, EPI is required, because it is the assay that
+measures whether epistemic tags survive attention competition and are applied truthfully under
+ambiguity and injection.
 
 === SECTION_BREAK ===
 

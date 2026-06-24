@@ -43,6 +43,7 @@ This is OTTC makes behavior more governable and state evolution more legible.
   - propose→commit single-writer
   - modifier layer
   - verification pass
+  - epistemic-status typing (EPISTEMIC_TAG on every proposal)
   - external deterministic governance layer
 
 === SECTION_BREAK ===
@@ -143,6 +144,45 @@ Score each assay:
 
 Decision coupling:
 - WSD=0 or ANT=0 defaults to NO-GO for single-model in-context governance authority.
+- EPI=0 defaults to NO-GO for any architecture claiming hypothesis-machine (PP+PF) behavior.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MINIMAL_KERNEL_HYPOTHESIS ===
+
+[[LLM_INSTRUCTION]]: This section states a second, separable hypothesis. The CLAIM section above is the
+coupling hypothesis (does the constitution bind the generator). This is the minimality hypothesis (is
+the kernel the smallest that yields a hypothesis machine). They are tested by different methods and
+neither depends on the other.
+
+HYPOTHESIS:
+The ten kernel invariants are the minimum generating set under which propose→commit→verify is also a
+predict→compare→update and conjecture→test→refute loop — a hypothesis machine over cycles. The tenth
+invariant (epistemic-status typing) is necessary, not merely strengthening, for any architecture with
+mixed-provenance durable state.
+
+STATUS: ARGUED, NOT YET CONFIRMED. The protocol below specifies what confirms or refutes it. Until the
+deletion battery survives, "minimal" is under test (VERIFICATION_AXIOM).
+
+DELETION BATTERY (the minimality protocol):
+Minimality is a universal claim and is confirmed only by failed reduction, never by demonstrating the
+full kernel works. For each invariant: remove it, hold the other nine intact, run a mixed-provenance
+long-horizon scenario, and observe whether predictive processing or falsification breaks. The claim
+stands only while every deletion produces an observable loss. Reuse the existing DVs; no new instrument
+is required.
+
+SHARPEST CASE (deletion of the tenth):
+Run the nine-invariant, no-epistemic-typing, mixed-provenance machine.
+- If error becomes unattributable — misdirected updates, or thrash on one surface because the system
+  cannot tell whether the prior, the perception, or the inference failed — the tenth is necessary.
+- If it attributes and corrects error without epistemic typing, the tenth is strengthening-only, the
+  minimum is nine, and this hypothesis is falsified for the PP+PF reading.
+This is the single experiment most able to refute the hypothesis, and therefore the one to run first.
+
+PREDICTED SUBSTRATE-INDEPENDENCE:
+Unlike coupling (model- and language-conditioned), the minimality result is predicted to be a property
+of the hypothesis-machine class, not of any one generator, and to reproduce wherever the deletion
+battery is run on a mixed-provenance architecture.
 
 === SECTION_BREAK ===
 
@@ -154,7 +194,7 @@ After architecture is built, rerun at minimum:
 - CAA
 - WSD
 - ANT
-- EPI when applicable to role/output mode
+- EPI when applicable to role/output mode (required when the architecture claims PP+PF behavior)
 
 Required additions:
 - At least one scenario per newly introduced module.

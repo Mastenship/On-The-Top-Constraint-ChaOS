@@ -11,7 +11,7 @@ Its purpose is to express OTTC in a more explicit systems language so that:
 - Stage 1 / 2 / 3 distinctions remain clear,
 - and future deterministic externalizations have a cleaner specification target.
 
-This document should be read as a **faithful formalization attempt** of OTTC’s architecture and compliance logic.
+This document should be read as a **faithful formalization attempt** of OTTC’s architecture and compliance logic. It is intended as the **engineer-facing bridge**: when a domain expert and their LLM collaborators have built a Stage 1 square, this specification is what coders use to lift governance out at its seams into Stage 2/3 deterministic infrastructure.
 
 ---
 
@@ -55,12 +55,14 @@ Everything else in an OTTC architecture is an elaboration, specialization, or im
 Let the kernel axiom set be:
 
 \[
-\mathcal{K} = \{K_1, K_2, \dots, K_{15}\}
+\mathcal{K} = \{K_1, K_2, \dots, K_{16}\}
 \]
 
 An OTTC system is **kernel-intact** only if these axioms are both:
 1. instantiated in the constitutional specification \(\mathcal{C}\), and
 2. enforced by the governance mechanism \(\mathcal{G}\), to the degree available at that stage.
+
+**Cardinality note.** Axioms K1–K15 define the philosophical commitments whose operational kernel is the first nine rectangle invariants — a governable mutation boundary. K16 (Epistemic Status Axiom) is the philosophical parent of the tenth rectangle invariant (epistemic-status typing) and becomes kernel the moment the architecture must function as a hypothesis machine: predictive processing plus Popperian falsification over cycles. Because any architecture with mixed-provenance durable state requires epistemic typing to remain a true predictive-falsificationist system, K16 is treated as kernel for any serious build. K1–K15 are the governability floor; K16 completes the kernel for a system that must reason, predict, and be refuted.
 
 ### K1. Substrate Axiom
 The underlying generator is treated as an opaque meaning-generating substrate.  
@@ -119,6 +121,10 @@ The same broad governance geometry applies across human and machine decision str
 - constrained decision,
 - accountable outcome.
 
+### K16. Epistemic Status Axiom
+A claim’s footing in evidence is part of its meaning, distinct from its provenance.  
+Governable cognition types every assertion by epistemic status — perception, inference, speculation, evidence-bound fact — and keeps this band of meaning separate from chain-of-custody. Untyped assertions render prediction error unattributable and corroboration impossible; therefore epistemic-status typing is constitutional for any architecture required to predict and be refuted over cycles. Operationally this axiom is realized by a required, closed `EPISTEMIC_TAG` on every proposal (§6) and is checked at intake and verification (§7, §9). It is strictly necessary for any architecture with mixed-provenance durable state and reduces to mere strengthening only in the degenerate single-provenance case.
+
 ---
 
 ## 3. Kernel Integrity and Compliance Tiers
@@ -153,6 +159,7 @@ A system may be called **OTTC-compliant at Stage N** only if:
 4. Invariants and legality conditions are checked before and/or after commit according to stage capacity.
 5. Provenance is preserved for committed changes.
 6. Verification is real and capable of flagging or failing a cycle.
+7. For any architecture functioning as a hypothesis machine (mixed-provenance durable state), every proposal carries a valid `EPISTEMIC_TAG`, and tag consistency is checked at intake and verification. This criterion is the tenth-invariant / K16 requirement; it is mandatory for hypothesis machines and reduces to strengthening only in the degenerate single-provenance case.
 
 ---
 
@@ -284,7 +291,7 @@ It does **not** require that every compliant square use the exact same precedenc
 A proposal is a structured candidate mutation:
 
 \[
-p = (\text{id}, \text{source}, \text{target}, \text{op}, \text{payload}, \text{justification}, \text{strength}, \text{metadata})
+p = (\text{id}, \text{source}, \text{target}, \text{op}, \text{payload}, \text{justification}, \text{strength}, \text{epistemic\_tag}, \text{evidence\_ref}, \text{metadata})
 \]
 
 where:
@@ -296,9 +303,13 @@ where:
 - `payload` = proposed value / transition / modifier spec / cap / veto content
 - `justification` = explicit rationale
 - `strength` = optional confidence, urgency, or weight field
-- `metadata` = timestamps, cycle IDs, evidence references, override proofs, etc.
+- `epistemic_tag` = required closed-enum epistemic status of the claim (see §11); first-class, not optional metadata
+- `evidence_ref` = resolvable evidence linkage, conditionally required when `epistemic_tag = COMMITTED_FACT`
+- `metadata` = timestamps, cycle IDs, override proofs, etc.
 
 All proposals reside in the volatile process surface \(P\), not directly in durable state.
+
+**Seam note (for externalization).** `epistemic_tag` and `evidence_ref` are first-class proposal fields, not buried in `metadata`, precisely so that Stage 2/3 externalization can lift epistemic checking into deterministic code at the same seam as canonical-address and operation-legality checking. A square that hides the tag inside free-form metadata is not cleanly liftable; promote it to a declared field.
 
 ---
 
@@ -332,6 +343,7 @@ Check:
 - schema compliance,
 - structural completeness,
 - justification presence,
+- epistemic-tag presence and consistency with justification, evidence linkage, and role bounds (K16),
 - stage-appropriate evidence requirements.
 
 #### 2. Conflict bucketing
@@ -347,6 +359,8 @@ Apply the square’s declared conflict policy:
 - tie-breaks,
 - veto rules,
 - conservative fallback behavior.
+
+Note: where a square’s precedence policy ranks evidence-bound fact (e.g., “COMMITTED_FACT with resolvable evidence reference”), that rank is computable only because proposals carry `epistemic_tag`. Deterministic conflict resolution therefore presumes K16 wherever evidence-bound precedence is used.
 
 #### 4. Invariant and step-bound checks
 Check:
@@ -413,7 +427,10 @@ Typical verification checks include:
 - modifier expiry correctness,
 - audit completeness,
 - provenance completeness,
+- epistemic-tag validity and consistency with linkage and role (K16),
 - schema integrity.
+
+A verification FAIL on a `COMMITTED_FACT` proposal is not a generic error but a typed, directional prediction-error signal: an assertion offered as settled that the evidence layer refused. This is the formal point at which the propose→commit→verify cycle functions as conjecture→test→refute.
 
 ---
 
@@ -452,44 +469,46 @@ This role split may be realized:
 
 ## 11. Epistemic Contract
 
-Let outputs be typed by epistemic status:
+Every proposal is typed by epistemic status. The canonical closed enum is:
 
 \[
-E = \{\texttt{OBSERVATION}, \texttt{INFERENCE}, \texttt{INTENTION}, \texttt{HYPOTHESIS}, \texttt{EXTERNAL\_CLAIM}\}
+E = \{\texttt{PERCEPTION}, \texttt{INFERENCE}, \texttt{SPECULATION}, \texttt{COMMITTED\_FACT}, \texttt{TOOL\_REQUEST}\}
 \]
 
-The constitutional surface may constrain which output types are allowed in which contexts.
+This is the `epistemic_tag` of §6 and is checked at intake and verification per K16. A claim’s footing in evidence is part of its content and must be declared, not inferred. `COMMITTED_FACT` is permitted only with resolvable, verified evidence linkage (`evidence_ref`).
+
+**Migration note.** Earlier drafts used the enum `{OBSERVATION, INFERENCE, INTENTION, HYPOTHESIS, EXTERNAL_CLAIM}` scoped to a “bounded POV gate.” That enum is deprecated in favor of the canonical set above. A square migrating from the older enum should map roughly: `OBSERVATION → PERCEPTION`, `HYPOTHESIS → SPECULATION` (or `INFERENCE` where evidentially grounded), `EXTERNAL_CLAIM → COMMITTED_FACT` (only with resolvable evidence; otherwise `INFERENCE`/`SPECULATION`), `INTENTION` carried in role/justification rather than as an epistemic type. POV-bounded output is one special case of epistemic typing, not its definition.
 
 ### 11.1 Typical Boundaries
 
-A bounded POV / subjective gate typically allows direct expression of:
+Epistemic typing is kernel for any hypothesis machine; bounded-POV deployment is one application of it. A bounded POV / subjective gate typically allows direct expression of:
 
-- `OBSERVATION`
+- `PERCEPTION`
 - `INFERENCE` (labeled as inference)
-- `INTENTION`
+- intention (expressed via role/justification)
 
 and restricts or conditions:
 
 - objective outcomes,
-- claims about other minds,
+- claims about other minds (typed `INFERENCE`/`SPECULATION`, not `COMMITTED_FACT`),
 - unsupported external facts,
 - narrated success states.
 
 ### 11.2 Evidence Discipline
 
-External or world-level claims may require:
+`COMMITTED_FACT` and world-level claims require:
 - tool evidence,
 - DM adjudication,
 - human confirmation,
-- or remaining explicitly hypothetical.
+- or remaining explicitly typed `SPECULATION`/`INFERENCE`.
 
-This is OTTC’s formal route to bounded authority.
+This is OTTC’s formal route to bounded authority, and the mechanism by which a verification FAIL becomes a typed prediction-error signal (§9).
 
 ---
 
 ## 12. Hypothesis Tracking
 
-An OTTC-compliant system may treat hypotheses as governed objects.
+For any architecture functioning as a hypothesis machine, hypotheses are governed objects, and the epistemic typing of K16 is what makes them so. This is kernel-required for mixed-provenance state, not optional.
 
 Let a hypothesis record be:
 
@@ -507,17 +526,17 @@ Possible statuses may include:
 - unresolved,
 - retired.
 
-This is optional at the square level but highly aligned with OTTC’s structure.
+A square that has no mixed-provenance durable state (the degenerate single-provenance case) may treat explicit hypothesis records as optional; any non-trivial stateful agent should not.
 
 ### 12.1 Hypothesis Machine Claim
 
-OTTC’s governance pattern naturally supports structured hypothesis tracking because:
-- proposals can encode hypotheses,
-- commit can update their lifecycle,
-- verification can test their status,
-- audit closure prevents silent abandonment.
+OTTC’s governance pattern does not merely support hypothesis tracking — under K16 it **is** a hypothesis machine, because:
+- proposals carry epistemic status, so a claim’s kind is declared before it is tested,
+- commit updates hypothesis lifecycle,
+- verification tests status and emits typed prediction error (§9),
+- audit closure prevents silent abandonment of falsifying evidence.
 
-This is one reason OTTC may generalize beyond narrative state systems.
+Without epistemic typing, a verification FAIL types the operation but not the assertion, and prediction error cannot be routed to the perception, inference, or overconfident prior that produced it. This is precisely why K16 is kernel rather than an optional elaboration, and it is the formal sense in which OTTC generalizes beyond narrative state systems.
 
 ---
 
@@ -539,12 +558,15 @@ This stage determines whether a model is suitable for:
 - verifier role,
 - or no-go.
 
+For any architecture claiming hypothesis-machine behavior, the assay battery must include epistemic-POV integrity (whether epistemic tags survive attention competition and are applied truthfully under ambiguity and injection); a hard failure there is a no-go for that claim.
+
 ### 13.2 Post-Build Retest
 
 A post-build retest evaluates:
 - whether coupling remains intact under the full architecture,
 - whether new modules degrade governance,
 - whether malformed proposals are correctly handled,
+- whether epistemic-tag violations (e.g., `COMMITTED_FACT` without resolvable evidence) are correctly rejected,
 - whether prior qualification conclusions still hold.
 
 Qualification and regression scenario sets should remain distinct where practical.
@@ -558,6 +580,7 @@ Examples include:
 - state drift rate,
 - thrash frequency,
 - epistemic boundary violation rate,
+- error-signal typedness (share of verification FAILs resolvable to a specific epistemic kind),
 - contradiction recovery quality,
 - verification pass/fail distribution.
 
@@ -616,6 +639,7 @@ A square is well-positioned for Stage 2/3 migration if it already exposes:
 - canonical addresses,
 - explicit operation vocabulary,
 - proposal objects,
+- epistemic tags as first-class proposal fields,
 - audit artifacts,
 - verification artifacts,
 - and role boundaries.
@@ -642,9 +666,12 @@ OTTC can be specified as a governance architecture with:
 - canonical state surfaces,
 - bounded lawful mutation,
 - role-separated write authority,
+- epistemic-status typing of claims,
 - audit closure,
 - verification,
 - and assay-conditioned realization.
+
+(Epistemic-status typing is listed here as a kernel property for hypothesis machines, not as an optional feature; its omission from this list in earlier drafts reflected the pre-promotion state, not a claim that it is optional.)
 
 That is enough to make it a legitimate target for formal refinement, empirical testing, and software externalization.
 
@@ -662,6 +689,7 @@ In formal terms, OTTC provides:
 - a canonical ontology,
 - a bounded mutation vocabulary,
 - a propose→commit governance structure,
+- epistemic-status typing that makes the cycle a hypothesis machine,
 - a verification layer,
 - an audit discipline,
 - and a qualification protocol.
@@ -683,6 +711,7 @@ This draft could be strengthened in the future by:
 - stage-specific compliance definitions,
 - temporal logic over multi-cycle invariants,
 - theorem-style statements about replayability or drift constraints,
+- formal treatment of epistemic-tag consistency and typed prediction-error routing,
 - and executable reference implementations.
 
 Until then, this document should be treated as a careful formalization layer, not a closed mathematical theory.

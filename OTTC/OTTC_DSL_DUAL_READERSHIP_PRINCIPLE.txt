@@ -20,17 +20,26 @@ This requires designing for two simultaneous readers: human domain experts and L
 PRINCIPLE:
 Canonical write-surface tokens must be maximally distinct from natural language prose at the token level.
 
-RATIONALE:
-Transformer attention weights are influenced by token-level salience. Tokens that resemble ordinary prose blend into the continuation distribution and lose structural authority. Tokens that are visually and tokenically alien — bracket paths, UPPER_SNAKE case, rigid schema markers — function as high-salience anchors that the model is more likely to treat as structurally binding rather than as content to be fluidly continued.
+[KEEP: The surface form is an example, not the invariant]
+The invariant is the PROPERTY — maximal attentional distinctness from prose, subject to human legibility
+— not any particular set of glyphs. Every concrete surface form shown in this document (bracket-path
+addressing, UPPER_SNAKE casing, === SECTION === markers) is the ChaOS reference instantiation on an
+English semantic manifold. It is a worked example of the property on one substrate, not the canonical
+OTTC surface. The same property may be best satisfied by entirely different glyphs on a different
+tokenizer or in a different language. Do not copy these glyphs literally across substrates; satisfy the
+property and let the optimal form be discovered by measurement (see ASSAY_IMPLICATION).
 
-DESIGN CONSEQUENCES:
-- Bracket-path canonical addressing (e.g., [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]) is preferred because it is maximally distinct from any natural language sentence the model might generate.
-- UPPER_SNAKE_CASE for all write-surface tokens reduces the probability of token-level confusion with narrative content.
-- Structural markers (=== SECTION: ===, [[LLM_INSTRUCTION]], [KEEP:]) serve as attention anchors that segment the governance surface from deliberative prose.
-- The write surface must never use tokens, casing, or formatting conventions that could be confused with the content surface.
+RATIONALE:
+Transformer attention weights are influenced by token-level salience. Tokens that resemble ordinary prose blend into the continuation distribution and lose structural authority. Tokens that are visually and tokenically alien — whatever counts as alien on the target substrate — function as high-salience anchors that the model is more likely to treat as structurally binding rather than as content to be fluidly continued.
+
+DESIGN CONSEQUENCES (illustrated on the ChaOS/English reference substrate; forms are examples, not mandates):
+- Bracket-path canonical addressing (e.g., [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]) is one solution because, on this substrate, it is maximally distinct from any natural language sentence the model might generate. On another substrate the best-coupling form might be /STATE_BODY/BIOCHEMICAL_STATE_MARKERS/CORTISOL, @STATE_BODY@...@CORTISOL, ??STATE_BODY??...??CORTISOL??, or another alien delimiter entirely — to be determined by measurement, not assumed.
+- A casing or marking convention that reduces token-level confusion with narrative content (UPPER_SNAKE on this substrate) is the requirement; the specific convention that achieves it is substrate-conditioned.
+- Structural section markers serve as attention anchors that segment the governance surface from deliberative prose. The reference form is === SECTION: ===; an equivalent on another substrate might be -!- SECTION -!- or any marker that is alien-to-prose and human-scannable there.
+- The write surface must never use tokens, casing, or formatting conventions that could be confused with the content surface — on the substrate in question.
 
 HUMAN_READER_CONSEQUENCE:
-The same distinctness that aids LLM attention also aids human audit. A human reviewer can scan a proposal registry or audit log and immediately distinguish canonical paths, operation types, and epistemic tags from narrative justification text. Dual readership is not a compromise between two audiences. It is a single design property that serves both.
+The same distinctness that aids LLM attention also aids human audit. A human reviewer can scan a proposal registry or audit log and immediately distinguish canonical paths, operation types, and epistemic tags from narrative justification text. Dual readership is not a compromise between two audiences. It is a single design property that serves both — which is also why surface-form discovery is bounded: a form must remain human-legible even when it maximizes machine distinctness.
 
 === SECTION_BREAK ===
 
@@ -56,9 +65,29 @@ PRINCIPLE:
 Coupling strength is partly a function of how well the DSL's structural markers compete for attention in the specific model's processing.
 
 RATIONALE:
-Different models tokenize differently. Different languages produce different attention distributions. The same bracket-path token may be high-salience in one model family and fragmented into subword tokens with reduced structural weight in another. The same constitutional phrasing may anchor strongly in English and weakly in another language due to training distribution differences.
+Different models tokenize differently. Different languages produce different attention distributions. The same delimiter token may be high-salience in one model family and fragmented into subword tokens with reduced structural weight in another. The same constitutional phrasing may anchor strongly in English and weakly in another language due to training distribution differences.
 
 This is why qualification assays are necessary and why coupling cannot be assumed from design alone. The assay measures whether the DSL's attention architecture actually binds in the specific substrate. CAA (Canonical Address Obedience) is, at its most fundamental level, a test of whether the structural distinctness of canonical tokens is surviving attention competition in that model.
+
+[KEEP: Surface-form discovery rule — the form is assay output, not assay input]
+Because the optimal alien-to-prose form is substrate- and language-dependent, the canonical surface form
+is itself a discovery of qualification, not a decree made before it. On a new substrate or a new operating
+language, do not assume the ChaOS reference glyphs. Run CAA across candidate surface forms (e.g., bracket
+vs. slash vs. sigil-delimited paths; alternative section markers) and adopt the form that maximizes
+attentional distinctness subject to remaining human-legible. CAA therefore does two jobs: on an
+established substrate it grades a chosen form; on a new one it selects the form. Record the selected form
+and the candidates tested as part of the qualification evidence. Awareness, not prescription: this
+document supplies the property and the method; the winning glyphs come out of testing on that substrate.
+
+[KEEP: Epistemic-tag attentional survival is a kernel question]
+The same attention-competition logic applies to the epistemic-status tag. For a hypothesis machine, the
+EPISTEMIC_TAG is kernel INVARIANT 10, and its dual-readership distinctness is therefore not optional
+polish but a kernel-compliance property: the tag must remain attentionally distinct and binding at the
+proposal site, or epistemic governance silently fails. As with the canonical path, the tag's surface form
+is substrate-conditioned and discovered by measurement, not fixed by these examples. EPI (Epistemic POV
+Integrity) is to the epistemic tag what CAA is to the canonical path — the assay that measures whether
+that band of meaning survives attention competition and is applied truthfully under ambiguity and
+injection.
 
 === SECTION_BREAK ===
 
@@ -93,11 +122,12 @@ The collaboration scaffold function does not transfer commit authority to the LL
 === SECTION: GENERALIZATION_NOTE ===
 
 This principle is OTTC-general. It does not depend on any specific ontology, domain, or token vocabulary. Any OTTC-compliant architecture must solve the dual readership problem by ensuring that:
-1) The governance surface is attentionally distinct from the content surface.
+1) The governance surface is attentionally distinct from the content surface by whatever token-level means actually couple on the target substrate. The specific delimiters, casing, and section markers are substrate- and language-conditioned; they must not be copied literally from one substrate to another without re-measuring, because a form that is alien-to-prose under one tokenizer may fragment into low-salience subwords under another.
 2) Constitutional constraints are locally present at every proposal generation site.
-3) Coupling is measured, not assumed, because attention dynamics vary across substrates.
+3) Coupling is measured, not assumed, because attention dynamics vary across substrates — and surface form itself is therefore discovered by measurement, not fixed by these examples.
+4) For a hypothesis machine, the epistemic-status tag is held to the same dual-readership standard as canonical addressing — attentionally distinct, locally reinforced, and measured (via EPI) — because it is a kernel invariant, not a narrative annotation.
 
-The specific tokens, markers, and formatting conventions may vary by implementation. The requirement that they be structurally alien relative to prose content does not vary.
+The specific tokens, markers, and formatting conventions may vary by implementation. The requirement that they be structurally alien relative to prose content — and human-legible — does not vary.
 
 === SECTION_BREAK ===
 

@@ -64,13 +64,22 @@ Because OTTC constrains a probabilistic text policy through semantic law, the mo
 - obey bounded operations
 - preserve hard-vs-soft state separation
 - emit complete audits
-- remain within epistemic and role limits
+- remain within epistemic and role limits, including truthful epistemic-status typing of each claim (kernel INVARIANT 10 for any hypothesis machine)
 - produce artifacts stable enough for deterministic systems to parse
 
 If the model cannot do this reliably, then external governance software will not be governing a stable constitutional protocol.
 It will instead be parsing unstable text behavior and treating extraction fragility as architecture.
 
 This is why Stage 1 cannot be skipped.
+
+[KEEP: "Canonical" and "stable" are substrate-conditioned, discovered not decreed]
+Throughout this doctrine, "canonical addresses" and "stable tokens" refer to whatever surface form
+actually couples on the target substrate and operating language, discovered by qualification assay — not
+to any specific glyph set. The bracket-path / UPPER_SNAKE / section-marker forms used elsewhere in the
+corpus are the ChaOS reference instantiation on an English semantic manifold, an example of the property,
+not the property itself (see DSL_AND_DUAL_READERSHIP). Stage 1's job includes discovering the surface
+form that is alien-to-prose and human-legible on this substrate; do not import another square's glyphs
+without re-measuring.
 
 === SECTION_BREAK ===
 
@@ -97,6 +106,7 @@ Stage 1 is where you discover:
 2) DSL_FIT
 - What syntax and segmentation does the model obey under stress?
 - What canonical forms retain gravity over long contexts?
+- Which surface form (delimiters, casing, markers) actually couples on this substrate and language?
 
 3) COUPLING_LIMITS
 - Where does the model drift first?
@@ -113,6 +123,7 @@ Stage 1 is where you discover:
 - Does it perform illegal direct writes?
 - Does it narrate beyond role?
 - Does it produce audit theater?
+- Does it apply epistemic-status tags untruthfully under pressure?
 
 6) LANGUAGE_AND_CULTURE_EFFECTS
 - Does coupling change across intended language surfaces?
@@ -166,6 +177,7 @@ External systems must receive artifacts such as:
 - operation types
 - reason codes
 - mechanism tags
+- epistemic-status tags
 - audit entries
 - verification inputs
 - tool-intent requests
@@ -272,15 +284,24 @@ The deterministic layer becomes:
 Stage progression changes where authority lives.
 It does not change OTTC’s kernel identity.
 
-Across all stages, OTTC still requires:
+Across all stages, OTTC still requires the ten kernel invariants:
 - canonical addressing
 - propose→commit separation
-- bounded ops
-- hard-vs-soft separation
+- single-writer persistent state
+- explicit update operations
+- hard-state vs soft-modifier separation
 - step limits with override proof
 - deterministic conflict resolution
 - audit closure
 - post-commit verification
+- epistemic-status typing
+
+[KEEP: Cardinality note]
+The first nine make the mutation boundary governable across every stage. The tenth — epistemic-status
+typing — is what keeps the system a hypothesis machine (predictive processing + Popperian falsification)
+across every stage, and is kernel for any architecture with mixed-provenance durable state. Stage
+progression deepens enforcement of all ten; it never reduces the count. A maturation step that drops an
+invariant is not maturation — it is regression.
 
 What changes is:
 - whether these are represented entirely in-model

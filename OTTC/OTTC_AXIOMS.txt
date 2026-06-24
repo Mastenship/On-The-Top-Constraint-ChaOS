@@ -2,19 +2,23 @@
 
 [KEEP: Reading guidance]
 
-This file lists fifteen axioms in terse form. The companion file OTTC_RECTANGLE_AXIOMS lists nine MANDATORY constitutional invariants in expanded form, plus several EXTENSIONS and the mandatory engineering qualification step. The two files are complementary, not redundant, and they operate at different levels of abstraction.
+This file lists sixteen axioms in terse form. The companion file OTTC_RECTANGLE_AXIOMS lists ten MANDATORY constitutional invariants in expanded form, plus several EXTENSIONS and the mandatory engineering qualification step. The two files are complementary, not redundant, and they operate at different levels of abstraction.
 
-The fifteen axioms in this file are the framework's broader philosophical commitments. They include foundational claims about what the substrate is (SUBSTRATE_AXIOM), how meaning travels (RECEIVER_MEANING_AXIOM), and what governance pattern applies across human and machine cognition (HUMAN_PARALLEL_AXIOM). These are framework-level claims about the constitutional theory as a whole.
+The sixteen axioms in this file are the framework's broader philosophical commitments. They include foundational claims about what the substrate is (SUBSTRATE_AXIOM), how meaning travels (RECEIVER_MEANING_AXIOM), how a claim's footing in evidence is part of its meaning (EPISTEMIC_STATUS_AXIOM), and what governance pattern applies across human and machine cognition (HUMAN_PARALLEL_AXIOM). These are framework-level claims about the constitutional theory as a whole.
 
-The nine MANDATORY invariants in OTTC_RECTANGLE_AXIOMS are the kernel of any specific compliant architecture. They define the minimal constitutional shape an architecture must satisfy to be OTTC-compliant: canonical addressing, propose-commit separation, single-writer state, explicit operations, hard-state versus soft-modifier distinction, step limits with override triggers, deterministic conflict resolution, audit closure, and post-commit verification. These nine are the rectangle.
+The ten MANDATORY invariants in OTTC_RECTANGLE_AXIOMS are the kernel of any specific compliant architecture. They define the minimal constitutional shape an architecture must satisfy to be OTTC-compliant: canonical addressing, propose-commit separation, single-writer state, explicit operations, hard-state versus soft-modifier distinction, step limits with override triggers, deterministic conflict resolution, audit closure, post-commit verification, and epistemic-status typing. These ten are the rectangle.
 
 A practitioner building or assessing a specific architecture should reference OTTC_RECTANGLE_AXIOMS as the operational kernel. A reader engaging with the framework's broader theoretical commitments should reference both: this file for the philosophical commitments that motivate the architecture, OTTC_RECTANGLE_AXIOMS for the invariants any compliant architecture must enforce.
 
-The relationship can be stated compactly: the fifteen axioms include the nine, and add framework-level commitments that the nine kernel invariants instantiate but do not exhaustively name. An architecture that satisfies the nine kernel invariants honors the framework. The additional axioms here name what the framework as a whole is about, beyond what any single architecture's kernel can carry.
+The relationship can be stated compactly: the sixteen axioms include the ten, and add framework-level commitments that the ten kernel invariants instantiate but do not exhaustively name. An architecture that satisfies the ten kernel invariants honors the framework. The additional axioms here name what the framework as a whole is about, beyond what any single architecture's kernel can carry.
+
+[KEEP: Note on the tenth invariant and sixteenth axiom]
+Several principles appear at both altitudes: canonical addressing is AXIOM 5 and INVARIANT 1; propose-commit separation is AXIOM 4 and INVARIANT 2; single-writer authority is AXIOM 4/INVARIANT 3. Epistemic-status typing now joins this set. It is AXIOM 16 (EPISTEMIC_STATUS_AXIOM) at the philosophical altitude and INVARIANT 10 (MANDATORY_EPISTEMIC_STATUS_TYPING) at the operational altitude. This is not anomalous; it is the existing pattern. A principle that is both a framework commitment and a kernel requirement is expected to appear in both files.
+
+[KEEP: Why the kernel is ten, not nine]
+Nine invariants are sufficient for a governable mutation boundary. The tenth — epistemic-status typing — becomes mandatory the moment an architecture is required to function as a hypothesis machine: that is, to perform predictive processing and Popperian falsification over cycles. Without epistemic typing, prediction error cannot be attributed to a kind of claim, and corroboration cannot be made replayable. Because any stateful architecture whose durable surfaces are updated sometimes by perception, sometimes by inference, and sometimes by speculation pending evidence (mixed-provenance state — effectively all non-trivial architectures) requires this typing to remain a true predictive-falsificationist system, the tenth invariant is treated as constitutional for any serious build. Nine is the governability floor. Ten is the kernel for a system that must reason, predict, and be refuted.
 
 === SECTION_BREAK ===
-
-=== SECTION: OTTC_AXIOMS ===
 
 === SECTION: OTTC_AXIOMS ===
 
@@ -64,12 +68,30 @@ Meaning is completed in the receiver; transferability requires shared rules and 
 The same governance pattern applies to human and machine cognition:
 free deliberation, constrained decision, accountable outcome.
 
+16) EPISTEMIC_STATUS_AXIOM
+A claim's footing in evidence is part of its meaning, distinct from its provenance.
+Governable cognition types every assertion by epistemic status — perception, inference,
+speculation, evidence-bound fact — and keeps this band of meaning separate from chain-of-custody.
+The separation is maintained not to assert irreducibility, but to preserve a breadth of meaning
+that must remain legible across both human and machine cognition: a well-sourced speculation and
+a poorly-sourced fact are different things in every institution that governs consequential claims.
+Untyped assertions render prediction error unattributable and corroboration impossible; therefore
+epistemic-status typing is constitutional for any architecture required to predict and be refuted
+over cycles.
+
 === SECTION_BREAK ===
 
 === SECTION: OTTC_THEOREM_CANDIDATE ===
 
 When semantic generation is constrained by lawful transitions, bounded authority, and auditable commit,
 continuity emerges without requiring full observability of the generator’s internal manifold.
+
+[KEEP: Corollary — predictive-falsificationist reading]
+When, in addition, every proposal is typed by epistemic status, the propose→commit→verify cycle
+becomes simultaneously a conjecture→test→refute loop (Popperian falsification) and a
+predict→compare→update loop (predictive processing). The ten kernel invariants are the minimal
+conditions under which these two loops are the same loop, executed over cycles and inspectable
+after the fact.
 
 === SECTION_BREAK ===
 
@@ -82,6 +104,12 @@ A system is OTTC-compliant if all are true:
 - Invariants checked before and after commit
 - Every commit has provenance
 - Verification pass can fail the cycle
+- Every proposal is typed by epistemic status, and that tag is checked at intake and verification
+
+[KEEP: Note]
+The final criterion is mandatory for any architecture that must function as a hypothesis machine
+(predictive processing + falsification over cycles), which is effectively any architecture with
+mixed-provenance durable state. It is the governability floor's tenth invariant, not an optional add-on.
 
 === SECTION_BREAK ===
 

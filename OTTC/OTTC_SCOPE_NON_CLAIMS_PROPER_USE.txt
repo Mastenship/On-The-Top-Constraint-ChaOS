@@ -13,12 +13,15 @@ OTTC (On-The-Top Constraint) is a language-native governance pattern for statefu
 
 It is a coupling layer: a text-based protocol that conditions an LLM’s continuation space toward:
 - stable, addressable state
-- bounded and labeled epistemic claims
+- bounded and labeled epistemic claims (every assertion typed by epistemic status — perception, inference, speculation, evidence-bound fact)
 - governed state mutation (propose → commit)
 - auditable and replayable updates
 - tool use (when present) that is downstream of coherent posture rather than ad-hoc improvisation
 
 OTTC provides a transmission interface between stochastic cognition and durable system state. It is intended to assist higher-order processes (planning, retrieval, tool use, policy enforcement, human review), not replace them.
+
+[KEEP: Note on epistemic-status typing in scope]
+Epistemic-status typing is part of OTTC's scope as a kernel requirement (INVARIANT 10), not as an optional feature, for any architecture required to function as a hypothesis machine — one performing predictive processing and Popperian falsification over cycles. This is the normal case for any non-trivial stateful agent (mixed-provenance durable state). Nine invariants scope a governable mutation boundary; the tenth is in scope whenever the system must reason, predict, and be refuted. This is a scope statement about what OTTC requires, not a claim about what OTTC guarantees — see NON_CLAIMS.
 
 === SECTION_BREAK ===
 
@@ -216,7 +219,7 @@ And critically:
 Use OTTC when you need one or more of:
 - long-horizon stability (reduced drift and thrash)
 - explicit authority boundaries (propose vs commit)
-- bounded epistemics (observation vs inference vs committed state)
+- bounded epistemics (observation vs inference vs committed state; mandatory as kernel INVARIANT 10 when the system must function as a hypothesis machine, optional structuring otherwise)
 - auditable state evolution (post-hoc accountability)
 - tool safety framed as sensor/actuator governance
 - pre-build coupling classification to guide DSL and governance engineering choices
