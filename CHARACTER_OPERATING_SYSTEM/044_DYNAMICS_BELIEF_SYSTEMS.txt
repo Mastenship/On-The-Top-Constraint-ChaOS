@@ -89,7 +89,43 @@ REQUIRED_PROOF_FIELDS:
 PERSISTENCE_BOUNDS:
 - One adjacent movement per field per cycle.
 - Multi-step shift requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof in addition to persistence evidence.
-- Cluster is conceptually consumed; later shifts require new cue accumulation beyond consumed basis.
+- A cluster's basis is consumed on commit; later shifts on the same field require fresh cue accumulation beyond the consumed basis per CONSUMED_BASIS_DEFINITION.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONSUMED_BASIS_DEFINITION ===
+
+[[LLM_INSTRUCTION]]: "Consumed basis" is scoped to the field, not to the memory and not to the transition. It is the set of MEM_XX cited in the EVIDENCE_REF of a committed PERSISTENT_EVIDENCE_ACCUMULATION shift on a given belief field.
+
+ADMISSION_RULE:
+- A later persistence shift on field F is admissible only when its qualifying cluster contains at least one MEM_XX outside every consumed basis recorded for F, and still independently satisfies PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN on its full membership.
+- Re-citation of an already-consumed basis for F without fresh accumulation is not new evidence. A shift resting on it fails admission and surfaces as SCHEME_INVARIANT_VIOLATION.
+
+FIELD_SCOPING:
+- Consumption is field-scoped: a MEM_XX consumed for F remains lawful evidence for clusters on any other field. Reuse of one memory across distinct belief fields over a narrative arc is expected and preserved.
+
+TRANSITION_SCOPING:
+- Consumption is not transition-scoped: one basis may not fund a further band on F by re-citation. Multi-band movement on F requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof per PERSISTENCE_BOUNDS, never repeated use of one basis.
+
+JUDGMENT_BOUNDARY:
+- Whether a non-consumed contributor is substantive enough to carry a band is a cue judgment, not a form check.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONSUMED_BASIS_RETENTION_NOTE ===
+
+[[LLM_INSTRUCTION]]: A consumed basis is established solely by the committed EVIDENCE_REF of the funding shift; no separate consumption field is written and no schema change is required.
+
+IN_LOOP_BEHAVIOR:
+- STATE_COMMIT_AUDIT is wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS, so prior-cycle bases are not re-readable within the loop.
+- Admission therefore relies on lawful self-reported declaration of fresh accumulation, and this rule is advisory at runtime.
+
+OUT_OF_LOOP_BEHAVIOR:
+- The same committed EVIDENCE_REF stream reconstructs every consumed basis per field deterministically.
+- An external governor that retains the stream enforces this rule as a hard gate with no added state and no schema change.
+
+LIFT_SPECIFICATION:
+- This note is the lift specification. The consumed basis is the EVIDENCE_REF history; retention of that history is the entire delta between advisory in-loop enforcement and hard external enforcement.
 
 === SECTION_BREAK ===
 
@@ -212,6 +248,7 @@ SPECIFIC_NOTES:
 - Persistence-triggered ordinal shifts are one adjacent movement.
 - Persistence-triggered categorical shifts use named mapped targets.
 - Multi-field worldview reorganization requires override proof and remains rare.
+- Consumed-basis admission is advisory in-loop and hard under external EVIDENCE_REF retention per CONSUMED_BASIS_RETENTION_NOTE.
 
 === SECTION_BREAK ===
 

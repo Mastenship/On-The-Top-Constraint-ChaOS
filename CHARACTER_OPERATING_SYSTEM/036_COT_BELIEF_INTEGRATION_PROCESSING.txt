@@ -82,6 +82,7 @@ MARKER_NOTE:
 
 ON_PERSISTENCE_CLUSTER_PLUS_NEW_CUE:
 - Apply DYNAMICS_BELIEF_SYSTEMS.PERSISTENCE_TRIGGER_RULE.
+- Before proposing, confirm the qualifying cluster carries at least one MEM_XX outside every consumed basis for this field per DYNAMICS_BELIEF_SYSTEMS.CONSUMED_BASIS_DEFINITION. Absent fresh accumulation, propose no baseline shift; retain or refresh a BELIEF_DISSONANCE or WORLDVIEW_DEFENSE overlay instead.
 - If admitted:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_BELIEF_SYSTEMS][<canonical belief field path>]

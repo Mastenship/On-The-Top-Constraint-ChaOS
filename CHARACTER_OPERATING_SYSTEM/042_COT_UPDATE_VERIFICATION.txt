@@ -50,6 +50,7 @@ FORBIDDEN_WRITES:
 06) INVARIANTS_CAPS_AND_CROSS_FIELD
 - Verify single-proposal SCHEME invariants, immutable-baseline write prohibition, skill INSTINCT_MASTERY_COUPLING and GROWTH_POTENTIAL ceiling, memory linkage/caps, modifier schema/lifecycle, registry-record coherence, DPF cap, prediction gate, goal gate, permanent skill mutation support, and cross-field invariants against projected committed state per STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.
 - For the immune/terminal invariant, verify resolution followed IMMUNE_TERMINAL_STATE_RECONCILIATION: contributing terminal-state transitions were preserved and IMMUNE_MARKERS was force-corrected one band off ROBUST. A reconciliation that instead suppressed terminal-state transitions to protect ROBUST is itself a SCHEME_INVARIANT_VIOLATION.
+- For PERSISTENT_EVIDENCE_ACCUMULATION shifts on a belief field, verify the cited EVIDENCE_REF includes at least one MEM_XX outside every consumed basis for that field per DYNAMICS_BELIEF_SYSTEMS.CONSUMED_BASIS_DEFINITION. A shift re-citing an already-consumed basis without fresh accumulation is SCHEME_INVARIANT_VIOLATION. In-loop this sub-check is advisory under STATE_COMMIT_AUDIT volatility per CONSUMED_BASIS_RETENTION_NOTE; under external EVIDENCE_REF retention it is a hard FAIL.
 
 07) COMMIT_PROVENANCE
 - Verify every persistent change traces to committed proposal lineage or a logged INVARIANT_FORCED_CORRECTION; no orphaned commits; DYNAMICS directives were not direct writers; schematic directives were expanded before scratchpad entry.
@@ -109,6 +110,9 @@ CHECKLIST_REASON_CODE_MAP:
 - 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL); sub-codes inherit MODIFIER_LIFECYCLE_VIOLATION quarantine class
 - 16: INSTANTIATION_INCOMPLETE (FAIL)
 - 17: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
+
+CONSUMED_BASIS_ENFORCEMENT_NOTE:
+[[LLM_INSTRUCTION]]: The consumed-basis sub-check under 06 reuses SCHEME_INVARIANT_VIOLATION and adds no reason code. A re-cited consumed basis without fresh accumulation lacks valid persistence-cluster evidence and is therefore already a belief-invariant violation. In-loop the sub-check is advisory because STATE_COMMIT_AUDIT is wiped after POST_VERIFICATION_PASS; an external governor retaining the committed EVIDENCE_REF stream enforces it as a hard FAIL with no added state. Retention is the only delta.
 
 === SECTION_BREAK ===
 
