@@ -1,0 +1,445 @@
+=== SECTION: OTTC_FORMAL_SPECIFICATION ===
+
+[KEEP: Purpose & Role]
+This is a formal specification draft of OTTC (On-The-Top Constraint). It is a restrained systems rendering intended as an engineer-facing bridge between domain-expert constitutional work and deterministic externalization in Stage 2/3 infrastructure.
+
+It is not a proof of correctness and not a claim of mathematical completeness. Its purpose is to make kernel invariants easier to inspect, implementation seams easier to identify, and Stage distinctions clearer.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATUS_AND_INTENT ===
+
+STATUS:
+This document is a formal specification draft.
+
+INTENT:
+- Express OTTC in explicit systems language.
+- Clarify kernel invariants.
+- Identify clean seams for Stage 2/3 externalization.
+- Serve as the target specification when lifting governance out of a Stage 1 square.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_SCOPE ===
+
+An OTTC system is modeled as a 6-tuple:
+
+S = (M, C, O, V, G, Q)
+
+Where:
+
+M = underlying generator substrate
+- Stage 1: typically a single LLM or prompt ensemble.
+- Stage 2: set of cooperating model instances.
+- Stage 3: one or more LLMs plus deterministic external governance code.
+
+C = constitutional specification
+- Versioned OTTC constitution or OTTC-compliant square.
+- Defines roles, state structure, lawful updates, epistemic constraints, and audit requirements.
+
+O = ontology
+- Canonical address space, schemas, registries, enums, ordinals, and invariant-bearing structures.
+
+V = lawful operation vocabulary
+- Bounded set of allowed mutation operations at the governance boundary.
+
+G = governance mechanism
+- Propose→commit structure, role partition, conflict handling, verification, and write authority.
+
+Q = qualification and evaluation protocol
+- Assay, retest, regression, scenario batteries, and compliance checks.
+
+Everything else in an OTTC architecture is an elaboration, specialization, or implementation of these six components.
+
+=== SECTION_BREAK ===
+
+=== SECTION: KERNEL_AXIOMS ===
+
+[[LLM_INSTRUCTION]]: An OTTC system is kernel-intact only if these axioms are both instantiated in the constitutional specification C and enforced by the governance mechanism G, to the degree available at that stage.
+
+K1. SUBSTRATE_AXIOM
+The underlying generator is treated as an opaque meaning-generating substrate. Control is applied primarily through semantic structure, not by modifying model weights.
+
+K2. EXPLORATION_ADJUDICATION_AXIOM
+Exploration may be stochastic. Adjudication must be rule-bound.
+- In Stage 1, adjudication may still be implemented by stochastic generation, but it must be constrained by explicit governance law.
+- In Stage 3, adjudication should be deterministically enforced wherever feasible.
+
+K3. ROLE_SEPARATION_AXIOM
+Ontology, transition law, mutable state, and governance authority are distinct functional layers.
+
+K4. WRITE_AUTHORITY_AXIOM
+Many processes may propose changes. Exactly one authority may commit persistent state during a cycle.
+
+K5. CANONICAL_ADDRESSING_AXIOM
+All persistent state references use canonical, machine-stable paths.
+
+K6. LAWFUL_TRANSITION_AXIOM
+State changes occur only through an explicit, bounded operation vocabulary with legality checks.
+
+K7. INVARIANT_AXIOM
+Identity and continuity are preserved by invariants and lawful transition structure, not by prose style alone.
+
+K8. TRANSIENT_OVERLAY_AXIOM
+Short-horizon effects are represented through modifiers or equivalent transient overlays, rather than silently rewriting baseline state.
+
+K9. STEP_BOUND_AXIOM
+Ordinal or enumerated state shifts are step-limited unless an explicit override condition is satisfied.
+
+K10. PROVENANCE_AXIOM
+Every committed change must trace back to a proposal, a source, and a rationale.
+
+K11. AUDITABILITY_AXIOM
+Governance outcomes must be replayable and inspectable after the fact.
+
+K12. VERIFICATION_AXIOM
+A post-commit verification process is mandatory. Verification certifies, flags, or fails; it does not invent new state changes.
+
+K13. CONFLICT_RESOLUTION_AXIOM
+Competing proposals must be resolved through explicit precedence, tie-break, veto, or equivalent policy.
+
+K14. RECEIVER_MEANING_AXIOM
+Meaning is completed in the receiver. Constitutional surfaces must be designed to stabilize interpretation in the target model/language/deployment context.
+
+K15. HUMAN_PARALLEL_AXIOM
+The same broad governance geometry applies across human and machine decision structures: free deliberation, constrained decision, accountable outcome.
+
+K16. EPISTEMIC_STATUS_AXIOM
+A claim’s footing in evidence is part of its meaning, distinct from its provenance. Governable cognition types every assertion by epistemic status — perception, inference, speculation, evidence-bound fact — and keeps this band of meaning separate from chain-of-custody. Untyped assertions render prediction error unattributable and corroboration impossible. Therefore epistemic-status typing is constitutional for any architecture required to predict and be refuted over cycles. It is realized by a required, closed EPISTEMIC_TAG on every proposal and is checked at intake and verification. It is strictly necessary for any architecture with mixed-provenance durable state.
+
+CARDINALITY_NOTE:
+Axioms K1–K15 define the philosophical commitments whose operational kernel is the first nine rectangle invariants. K16 completes the kernel for any system that must function as a hypothesis machine.
+
+=== SECTION_BREAK ===
+
+=== SECTION: KERNEL_INTEGRITY_AND_COMPLIANCE_TIERS ===
+
+A system is kernel-intact iff all kernel axioms are instantiated and materially enforced within its declared stage.
+
+STAGE_1_COMPLIANCE:
+- Governance is primarily in-model.
+- The law is explicit, but enforcement remains probabilistic.
+- Compliance means the architecture meaningfully instantiates OTTC and demonstrates disciplined propose→commit separation, canonical addressing, lawful updates, audit, and verification.
+
+STAGE_2_COMPLIANCE:
+- Governance roles may be split across models or prompts.
+- Some separation becomes stronger through role isolation.
+- Compliance requires the same kernel plus documented inter-role interfaces and stronger replayability.
+
+STAGE_3_COMPLIANCE:
+- Persistent state ownership, commit authority, and verification are externalized in deterministic infrastructure where appropriate.
+- Compliance requires machine-enforced write boundaries, invariant checks, and auditable commit logic.
+
+PRACTICAL_COMPLIANCE_STATEMENT:
+A system may be called OTTC-compliant at Stage N only if:
+1. All persistent writes occur through the declared governance mechanism.
+2. Canonical addressing is used consistently at the write surface.
+3. Propose→commit separation is maintained.
+4. Invariants and legality conditions are checked before and/or after commit according to stage capacity.
+5. Provenance is preserved for committed changes.
+6. Verification is real and capable of flagging or failing a cycle.
+7. For any architecture functioning as a hypothesis machine, every proposal carries a valid EPISTEMIC_TAG, and tag consistency is checked at intake and verification.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ONTOLOGY_AND_STATE_MODEL ===
+
+CANONICAL_ADDRESS_SPACE:
+Each persistent state element must have a unique canonical address a in A.
+
+Typical forms:
+- [STATE_BODY][CORTISOL_LEVEL]
+- [STATE_RELATIONAL][MOTHER][ATTACHMENT_BOND]
+- [STATE_GOALS][PRIMARY_GOAL]
+
+Requirements:
+- One canonical referent per state element.
+- No aliasing at the governance boundary.
+- Machine-stable referential identity.
+
+ONTOLOGY:
+O = (A, Sigma, I)
+Where:
+- A = canonical addresses
+- Sigma = schemas
+- I = invariants
+
+For each root domain r there exists a schema sigma_r defining field sets, allowable types, enums/ordinals, registries, structural constraints, and invariant hooks.
+
+STATE_PARTITION:
+Global governed state is partitioned into at least:
+X = (H, M, P)
+
+H = hard state (durable baseline: identity, baselines, traits, persistent records)
+M = modifier layer (transient overlays with expiry or decay semantics)
+P = scratchpad / process surface (volatile proposals, impulses, traces, predictive records, audit artifacts)
+
+STATE_INTENT:
+- H answers: What is currently true in the durable system?
+- M answers: What short-horizon pressures are currently acting on it?
+- P answers: What is being considered, proposed, tracked, or reviewed this cycle?
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_VOCABULARY ===
+
+The lawful operation set V is bounded:
+
+V = {SET, TRANSITION, ADD_MODIFIER, REMOVE_MODIFIER, CAP, VETO}
+
+No other mutation class is lawful at the governance boundary unless explicitly declared by an OTTC-compliant square.
+
+OPERATION_INTENT:
+SET: Directly assign a field where direct assignment is legal.
+TRANSITION: Move between enumerated/ordinal states subject to transition law.
+ADD_MODIFIER: Introduce a transient overlay.
+REMOVE_MODIFIER: Remove or expire a transient overlay.
+CAP: Bound or constrain a value/action within lawful limits.
+VETO: Explicitly suppress an otherwise proposed update.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PROPOSAL_MODEL ===
+
+A proposal is a structured candidate mutation:
+
+p = (id, source, target, op, payload, justification, strength, epistemic_tag, evidence_ref, metadata)
+
+Where:
+- id = unique proposal identifier
+- source = originating COT, subsystem, or role
+- target = canonical address or governed target set
+- op = lawful operation from V
+- payload = proposed value / transition / modifier spec / cap / veto content
+- justification = explicit rationale
+- strength = optional confidence, urgency, or weight field
+- epistemic_tag = required closed-enum epistemic status of the claim (first-class field)
+- evidence_ref = resolvable evidence linkage (conditionally required when epistemic_tag = COMMITTED_FACT)
+- metadata = timestamps, cycle IDs, override proofs, etc.
+
+All proposals reside in the volatile process surface P, not directly in durable state.
+
+SEAM_NOTE:
+epistemic_tag and evidence_ref are first-class proposal fields, not buried in metadata, so that Stage 2/3 externalization can lift epistemic checking into deterministic code at the same seam as canonical-address and operation-legality checking.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_TRANSITION ===
+
+The governance transition is modeled as:
+
+T_G : (X, Pi, C, O, V) → (X', A)
+
+Where:
+- X = current governed state
+- Pi = proposal set for the current cycle
+- X' = resulting governed state after adjudication
+- A = audit artifact set
+
+This is a normative governance specification. In Stage 1 it may be approximately realized by prompt-conditioned generation. In Stage 3 it can be externalized into deterministic software.
+
+GOVERNANCE_PHASES:
+1. Intake and normalization
+   - Canonical address validity
+   - Operation legality
+   - Schema compliance
+   - Structural completeness
+   - Justification presence
+   - Epistemic-tag presence and consistency
+   - Stage-appropriate evidence requirements
+
+2. Conflict bucketing
+   - Group by shared target, mutually coupled fields, invariant domains, cross-domain conflict zones
+
+3. Resolution
+   - Apply declared conflict policy (precedence, tie-breaks, veto, conservative fallback)
+
+4. Invariant and step-bound checks
+   - Transition legality
+   - Invariant preservation
+   - Modifier routing
+   - Cap limits
+   - Override proof requirements
+
+5. Commit
+   - Apply selected lawful outcomes to hard state H, modifier layer M, and process artifacts P where appropriate
+
+6. Audit emission
+   - Produce an audit record accounting for all proposals
+
+=== SECTION_BREAK ===
+
+=== SECTION: AUDIT_CLOSURE ===
+
+Audit closure requires that each proposal p_i in the cycle’s proposal set Pi be mapped exactly once into a governance disposition:
+
+d(p_i) in {COMMITTED, SUPPRESSED, DOWNGRADED, VETOED, DEFERRED}
+
+with an attached rationale.
+
+No proposal may silently disappear from the cycle record.
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERIFICATION ===
+
+Verification V : (X', A, O, C) → R
+
+Where R is a verification result set.
+
+Verification may certify, flag, or fail a cycle. It may not invent new state changes on its own.
+
+Typical checks include:
+- Invariant integrity
+- Cap compliance
+- Registry consistency
+- Modifier expiry correctness
+- Audit completeness
+- Provenance completeness
+- Epistemic-tag validity and consistency
+- Schema integrity
+
+A verification FAIL on a COMMITTED_FACT proposal is a typed, directional prediction-error signal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_ROLES ===
+
+G = (R_c, R_g, R_v)
+
+Where:
+- R_c = citizen / contributor roles (proposal-generating COTs, passes, or subsystems)
+- R_g = governor role (single commit authority for persistent state)
+- R_v = verifier / auditor role (post-commit checking and audit review)
+
+ROLE_DISCIPLINE:
+- Citizen roles may propose but not commit.
+- The governor may commit but must operate under explicit law.
+- The verifier may certify or fail but does not silently rewrite state.
+
+This role split may be realized within one model, across multiple prompts, across multiple models, or with external deterministic software.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EPISTEMIC_CONTRACT ===
+
+Every proposal is typed by epistemic status. The canonical closed enum is:
+
+E = {PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST}
+
+This is the epistemic_tag and is checked at intake and verification per K16.
+
+COMMITTED_FACT is permitted only with resolvable, verified evidence linkage (evidence_ref).
+
+MIGRATION_NOTE:
+Earlier drafts used {OBSERVATION, INFERENCE, INTENTION, HYPOTHESIS, EXTERNAL_CLAIM}. That enum is deprecated in favor of the canonical set above.
+
+=== SECTION_BREAK ===
+
+=== SECTION: HYPOTHESIS_TRACKING ===
+
+For any architecture functioning as a hypothesis machine, hypotheses are governed objects.
+
+A hypothesis record h = (id, claim, status, confidence, falsifiers, evidence, resolution)
+
+Possible statuses include: active, tentative, strengthened, weakened, confirmed, falsified, unresolved, retired.
+
+Without epistemic typing, a verification FAIL types the operation but not the assertion, and prediction error cannot be routed to the perception, inference, or overconfident prior that produced it. This is why K16 is kernel.
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUALIFICATION_AND_REGRESSION ===
+
+Qualification is part of Q, not an afterthought.
+
+PRE_BUILD_QUALIFICATION:
+A qualification assay is a blind pre-build probe of coupling quality between model family, language surface, constitutional style, and intended role authority.
+
+POST_BUILD_RETEST:
+Evaluates whether coupling remains intact under the full architecture, whether new modules degrade governance, whether malformed proposals are correctly handled, and whether epistemic-tag violations are correctly rejected.
+
+=== SECTION_BREAK ===
+
+=== SECTION: COUPLING_AND_PERFORMANCE_CLAIM ===
+
+Given sufficient coupling between (M, C) and sufficient context residency, stronger OTTC instantiation should reduce long-horizon state drift, uncontrolled mutation, and epistemic overreach relative to weaker or absent governance conditions.
+
+This is a research hypothesis, not a proof. It should be tested by model comparison, ablation, replay scenarios, staged externalization, and context-budget variation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STAGE_ARCHITECTURE_AND_EXTERNALIZATION_SEAMS ===
+
+STAGE_1:
+Governance, commit logic, and verification are largely implemented inside prompt-conditioned model behavior.
+- Highest semantic flexibility
+- Lowest enforcement hardness
+- Fastest iteration
+
+STAGE_2:
+Roles are split across prompts, models, or model/process combinations.
+- Stronger role isolation
+- Better replayability
+- Improved governance separation
+
+STAGE_3:
+Persistent state ownership, commit authority, and verification are externalized into deterministic software wherever feasible.
+- Hardest write boundaries
+- Strongest audit reliability
+
+SEAM_CRITERION:
+A square is well-positioned for Stage 2/3 migration if it already exposes canonical addresses, explicit operation vocabulary, proposal objects, epistemic tags as first-class proposal fields, audit artifacts, verification artifacts, and role boundaries.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WHAT_THIS_DOCUMENT_DOES_NOT_CLAIM ===
+
+This specification draft does not claim:
+- That Stage 1 governance is deterministic
+- That all compliant squares must use identical precedence orders
+- That the current formalism is mathematically complete
+- That OTTC prevents hallucination or guarantees truth
+- That one DSL realization is universally optimal
+- That kernel compliance alone is sufficient for production deployment
+
+It claims something narrower:
+OTTC can be specified as a governance architecture with canonical state surfaces, bounded lawful mutation, role-separated write authority, epistemic-status typing of claims, audit closure, verification, and assay-conditioned realization.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SUMMARY ===
+
+OTTC can be understood as a staged governance architecture for long-horizon stateful language agents.
+
+Its core claims are not about solving intelligence or abolishing stochasticity. They are about imposing constitutional order on durable state change in systems whose underlying generators remain opaque.
+
+In formal terms, OTTC provides:
+- A canonical ontology
+- A bounded mutation vocabulary
+- A propose→commit governance structure
+- Epistemic-status typing that makes the cycle a hypothesis machine
+- A verification layer
+- An audit discipline
+- A qualification protocol
+
+This makes OTTC a plausible bridge between stochastic semantic generation, governed state transition, and future deterministic enforcement layers.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FUTURE_REFINEMENT_DIRECTIONS ===
+
+This draft could be strengthened by:
+- Explicit type theory for schemas and registries
+- More rigorous conflict algebra
+- Formal semantics for modifier expiry and decay
+- Stage-specific compliance definitions
+- Temporal logic over multi-cycle invariants
+- Theorem-style statements about replayability or drift constraints
+- Formal treatment of epistemic-tag consistency and typed prediction-error routing
+- Executable reference implementations
+
+Until then, this document should be treated as a careful formalization layer, not a closed mathematical theory.
+
+[KEY_TERM: Document Complete]
