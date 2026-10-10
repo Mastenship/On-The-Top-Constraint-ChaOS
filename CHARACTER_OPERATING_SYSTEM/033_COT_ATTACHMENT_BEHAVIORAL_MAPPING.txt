@@ -69,6 +69,23 @@ ATTACHMENT_THREAT_OVERLAY_PATTERN:
 
 === SECTION_BREAK ===
 
+=== SECTION: NEW_ENTITY_ONBOARDING ===
+
+[[LLM_INSTRUCTION]]: This COT is the runtime producer for DYNAMICS_RELATIONAL.NEW_ENTITY_ENCOUNTER; DYNAMICS provides the gate, but does not emit the packet.
+
+ON_SALIENT_NEW_ENTITY:
+- If DYNAMICS_RELATIONAL.NEW_ENTITY_ENCOUNTER.SALIENT_SOCIAL_ENCOUNTER_GATE passes and no existing ENT_XX identifies the entity:
+  - PROPOSE SET linked creation pair:
+    - TARGET_FIELD: [STATE_RELATIONAL][RELATIONAL_REGISTRY]; PROPOSED_VALUE: append one provisional ENT_XX
+    - TARGET_FIELD: [STATE_RELATIONAL][ENT_XX]; PROPOSED_VALUE: one complete SCHEME_RELATIONAL.RELATIONAL_RECORD_SCHEMA payload
+  - Use DYNAMICS_RELATIONAL.NEW_ENTITY_ENCOUNTER.DEFAULT_NEW_ENTITY_VALUES unless stronger same-cycle evidence supports a separately lawful valence update.
+  - Supply entity name/role, evidence for salience, linkage cue, and one shared provisional ENT_XX. Resolve the final ID only at governance commit.
+  - A new entity's AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE are independent; never infer another mind as COMMITTED_FACT.
+- If gate fails or encounter is incidental: retain in current perception/impulse only; create no ENT_XX.
+- Same-cycle MEM_XX, GOAL_XX, or PRD_XX links using provisional ENT_XX are dependent on successful linked entity creation, otherwise omitted or suppressed lawfully.
+
+=== SECTION_BREAK ===
+
 === SECTION: RELATIONAL_AND_COPING_PROPOSALS ===
 
 RELATIONAL_MOVEMENT:
