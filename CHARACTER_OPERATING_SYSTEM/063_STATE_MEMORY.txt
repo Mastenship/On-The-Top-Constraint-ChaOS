@@ -1,7 +1,7 @@
 === SECTION: STATE_MEMORY ===
 
 [KEEP: Purpose & Role]
-Mutable memory state container. Contains current memory registry and memory records only.
+Mutable memory state container. Contains current episodic memory registry and records, plus a separate capped, writer-managed processing-cue queue for lawful narrative movement deferred only by aggregate capacity.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -49,6 +49,7 @@ ASSOCIATED_PREDICTION_ID:
 
 [[LLM_INSTRUCTION]]: Current committed memory records only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 [[LLM_INSTRUCTION]]: Concrete MEM_XX records require MEMORY_REGISTRY membership plus matching record block.
+[[LLM_INSTRUCTION]]: DEFERRED_NARRATIVE_CUES is not a MEM_XX record registry or replayable update packet. Its three-entry cap and writer-only closure semantics follow SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.
 [[LLM_INSTRUCTION]]: Memories store governed persistent significance, not raw chain-of-thought. INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact.
 
 === SECTION_BREAK ===
