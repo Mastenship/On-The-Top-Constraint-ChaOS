@@ -82,6 +82,7 @@ POST_VERIFICATION_LAWFUL_TARGETS:
 - [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE]
 - [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID]
 - [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
+- [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE]
 
 POST_VERIFICATION_SUPPRESSION:
 - Non-governance-runtime target: POST_VERIFICATION_TARGET_FORBIDDEN
@@ -101,7 +102,7 @@ SINGLE_WRITER_PRESERVATION:
 
 STEP_00_QUARANTINE_GATE:
 - If STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE = TRUE, apply STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.PRIMARY_RECOVERY_ADMISSION:
-  - Read QUARANTINE_REASON_CODES as the governance-only recovery context.
+  - Read QUARANTINE_REASON_CODES and the bounded RECOVERY_DIRECTIVE as the governance-only recovery context; the directive reminds governance of the affected target, lawful reformation, and release evidence without becoming character knowledge.
   - Admit only ordinary proposals or linked creation units whose independent safety is demonstrated by canonical field/dependency closure, complete ordinary validation, movement caps, and projected cross-field invariants.
   - Suppress only affected or unverifiably independent proposals with QUARANTINE_ACTIVE; preserve separately lawful memory, relationship, goal, and other changes whenever their independence is demonstrable.
   - An INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE token is not an authorization bypass; character-cognition proposals using it to claim repair authority are suppressed with POST_VERIFICATION_SOURCE_INVALID.
@@ -230,6 +231,7 @@ PV_STEP_04_GOVERNANCE_RUNTIME_VALUE_VALIDATION:
 - QUARANTINE_MODE: TRUE | FALSE
 - QUARANTINE_ENGAGED_CYCLE_ID: current commit cycle id | NONE
 - QUARANTINE_REASON_CODES: cap 5, FIFO overflow, empty form [NONE]; when QUARANTINE_MODE is FALSE, nonempty codes are allowed only as pending unresolved recovery diagnostics per SCHEME_GOVERNANCE_RUNTIME
+- RECOVERY_DIRECTIVE: governance-only STRING_DESCRIPTIVE, max 240 characters, NONE exactly when QUARANTINE_REASON_CODES is [NONE]
 - Suppress invalid values with INVALID_ENUM_VALUE or SCHEME_INVARIANT_VIOLATION.
 
 PV_STEP_05_TRANSLATION_AND_EPISTEMIC_VALIDATION:
@@ -241,7 +243,7 @@ PV_STEP_06_RECONCILIATION_AND_COMMIT:
 - Group retained proposals by target field.
 - Apply conflict policy.
 - Commit lawful STATE_GOVERNANCE_RUNTIME updates.
-- Apply QUARANTINE_REASON_CODES cap-aware SET behavior.
+- Apply QUARANTINE_REASON_CODES cap-aware SET behavior and validate linked RECOVERY_DIRECTIVE consistency as an atomic governance-runtime recovery unit; do not leave reason codes without a directive or a directive without an open reason code.
 - Honor DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
 - Enforce bounded release after the full recovery cycle even on WARN or FAIL; preserve unresolved reason codes for later targeted verification and operator review. Do not re-engage a still-open case as a new blanket quarantine episode.
 - Quarantine engagement requires STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE; reject mere code-based re-engagement when integrity faults were isolated.
@@ -479,7 +481,7 @@ GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: 0
 NOTES:
-- post-verification validation summary, pending recovery reasons, bounded release outcome, and lawful reformation guidance
+- post-verification validation summary, pending recovery reasons, bounded RECOVERY_DIRECTIVE, bounded release outcome, and lawful reformation guidance
 
 === SECTION_BREAK ===
 
