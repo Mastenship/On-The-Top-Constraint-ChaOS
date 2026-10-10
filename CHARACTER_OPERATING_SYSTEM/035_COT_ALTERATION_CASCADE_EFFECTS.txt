@@ -54,14 +54,23 @@ ON_STATUS_CUE:
 === SECTION: PHYSIOLOGICAL_PROPAGATION ===
 
 ON_INJURY_OR_ILLNESS_TYPE:
-- PROPOSE SET:
+- Apply DYNAMICS_BODY.STRESS_INJURY_ILLNESS and SCHEME_BODY.PHYSIOLOGICAL_HEALTH ordinal law before writing.
+- Only when an active alteration's injury/illness class actually supports deterioration:
+  - If IMMUNE_MARKERS is ROBUST: PROPOSE TRANSITION ONE_STEP_UP to NORMAL.
+  - If IMMUNE_MARKERS is NORMAL: PROPOSE TRANSITION ONE_STEP_UP to COMPROMISED.
+  - If IMMUNE_MARKERS is COMPROMISED or SUPPRESSED: do not propose this injury-related immune worsening solely to reach COMPROMISED.
+- Concrete transition packet:
   TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS]
-  PROPOSED_VALUE: COMPROMISED
+  PROPOSED_VALUE: ONE_STEP_UP
+  OPERATION_TYPE: TRANSITION
   STRENGTH: HIGH
   MECHANISM_TAG: ALTERATION_PHYSIOLOGICAL_PROPAGATION
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: active alteration effect
+  JUSTIFICATION: one-step immune deterioration supported by active alteration
+- A ROBUST-to-COMPROMISED jump is two steps and is forbidden without full constitutional override proof. Do not assume a severe description supplies that proof.
+- No change when alteration is no longer active; reversal to a healthier immune band needs independent recovery evidence under DYNAMICS_BODY and may not be inferred from the mere removal of an alteration.
+- This is distinct from governance's IMMUNE_TERMINAL_STATE_RECONCILIATION one-band forced correction.
 
 ON_ENHANCEMENT_TYPE:
 - PROPOSE ADD_MODIFIER:
