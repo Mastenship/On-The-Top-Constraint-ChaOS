@@ -116,7 +116,7 @@ STEP_01_PROPOSAL_INTAKE:
 - Read up to three [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entries as bounded character-visible cue-reconsideration status, not old executable proposals.
 - Exclude later verifier proposals.
 - Initialize audit totals and outcome logs.
-- If no retained proposals: emit zero-change primary audit and continue to STEP_11.
+- If no retained proposals: emit zero ordinary changes, but still evaluate and audit eligible deferred-cue review/closure at STEP_10B before STEP_11; a COT's evidence-based invalidation of a prior cue can close it without issuing an unsafe proposal.
 
 STEP_02_SCHEMA_AND_EMPTY_VALUE_VALIDATION:
 - Verify required and conditionally required fields per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
