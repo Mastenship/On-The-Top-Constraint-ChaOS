@@ -21,7 +21,7 @@ Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress casc
 
 ANCHOR_CUES:
 - Narrative input describes execution or attempt of SKL_XX.
-- Narrative input describes practice, training, instruction, repeated execution, breakthrough, failure, or non-use relevant to SKL_XX.
+- Narrative input describes a newly acquired skill, practice, training, instruction, repeated execution, breakthrough, failure, or non-use relevant to SKL_XX.
 - STATE_BODY arousal is outside optimal execution band.
 - Environmental pressure affects skill execution.
 - Breakthrough/failure event with MEM_XX linkage candidate is present.
@@ -189,7 +189,7 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include performance modulation summary, skill-change gate YES/NO, permanent mutation admitted/rejected reason, modifier-first confirmation, impulses, proposal count, and SCHEME_SKILLS compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include performance modulation summary, new-skill admission gate YES/NO, skill-change gate YES/NO, permanent mutation admitted/rejected reason, modifier-first confirmation, impulses, proposal count, and SCHEME_SKILLS compliance.
 
 === SECTION_BREAK ===
 
