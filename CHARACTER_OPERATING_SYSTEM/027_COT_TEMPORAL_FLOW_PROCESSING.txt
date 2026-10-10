@@ -165,7 +165,7 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include inferred time passage, impulses, proposal count, and SCHEME_TEMPORAL_DYNAMICS compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include inferred time passage, fatigue-only versus FATIGUE_DEBT-coupled decision, sleep recovery evidence, impulses, proposal count, and SCHEME_TEMPORAL_DYNAMICS compliance.
 
 === SECTION_BREAK ===
 
