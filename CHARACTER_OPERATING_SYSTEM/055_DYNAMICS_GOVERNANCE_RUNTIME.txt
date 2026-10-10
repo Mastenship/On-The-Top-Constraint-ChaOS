@@ -42,52 +42,54 @@ ON_VERIFICATION_COMPLETE:
 
 === SECTION: QUARANTINE_ENGAGEMENT ===
 
-ON_VIOLATION_CLASS_OUTCOME:
-- If REMEDIATION_POLICY = QUARANTINE_NEXT_CYCLE:
+ON_VERIFIED_UNISOLATABLE_FAILURE:
+- Only when STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE confirms a new residual, non-isolatable QUARANTINE_NEXT_CYCLE_VIOLATIONS fault, and no active or pending unresolved recovery case exists:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE]
     PROPOSED_VALUE: TRUE
-    JUSTIFICATION: quarantine engaged on VIOLATION-class outcome
+    JUSTIFICATION: exceptional bounded containment
   - PROPOSE SET:
     TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID]
     PROPOSED_VALUE: current commit cycle id
-    JUSTIFICATION: quarantine engagement timestamp
+    JUSTIFICATION: beginning of bounded recovery episode
   - PROPOSE SET:
     TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
-    PROPOSED_VALUE: append violation reason code; FIFO-evict oldest on overflow at cap 5
-    JUSTIFICATION: violation reason capture
+    PROPOSED_VALUE: append verified systemic reason code; FIFO-evict oldest if cap 5
+    JUSTIFICATION: bounded recovery diagnostic
 
-QUARANTINE_ELIGIBLE_DOMINANT_CODES_NOTE:
-[[LLM_INSTRUCTION]]: Dominant-violation eligibility for quarantine follows STATE_GOVERNANCE_OVERLAY.QUARANTINE_NEXT_CYCLE_VIOLATIONS, which includes the five modifier lifecycle sub-codes via MODIFIER_LIFECYCLE_SUBCODE_ROLLUP. A dominant modifier sub-code engages quarantine here exactly as the umbrella code.
+NON_REENGAGEMENT_RULE:
+- If QUARANTINE_MODE is TRUE, do not re-engage or overwrite QUARANTINE_ENGAGED_CYCLE_ID.
+- If QUARANTINE_MODE is FALSE with outstanding QUARANTINE_REASON_CODES, do not automatically re-engage while the existing recovery case awaits resolution or operator review.
+- An ordinary FAIL, isolated proposal fault, modifier-lifecycle sub-code without actual persistent corruption, or WARN does not engage quarantine.
+- Canonical reason codes and their inherited FAIL classifications do not alone prove systemic impact.
 
 === SECTION_BREAK ===
 
 === SECTION: QUARANTINE_CLEAR ===
 
-[[LLM_INSTRUCTION]]: SAME_CYCLE_GUARD below governs every clear path in this section, both ON_VERIFICATION_PASS_CLEAN and ON_GOVERNANCE_CORRECTIVE_RESOLUTION.
+[[LLM_INSTRUCTION]]: Same-cycle engagement/clear remains forbidden. Bounded recovery release is independent of PASS/WARN/FAIL outcome; no unchanged full-cycle quarantine may recur indefinitely.
 
-ON_VERIFICATION_PASS_CLEAN:
-- If QUARANTINE_MODE is TRUE and verification result is PASS:
+ON_BOUNDED_RECOVERY_CYCLE_COMPLETE:
+- If QUARANTINE_MODE is TRUE and QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle:
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] = FALSE
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
-  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
-  - JUSTIFICATION: verification passed clean
-  - Subject to SAME_CYCLE_GUARD.
+  - When and only when the original systemic cause is verified resolved: PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
+  - Otherwise leave QUARANTINE_REASON_CODES unchanged and produce an operator-review diagnostic in governance trace.
+  - JUSTIFICATION: bounded recovery cycle completed; independent lawful narrative development must resume.
 
-ON_GOVERNANCE_CORRECTIVE_RESOLUTION:
-- If current-cycle GOVERNANCE_CORRECTIVE structurally resolves active quarantine root cause:
-  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] = FALSE
-  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
-  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
-  - JUSTIFICATION: governance-corrective root cause resolved
-  - Subject to SAME_CYCLE_GUARD.
+ON_PENDING_RECOVERY_RESOLVED:
+- If QUARANTINE_MODE is FALSE with nonempty reason codes, only verified structural resolution or explicit governance-authorized operator review may PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE].
+- A generic PASS, unrelated warning, or lack of further proposals does not prove root-cause repair.
 
 SAME_CYCLE_GUARD:
-- This guard applies to every clear path in QUARANTINE_CLEAR, both ON_VERIFICATION_PASS_CLEAN and ON_GOVERNANCE_CORRECTIVE_RESOLUTION.
-- No clear path may clear quarantine in the same cycle it was engaged.
-- If QUARANTINE_ENGAGED_CYCLE_ID equals the current commit cycle id, clear is deferred and quarantine persists for at least one full corrective cycle per STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.SCOPE_DECLARATION.
-- Clear via any path is lawful only when QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle.
-- Rationale: engagement and clearing in one cycle would defeat the intentional one-cycle penalty band, regardless of which clear path is taken.
+- If QUARANTINE_ENGAGED_CYCLE_ID equals current commit cycle id, no clear path may clear quarantine.
+- Release applies after one full following recovery cycle, never in the engagement cycle itself.
+- Retained reason codes while QUARANTINE_MODE is FALSE are a pending-review signal, not authority for another blanket hold.
+
+NARRATIVE_CONTINUITY_BOUND:
+- Quarantine affects commit eligibility, not the character's subjective realization or Dungeon Master control of the world.
+- Independently safe proposals must remain eligible through STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.PRIMARY_RECOVERY_ADMISSION.
+- Do not construct new persistent repairs outside the standard lawful proposal pipeline.
 
 === SECTION_BREAK ===
 
@@ -105,9 +107,10 @@ ON_LIFT_EVENT:
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- This module reads only governance runtime, commit outcome, and verification outcome.
-- This module never produces character-visible effects.
-- SAME_CYCLE_GUARD governs all quarantine clear paths.
+- This module reads only governance runtime, commit outcomes, and verification outcomes.
+- It does not generate character-visible narration or authorize character-cognition reading governance internals.
+- Same-cycle clear prohibition and full-following-cycle bounded release both apply.
+- QUARANTINE_REASON_CODES can be nonempty with QUARANTINE_MODE FALSE during unresolved operator review.
 - Governance-runtime proposals must be committed or suppressed before scratchpad wipe.
 
 === SECTION_BREAK ===
