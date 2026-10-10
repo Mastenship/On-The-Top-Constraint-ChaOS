@@ -139,9 +139,13 @@ SHARED_PROPOSAL_FIELDS:
 - JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 - INVOKED_RULE_NAME: GOVERNANCE_CORRECTIVE
 
+ON_VERIFICATION_COMPLETE:
+- For every PASS, WARN, or FAIL outcome, emit a separate SET proposal for [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID] = current commit cycle id.
+- Apply SHARED_PROPOSAL_FIELDS, use the current verification outcome and cycle identifier as NARRATIVE_CUE_REFERENCE, and include SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME.LAST_COMMIT_CYCLE_ID overwrite-on-cycle-close.
+- This cycle-ID proposal is unconditional, including WARN_AND_PROCEED and ROLLBACK_NOT_ACTIVE fallback handling.
+
 ON_PASS:
 - SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = PASS
-- SET [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID] = current commit cycle id
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
 - SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME overwrite-on-verification
 
@@ -160,7 +164,7 @@ ON_WARN:
 ON_FAIL:
 - SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = FAIL
 - If dominant violation maps to QUARANTINE_NEXT_CYCLE (including rolled-up modifier sub-codes), emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
-- If remediation is WARN_AND_PROCEED, emit only LAST_VERIFICATION_RESULT.
+- If remediation is WARN_AND_PROCEED, emit no quarantine or rollback action; retain the LAST_VERIFICATION_RESULT and unconditional LAST_COMMIT_CYCLE_ID proposals.
 - If remediation is ROLLBACK, suppress rollback with ROLLBACK_NOT_ACTIVE and use WARN_AND_PROCEED behavior.
 - NARRATIVE_CUE_REFERENCE: dominant violation reason code
 - SCHEME_INVARIANT_NOTE: violation remediation policy applied
