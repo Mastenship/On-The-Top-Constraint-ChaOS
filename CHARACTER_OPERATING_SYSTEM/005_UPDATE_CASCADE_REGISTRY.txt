@@ -195,6 +195,24 @@ POST_VERIFICATION_VALIDATION:
 
 === SECTION_BREAK ===
 
+=== SECTION: DEFERRED_NARRATIVE_CUE_DISPATCH ===
+
+[[LLM_INSTRUCTION]]: Character-cognition COTs may read the character-visible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] processing cue queue. It is not a governance audit and is not an episodic MEM_XX.
+
+DISPATCH:
+- Before FIRES_WHEN evaluation at PRIORITY_01–15, each COT checks only for cue entries whose SOURCE_COT matches its canonical name.
+- An eligible entry counts as its owner's anchor cue even without a repeated Dungeon Master statement. The COT re-evaluates original narrative evidence, current SCHEME and DYNAMICS gates, current committed state, and dependencies before issuing any new complete proposal.
+- Use a new PROPOSAL_ID, retain traceability to ORIGIN_CYCLE_ID and ORIGIN_PROPOSAL_ID in NOTES, and use currently lawful endpoints. Previous proposal text is not executable.
+- If the original event no longer supports a change, do not resubmit; writer closes the queue entry on verified invalidation.
+- After RECONSIDERATION_COUNT reaches 2, do not automatically regenerate the same attempt; retain the cue for operator review or materially fresh evidence.
+- A COT with no current DM cue and no eligible deferred entry follows NO_TRIGGER_BEHAVIOR_POLICY.
+
+PROCESS_BOUNDARY:
+- Only STATE_GOVERNANCE_AND_COMMIT captures, marks reconsideration, or removes cues, after adjudicating the primary proposals. This does not grant character COTs a direct STATE write.
+- Never expose deferral metadata as in-character recollection, and do not infer one character's access to another character's mental state.
+
+=== SECTION_BREAK ===
+
 === SECTION: SCHEMATIC_PROPOSAL_DIRECTIVE_POLICY ===
 
 SCHEMATIC_DIRECTIVE_RULE:
