@@ -54,7 +54,7 @@ VERIFICATION:
 POST_VERIFICATION_PASS:
 - PRIORITY_18.
 - Consumes only verifier-originated governance-runtime proposals.
-- Commits/suppresses verification result, bounded quarantine release, and pending-review reason-code updates.
+- Commits/suppresses verification result, bounded quarantine release, pending-review reason-code updates, and the paired capped RECOVERY_DIRECTIVE.
 - Suppresses invalid targets/sources.
 - Writes POST_VERIFICATION_PASS_AUDIT and trace.
 
