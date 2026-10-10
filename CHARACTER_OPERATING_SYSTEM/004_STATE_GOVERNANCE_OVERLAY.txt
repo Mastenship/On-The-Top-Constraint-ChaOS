@@ -26,6 +26,23 @@ RULES:
 
 === SECTION_BREAK ===
 
+=== SECTION: NARRATIVE_CONTINUITY_INVARIANT ===
+
+[[LLM_INSTRUCTION]]: ChaOS-local governance invariant, additional to the OTTC minimum. The show must go on: failure containment must preserve lawful player-character participation and independently lawful state development. It must not authorize an unlawful commit.
+
+REQUIREMENTS:
+- Character decision and subjective realization at PRIORITY_14 and PRIORITY_15 continue during governance recovery; no in-character disclosure of governance internals.
+- Reject, downgrade, or correct invalid proposals individually when their effects can be isolated. Preserve lawful independent memory, relational, goal, and other state changes under existing caps, linked-unit rules, and projected-state invariants.
+- Exceptional global containment is lawful only when the compromised integrity cannot be isolated. It lasts at most one full following recovery cycle; failure to resolve changes the recovery response to bounded diagnostic escalation, not another identical blanket suppression cycle.
+- Never auto-commit unsafe state to preserve story pace. If no independently safe update can be established, preserve the prior committed state for affected surfaces, continue character behavior, and expose a governance-only operator diagnostic for repair/re-evaluation.
+- A cycle's rejected proposal is not itself proof of global corruption. Recovery requires a lawful new proposal or a bounded designated INVARIANT_FORCED_CORRECTION; rejected proposals are not retroactively committed.
+
+PASS_6_NARRATIVE_HANDOFF:
+- Continue to evaluate salient narrative events for lawful memory, relationship, goal, and belief proposals during recovery. Do not discard independent lawful changes merely because an unrelated proposal was invalid.
+- When a genuinely unisolatable fault blocks event-linked persistence, surface the affected narrative cue in the governance trace for operator re-presentation; no hidden cross-cycle scratchpad retention is presumed.
+
+=== SECTION_BREAK ===
+
 === SECTION: STEP_LIMITS_PER_CYCLE ===
 
 [[LLM_INSTRUCTION]]: Per-cycle movement is bounded unless complete override proof is present. Limits are hard; breach surfaces as STEP_LIMIT_EXCEEDED.
@@ -165,46 +182,32 @@ OUTCOME_CLASSES:
 - FAIL: one or more violations.
 
 DEFAULT_REMEDIATION:
-- PASS: record PASS; clear quarantine if clean-pass conditions are met.
-- WARN: record WARN; proceed.
-- FAIL: record FAIL; engage quarantine when dominant violation maps to QUARANTINE_NEXT_CYCLE.
+- PASS: record PASS; complete any lawful recovery-case clearance.
+- WARN: record WARN; proceed. An unrelated WARN does not extend global containment.
+- FAIL: record FAIL; suppress or downgrade affected proposals and preserve independent lawful commitments. FAIL alone never entails whole-cycle containment.
+- Every suppressed or downgraded invalid proposal receives its canonical reason code, a lawful corrective reminder in governance trace, and a closed audit disposition.
+- Do not classify a merely attempted and successfully suppressed invalid mutation as corruption of committed state.
 
 QUARANTINE_NEXT_CYCLE_VIOLATIONS:
 - AUDIT_CLOSURE_INCOMPLETE
-- OPERATION_TYPE_INVALID
-- INVALID_PATH_ROOT
-- INVALID_TARGET_FIELD
-- INVALID_ENUM_VALUE
-- INVALID_ORDINAL_TRANSITION
-- STEP_LIMIT_EXCEEDED
-- SCHEME_INVARIANT_VIOLATION
-- SCHEME_IMMUTABLE_BASELINE_WRITE
-- REGISTRY_RECORD_PAIR_VIOLATION
-- MODIFIER_SCHEMA_VIOLATION
-- DPF_PREDICTION_CAP_EXCEEDED
-- IMMUNE_TERMINAL_STATE_CONFLICT
 - COMMIT_ORPHANED
-- EPISTEMIC_TAG_VIOLATION
-- JUSTIFICATION_CATEGORY_TAG_MISMATCH
-- COMMITTED_FACT_WITHOUT_EVIDENCE
-- EVIDENCE_REF_UNRESOLVED
-- OVERRIDE_PROOF_INCOMPLETE
-- TRANSLATION_VIOLATION
-- READ_BOUNDARY_VIOLATION
-- SELECTED_ACTION_FALLBACK_VIOLATION
-- MODIFIER_LIFECYCLE_VIOLATION
-- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS
-- MODIFIER_COEXISTENCE_UNLAWFUL
-- MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE
-- MODIFIER_REMOVE_REGISTRY_INCOHERENCE
+- IMMUNE_TERMINAL_STATE_CONFLICT
 - MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
-- INSTANTIATION_INCOMPLETE
+- READ_BOUNDARY_VIOLATION
+
+SYSTEMIC_QUALIFICATION_GATE:
+- Codes above are candidates for exceptional global containment only if verification finds a residual, non-isolatable integrity failure after ordinary suppression, downgrade, linked-unit reconciliation, and designated forced corrections.
+- AUDIT_CLOSURE_INCOMPLETE or COMMIT_ORPHANED qualifies only when actual commit lineage or audit closure cannot be trusted, not merely because a rejected packet carried bad data.
+- IMMUNE_TERMINAL_STATE_CONFLICT qualifies only if projected-state correction failed or committed state remains incompatible.
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE qualifies only if persistent baseline integrity was actually compromised; a blocked attempt is locally contained.
+- READ_BOUNDARY_VIOLATION qualifies only when its effect cannot be isolated from committed or decision integrity.
+- A listed reason code without the systemic qualification does not engage quarantine.
 
 MODIFIER_LIFECYCLE_SUBCODE_ROLLUP:
-[[LLM_INSTRUCTION]]: The modifier lifecycle sub-codes inherit the quarantine class of the umbrella code.
-- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS, MODIFIER_COEXISTENCE_UNLAWFUL, MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE, MODIFIER_REMOVE_REGISTRY_INCOHERENCE, and MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE each inherit the quarantine class of MODIFIER_LIFECYCLE_VIOLATION.
-- A FAIL whose dominant violation is any of these engages QUARANTINE_NEXT_CYCLE exactly as MODIFIER_LIFECYCLE_VIOLATION would.
-- Listing them explicitly above is for tooling clarity; the roll-up is authoritative if either source drifts.
+- The five MODIFIER_LIFECYCLE sub-codes inherit the umbrella's modifier-lifecycle FAIL classification, not automatic whole-cycle quarantine.
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE additionally appears in QUARANTINE_NEXT_CYCLE_VIOLATIONS, but engages only after SYSTEMIC_QUALIFICATION_GATE.
+- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS, MODIFIER_COEXISTENCE_UNLAWFUL, MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE, and MODIFIER_REMOVE_REGISTRY_INCOHERENCE are normally local repair/suppression cases.
+- A failed modifier check is not permission to rewrite a permanent baseline.
 
 WARN_AND_PROCEED_WARNINGS:
 - COT_TRACE_MISSING
@@ -213,33 +216,48 @@ WARN_AND_PROCEED_WARNINGS:
 - POST_VERIFICATION_TRACE_MISSING
 
 RESERVED_REMEDIATION:
-- ROLLBACK is reserved; current substrate suppresses with ROLLBACK_NOT_ACTIVE and uses WARN_AND_PROCEED behavior.
+- ROLLBACK is reserved; current substrate suppresses with ROLLBACK_NOT_ACTIVE and uses local containment or operator escalation without unsafe automatic commit.
 
 === SECTION_BREAK ===
 
 === SECTION: QUARANTINE_POLICY ===
 
 ENGAGEMENT:
-- COT_UPDATE_VERIFICATION proposes quarantine on FAIL when dominant violation is QUARANTINE_NEXT_CYCLE.
+- COT_UPDATE_VERIFICATION proposes QUARANTINE_MODE TRUE only for a SYSTEMIC_QUALIFICATION_GATE-confirmed residual, non-isolatable violation in QUARANTINE_NEXT_CYCLE_VIOLATIONS.
 - STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS commits or suppresses the proposal.
-- Quarantine persists in STATE_GOVERNANCE_RUNTIME.
+- A still-open QUARANTINE_REASON_CODES list after a completed recovery cycle denotes pending governance remediation even when QUARANTINE_MODE = FALSE; it does not itself halt the next scene.
 
 SCOPE_DECLARATION:
-- Quarantine is a whole-cycle penalty band, not a per-domain hold.
-- A single QUARANTINE_NEXT_CYCLE violation suspends ordinary character-cognition commitment for the following cycle.
-- This blast radius is intentional: it forces a clean corrective cycle before ordinary state evolution resumes.
+- Exceptional quarantine is a one-full-following-cycle containment and remediation episode, not a punishment for every invalid proposal.
+- The normal condition is proposal-level containment: independent lawful character-state changes continue.
+- In an exceptional recovery cycle, reject proposals whose independence from the compromised integrity cannot be demonstrated. Permit only independently validated, linked-unit-closed, cross-field-lawful ordinary proposals.
+- Canonical caps, single writer, schema/epistemic restrictions, and inference boundaries remain in force.
+- No character COT may read the governance reason list or narrate quarantine; the Dungeon Master's world continues and character realization proceeds.
 
-EFFECT_WHEN_ACTIVE:
-- PRIMARY_PASS admits only GOVERNANCE_CORRECTIVE proposals.
-- Others are suppressed with QUARANTINE_ACTIVE.
+PRIMARY_RECOVERY_ADMISSION:
+- QUARANTINE_MODE TRUE at PRIMARY_PASS intake activates dependency-aware validation, not an INVOKED_RULE_NAME-only bypass.
+- Independently safe proposals pass the complete ordinary STEP_01 through STEP_10A validation and remain eligible for commit. Coupled/linked proposals are evaluated as atomic units.
+- Suppress any proposal or linked unit whose target, dependencies, or projected-state invariant cannot be shown independent of the unresolved integrity fault, with QUARANTINE_ACTIVE and a corrective reason in the audit.
+- A character-cognition proposal merely carrying GOVERNANCE_CORRECTIVE is not authorized as a governance repair. Only COT_UPDATE_VERIFICATION may originate GOVERNANCE_CORRECTIVE proposals, through the restricted PRIORITY_17 to PRIORITY_18 gate.
+- If independence cannot be established for any ordinary proposal, zero ordinary commitments is lawful for that single recovery cycle only; retain the cue in governance trace for possible operator re-presentation.
 
-CLEARING:
-- Clears on clean PASS or structurally sufficient GOVERNANCE_CORRECTIVE resolution.
-- Clearing mechanics follow DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR, including the same-cycle guard that applies to every clear path.
+BOUNDED_RELEASE:
+- No same-cycle clear: quarantine engaged at cycle A cannot be cleared during A.
+- After the full recovery cycle B (QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle), PRIORITY_17 emits a clear request regardless of PASS, WARN, or FAIL. PRIORITY_18 clears QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID.
+- A cleanly resolved cause clears QUARANTINE_REASON_CODES to [NONE]. An unresolved cause retains its bounded reason codes as a pending governance diagnostic and triggers operator-facing escalation outside the character voice.
+- While unresolved reason codes remain after bounded release, automatic re-engagement is prohibited; further bad proposals are isolated or suppressed by the ordinary writer. New systemic symptoms append to the bounded diagnostics rather than restarting an unchanged blanket hold.
+- Re-engagement requires the outstanding recovery case to be resolved/cleared first and a materially new, separately verified systemic event. This avoids repeated identical full-cycle stalls; it does not waive any validation.
+- A WARN not implicated in the original integrity failure cannot block bounded release.
+
+OPERATOR_RECOVERY:
+- A governance-only trace must include reason code(s), affected canonical targets when known, the violated law, lawful reformation instruction, and whether independent state updates remain admissible.
+- A corrected packet enters in a later ordinary cycle through standard proposal intake; the governance writer never invents an unrequested baseline repair.
+- If the substrate cannot expose a separate operator diagnostic, retain reason codes as the bounded inspectable signal and do not leak diagnostic text into the character's role-play output.
+- Evidence of persistent global corruption may require external repair; continuity never overrides the safety of committed state.
 
 REASON_CODE_CAP:
-- QUARANTINE_REASON_CODES cap: 5.
-- Overflow FIFO-evicts oldest reason code.
+- QUARANTINE_REASON_CODES cap: 5 with FIFO eviction.
+- Under QUARANTINE_MODE FALSE, nonempty codes denote unresolved recovery review, not active quarantine; clear them on documented resolution or operator-confirmed review, not merely on WARN/PASS of an unrelated cycle.
 
 === SECTION_BREAK ===
 
