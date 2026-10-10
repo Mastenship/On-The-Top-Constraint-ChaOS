@@ -43,6 +43,8 @@ FORBIDDEN_WRITES:
 
 04) ORDINAL_BAND_AND_CUMULATIVE_LIMITS
 - Verify enum legality, one-step ordinal limits against declared ladders, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, categorical lifecycle SET usage, PERCEPTUAL_SNAPSHOT exemptions, and the cumulative ordinal movement limit (with COUPLED_MOVEMENT_REGISTRY collapsing) per STATE_GOVERNANCE_OVERLAY.
+- A fully lawful movement suppressed solely by the two-step aggregate cap is an expected bounded throughput decision, not itself a committed movement-limit violation; verify it is either lawfully deferred under NARRATIVE_DEFERRAL_CONTINUITY or explicitly audited when queue capacity is full.
+- STEP_LIMIT_EXCEEDED is a FAIL when movement actually breaches the committed limit or when an invalid over-step escapes required suppression; a correctly suppressed, closed, capacity-deferred candidate is not an automatic new FAIL.
 
 05) EMPTY_VALUE_SEMANTICS
 - Verify blank, NONE, [NONE], record stubs, and registry-record pairs follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
