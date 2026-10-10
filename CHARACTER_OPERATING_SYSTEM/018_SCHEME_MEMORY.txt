@@ -30,7 +30,38 @@ ASSOCIATED_PREDICTION_ID: OPTIONAL_PRD_ID
 
 === SECTION_BREAK ===
 
-=== SECTION: REGISTRY_RULES ===
+=== SECTION: DEFERRED_NARRATIVE_CUE_QUEUE ===
+
+[[LLM_INSTRUCTION]]: A bounded, character-cognition-readable *processing cue* for lawful ordinary ordinal/qualitative changes postponed solely by the cumulative two-step cap. Not a new MEM_XX record, not episodic memory, not a stored executable proposal, and not proof that the indicated change remains lawful.
+
+DEFERRED_NARRATIVE_CUES: LIST_OF_DEFERRED_CUE (cap 3; empty form [NONE])
+
+ENTRY_SCHEMA:
+- ORIGIN_CYCLE_ID: STRING_DESCRIPTIVE
+- ORIGIN_PROPOSAL_ID: ID_TOKEN (PUP_XX)
+- SOURCE_COT: canonical executing character COT
+- NARRATIVE_CUE: STRING_DESCRIPTIVE (max 160 characters; character-resolvable event summary, no governance internals)
+- TARGET_FIELD: CANONICAL_PATH to originally capacity-deferred ordinal/qualitative STATE field
+- OPERATION_TYPE: ENUM [SET, TRANSITION]
+- PROPOSED_VALUE: one originally lawful explicit endpoint or canonical relative directive
+- LINKED_MOVEMENT_NOTE: NONE or canonical FATIGUE_DEBT | SYMPATHETIC_HPA | CERTAINTY_DECAY coupled members (one atomic unit)
+- FIRST_RECONSIDERED_CYCLE: STRING_DESCRIPTIVE or NONE
+- RECONSIDERATION_COUNT: integer 0..2
+
+OWNERSHIP_AND_LIFECYCLE:
+- Only STATE_GOVERNANCE_AND_COMMIT may create, update, or close these entries as bookkeeping from STEP_10 and the subsequent commit results.
+- One entry per distinct original capacity-deferred movement or coupled unit, keyed by ORIGIN_CYCLE_ID + ORIGIN_PROPOSAL_ID; do not duplicate on unchanged cue.
+- Entry creation requires an otherwise fully lawful, evidence-supported, dependency-closed candidate suppressed/downgraded to no movement solely because of the aggregate two-step cap.
+- Never queue malformed, invalid, quarantined-for-integrity, overridden-by-conflict, unproven, or already committed movements.
+- Reconsider in a later cycle by the original SOURCE_COT, supplying a NEW fully formed proposal evaluated against current reality and current state.
+- Remove on lawful commitment, loss of cue validity, contradiction, superseding explicit outcome, or operator-confirmed abandonment.
+- After two attempted reconsideration cycles without lawful resolution, retain as pending and surface a governance-only operator diagnostic; continue play and ordinary lawful state changes.
+- If cap 3 is full, retain existing entries, do not silently drop a newly capacity-deferred cue; signal operator re-presentation instead. Do not breach cap.
+- Never narrate administrative queue metadata as a character memory; only its original experience may influence cognition.
+
+=== SECTION_BREAK ===
+
+NaN
 
 - [STATE_MEMORY][MEMORY_REGISTRY] lists all MEMORY_ID tokens.
 - Each listed MEMORY_ID must have exactly one corresponding [STATE_MEMORY][MEM_XX] record.
