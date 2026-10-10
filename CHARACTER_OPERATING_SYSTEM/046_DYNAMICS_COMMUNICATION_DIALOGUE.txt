@@ -39,23 +39,29 @@ ON_DECEPTION_OR_CONCEALMENT:
 
 PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN:
 - Three or more MEM_XX records reference field F through SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED or CORE_EVENT_SUMMARY.
-- Records carry consistent direction toward the same lawful adjacent enum value.
+- Records consistently support the same lawful target: an adjacent endpoint for mapped fields, or a specific explicit endpoint for VOCABULARY_STYLE and POLITENESS_STRATEGY.
 - At least one record has SALIENCE MODERATE or higher.
 - Records are distinct cue occasions, not duplicate encodings.
+
+PERSISTENCE_TARGET_RESOLUTION:
+- Mapped communication fields: use SCHEME_COMMUNICATION_DIALOGUE.COMMUNICATION_FIELD_TRANSITION_MAPS to select one lawful adjacent enum endpoint.
+- VOCABULARY_STYLE and POLITENESS_STRATEGY: no adjacency map exists; select one explicit lawful enum endpoint supported by the persistence cluster and current cue per SCHEME_COMMUNICATION_DIALOGUE.CATEGORICAL_ADAPTATION_RULE.
+- All communication baseline shifts use SET to a concrete lawful endpoint; do not use relative TRANSITION directives on categorical fields.
 
 PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
 - When cluster exists and current cycle adds consistent cue evidence:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_COMMUNICATION_DIALOGUE][<canonical communication field path>]
-    PROPOSED_VALUE: next lawful adjacent enum value in consistent direction
+    PROPOSED_VALUE: one concrete lawful enum endpoint per PERSISTENCE_TARGET_RESOLUTION
     INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
     NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
     EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX]
-    SCHEME_INVARIANT_NOTE: communication baseline shift accommodated under accumulated evidence; one adjacent enum step
+    SCHEME_INVARIANT_NOTE: communication baseline shift supported by accumulated evidence; mapped-field adjacent endpoint or unmapped categorical explicit endpoint, as applicable
     MECHANISM_TAG: COMMUNICATION_PERSISTENCE_ACCOMMODATION
 
 PERSISTENCE_BOUNDS:
-- One adjacent enum step per field per cycle.
+- Mapped fields: at most one lawful adjacent endpoint SET per field per cycle.
+- VOCABULARY_STYLE and POLITENESS_STRATEGY: at most one explicit lawful endpoint SET per field per cycle, without presumed adjacency.
 - A persistence cluster is conceptually consumed; later shifts require new cue accumulation.
 - Stress-only or fatigue-only clusters must show enduring adaptation, not repeated transient impairment.
 
@@ -97,7 +103,7 @@ ON_PHYSIOLOGICAL_OR_DECEPTION_CONTEXT:
 
 - Communication baseline adaptation resolves to explicit lawful enum endpoints.
 - Short-horizon communication effects use modifiers rather than durable field mutation.
-- Persistence-triggered shifts are bounded one-step adjacent enum movements gated by memory-ledger evidence.
+- Persistence-triggered mapped-field shifts use adjacent SET endpoints; VOCABULARY_STYLE and POLITENESS_STRATEGY use explicit lawful SET endpoints without invented adjacency. Both require memory-ledger evidence.
 - Communication identity and communication condition remain distinct.
 
 === SECTION_BREAK ===
