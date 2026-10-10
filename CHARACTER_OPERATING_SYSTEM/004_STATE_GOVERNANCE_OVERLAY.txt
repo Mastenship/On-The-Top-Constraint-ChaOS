@@ -245,7 +245,7 @@ BOUNDED_RELEASE:
 - No same-cycle clear: quarantine engaged at cycle A cannot be cleared during A.
 - After the full recovery cycle B (QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle), PRIORITY_17 emits a clear request regardless of PASS, WARN, or FAIL. PRIORITY_18 clears QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID.
 - A cleanly resolved cause clears QUARANTINE_REASON_CODES to [NONE] and RECOVERY_DIRECTIVE to NONE. An unresolved cause retains its bounded reason codes and bounded reformation directive as governance-only diagnostics and triggers operator-facing escalation outside the character voice.
-- While unresolved reason codes remain after bounded release, automatic re-engagement is prohibited; further bad proposals are isolated or suppressed by the ordinary writer. New systemic symptoms append to the bounded diagnostics rather than restarting an unchanged blanket hold.
+- While unresolved reason codes remain after bounded release, automatic re-engagement is prohibited; further bad proposals are isolated or suppressed by the ordinary writer. New materially distinct systemic symptoms update the capped reason list and paired bounded RECOVERY_DIRECTIVE without restarting an unchanged blanket hold.
 - Re-engagement requires the outstanding recovery case to be resolved/cleared first and a materially new, separately verified systemic event. This avoids repeated identical full-cycle stalls; it does not waive any validation.
 - A WARN not implicated in the original integrity failure cannot block bounded release.
 
