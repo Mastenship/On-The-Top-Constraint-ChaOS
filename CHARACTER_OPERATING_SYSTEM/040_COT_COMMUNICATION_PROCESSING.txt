@@ -160,6 +160,21 @@ TRANSIENT_LEAKAGE_OVERLAY:
 
 === SECTION_BREAK ===
 
+=== SECTION: COMMUNICATION_BASELINE_ADAPTATION ===
+
+[[LLM_INSTRUCTION]]: This COT owns runtime packet construction for DYNAMICS_COMMUNICATION_DIALOGUE.PERSISTENCE_TRIGGER_RULE while retaining PRIORITY_15 character-output responsibility.
+
+ON_DURABLE_COMMUNICATION_ADAPTATION:
+- Only when three or more distinct eligible MEM_XX records and a new consistent cue satisfy DYNAMICS_COMMUNICATION_DIALOGUE.PERSISTENCE_TRIGGER_RULE, consider a stable communication-field SET.
+- Resolve TARGET_FIELD to one concrete canonical [STATE_COMMUNICATION_DIALOGUE][<field path>] before packet emission.
+- For mapped fields select one adjacent endpoint under SCHEME_COMMUNICATION_DIALOGUE.COMMUNICATION_FIELD_TRANSITION_MAPS.
+- For VOCABULARY_STYLE and POLITENESS_STRATEGY select one cue-supported enum endpoint under SCHEME_COMMUNICATION_DIALOGUE.CATEGORICAL_ADAPTATION_RULE without claiming an adjacency map.
+- PROPOSE SET using MECHANISM_TAG: COMMUNICATION_PERSISTENCE_ACCOMMODATION; INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION; NARRATIVE_CUE_REFERENCE: current cue and three distinct MEM_XX; EVIDENCE_REF: eligible [MEM_XX, MEM_XX, MEM_XX] cluster; SCHEME_INVARIANT_NOTE: named target rule and persistence threshold.
+- Keep baseline adaptation separate from stress/fatigue/deception modifiers. Consume persistence evidence conceptually and require new accumulation for another shift.
+- The SET commits at PRIORITY_16 and affects subsequent-cycle communication delivery; it must not retroactively rewrite the PRIORITY_15 character output or alter the selected action.
+
+=== SECTION_BREAK ===
+
 === SECTION: OUTPUT_SURFACE_NORMALIZATION ===
 
 DISPLAY_BOUND_RULES:
