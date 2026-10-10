@@ -163,6 +163,7 @@ ON_FAIL:
 - Preserve closed suppression/downgrade of offending proposals and independent lawful committed changes.
 - On newly qualified systemic failure only, with no open recovery case: emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals, including paired bounded RECOVERY_DIRECTIVE content.
 - Otherwise record governance-only corrective reminder: reason, affected canonical target/dependencies, lawful packet form, and safe re-proposal gate.
+- If an active recovery cycle detects a materially distinct systemic signal, emit DYNAMICS_GOVERNANCE_RUNTIME.ON_NEW_SYSTEMIC_SIGNAL_DURING_ACTIVE_RECOVERY paired snapshot updates without extending the recovery episode.
 - If a pending recovery review already exists and a materially new systemic signal appears, emit DYNAMICS_GOVERNANCE_RUNTIME.ON_NEW_SYSTEMIC_SIGNAL_DURING_PENDING_REVIEW reason-list and bounded-directive updates without re-engaging quarantine.
 - ROLLBACK remains reserved; suppress it with ROLLBACK_NOT_ACTIVE, without committing unsafe repairs.
 - NARRATIVE_CUE_REFERENCE: relevant violation reason code
