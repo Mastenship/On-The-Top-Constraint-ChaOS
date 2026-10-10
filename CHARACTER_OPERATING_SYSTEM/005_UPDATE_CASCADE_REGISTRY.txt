@@ -237,6 +237,11 @@ DYNAMICS_DIRECTIVE_RULE:
 - DYNAMICS modules define lawful mechanics only.
 - Executing COT supplies complete runtime packet.
 
+SAME_CYCLE_RECORD_LINKAGE:
+- COTs may use the same provisional ENT_XX, SKL_XX, GOAL_XX, MEM_XX, or PRD_XX in a creation SET pair and dependent proposals during one cycle.
+- The sole writer binds all provisional references to a surviving successful creation unit before commit; a failed creation suppresses or lawfully downgrades affected dependent links, never minting an orphan.
+- This does not bypass registry-record pairing, linkage validation, cap, or source/target authority.
+
 === SECTION_BREAK ===
 
 [KEY_TERM: Document Complete]
