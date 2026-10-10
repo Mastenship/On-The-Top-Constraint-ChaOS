@@ -22,7 +22,7 @@ Is Informed By: STATE_ALTERATIONS, SCHEME_ALTERATIONS, DYNAMICS_ALTERATIONS, SCH
 ANCHOR_CUES:
 - One or more ALT_XX records have STATUS = ACTIVE.
 - Alteration status changed this cycle.
-- Narrative input references alteration effect, reactivation, removal, rejection, or constraint change.
+- Narrative input establishes a newly acquired alteration or references alteration effect, reactivation, removal, rejection, or constraint change.
 - Active, rejected, or removed alteration requires downstream cascade/reversal evaluation.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
@@ -150,7 +150,7 @@ ON_REJECTED_ALTERATION:
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include relevant ALT_XX list, inferred cascade classes, proposal count, and SCHEME/DYNAMICS compliance. GENERATED_IMPULSES is [NONE].
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include new-alteration admission gate YES/NO, relevant ALT_XX list, status-change proposal YES/NO, dependent cascade linkage, inferred cascade classes, proposal count, and SCHEME/DYNAMICS compliance. GENERATED_IMPULSES is [NONE].
 
 === SECTION_BREAK ===
 
