@@ -37,6 +37,7 @@ LAST_VERIFICATION_RESULT: ENUM [PASS, WARN, FAIL, PENDING]
 QUARANTINE_MODE: BOOLEAN
 QUARANTINE_ENGAGED_CYCLE_ID: STRING_DESCRIPTIVE
 QUARANTINE_REASON_CODES: LIST_OF_REASON_CODE (FIFO; cap 5)
+RECOVERY_DIRECTIVE: STRING_DESCRIPTIVE (max 240 characters; NONE when no recovery case)
 LIFT_HOOK_STATUS: ENUM [EXTERNAL_GOVERNANCE_INACTIVE, EXTERNAL_GOVERNANCE_ACTIVE]
 
 === SECTION_BREAK ===
@@ -70,6 +71,13 @@ QUARANTINE_REASON_CODES:
 - May remain nonempty after QUARANTINE_MODE becomes FALSE; no automatic re-engagement while pending review remains.
 - A generic PASS or unrelated WARN does not by itself clear the list.
 
+RECOVERY_DIRECTIVE:
+- A single capped governance-only reformation instruction containing the active reason code, affected target or UNKNOWN, lawful corrective action, and release evidence; not a journal.
+- Maximum 240 characters, overwritten on material correction to a still-open case; no accumulating history.
+- Set with the first qualified systemic recovery case; remains while QUARANTINE_REASON_CODES are unresolved even if QUARANTINE_MODE becomes FALSE.
+- Clear to NONE when all pending recovery causes are verified resolved or governance-authorized operator review closes the case.
+- It must never be exposed through character-cognition COTs or player-character narration.
+
 LIFT_HOOK_STATUS:
 - Default value is EXTERNAL_GOVERNANCE_INACTIVE.
 - Changes only on explicit architecture lift events.
@@ -92,6 +100,7 @@ LIFT_HOOK_STATUS:
 - QUARANTINE_REASON_CODES MUST NOT exceed cap of 5 entries.
 - QUARANTINE_MODE TRUE cannot persist past its one full following recovery cycle; same-cycle clear is forbidden.
 - QUARANTINE_MODE FALSE and nonempty QUARANTINE_REASON_CODES is a lawful pending-review snapshot and does not block independently lawful ordinary commits.
+- RECOVERY_DIRECTIVE is NONE if and only if QUARANTINE_REASON_CODES is [NONE]; otherwise it is a nonempty bounded recovery instruction.
 - LIFT_HOOK_STATUS transitions are RESERVED on the current substrate per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; transition attempts on the current substrate are suppressed with LIFT_HOOK_NOT_ACTIVE.
 - All field clear conditions defined above must be honored on every cycle.
 - Field set is closed; additions require constitutional update.
