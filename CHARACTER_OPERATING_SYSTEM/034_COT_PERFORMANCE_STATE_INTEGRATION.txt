@@ -159,6 +159,22 @@ REQUIREMENTS:
 
 === SECTION_BREAK ===
 
+=== SECTION: NEW_SKILL_ACQUISITION_EXECUTION ===
+
+[[LLM_INSTRUCTION]]: This COT owns DYNAMICS_SKILLS.NEW_SKILL_ACQUISITION, in addition to durable skill progression already covered by PERMANENT_SKILL_MUTATION.
+
+ON_EXPLICIT_LEARNING_OR_ACQUISITION:
+- Apply DYNAMICS_SKILLS.NEW_SKILL_ACQUISITION.NEW_SKILL_ADMISSION_GATE.
+- If admitted and no existing SKL_XX represents the capability, PROPOSE SET pair:
+  - TARGET_FIELD: [STATE_SKILLS][SKILL_REGISTRY]; PROPOSED_VALUE: append one provisional SKL_XX
+  - TARGET_FIELD: [STATE_SKILLS][SKL_XX]; PROPOSED_VALUE: one complete SCHEME_SKILLS.SKILL_RECORD_SCHEMA with cue-supported MASTERY_LEVEL, INSTINCT_LEVEL, GROWTH_POTENTIAL, UNIQUENESS_LEVEL, and ACQUISITION_CONTEXT
+- MECHANISM_TAG: SKILL_STATE_CHANGE; EPISTEMIC_TAG: INFERENCE; JUSTIFICATION_CATEGORY: DIRECT_APPLICATION.
+- Instinct automation must satisfy SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING from creation onward; training exposure alone cannot justify expert mastery.
+- If acquisition gate fails, use a transient performance modifier, memory cue, or impulse; do not invent a permanent skill record.
+- Final SKL_XX ID and registry/record atomicity belong to the sole governance writer.
+
+=== SECTION_BREAK ===
+
 === SECTION: BEHAVIORAL_IMPULSES ===
 
 IMPULSE_OUTPUT_FORMAT:
