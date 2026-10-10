@@ -105,6 +105,7 @@ STEP_00_QUARANTINE_GATE:
   - Admit only ordinary proposals or linked creation units whose independent safety is demonstrated by canonical field/dependency closure, complete ordinary validation, movement caps, and projected cross-field invariants.
   - Suppress only affected or unverifiably independent proposals with QUARANTINE_ACTIVE; preserve separately lawful memory, relationship, goal, and other changes whenever their independence is demonstrable.
   - An INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE token is not an authorization bypass; character-cognition proposals using it to claim repair authority are suppressed with POST_VERIFICATION_SOURCE_INVALID.
+- At every PRIMARY_PASS intake, suppress any proposal claiming INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE with POST_VERIFICATION_SOURCE_INVALID: only COT_UPDATE_VERIFICATION at PRIORITY_17 may originate that rule.
 - If FALSE: proceed with normal proposal-level containment and full validation. Nonempty QUARANTINE_REASON_CODES with QUARANTINE_MODE FALSE are unresolved recovery diagnostics, not a blanket commitment ban.
 - Flag the recovery disposition, affected paths when identifiable, and narrative cue references in governance-only audit/trace.
 - Never pass a proposal simply because it carries a corrective label.
@@ -380,7 +381,7 @@ VERIFIER_EMITTED_CODES:
 - MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE (FAIL)
 
 MODIFIER_SUBCODE_QUARANTINE_NOTE:
-- The five MODIFIER_ sub-codes above inherit the QUARANTINE_NEXT_CYCLE class of MODIFIER_LIFECYCLE_VIOLATION per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP.
+- The five MODIFIER_ sub-codes above inherit MODIFIER_LIFECYCLE_VIOLATION FAIL classification, but not automatic global quarantine, per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP. Only actual non-isolatable persistent baseline corruption may qualify for exceptional recovery.
 
 === SECTION_BREAK ===
 
