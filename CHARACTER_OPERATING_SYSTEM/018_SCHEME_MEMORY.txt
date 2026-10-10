@@ -1,7 +1,7 @@
 === SECTION: SCHEME_MEMORY ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of memory state. Defines memory schema, registry rules, linkage expectations, mutable subfield boundaries, and invariants governing when transient experience becomes persistent memory.
+Immutable structural definition of memory state. Defines episodic memory schema, registry rules, linkage expectations, and mutable subfield boundaries. Also defines a separate capped processing-cue queue for ordinary narrative movements deferred solely by aggregate movement capacity; cues are not MEM_XX records.
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
@@ -105,6 +105,8 @@ RETROACTIVE_EDIT_LIMITS:
 - Retroactive edits are limited to the mutable subfields listed above.
 - Prohibited operation aliases do not exist in this schema contract.
 - Memory persistence reflects resolved significance, not raw ungoverned chain-of-thought residue.
+- DEFERRED_NARRATIVE_CUES has a hard cap of three and is updated exclusively through writer-owned deferral bookkeeping, not ordinary SET proposals or MEM_XX creation.
+- Deferred cues cannot be treated as proven future changes, memories of an administrative decision, or a substitute for current-cycle evidence.
 
 === SECTION_BREAK ===
 
