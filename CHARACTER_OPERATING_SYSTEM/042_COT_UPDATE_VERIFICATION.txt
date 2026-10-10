@@ -161,7 +161,7 @@ ON_WARN:
 ON_FAIL:
 - SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = FAIL
 - Preserve closed suppression/downgrade of offending proposals and independent lawful committed changes.
-- On newly qualified systemic failure only, with no open recovery case: emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
+- On newly qualified systemic failure only, with no open recovery case: emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals, including paired bounded RECOVERY_DIRECTIVE content.
 - Otherwise record governance-only corrective reminder: reason, affected canonical target/dependencies, lawful packet form, and safe re-proposal gate.
 - ROLLBACK remains reserved; suppress it with ROLLBACK_NOT_ACTIVE, without committing unsafe repairs.
 - NARRATIVE_CUE_REFERENCE: relevant violation reason code
@@ -169,14 +169,14 @@ ON_FAIL:
 
 ON_RECOVERY_CYCLE_CLOSE:
 - If QUARANTINE_MODE is TRUE and QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle, emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.ON_BOUNDED_RECOVERY_CYCLE_COMPLETE proposals regardless of PASS, WARN, or FAIL.
-- Clear QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID. Clear QUARANTINE_REASON_CODES only when the original root cause is demonstrated resolved; otherwise retain capped codes for pending operator review.
+- Clear QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID. Clear QUARANTINE_REASON_CODES and paired RECOVERY_DIRECTIVE only when the original root cause is demonstrated resolved; otherwise retain capped codes and recovery directive for pending operator review.
 - If engagement occurred in current cycle, SAME_CYCLE_GUARD forbids the clear.
 - Unrelated warnings and unavailable prior-cycle trace evidence cannot prolong blanket containment.
 
 ON_PENDING_RECOVERY_REVIEW:
 - QUARANTINE_MODE FALSE with nonempty QUARANTINE_REASON_CODES indicates unresolved governance review, not global quarantine.
 - Continue ordinary rigorous validation, suppress unsafe proposals, and preserve independent lawful changes.
-- Clear pending codes only on verified root-cause correction or explicit governance-authorized operator review, not an unrelated PASS.
+- Clear pending reason codes and paired RECOVERY_DIRECTIVE only on verified root-cause correction or explicit governance-authorized operator review, not an unrelated PASS.
 - Do not automatically re-engage the same recovery episode.
 
 === SECTION_BREAK ===
@@ -195,6 +195,7 @@ KEY_OUTPUTS:
 - SYSTEMIC_QUALIFICATION: YES | NO
 - INDEPENDENT_LAWFUL_COMMITS_PRESERVED: YES | NO
 - GOVERNANCE_ONLY_REMEDIATION_SUMMARY
+- RECOVERY_DIRECTIVE_STORED: TRUE | FALSE
 - PRIOR_POST_VERIFICATION_TRACE_PRESENT: TRUE | FALSE | SKIPPED
 - POST_VERIFICATION_PASS_REQUIRED: TRUE
 GENERATED_IMPULSES:
