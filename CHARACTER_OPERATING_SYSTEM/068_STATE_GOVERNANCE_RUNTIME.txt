@@ -25,6 +25,8 @@ LIFT_HOOK_STATUS: EXTERNAL_GOVERNANCE_INACTIVE
 [[LLM_INSTRUCTION]]: Read access is governance-band only; character-cognition reads are READ_BOUNDARY_VIOLATION.
 [[LLM_INSTRUCTION]]: Write access is exclusive to STATE_GOVERNANCE_AND_COMMIT.
 [[LLM_INSTRUCTION]]: Defaults shown are lawful initial state. QUARANTINE_REASON_CODES is capped per SCHEME_GOVERNANCE_RUNTIME and DYNAMICS_GOVERNANCE_RUNTIME.
+[[LLM_INSTRUCTION]]: QUARANTINE_MODE TRUE denotes an exceptional bounded recovery cycle, not blanket punishment for an isolated failed proposal. FALSE with nonempty QUARANTINE_REASON_CODES denotes unresolved governance-only review; independent lawful character evolution continues under full validation.
+[[LLM_INSTRUCTION]]: No additional persistent recovery journal is introduced. The bounded snapshot follows SCHEME_GOVERNANCE_RUNTIME.FIELD_LIFECYCLE_INVARIANTS and STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT.
 
 === SECTION_BREAK ===
 
