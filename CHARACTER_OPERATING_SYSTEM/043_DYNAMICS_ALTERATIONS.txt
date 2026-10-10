@@ -14,6 +14,26 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION_BREAK ===
 
+=== SECTION: NEW_ALTERATION_ADMISSION ===
+
+[[LLM_INSTRUCTION]]: When the Dungeon Master establishes a new durable alteration, DYNAMICS defines the gate; COT_ALTERATION_CASCADE_EFFECTS is the sole runtime packet producer.
+
+NEW_ALTERATION_GATE:
+- Explicit cue establishes a persistent, temporary-but-record-worthy, conditional, or episodic change in physical, psychological, magical, technological, or environmental capability/constraint.
+- No existing ALT_XX adequately captures this change.
+- It materially affects body, skill capability, perceived identity, vulnerability, behavior, goals, or narrative continuity beyond a passing scene effect.
+- Enough evidence exists to populate a complete SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA, including STATUS and CHARACTER_AWARENESS.
+- A purely fleeting sensation, ordinary injury without alteration significance, or momentary performance shift is handled by body state or temporary modifier instead of inventing ALT_XX.
+
+ON_NEW_ALTERATION:
+- When gate passes, executing COT emits a linked SET pair:
+  - [STATE_ALTERATIONS][ALTERATION_REGISTRY] append provisional ALT_XX
+  - [STATE_ALTERATIONS][ALT_XX] full schema-valid alteration record
+- Status reflects what is established by the cue; do not assume ACTIVE when dormant, rejected, or unknown evidence does not support it.
+- Subsequent physiological/psychological/skill cascade packets must depend on the surviving new alteration record and lawful initial STATUS.
+
+=== SECTION_BREAK ===
+
 === SECTION: ACTIVATION_DEACTIVATION ===
 
 ON_CONSTRAINT_MET:
