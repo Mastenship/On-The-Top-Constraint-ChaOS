@@ -61,6 +61,11 @@ ON_VERIFIED_UNISOLATABLE_FAILURE:
     PROPOSED_VALUE: concrete governance-only instruction (max 240 characters) identifying reason code, affected target or UNKNOWN, lawful correction, and release evidence
     JUSTIFICATION: capped reformation reminder tied to pending reason codes
 
+ON_NEW_SYSTEMIC_SIGNAL_DURING_ACTIVE_RECOVERY:
+- If QUARANTINE_MODE is TRUE and a materially distinct unresolved systemic signal is verified during the one recovery cycle, update QUARANTINE_REASON_CODES and paired bounded RECOVERY_DIRECTIVE as a linked snapshot SET unit.
+- Do not refresh QUARANTINE_ENGAGED_CYCLE_ID, extend the episode, or suppress independent lawful commitments because of the additional signal alone.
+- At recovery-cycle close, retain all still-unresolved bounded reasons and the updated directive while clearing QUARANTINE_MODE and engagement cycle ID.
+
 ON_NEW_SYSTEMIC_SIGNAL_DURING_PENDING_REVIEW:
 - If QUARANTINE_MODE is FALSE but QUARANTINE_REASON_CODES remains nonempty, do not set QUARANTINE_MODE TRUE.
 - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] to the cap-5 FIFO list including the new verified systemic reason code if materially distinct.
