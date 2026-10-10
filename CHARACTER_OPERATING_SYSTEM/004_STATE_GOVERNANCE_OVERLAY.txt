@@ -109,6 +109,30 @@ BELIEF_AND_COMMUNICATION_LIMITS:
 
 === SECTION_BREAK ===
 
+=== SECTION: NARRATIVE_DEFERRAL_CONTINUITY ===
+
+[[LLM_INSTRUCTION]]: Preserve the two-step cumulative ordinary-movement cap and ordinary conflict precedence. Reconsider otherwise lawful plot-significant movements that lose only to cumulative capacity; invalid packets never become retry permissions.
+
+ELIGIBILITY:
+- Only a canonical, evidence-supported ordinal/qualitative movement that passed other validation and projected invariants but was suppressed or downgraded to no movement solely by CUMULATIVE_ORDINAL_RULE may enter [STATE_MEMORY][DEFERRED_NARRATIVE_CUES].
+- Never queue malformed, contradicted, invalid, independently unsafe, unproven, or fully committed movements. An atomic coupled movement is represented as one reconsideration cue.
+- Bound to three entries per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE. Entries do not create MEM_XX or relax the ordinary memory cap.
+
+RECONSIDERATION_FAIRNESS:
+- The original SOURCE_COT reviews the cue next cycle even without another Dungeon Master reminder per UPDATE_CASCADE_REGISTRY.DEFERRED_NARRATIVE_CUE_DISPATCH.
+- A fresh complete proposal is mandatory; stale proposal payloads do not survive the scratchpad wipe.
+- At most one oldest eligible deferred movement unit receives protected consideration per cycle. After invariant, write/operation legality, linkage, evidence, proof, and current safety checks, it precedes later discretionary drift/decay and equal-priority ordinary pressure for one existing movement slot.
+- Never displace hard safety obligations, stronger contradictory COMMITTED_FACT, or newly mandatory physiological protection. The global cap remains two.
+- If reevaluation remains blocked, retain the bounded cue and log the attempt. After two attempts, surface a governance-only operator re-presentation diagnostic instead of endlessly replaying the same attempt.
+- If all three slots are full, flag the excess important cue for operator re-presentation; never claim it was queued or silently discard an existing entry.
+
+NARRATIVE_INTEGRITY:
+- A cue is only a traceable event interpretation pending lawful integration, not an episodic memory or the character's awareness of governance.
+- Queue capture/closure are sole-writer NARRATIVE_DEFERRAL_CAPTURE/NARRATIVE_DEFERRAL_CLOSURE bookkeeping actions, not proposal OPERATION_TYPE.
+- Deferred cues never bypass per-field steps, override proof, DYNAMICS admission gates, or other invariants.
+
+=== SECTION_BREAK ===
+
 === SECTION: CROSS_FIELD_INVARIANT_TIMING ===
 
 [[LLM_INSTRUCTION]]: Cross-field invariants depend on resulting committed state, not single proposals.
