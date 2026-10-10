@@ -56,6 +56,10 @@ ON_VERIFIED_UNISOLATABLE_FAILURE:
     TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
     PROPOSED_VALUE: append verified systemic reason code; FIFO-evict oldest if cap 5
     JUSTIFICATION: bounded recovery diagnostic
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE]
+    PROPOSED_VALUE: concrete governance-only instruction (max 240 characters) identifying reason code, affected target or UNKNOWN, lawful correction, and release evidence
+    JUSTIFICATION: capped reformation reminder tied to pending reason codes
 
 NON_REENGAGEMENT_RULE:
 - If QUARANTINE_MODE is TRUE, do not re-engage or overwrite QUARANTINE_ENGAGED_CYCLE_ID.
@@ -73,12 +77,12 @@ ON_BOUNDED_RECOVERY_CYCLE_COMPLETE:
 - If QUARANTINE_MODE is TRUE and QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle:
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] = FALSE
   - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
-  - When and only when the original systemic cause is verified resolved: PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE]
+  - When and only when the original systemic cause is verified resolved: PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE] and PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] = NONE
   - Otherwise leave QUARANTINE_REASON_CODES unchanged and produce an operator-review diagnostic in governance trace.
   - JUSTIFICATION: bounded recovery cycle completed; independent lawful narrative development must resume.
 
 ON_PENDING_RECOVERY_RESOLVED:
-- If QUARANTINE_MODE is FALSE with nonempty reason codes, only verified structural resolution or explicit governance-authorized operator review may PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE].
+- If QUARANTINE_MODE is FALSE with nonempty reason codes, only verified structural resolution or explicit governance-authorized operator review may PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE] paired with PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] = NONE.
 - A generic PASS, unrelated warning, or lack of further proposals does not prove root-cause repair.
 
 SAME_CYCLE_GUARD:
@@ -110,7 +114,7 @@ ON_LIFT_EVENT:
 - This module reads only governance runtime, commit outcomes, and verification outcomes.
 - It does not generate character-visible narration or authorize character-cognition reading governance internals.
 - Same-cycle clear prohibition and full-following-cycle bounded release both apply.
-- QUARANTINE_REASON_CODES can be nonempty with QUARANTINE_MODE FALSE during unresolved operator review.
+- QUARANTINE_REASON_CODES and a bounded nonempty RECOVERY_DIRECTIVE persist together when QUARANTINE_MODE is FALSE during unresolved operator review.
 - Governance-runtime proposals must be committed or suppressed before scratchpad wipe.
 
 === SECTION_BREAK ===
