@@ -91,6 +91,14 @@ FORBIDDEN_WRITES:
 
 17) FIRES_WHEN_DISCIPLINE
 - For non-exempt priority 01–15 COTs, any impulse or non-trace proposal requires at least one satisfied FIRES_WHEN anchor cue.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry with SOURCE_COT matching the executing COT is a lawful re-evaluation anchor per UPDATE_CASCADE_REGISTRY.DEFERRED_NARRATIVE_CUE_DISPATCH; this does not authorize blindly replaying an old proposal.
+
+18) DEFERRED_NARRATIVE_CUE_COHERENCE
+- Verify STATE_MEMORY.DEFERRED_NARRATIVE_CUES has at most three complete entries with lawful original PUP_XX provenance, owner COT, bounded character-resolvable event cues, canonical ordinal/qualitative targets, and no governance-internal narration.
+- Confirm DEFERRED_CUE_LOG accounts for writer-only capture/reconsideration/closure; every captured cue was otherwise lawful and capacity-suppressed, never suppressed for invalidity or quarantine.
+- Verify any retried cue was resubmitted as a fresh, complete current-cycle proposal, subject to ordinary caps, proof and current evidence; no old proposal committed automatically.
+- Verify no silent FIFO eviction, unbounded retry, or unsupported deferred-cue creation. A full queue requires escalation, not an undocumented loss.
+- Violation of queue SCHEME or cap is SCHEME_INVARIANT_VIOLATION; missing administrative lineage is AUDIT_CLOSURE_INCOMPLETE.
 
 CHECKLIST_REASON_CODE_MAP:
 - 01: AUDIT_CLOSURE_INCOMPLETE (FAIL)
@@ -110,6 +118,7 @@ CHECKLIST_REASON_CODE_MAP:
 - 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL); global containment requires separate systemic qualification
 - 16: INSTANTIATION_INCOMPLETE (FAIL)
 - 17: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
+- 18: SCHEME_INVARIANT_VIOLATION or AUDIT_CLOSURE_INCOMPLETE (FAIL)
 
 CONSUMED_BASIS_ENFORCEMENT_NOTE:
 [[LLM_INSTRUCTION]]: The consumed-basis sub-check under 06 reuses SCHEME_INVARIANT_VIOLATION and adds no reason code. A re-cited consumed basis without fresh accumulation lacks valid persistence-cluster evidence and is therefore already a belief-invariant violation. In-loop the sub-check is advisory because STATE_COMMIT_AUDIT is wiped after POST_VERIFICATION_PASS; an external governor retaining the committed EVIDENCE_REF stream enforces it as a hard FAIL with no added state. Retention is the only delta.
