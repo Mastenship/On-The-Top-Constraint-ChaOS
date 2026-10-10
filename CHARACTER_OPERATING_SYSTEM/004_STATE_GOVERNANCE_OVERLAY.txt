@@ -178,6 +178,7 @@ PRECEDENCE_ORDER:
 8) Conservative no-change or downgrade.
 
 TIE_BREAKERS:
+- NARRATIVE_DEFERRAL_CONTINUITY.RECONSIDERATION_FAIRNESS gives at most one older already-validated deferred ordinary movement protected consideration ahead of equal-priority discretionary movement; it does not outrank invariant, operation, evidence, or safety gates.
 - Prefer deterministic bounded downgrade over suppression.
 - Prefer temporary modifier over durable baseline mutation for short-horizon effects.
 - Prefer existing record update over new record creation when lawful.
