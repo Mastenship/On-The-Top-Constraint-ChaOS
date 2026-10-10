@@ -30,6 +30,22 @@ DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 
 === SECTION_BREAK ===
 
+=== SECTION: NEW_ALTERATION_ONBOARDING ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_ALTERATIONS.NEW_ALTERATION_ADMISSION and produces the complete linked record pair.
+
+ON_NEW_DURABLE_ALTERATION_CUE:
+- Run NEW_ALTERATION_GATE before proposing ALT_XX creation.
+- If it passes, PROPOSE SET pair:
+  - TARGET_FIELD: [STATE_ALTERATIONS][ALTERATION_REGISTRY]; PROPOSED_VALUE: append one provisional ALT_XX
+  - TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX]; PROPOSED_VALUE: full SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA including alteration type, duration, evidence-based status, physical/ability/constraint details, and CHARACTER_AWARENESS.
+- MECHANISM_TAG: ALTERATION_ACTIVATION_OR_FAILURE; EPISTEMIC_TAG: INFERENCE; JUSTIFICATION_CATEGORY: DIRECT_APPLICATION.
+- If admission fails, prefer the appropriate BODY, SKILLS, or TEMPORARY_MODIFIERS mechanics; do not invent a persistent alteration record.
+- Any same-cycle cascade depending on the newly created ALT_XX is a linked unit with the projected lawful STATUS; governance suppresses dependent packets if creation fails.
+- Only the governance writer resolves the final ALT_XX identifier.
+
+=== SECTION_BREAK ===
+
 === SECTION: ALTERATION_LIFECYCLE_EXECUTION ===
 
 [[LLM_INSTRUCTION]]: This COT executes DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION and PSYCHOLOGICAL_REJECTION. No other character-cognition COT owns ALT_XX.STATUS mutation.
