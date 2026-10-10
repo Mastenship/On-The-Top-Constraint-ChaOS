@@ -45,7 +45,7 @@ ASSOCIATED_PREDICTION_ID:
 
 === SECTION_BREAK ===
 
-NaN
+=== SECTION: STATE_INTERPRETATION_NOTE ===
 
 [[LLM_INSTRUCTION]]: Current committed memory records only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
 [[LLM_INSTRUCTION]]: Concrete MEM_XX records require MEMORY_REGISTRY membership plus matching record block.
