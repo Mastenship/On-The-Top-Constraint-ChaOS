@@ -209,10 +209,11 @@ VIOLATION_SUB_CODES:
 - MODIFIER_REMOVE_REGISTRY_INCOHERENCE
 - MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
 
-SUB_CODE_QUARANTINE_INHERITANCE:
-[[LLM_INSTRUCTION]]: Each sub-code above inherits the QUARANTINE_NEXT_CYCLE class of the umbrella MODIFIER_LIFECYCLE_VIOLATION per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP.
-- A FAIL whose dominant violation is any of these five engages quarantine exactly as MODIFIER_LIFECYCLE_VIOLATION would.
-- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE in particular must engage quarantine; it is the covert-baseline-rewrite failure this subsystem exists to prevent.
+SUB_CODE_REMEDIATION_INHERITANCE:
+[[LLM_INSTRUCTION]]: All five sub-codes inherit MODIFIER_LIFECYCLE_VIOLATION FAIL classification. A failed or rejected modifier operation is normally isolated to its proposal or affected modifier unit, not a whole-cycle halt.
+- Only MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE is additionally named as a potential systemic quarantine reason, and only when an actual persistent baseline rewrite escaped local containment per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE.
+- Other modifier sub-codes are not automatically QUARANTINE_NEXT_CYCLE cases. Suppress, reconcile, and log locally under existing lifecycle rules.
+- Reformation instructions may be logged in governance trace; no automatic unauthorized persistent-state repair is created.
 
 === SECTION_BREAK ===
 
