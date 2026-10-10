@@ -80,7 +80,13 @@ IMMUTABLE_SCHEME_BASELINE_SEEDS:
 - Outside instantiation: SCHEME_IMMUTABLE_BASELINE_WRITE.
 
 COMMON_SEED_FIELDS:
-- SOURCE_COT, STRENGTH: HIGH, MECHANISM_TAG: INSTANTIATION_SEEDING, EPISTEMIC_TAG: COMMITTED_FACT, EVIDENCE_REF: USER_CONFIRMATION, JUSTIFICATION_CATEGORY: DIRECT_APPLICATION.
+- SOURCE_COT, STRENGTH: HIGH, MECHANISM_TAG: INSTANTIATION_SEEDING, EPISTEMIC_TAG: COMMITTED_FACT, EVIDENCE_REF: USER_CONFIRMATION:<CONFIRMATION_ID>, JUSTIFICATION_CATEGORY: DIRECT_APPLICATION.
+
+CONFIRMATION_REFERENCE_RULE:
+- Character construction is a collaborative, iterative dialogue; provisional choices, revisions, and LAYER_08 coherence discussion do not themselves establish final seeding approval.
+- After explicit user approval of the agreed character configuration, assign a concrete CONFIRMATION_ID identifying that approval and resolve USER_CONFIRMATION:<CONFIRMATION_ID> in every approved seeding proposal.
+- Do not submit the literal <CONFIRMATION_ID> placeholder or a bare USER_CONFIRMATION token as EVIDENCE_REF.
+- Material changes after approval require renewed explicit user confirmation before those changed values are seeded.
 
 PACKET_COMPLETENESS:
 - Every proposal must satisfy UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
@@ -99,9 +105,14 @@ PACKET_COMPLETENESS:
 
 === SECTION: FINAL_SEEDING ===
 
+BEFORE_EXPLICIT_USER_CONFIRMATION:
+- Complete collaborative discussion and refinement across the layers.
+- Present LAYER_08 coherence report, discuss tensions with the user, and record agreed resolutions.
+- Assemble the proposed character configuration for explicit user review and approval.
+
 AFTER_EXPLICIT_USER_CONFIRMATION:
-- Emit complete seed proposal set.
-- Present LAYER_08 coherence report and record resolutions.
+- Resolve USER_CONFIRMATION:<CONFIRMATION_ID> to the concrete approval reference.
+- Emit complete approved seed proposal set.
 - Governance validates and commits.
 - INSTANTIATION_MODE remains TRUE through final commit.
 
