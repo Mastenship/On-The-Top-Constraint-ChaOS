@@ -129,6 +129,7 @@ STEP_03_CANONICAL_PATH_VALIDATION:
 - Suppress persistent writes to IDENTITY_ONLY_ROOTS with INVALID_TARGET_FIELD.
 - Suppress with INVALID_PATH_ROOT, LEGACY_ROOT_FORBIDDEN, INVALID_TARGET_FIELD, or REGISTRY_RECORD_PAIR_VIOLATION.
 - ADD_MODIFIER outer TARGET_FIELD record-stub is lawful per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.ADD_MODIFIER_TARGET_FIELD_RULE and is not a REGISTRY_RECORD_PAIR_VIOLATION.
+- Ordinary proposals targeting [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] are forbidden with INVALID_TARGET_FIELD; only STEP_10B writer-owned NARRATIVE_DEFERRAL_CAPTURE / NARRATIVE_DEFERRAL_CLOSURE bookkeeping may mutate the cue queue.
 
 STEP_04_SCHEME_AND_OPERATION_VALIDATION:
 - Validate operation vocabulary, enum legality, ordinal ladder legality, transition-directive binding, record schema, single-proposal invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
