@@ -51,7 +51,7 @@ PRIMARY_PASS:
 - Slot: PRIORITY_16.
 - Trace COT_NAME: STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS.
 - Consumes proposals present before COT_UPDATE_VERIFICATION.
-- Commits lawful ordinary STATE_* proposals, STATE_TEMPORARY_MODIFIERS proposals, and lawful primary-intake governance-corrective proposals.
+- Commits lawful ordinary STATE_* proposals and STATE_TEMPORARY_MODIFIERS proposals, including independently safe proposals during bounded recovery. Governance-corrective proposals originate only from COT_UPDATE_VERIFICATION after this pass.
 - Applies any designated INVARIANT_FORCED_CORRECTION during cross-field reconciliation.
 - Emits PRIMARY_PASS_AUDIT and one trace.
 
@@ -100,10 +100,14 @@ SINGLE_WRITER_PRESERVATION:
 [[LLM_INSTRUCTION]]: Process primary-pass proposals in this deterministic order.
 
 STEP_00_QUARANTINE_GATE:
-- If STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE = TRUE:
-  - retain only proposals with INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE
-  - suppress all others with QUARANTINE_ACTIVE
-- If FALSE: proceed with all primary-intake proposals.
+- If STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE = TRUE, apply STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.PRIMARY_RECOVERY_ADMISSION:
+  - Read QUARANTINE_REASON_CODES as the governance-only recovery context.
+  - Admit only ordinary proposals or linked creation units whose independent safety is demonstrated by canonical field/dependency closure, complete ordinary validation, movement caps, and projected cross-field invariants.
+  - Suppress only affected or unverifiably independent proposals with QUARANTINE_ACTIVE; preserve separately lawful memory, relationship, goal, and other changes whenever their independence is demonstrable.
+  - An INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE token is not an authorization bypass; character-cognition proposals using it to claim repair authority are suppressed with POST_VERIFICATION_SOURCE_INVALID.
+- If FALSE: proceed with normal proposal-level containment and full validation. Nonempty QUARANTINE_REASON_CODES with QUARANTINE_MODE FALSE are unresolved recovery diagnostics, not a blanket commitment ban.
+- Flag the recovery disposition, affected paths when identifiable, and narrative cue references in governance-only audit/trace.
+- Never pass a proposal simply because it carries a corrective label.
 
 STEP_01_PROPOSAL_INTAKE:
 - Read retained proposals from [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
@@ -177,6 +181,7 @@ STEP_10_LIMIT_AND_DOWNGRADE_EVALUATION:
 - Enforce STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.
 - SET endpoint placement and TRANSITION movement share ordinal/band limits.
 - Enforce CUMULATIVE_ORDINAL_RULE across all provisional ordinary movements, collapsing COUPLED_MOVEMENT_REGISTRY sets to one step each.
+- During bounded recovery, validate ordinary candidate independence and its linked/dependent field closure before admitting it; a candidate failing independence is suppressed with QUARANTINE_ACTIVE, not silently skipped.
 - Enforce MAX_ACTIVE_PREDICTIONS.
 - Apply override-proof results.
 - Downgrade only when nearest lawful bounded outcome is deterministic.
@@ -191,7 +196,7 @@ STEP_10A_CROSS_FIELD_INVARIANT_EVALUATION:
 
 STEP_11_PERSISTENT_COMMIT_AND_AUDIT:
 - Apply final lawful writes, including any INVARIANT_FORCED_CORRECTION.
-- Write PRIMARY_PASS_AUDIT.
+- Write PRIMARY_PASS_AUDIT, including any proposal-level remediation, targeted dependency exclusions, and narrative cue references blocked during exceptional recovery.
 - Append STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS trace.
 
 === SECTION_BREAK ===
@@ -223,7 +228,7 @@ PV_STEP_04_GOVERNANCE_RUNTIME_VALUE_VALIDATION:
 - LAST_VERIFICATION_RESULT: PASS | WARN | FAIL | PENDING
 - QUARANTINE_MODE: TRUE | FALSE
 - QUARANTINE_ENGAGED_CYCLE_ID: current commit cycle id | NONE
-- QUARANTINE_REASON_CODES: cap 5, FIFO overflow, empty form [NONE]
+- QUARANTINE_REASON_CODES: cap 5, FIFO overflow, empty form [NONE]; when QUARANTINE_MODE is FALSE, nonempty codes are allowed only as pending unresolved recovery diagnostics per SCHEME_GOVERNANCE_RUNTIME
 - Suppress invalid values with INVALID_ENUM_VALUE or SCHEME_INVARIANT_VIOLATION.
 
 PV_STEP_05_TRANSLATION_AND_EPISTEMIC_VALIDATION:
@@ -237,6 +242,8 @@ PV_STEP_06_RECONCILIATION_AND_COMMIT:
 - Commit lawful STATE_GOVERNANCE_RUNTIME updates.
 - Apply QUARANTINE_REASON_CODES cap-aware SET behavior.
 - Honor DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
+- Enforce bounded release after the full recovery cycle even on WARN or FAIL; preserve unresolved reason codes for later targeted verification and operator review. Do not re-engage a still-open case as a new blanket quarantine episode.
+- Quarantine engagement requires STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE; reject mere code-based re-engagement when integrity faults were isolated.
 - Close final action for each post-verification proposal.
 
 PV_STEP_07_POST_VERIFICATION_AUDIT_AND_TRACE:
@@ -457,6 +464,7 @@ GENERATED_IMPULSES:
 PROPOSED_UPDATES_COUNT: 0
 NOTES:
 - validation summary and major reason codes
+- recovery/remediation summary: isolated proposals, independent commits, blocked narrative cues for operator re-presentation, and any unresolved governance-only diagnostics
 
 POST_VERIFICATION_PASS_TRACE_ENTRY:
 COT_NAME: STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
@@ -470,7 +478,7 @@ GENERATED_IMPULSES:
 - [NONE]
 PROPOSED_UPDATES_COUNT: 0
 NOTES:
-- post-verification validation summary and reason codes
+- post-verification validation summary, pending recovery reasons, bounded release outcome, and lawful reformation guidance
 
 === SECTION_BREAK ===
 
