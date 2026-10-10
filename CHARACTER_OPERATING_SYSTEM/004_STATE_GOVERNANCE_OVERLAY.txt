@@ -225,7 +225,7 @@ RESERVED_REMEDIATION:
 ENGAGEMENT:
 - COT_UPDATE_VERIFICATION proposes QUARANTINE_MODE TRUE only for a SYSTEMIC_QUALIFICATION_GATE-confirmed residual, non-isolatable violation in QUARANTINE_NEXT_CYCLE_VIOLATIONS.
 - STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS commits or suppresses the proposal.
-- A still-open QUARANTINE_REASON_CODES list after a completed recovery cycle denotes pending governance remediation even when QUARANTINE_MODE = FALSE; it does not itself halt the next scene.
+- A still-open QUARANTINE_REASON_CODES list with its bounded RECOVERY_DIRECTIVE after a completed recovery cycle denotes pending governance remediation even when QUARANTINE_MODE = FALSE; it does not itself halt the next scene.
 
 SCOPE_DECLARATION:
 - Exceptional quarantine is a one-full-following-cycle containment and remediation episode, not a punishment for every invalid proposal.
@@ -244,20 +244,20 @@ PRIMARY_RECOVERY_ADMISSION:
 BOUNDED_RELEASE:
 - No same-cycle clear: quarantine engaged at cycle A cannot be cleared during A.
 - After the full recovery cycle B (QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle), PRIORITY_17 emits a clear request regardless of PASS, WARN, or FAIL. PRIORITY_18 clears QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID.
-- A cleanly resolved cause clears QUARANTINE_REASON_CODES to [NONE]. An unresolved cause retains its bounded reason codes as a pending governance diagnostic and triggers operator-facing escalation outside the character voice.
+- A cleanly resolved cause clears QUARANTINE_REASON_CODES to [NONE] and RECOVERY_DIRECTIVE to NONE. An unresolved cause retains its bounded reason codes and bounded reformation directive as governance-only diagnostics and triggers operator-facing escalation outside the character voice.
 - While unresolved reason codes remain after bounded release, automatic re-engagement is prohibited; further bad proposals are isolated or suppressed by the ordinary writer. New systemic symptoms append to the bounded diagnostics rather than restarting an unchanged blanket hold.
 - Re-engagement requires the outstanding recovery case to be resolved/cleared first and a materially new, separately verified systemic event. This avoids repeated identical full-cycle stalls; it does not waive any validation.
 - A WARN not implicated in the original integrity failure cannot block bounded release.
 
 OPERATOR_RECOVERY:
-- A governance-only trace must include reason code(s), affected canonical targets when known, the violated law, lawful reformation instruction, and whether independent state updates remain admissible.
+- A governance-only trace and the bounded RECOVERY_DIRECTIVE snapshot must identify reason code(s), affected canonical targets when known, the violated law, lawful reformation instruction, and the evidence needed for release; the trace additionally states whether independent state updates remain admissible.
 - A corrected packet enters in a later ordinary cycle through standard proposal intake; the governance writer never invents an unrequested baseline repair.
-- If the substrate cannot expose a separate operator diagnostic, retain reason codes as the bounded inspectable signal and do not leak diagnostic text into the character's role-play output.
+- If the substrate cannot expose a separate operator diagnostic, retain the paired reason codes and capped RECOVERY_DIRECTIVE as the inspectable governance-only signal and do not leak diagnostic text into the character's role-play output.
 - Evidence of persistent global corruption may require external repair; continuity never overrides the safety of committed state.
 
 REASON_CODE_CAP:
 - QUARANTINE_REASON_CODES cap: 5 with FIFO eviction.
-- Under QUARANTINE_MODE FALSE, nonempty codes denote unresolved recovery review, not active quarantine; clear them on documented resolution or operator-confirmed review, not merely on WARN/PASS of an unrelated cycle.
+- Under QUARANTINE_MODE FALSE, nonempty codes with a nonempty RECOVERY_DIRECTIVE denote unresolved recovery review, not active quarantine; clear both on documented resolution or operator-confirmed review, not merely on WARN/PASS of an unrelated cycle.
 
 === SECTION_BREAK ===
 
