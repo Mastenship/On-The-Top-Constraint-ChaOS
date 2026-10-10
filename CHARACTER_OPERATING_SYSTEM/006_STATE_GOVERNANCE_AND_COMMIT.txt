@@ -113,6 +113,7 @@ STEP_00_QUARANTINE_GATE:
 
 STEP_01_PROPOSAL_INTAKE:
 - Read retained proposals from [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- Read up to three [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entries as bounded character-visible cue-reconsideration status, not old executable proposals.
 - Exclude later verifier proposals.
 - Initialize audit totals and outcome logs.
 - If no retained proposals: emit zero-change primary audit and continue to STEP_11.
@@ -185,6 +186,7 @@ STEP_10_LIMIT_AND_DOWNGRADE_EVALUATION:
 - Enforce CUMULATIVE_ORDINAL_RULE across all provisional ordinary movements, collapsing COUPLED_MOVEMENT_REGISTRY sets to one step each.
 - During bounded recovery, validate ordinary candidate independence and its linked/dependent field closure before admitting it; a candidate failing independence is suppressed with QUARANTINE_ACTIVE, not silently skipped.
 - Enforce MAX_ACTIVE_PREDICTIONS.
+- Reconsider at most one oldest evidence-supported deferred cue movement unit from a fresh current-cycle proposal under STATE_GOVERNANCE_OVERLAY.NARRATIVE_DEFERRAL_CONTINUITY.RECONSIDERATION_FAIRNESS. It may displace only lower-priority discretionary movement; never override hard safety, stronger contradictory evidence, or raise the two-step cap.
 - Apply override-proof results.
 - Downgrade only when nearest lawful bounded outcome is deterministic.
 - Otherwise suppress with STEP_LIMIT_EXCEEDED, OVERRIDE_PROOF_MISSING, BASELINE_REWRITE_NOT_JUSTIFIED, or DPF_PREDICTION_CAP_EXCEEDED.
@@ -196,8 +198,18 @@ STEP_10A_CROSS_FIELD_INVARIANT_EVALUATION:
 - For all other cross-field invariants, downgrade or suppress the lowest-precedence contributing candidates until projected state is lawful.
 - Suppress residual breach with IMMUNE_TERMINAL_STATE_CONFLICT or SCHEME_INVARIANT_VIOLATION as applicable.
 
+STEP_10B_DEFERRED_NARRATIVE_CUE_BOOKKEEPING:
+- After all projected-state validation, identify any fully lawful ordinal/qualitative candidate unit that receives SUPPRESSED or a zero-change DOWNGRADED outcome solely because the two-step cumulative cap was exhausted.
+- For each qualifying, materially consequential cue, STATE_GOVERNANCE_AND_COMMIT may use NARRATIVE_DEFERRAL_CAPTURE to add one SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE entry to [STATE_MEMORY][DEFERRED_NARRATIVE_CUES], capped at three entries.
+- Capture ORIGIN_CYCLE_ID, ORIGIN_PROPOSAL_ID, SOURCE_COT, a bounded character-resolvable event cue, a single canonical ordinal/qualitative target, original lawful operation and endpoint/directive, and coupled-set name if applicable. These are review hints, not executable packets.
+- Do not enqueue packets that failed any other gate, were already committed, were in fact rejected for incompatible evidence, or were suppressed for quarantine integrity; do not manufacture a memory or write the deferred target.
+- For every existing cue reviewed by its SOURCE_COT this cycle, record FIRST_RECONSIDERED_CYCLE and increment RECONSIDERATION_COUNT at most once this cycle. Close it with NARRATIVE_DEFERRAL_CLOSURE when a refreshed lawful proposal commits, the cue is no longer valid, the change is already realized, or a superseding concrete narrative outcome contradicts it.
+- An uncommitted but still valid cue stays queued. On two unsuccessful attempted cycles, stop identical auto-retries and surface governance-only operator re-presentation; preserve the capped cue.
+- If the three-entry cap is reached, do not evict pending cues, invent a fourth slot, or claim it persisted: audit escalation and request operator re-presentation of any additional capacity-deferred event.
+- All administrative capture, attempt-counter, and closure mutations are made by this sole writer with a DEFERRED_CUE_LOG entry. They are neither proposal OPERATION_TYPE nor ordinary ordinal movement, and cannot bypass any normal commit cap.
+
 STEP_11_PERSISTENT_COMMIT_AND_AUDIT:
-- Apply final lawful writes, including any INVARIANT_FORCED_CORRECTION.
+- Apply final lawful writes, including any INVARIANT_FORCED_CORRECTION; atomically apply STEP_10B authorized capped [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] bookkeeping with audit closure.
 - Write PRIMARY_PASS_AUDIT, including any proposal-level remediation, targeted dependency exclusions, and narrative cue references blocked during exceptional recovery.
 - Append STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS trace.
 
@@ -300,6 +312,12 @@ CAP:
 VETO:
 - Suppress lower-precedence conflicting or disallowed mutation.
 - Not lawful during POST_VERIFICATION_PASS.
+
+NARRATIVE_DEFERRAL_CAPTURE / NARRATIVE_DEFERRAL_CLOSURE:
+- Not proposal OPERATION_TYPE, and not a character COT write. Only governance bookkeeping at STEP_10B for otherwise lawful capacity-deferred movements.
+- A captured cue is not committed to its target field. A fresh proposal and full future-cycle validation are required for target mutation.
+- Updates to the three-slot [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] queue are separately audit-logged, do not use the ordinary two-step movement budget, and remain visible to the originating character COT only as processing cues.
+- Not lawful in POST_VERIFICATION_PASS.
 
 INVARIANT_FORCED_CORRECTION:
 - Not a proposal OPERATION_TYPE; a governance reconciliation action emitted only at STEP_10A on enumerated invariants.
@@ -424,6 +442,14 @@ VETO_LOG:
 - PROPOSAL_ID:
   REASON_CODE:
 
+DEFERRED_CUE_LOG:
+- ORIGIN_CYCLE_ID:
+  ORIGIN_PROPOSAL_ID:
+  SOURCE_COT:
+  TARGET_FIELD:
+  ACTION: CAPTURED | RECONSIDERED | CLOSED | ESCALATED
+  NOTES:
+
 FORCED_CORRECTION_LOG:
 - TARGET_FIELD:
   FROM_VALUE:
@@ -467,7 +493,7 @@ GENERATED_IMPULSES:
 PROPOSED_UPDATES_COUNT: 0
 NOTES:
 - validation summary and major reason codes
-- recovery/remediation summary: isolated proposals, independent commits, blocked narrative cues for operator re-presentation, and any unresolved governance-only diagnostics
+- recovery/remediation summary: isolated proposals, independent commits, deferred narrative cue capture/reconsideration/closure (or overflow escalation), blocked cues for operator re-presentation, and unresolved governance-only diagnostics
 
 POST_VERIFICATION_PASS_TRACE_ENTRY:
 COT_NAME: STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
