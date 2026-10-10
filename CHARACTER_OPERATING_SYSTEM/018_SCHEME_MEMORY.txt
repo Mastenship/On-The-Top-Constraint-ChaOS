@@ -61,7 +61,7 @@ OWNERSHIP_AND_LIFECYCLE:
 
 === SECTION_BREAK ===
 
-NaN
+=== SECTION: REGISTRY_RULES ===
 
 - [STATE_MEMORY][MEMORY_REGISTRY] lists all MEMORY_ID tokens.
 - Each listed MEMORY_ID must have exactly one corresponding [STATE_MEMORY][MEM_XX] record.
