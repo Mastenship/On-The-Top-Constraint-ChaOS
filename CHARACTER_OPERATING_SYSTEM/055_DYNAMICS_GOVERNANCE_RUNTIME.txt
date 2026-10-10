@@ -61,6 +61,12 @@ ON_VERIFIED_UNISOLATABLE_FAILURE:
     PROPOSED_VALUE: concrete governance-only instruction (max 240 characters) identifying reason code, affected target or UNKNOWN, lawful correction, and release evidence
     JUSTIFICATION: capped reformation reminder tied to pending reason codes
 
+ON_NEW_SYSTEMIC_SIGNAL_DURING_PENDING_REVIEW:
+- If QUARANTINE_MODE is FALSE but QUARANTINE_REASON_CODES remains nonempty, do not set QUARANTINE_MODE TRUE.
+- PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] to the cap-5 FIFO list including the new verified systemic reason code if materially distinct.
+- PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] to the updated <=240-character instruction describing the active unresolved root or combined affected scope, lawful next response, and release evidence.
+- Both SET proposals are an atomic review-snapshot update; unresolved cases do not create an unbounded journal.
+
 NON_REENGAGEMENT_RULE:
 - If QUARANTINE_MODE is TRUE, do not re-engage or overwrite QUARANTINE_ENGAGED_CYCLE_ID.
 - If QUARANTINE_MODE is FALSE with outstanding QUARANTINE_REASON_CODES, do not automatically re-engage while the existing recovery case awaits resolution or operator review.
