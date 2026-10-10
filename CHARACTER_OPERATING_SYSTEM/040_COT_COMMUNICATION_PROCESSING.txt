@@ -69,6 +69,7 @@ REQUIREMENTS:
 - If CONFLICT_FLAG = TRUE, output may show hesitation but must not perform incompatible actions.
 - Output must not add an unselected action.
 - PRE_REALIZATION_CONGRUENCE_SELF_CHECK gates output before emission.
+- Narrative continuity is mandatory even during governance recovery: realize the selected lawful action or PASSIVE_OBSERVATION fallback, without waiting for primary commit, fabricating external outcomes, or revealing governance/quarantine internals. This is an authoring-time rule; this COT must not read STATE_GOVERNANCE_RUNTIME.
 
 PASSIVE_OBSERVATION_FALLBACK:
 - Observe without action.
