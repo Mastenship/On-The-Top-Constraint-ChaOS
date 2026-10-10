@@ -44,27 +44,31 @@ LIFT_HOOK_STATUS: ENUM [EXTERNAL_GOVERNANCE_INACTIVE, EXTERNAL_GOVERNANCE_ACTIVE
 === SECTION: FIELD_LIFECYCLE_INVARIANTS ===
 
 LAST_COMMIT_CYCLE_ID:
-- Overwritten on every commit.
+- Overwritten on every completed verification commit, including PASS, WARN, and FAIL.
 - Never accumulates.
 
 LAST_VERIFICATION_RESULT:
 - Overwritten on every verification pass.
-- Default value is PENDING before first verification of the current cycle.
+- Initial value PENDING; subsequently retains the most recently completed verification result until overwritten.
 - Lawful values: PASS, WARN, FAIL, PENDING.
 
 QUARANTINE_MODE:
-- Set TRUE by STATE_GOVERNANCE_AND_COMMIT when REMEDIATION_POLICY raises QUARANTINE_NEXT_CYCLE for a VIOLATION-class outcome.
-- Cleared (set FALSE) by STATE_GOVERNANCE_AND_COMMIT when verification passes clean (LAST_VERIFICATION_RESULT = PASS).
-- Cleared also when the verification failure root cause is structurally resolved by a GOVERNANCE_CORRECTIVE proposal in the same cycle as remediation.
+- Set TRUE only by STATE_GOVERNANCE_AND_COMMIT on verifier-qualified residual, non-isolatable systemic failure per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE.
+- Never engaged by a lone rejected ordinary proposal or an unrelated warning.
+- Cleared after one full following recovery cycle, regardless of PASS/WARN/FAIL outcome; never in the engagement cycle.
+- FALSE with nonempty QUARANTINE_REASON_CODES is lawful and indicates pending unresolved recovery review, not a continuing global commitment hold.
 
 QUARANTINE_ENGAGED_CYCLE_ID:
 - Set when QUARANTINE_MODE transitions FALSE to TRUE.
-- Cleared when QUARANTINE_MODE clears.
+- Never overwritten during an active recovery episode.
+- Cleared to NONE when QUARANTINE_MODE clears.
 
 QUARANTINE_REASON_CODES:
-- Appended on each VIOLATION-class outcome contributing to current quarantine.
-- Capped at 5 entries; FIFO eviction discards the oldest entry on overflow.
-- Fully cleared when QUARANTINE_MODE clears.
+- Holds bounded reason codes for the current exceptional recovery episode or still-open post-release review, not historical cycles.
+- Append only qualified new systemic reason codes; capped at 5 entries with FIFO eviction.
+- Cleared to [NONE] only when the specific unresolved cause is verified resolved or explicitly resolved by governance-authorized operator review.
+- May remain nonempty after QUARANTINE_MODE becomes FALSE; no automatic re-engagement while pending review remains.
+- A generic PASS or unrelated WARN does not by itself clear the list.
 
 LIFT_HOOK_STATUS:
 - Default value is EXTERNAL_GOVERNANCE_INACTIVE.
@@ -86,6 +90,8 @@ LIFT_HOOK_STATUS:
 - All writes occur via STATE_GOVERNANCE_AND_COMMIT only.
 - No character-cognition COT (priorities 01 through 15) may read this module. Read attempts surface as READ_BOUNDARY_VIOLATION.
 - QUARANTINE_REASON_CODES MUST NOT exceed cap of 5 entries.
+- QUARANTINE_MODE TRUE cannot persist past its one full following recovery cycle; same-cycle clear is forbidden.
+- QUARANTINE_MODE FALSE and nonempty QUARANTINE_REASON_CODES is a lawful pending-review snapshot and does not block independently lawful ordinary commits.
 - LIFT_HOOK_STATUS transitions are RESERVED on the current substrate per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; transition attempts on the current substrate are suppressed with LIFT_HOOK_NOT_ACTIVE.
 - All field clear conditions defined above must be honored on every cycle.
 - Field set is closed; additions require constitutional update.
