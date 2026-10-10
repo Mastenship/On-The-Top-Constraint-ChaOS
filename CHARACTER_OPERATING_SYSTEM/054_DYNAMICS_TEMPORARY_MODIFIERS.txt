@@ -225,7 +225,7 @@ SUB_CODE_REMEDIATION_INHERITANCE:
 - Reserved modifier types have no lawful family until constitutional update.
 - Refresh/replacement prefer in-place mutation when lawful.
 - Removal and expiry clear obsolete active modifiers.
-- Modifier lifecycle sub-codes inherit umbrella quarantine class.
+- Modifier lifecycle sub-codes inherit umbrella FAIL classification; only proven residual systemic corruption qualifies for exceptional global quarantine.
 - Modifiers must not bypass canonical state governance.
 
 === SECTION_BREAK ===
