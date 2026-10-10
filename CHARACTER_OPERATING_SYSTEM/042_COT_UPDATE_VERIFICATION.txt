@@ -84,7 +84,7 @@ FORBIDDEN_WRITES:
 
 15) MODIFIER_LIFECYCLE
 - Verify active-overlay model, in-place refresh/replacement, lawful coexistence, expiry/removal clearance, registry coherence, and no covert baseline rewrite.
-- A modifier FAIL surfaces as MODIFIER_LIFECYCLE_VIOLATION or a specific DYNAMICS_TEMPORARY_MODIFIERS sub-code; per STATE_GOVERNANCE_OVERLAY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP every such sub-code inherits the umbrella's QUARANTINE_NEXT_CYCLE class for dominant-violation classification.
+- A modifier FAIL surfaces as MODIFIER_LIFECYCLE_VIOLATION or a specific DYNAMICS_TEMPORARY_MODIFIERS sub-code. Sub-codes inherit umbrella FAIL classification, but only demonstrated residual systemic corruption can trigger exceptional quarantine.
 
 16) INSTANTIATION_COMPLETENESS
 - On first non-instantiation cycle after instantiation, verify required SCHEME baselines and STATE seeds are populated; skip otherwise unless re-instantiation invoked.
@@ -107,7 +107,7 @@ CHECKLIST_REASON_CODE_MAP:
 - 12: COT_TRACE_MISSING (WARN) or POST_VERIFICATION_TRACE_MISSING (WARN)
 - 13: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
 - 14: OUTPUT_INCONGRUENCE (WARN)
-- 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL); sub-codes inherit MODIFIER_LIFECYCLE_VIOLATION quarantine class
+- 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL); global containment requires separate systemic qualification
 - 16: INSTANTIATION_INCOMPLETE (FAIL)
 - 17: COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
 
@@ -118,16 +118,19 @@ CONSUMED_BASIS_ENFORCEMENT_NOTE:
 
 === SECTION: REMEDIATION_PROPOSAL_GENERATION ===
 
-[[LLM_INSTRUCTION]]: Classify outcome and append governance-runtime SET proposals. Post-verification commit resolves them same-cycle.
+[[LLM_INSTRUCTION]]: Classify outcome and append governance-runtime SET proposals. PRIORITY_18 resolves them same-cycle. Apply STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT.
 
 CYCLE_OUTCOME_CLASSIFICATION:
-- PASS: zero violations and zero warnings
-- WARN: zero violations and one or more warnings
-- FAIL: one or more violations
+- PASS: zero violations and zero warnings.
+- WARN: zero violations and one or more warnings.
+- FAIL: one or more violations. FAIL alone does not entail exceptional global containment.
+- A rejected or downgraded invalid proposal with closed provenance is locally contained, not evidence of corrupt committed state.
 
-DOMINANT_VIOLATION_RULE:
-- The dominant violation is the highest-severity FAIL-class reason code present.
-- For modifier lifecycle sub-codes, classify quarantine eligibility via the MODIFIER_LIFECYCLE_SUBCODE_ROLLUP so a dominant modifier sub-code engages QUARANTINE_NEXT_CYCLE exactly as MODIFIER_LIFECYCLE_VIOLATION.
+SYSTEMIC_QUALIFICATION:
+- Check each residual FAIL against STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE.
+- Exceptional quarantine requires a listed QUARANTINE_NEXT_CYCLE_VIOLATIONS code and proven non-isolatable committed-integrity or audit-lineage impact.
+- Neither dominant-code rank, a blocked modifier attempt, nor an unrelated WARN suffices.
+- QUARANTINE_MODE TRUE or unresolved QUARANTINE_REASON_CODES means the current recovery episode must not be automatically restarted.
 
 SHARED_PROPOSAL_FIELDS:
 - SOURCE_COT: COT_UPDATE_VERIFICATION
@@ -149,25 +152,32 @@ ON_PASS:
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
 - SCHEME_INVARIANT_NOTE: SCHEME_GOVERNANCE_RUNTIME overwrite-on-verification
 
-ON_PASS_WHILE_QUARANTINE_ACTIVE:
-- Emit ON_PASS proposals plus DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR proposals.
-- QUARANTINE_CLEAR proposals are subject to DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
-- NARRATIVE_CUE_REFERENCE: VERIFICATION_PASS_CLEAN
-- SCHEME_INVARIANT_NOTE: quarantine clear conditions satisfied
-
 ON_WARN:
 - SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = WARN
-- Do not engage quarantine.
+- Do not engage new exceptional containment.
 - NARRATIVE_CUE_REFERENCE: VERIFICATION_WARNINGS_PRESENT
 - SCHEME_INVARIANT_NOTE: warning recorded without quarantine
 
 ON_FAIL:
 - SET [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT] = FAIL
-- If dominant violation maps to QUARANTINE_NEXT_CYCLE (including rolled-up modifier sub-codes), emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
-- If remediation is WARN_AND_PROCEED, emit no quarantine or rollback action; retain the LAST_VERIFICATION_RESULT and unconditional LAST_COMMIT_CYCLE_ID proposals.
-- If remediation is ROLLBACK, suppress rollback with ROLLBACK_NOT_ACTIVE and use WARN_AND_PROCEED behavior.
-- NARRATIVE_CUE_REFERENCE: dominant violation reason code
-- SCHEME_INVARIANT_NOTE: violation remediation policy applied
+- Preserve closed suppression/downgrade of offending proposals and independent lawful committed changes.
+- On newly qualified systemic failure only, with no open recovery case: emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_ENGAGEMENT proposals.
+- Otherwise record governance-only corrective reminder: reason, affected canonical target/dependencies, lawful packet form, and safe re-proposal gate.
+- ROLLBACK remains reserved; suppress it with ROLLBACK_NOT_ACTIVE, without committing unsafe repairs.
+- NARRATIVE_CUE_REFERENCE: relevant violation reason code
+- SCHEME_INVARIANT_NOTE: restorative governance qualification and suppression checked
+
+ON_RECOVERY_CYCLE_CLOSE:
+- If QUARANTINE_MODE is TRUE and QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle, emit DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.ON_BOUNDED_RECOVERY_CYCLE_COMPLETE proposals regardless of PASS, WARN, or FAIL.
+- Clear QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID. Clear QUARANTINE_REASON_CODES only when the original root cause is demonstrated resolved; otherwise retain capped codes for pending operator review.
+- If engagement occurred in current cycle, SAME_CYCLE_GUARD forbids the clear.
+- Unrelated warnings and unavailable prior-cycle trace evidence cannot prolong blanket containment.
+
+ON_PENDING_RECOVERY_REVIEW:
+- QUARANTINE_MODE FALSE with nonempty QUARANTINE_REASON_CODES indicates unresolved governance review, not global quarantine.
+- Continue ordinary rigorous validation, suppress unsafe proposals, and preserve independent lawful changes.
+- Clear pending codes only on verified root-cause correction or explicit governance-authorized operator review, not an unrelated PASS.
+- Do not automatically re-engage the same recovery episode.
 
 === SECTION_BREAK ===
 
@@ -181,6 +191,10 @@ KEY_OUTPUTS:
 - WARNINGS_COUNT
 - QUARANTINE_PROPOSED: TRUE | FALSE
 - QUARANTINE_CLEAR_PROPOSED: TRUE | FALSE
+- RECOVERY_EPISODE_STATUS: NONE | ACTIVE | PENDING_REVIEW | RESOLVED
+- SYSTEMIC_QUALIFICATION: YES | NO
+- INDEPENDENT_LAWFUL_COMMITS_PRESERVED: YES | NO
+- GOVERNANCE_ONLY_REMEDIATION_SUMMARY
 - PRIOR_POST_VERIFICATION_TRACE_PRESENT: TRUE | FALSE | SKIPPED
 - POST_VERIFICATION_PASS_REQUIRED: TRUE
 GENERATED_IMPULSES:
