@@ -30,6 +30,27 @@ DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 
 === SECTION_BREAK ===
 
+=== SECTION: ALTERATION_LIFECYCLE_EXECUTION ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION and PSYCHOLOGICAL_REJECTION. No other character-cognition COT owns ALT_XX.STATUS mutation.
+
+ON_STATUS_CUE:
+- Resolve one explicit STATUS endpoint per SCHEME_ALTERATIONS: ACTIVE, DORMANT, REJECTED, INACTIVE, or REMOVED.
+- Apply DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION and PSYCHOLOGICAL_REJECTION evidence gates.
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+  PROPOSED_VALUE: one cue-supported lawful categorical endpoint
+  MECHANISM_TAG: ALTERATION_ACTIVATION_OR_FAILURE
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: explicit activation, deactivation, removal, or psychological rejection cue
+- Do not infer removal from temporary inhibition, or REJECTED from mere inconvenience.
+- When cascade effects depend on a proposed status transition in this cycle, bind them to the same ALT_XX and evaluate against its projected lawful status. If the status SET is suppressed, its dependent activation/deactivation cascade proposals must not commit as if it succeeded.
+- On removal or dormancy, apply DYNAMICS_ALTERATIONS.CASCADE_TRIGGER reversal evaluation: expire attributable overlays, and propose only independently cue-supported bounded physiological reversal; do not erase permanent past records or memories.
+- Existing ACTIVE alterations may still produce lawful ongoing effects without proposing a duplicate status change.
+
+=== SECTION_BREAK ===
+
 === SECTION: PHYSIOLOGICAL_PROPAGATION ===
 
 ON_INJURY_OR_ILLNESS_TYPE:
