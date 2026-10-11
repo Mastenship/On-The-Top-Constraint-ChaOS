@@ -457,6 +457,51 @@ Any OTTC machine that depends on a stochastic semantic generator must answer:
 Therefore the maturation doctrine is not domain-specific ornament.
 It is a general engineering and governance principle for language-native constitutional systems.
 
+=== SECTION: REMEDIATION_REACHABILITY_ACROSS_STAGES ===
+
+[KEEP: Safety, lawful continuity, and domain-owned recovery]
+
+A governance architecture may successfully prohibit unlawful mutation while also preventing every lawful route to further operation. This is a containment deadlock: the boundary preserves its prohibitions, but the architecture has failed to specify a reachable, authorized disposition of the exceptional state.
+
+This failure becomes more consequential during stage maturation. In Stage 1, an LLM or human operator may informally compensate for an underspecified recovery path. Such compensation is not evidence that the architecture contains a lawful recovery mechanism. At Stage 3, deterministic enforcement will apply the specified restriction without inventing an exception. An unresolved ambiguity can therefore become an indefinitely enforced deadlock.
+
+The general maturation obligation is REMEDIATION_REACHABILITY: every exceptional containment state must have a defined, domain-authorized route to lawful disposition.
+
+Lawful disposition does not necessarily mean restoration of ordinary operation. Depending on domain, severity, evidence, and governing authority, it may mean verified repair and resumption, continued operation on independently safe surfaces, authorized human review, controlled suspension pending evidence, or accountable termination of the affected process.
+
+[[LLM_INSTRUCTION]]: Treat REMEDIATION_REACHABILITY as stage-maturation and domain-architecture guidance. It does not add an OTTC kernel invariant, prescribe one universal quarantine policy, or authorize automatic release from unresolved integrity failures.
+
+REQUIRED_RECOVERY_CONTRACT:
+- CONTAINMENT_SCOPE: Identify the compromised state surfaces, affected dependencies, and conditions that justify exceptional containment.
+- INDEPENDENT_PROGRESS: Specify whether unrelated lawful transitions can remain admissible. Do not impose global suppression when the affected integrity can be safely isolated.
+- LAWFUL_DISPOSITION: Define the domain-permitted routes to repair, partial operation, escalation, continued safe hold, or termination.
+- AUTHORITY: Identify who or what may initiate, approve, perform, and confirm each recovery action. Human intervention is subject to the domain's actual authority and accountability requirements.
+- RELEASE_EVIDENCE: Define what evidence permits containment to be lifted. Ending a temporary containment interval does not establish that the underlying fault has been resolved.
+- AUDIT_AND_VERIFICATION: Preserve the triggering reasons, authorized recovery actions, evidence, resulting state, and verification outcome. Recovery must not create an unrecorded mutation.
+- GOVERNOR_FAILURE: If the ordinary commit machinery is itself untrustworthy or unavailable, use a separately authorized and auditable recovery procedure. Do not require repair through a mechanism whose integrity cannot be established, and do not permit an ungoverned bypass.
+- UNRESOLVED_CASE: When safe repair or resumption cannot be justified, preserve the appropriate safe state and expose an accountable route for review or escalation. Do not convert lack of evidence into automatic permission.
+
+STAGE_1:
+- Discover the domain's actual containment and recovery requirements.
+- Identify where the human operator is silently supplying missing recovery judgment.
+- Test scenarios in which ordinary proposals are blocked but independently lawful progress should remain possible.
+
+STAGE_2:
+- Translate recovery conditions, affected dependencies, authority roles, and disposition records into explicit machine-legible procedures.
+- Test the interaction between semantic recovery instructions and external validation.
+- Retest recovery when authority placement, artifact shape, or enforcement behavior changes.
+
+STAGE_3:
+- Verify that every implemented containment state has a defined, authorized disposition route under stated assumptions.
+- Test blocked repair, repeated failure, unavailable authority, compromised commit machinery, and unresolved external effects.
+- Preserve safe suspension when no lawful resumption condition is satisfied.
+- Never substitute elapsed time, operator convenience, or a generic PASS result for required evidence of structural repair.
+
+DOMAIN_BOUNDARY:
+- ChaOS may use bounded exceptional containment and continued narrative participation because those choices follow from its character-continuity requirements and Dungeon Master authority.
+- Other domains may require indefinite safe suspension, multiple independent approvals, external repair, or permanent termination.
+- OTTC requires the recovery boundary to remain explicit, lawful, and accountable. The domain's square determines which dispositions are legitimate.
+
 === SECTION_BREAK ===
 
 === SECTION: PRACTICAL_OPERATOR_RULES ===
@@ -492,6 +537,14 @@ As stakes rise, externalize:
 RULE_7:
 Preserve the constitutional language across migration.
 Do not let software erase the semantic distinctions that made governance possible.
+
+RULE_8:
+Preserve remediation reachability across stage maturation.
+- Before externalizing or changing a containment mechanism, identify its domain-authorized routes to repair, partial lawful operation, accountable escalation, safe suspension, or termination.
+- Test those routes under failure conditions, not merely the system's ability to reject invalid proposals.
+- Do not replace a missing recovery procedure with an automatic fail-open, an ungoverned human bypass, or an unsupported declaration that the fault is resolved.
+- A domain may legitimately forbid resumption until required evidence or approval exists. Such a hold must remain explicit and accountable, not disappear into silent architectural deadlock.
+- Apply REMEDIATION_REACHABILITY_ACROSS_STAGES.
 
 === SECTION_BREAK ===
 
