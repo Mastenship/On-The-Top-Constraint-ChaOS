@@ -609,6 +609,7 @@ CHECKLIST:
 - Is local repetition serving attention engineering?
 - Are psychological or physiological priors being preserved?
 - Are all ten OTTC kernel invariants preserved (nine the governability floor; the tenth, epistemic-status typing, where the architecture carries it)?
+- If this edit changes quarantine, remediation, verification, or commit authority, does it preserve a domain-authorized and auditable route to lawful disposition of containment, without introducing an unsafe release or an ungoverned repair bypass?
 - Does this require human decision?
 - Is full replacement actually warranted?
 
