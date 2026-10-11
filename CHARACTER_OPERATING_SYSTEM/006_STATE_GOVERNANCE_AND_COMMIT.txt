@@ -135,6 +135,7 @@ STEP_04_SCHEME_AND_OPERATION_VALIDATION:
 - Validate operation vocabulary, enum legality, ordinal ladder legality, transition-directive binding, record schema, single-proposal invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
 - Ordinal step legality evaluates against the field's declared ladder per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
 - PERCEPTUAL_SNAPSHOT categorical fields are exempt from one-step limits.
+- Validate alteration record payloads and field SETs under SCHEME_ALTERATIONS and CANONICAL_TOKEN_DICTIONARY.ALTERATION_FIELD_ROLE_CONTRACT; reject legacy STATUS = REJECTED with INVALID_ENUM_VALUE and missing required stance with SCHEME_INVARIANT_VIOLATION. Do not silently migrate or synthesize companion writes.
 - Suppress with OPERATION_TYPE_INVALID, INVALID_ENUM_VALUE, INVALID_ORDINAL_TRANSITION, REGISTRY_RECORD_PAIR_VIOLATION, SCHEME_INVARIANT_VIOLATION, SCHEME_IMMUTABLE_BASELINE_WRITE, MODIFIER_SCHEMA_VIOLATION, LINKAGE_REFERENCE_VIOLATION, or IMMUNE_TERMINAL_STATE_CONFLICT.
 
 IMMUTABLE_BASELINE_WRITE_RULE:
@@ -178,9 +179,10 @@ STEP_08_OVERRIDE_PROOF_VALIDATION:
 
 STEP_09_CONFLICT_RECONCILIATION:
 - Group by effective target.
-- When a new ENT_XX, SKL_XX, GOAL_XX, MEM_XX, or PRD_XX creation SET pair is referenced by other same-cycle packets, resolve provisional IDs only against the projected successful linked creation unit. Dependents referencing a failed or suppressed creation cannot commit with an orphaned ID; suppress or deterministically downgrade them if their remaining linkage still satisfies SCHEME.
+- When a new ENT_XX, SKL_XX, GOAL_XX, MEM_XX, PRD_XX, or ALT_XX creation SET pair is referenced by other same-cycle packets, resolve provisional IDs only against the projected successful linked creation unit. Dependents referencing a failed or suppressed creation cannot commit with an orphaned ID; suppress or deterministically downgrade them if their remaining linkage still satisfies SCHEME.
 - A canonical provisional ID is not permission to reference a record that will not exist after commit. Preserve atomic registry-record pair behavior and record dependency closures in audit.
-- Similarly, alteration cascade effects whose sole supporting cause is a proposed same-cycle ALT_XX.STATUS change form dependent candidates: if the STATUS change is suppressed, its dependent cascade candidate cannot commit as though the change occurred. Independent ongoing ACTIVE effects remain eligible.
+- Reconcile alteration operational and psychological candidates independently per STATE_GOVERNANCE_OVERLAY.ALTERATION_FIELD_INDEPENDENCE. Use source ALT_XX, canonical support paths, and proposal lineage in NOTES; missing or unresolved source linkage is LINKAGE_REFERENCE_VIOLATION.
+- A cascade whose sole cause is a proposed STATUS, stance, or awareness change cannot commit as though a suppressed change occurred. Independent ongoing ACTIVE effects and independently supported rejection stress remain eligible; a rejected psychological proposal never vetoes the functioning alteration.
 - Apply STATE_GOVERNANCE_OVERLAY.CONFLICT_RESOLUTION_POLICY.
 - Produce provisional candidate actions.
 
@@ -199,6 +201,7 @@ STEP_10A_CROSS_FIELD_INVARIANT_EVALUATION:
 - Project committed state from surviving candidate actions.
 - Revalidate same-cycle cross-record references against that projected state; resolve all provisional entity/skill/goal/memory/prediction/alteration IDs from surviving creation units before commit. Suppress orphaned dependent writes with LINKAGE_REFERENCE_VIOLATION and retain independent lawful units.
 - Evaluate STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING invariants against the projected state.
+- Recheck alteration cascade creation, refresh, and removal against surviving source fields after all suppression/downgrade decisions. Preserve atomic creation pairs and independent candidates; audit source/dependent outcomes without inferring a change to another alteration field.
 - For the immune/terminal invariant, apply IMMUNE_TERMINAL_STATE_RECONCILIATION: emit an INVARIANT_FORCED_CORRECTION moving IMMUNE_MARKERS one band off ROBUST toward NORMAL, and preserve the contributing terminal-state transitions. Record the correction with reason INVARIANT_FORCED_CORRECTION_APPLIED.
 - For all other cross-field invariants, downgrade or suppress the lowest-precedence contributing candidates until projected state is lawful.
 - Suppress residual breach with IMMUNE_TERMINAL_STATE_CONFLICT or SCHEME_INVARIANT_VIOLATION as applicable.

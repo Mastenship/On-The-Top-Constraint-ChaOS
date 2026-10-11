@@ -181,6 +181,27 @@ RECORD_ROOT_TOKENS:
 
 === SECTION_BREAK ===
 
+=== SECTION: ALTERATION_FIELD_ROLE_CONTRACT ===
+
+OPERATIONAL_STATUS:
+- Canonical target: [STATE_ALTERATIONS][ALT_XX][STATUS]
+- Governs objective operation and functional-effect eligibility.
+
+PSYCHOLOGICAL_STANCE:
+- Canonical target: [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][PSYCHOLOGICAL_STANCE]
+- Governs subjective attitude and psychological-effect eligibility.
+
+AWARENESS_STATUS:
+- Canonical target: [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][AWARENESS_STATUS]
+- Governs awareness, not objective operation.
+
+FIELD_AUTHORITY:
+- All three fields are categorical; lawful enum values are owned solely by SCHEME_ALTERATIONS. Updates use SET to explicit lawful endpoints.
+- These paths are not aliases. Rejection or denial cannot substitute for operational deactivation, and operational activity cannot substitute for acceptance.
+- Legacy STATUS = REJECTED is not a lawful operational endpoint. Validate record payloads and nested-field proposals against the owning SCHEME.
+
+=== SECTION_BREAK ===
+
 === SECTION: EMPTY_VALUE_FORMS ===
 
 EMPTY_FIELD:

@@ -51,6 +51,8 @@ FORBIDDEN_WRITES:
 
 06) INVARIANTS_CAPS_AND_CROSS_FIELD
 - Verify single-proposal SCHEME invariants, immutable-baseline write prohibition, skill INSTINCT_MASTERY_COUPLING and GROWTH_POTENTIAL ceiling, memory linkage/caps, modifier schema/lifecycle, registry-record coherence, DPF cap, prediction gate, goal gate, permanent skill mutation support, and cross-field invariants against projected committed state per STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.
+- Verify complete alteration records include independent STATUS, AWARENESS_STATUS, and PSYCHOLOGICAL_STANCE values from SCHEME_ALTERATIONS; no legacy STATUS = REJECTED or inferred companion writes. Confirm ACTIVE functional effects remain eligible under rejection/denial and rejection stress is not gated solely by operational status.
+- Verify source ALT_XX and field/proposal dependencies for creation, refresh, and removal: failed creation leaves neither registry/record orphans nor dependent effects; suppressed stance changes preserve independent operational effects; suppressed STATUS changes preserve independent psychological effects. Incorrect cross-suppression is SCHEME_INVARIANT_VIOLATION; orphaned sources are LINKAGE_REFERENCE_VIOLATION.
 - For the immune/terminal invariant, verify resolution followed IMMUNE_TERMINAL_STATE_RECONCILIATION: contributing terminal-state transitions were preserved and IMMUNE_MARKERS was force-corrected one band off ROBUST. A reconciliation that instead suppressed terminal-state transitions to protect ROBUST is itself a SCHEME_INVARIANT_VIOLATION.
 - For PERSISTENT_EVIDENCE_ACCUMULATION shifts on a belief field, verify the cited EVIDENCE_REF includes at least one MEM_XX outside every consumed basis for that field per DYNAMICS_BELIEF_SYSTEMS.CONSUMED_BASIS_DEFINITION. A shift re-citing an already-consumed basis without fresh accumulation is SCHEME_INVARIANT_VIOLATION. In-loop this sub-check is advisory under STATE_COMMIT_AUDIT volatility per CONSUMED_BASIS_RETENTION_NOTE; under external EVIDENCE_REF retention it is a hard FAIL.
 
@@ -86,6 +88,7 @@ FORBIDDEN_WRITES:
 
 15) MODIFIER_LIFECYCLE
 - Verify active-overlay model, in-place refresh/replacement, lawful coexistence, expiry/removal clearance, registry coherence, and no covert baseline rewrite.
+- Verify alteration functional overlays expire according to their source STATUS, while rejection-stress overlays follow their source stance, awareness, and stress cues. Mere rejection must not remove a functional overlay, and dormancy/removal alone must not erase independently supported psychological stress.
 - A modifier FAIL surfaces as MODIFIER_LIFECYCLE_VIOLATION or a specific DYNAMICS_TEMPORARY_MODIFIERS sub-code. Sub-codes inherit umbrella FAIL classification, but only demonstrated residual systemic corruption can trigger exceptional quarantine.
 
 16) INSTANTIATION_COMPLETENESS
@@ -108,7 +111,7 @@ CHECKLIST_REASON_CODE_MAP:
 - 03: INVALID_PATH_ROOT or INVALID_TARGET_FIELD or REGISTRY_RECORD_PAIR_VIOLATION (FAIL)
 - 04: INVALID_ENUM_VALUE or INVALID_ORDINAL_TRANSITION or STEP_LIMIT_EXCEEDED (FAIL)
 - 05: MALFORMED_PROPOSAL_SCHEMA or INVALID_ENUM_VALUE or LINKAGE_REFERENCE_VIOLATION or REGISTRY_RECORD_PAIR_VIOLATION or INSTANTIATION_INCOMPLETE (FAIL)
-- 06: SCHEME_INVARIANT_VIOLATION or SCHEME_IMMUTABLE_BASELINE_WRITE or REGISTRY_RECORD_PAIR_VIOLATION or MODIFIER_SCHEMA_VIOLATION or DPF_PREDICTION_CAP_EXCEEDED or IMMUNE_TERMINAL_STATE_CONFLICT (FAIL)
+- 06: SCHEME_INVARIANT_VIOLATION or SCHEME_IMMUTABLE_BASELINE_WRITE or REGISTRY_RECORD_PAIR_VIOLATION or MODIFIER_SCHEMA_VIOLATION or DPF_PREDICTION_CAP_EXCEEDED or IMMUNE_TERMINAL_STATE_CONFLICT or INVALID_ENUM_VALUE or LINKAGE_REFERENCE_VIOLATION (FAIL)
 - 07: COMMIT_ORPHANED (FAIL)
 - 08: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH or COMMITTED_FACT_WITHOUT_EVIDENCE or EVIDENCE_REF_UNRESOLVED (FAIL)
 - 09: OVERRIDE_PROOF_INCOMPLETE (FAIL)

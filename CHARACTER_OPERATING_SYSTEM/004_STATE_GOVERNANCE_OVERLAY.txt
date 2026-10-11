@@ -144,7 +144,15 @@ RULES:
   - SCHEME_BELIEF_SYSTEMS strong-strong contradiction marker requirement: SCHEME_INVARIANT_VIOLATION.
   - SCHEME_SKILLS INSTINCT_MASTERY_COUPLING: SCHEME_INVARIANT_VIOLATION.
   - SCHEME_SKILLS GROWTH_POTENTIAL ceiling (GROWTH_POTENTIAL must not remain HIGH when MASTERY_LEVEL is MASTER): SCHEME_INVARIANT_VIOLATION.
+  - SCHEME_ALTERATIONS operational/psychological field independence and cascade dependency closure: SCHEME_INVARIANT_VIOLATION.
 - A proposal set whose members each pass individually but jointly violate a cross-field invariant is resolved jointly: the lowest-precedence contributing proposals are downgraded or suppressed until the projected state is lawful, except where an INVARIANT_FORCED_CORRECTION is the designated resolution below.
+
+ALTERATION_FIELD_INDEPENDENCE:
+- Validate STATUS, PSYCHOLOGICAL_STANCE, and AWARENESS_STATUS independently under SCHEME_ALTERATIONS and CANONICAL_TOKEN_DICTIONARY.ALTERATION_FIELD_ROLE_CONTRACT.
+- A stance or awareness change cannot itself suppress lawful ACTIVE functional effects, expire their overlays, or authorize a STATUS change. A STATUS change cannot itself rewrite stance or terminate independently supported rejection stress.
+- Reconcile cascades against the surviving projected source fields: operational dependents follow STATUS; rejection-stress dependents follow stance, awareness, and DYNAMICS_ALTERATIONS cues.
+- Creation remains an atomic registry-record pair; failed ALT_XX creation suppresses all dependents. For an existing or successfully created record, a failed stance change does not suppress independent operational effects, and a failed STATUS change does not suppress independent psychological effects.
+- Apply ordinary validation, movement/modifier limits, and audit closure to each surviving candidate; categorical alteration SETs do not consume ordinal movement slots. No new forced correction or inferred companion write is authorized.
 
 IMMUNE_TERMINAL_STATE_RECONCILIATION:
 [[LLM_INSTRUCTION]]: This invariant is resolved by correcting the immune flag, not by blocking physiological decline.

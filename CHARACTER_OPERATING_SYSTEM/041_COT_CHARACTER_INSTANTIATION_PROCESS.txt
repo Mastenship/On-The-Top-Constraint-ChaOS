@@ -24,6 +24,7 @@ LAYER_02_BACKGROUND_AND_WORLD_NORMS:
 
 LAYER_03_PHYSIOLOGICAL_AND_TEMPORAL:
 - Body, health, chronotype.
+- Existing alterations: seed STATUS, CHARACTER_AWARENESS.AWARENESS_STATUS, and CHARACTER_AWARENESS.PSYCHOLOGICAL_STANCE independently under SCHEME_ALTERATIONS; a functioning pacemaker, curse, spell, cybernetic, drug, or disease may be psychologically rejected.
 
 LAYER_04_SKILLS_AND_ACQUISITION:
 - Competencies and growth profile.
@@ -71,6 +72,7 @@ COHERENCE_REPORT:
 REGISTRY_ENTRY_SET_PAIR:
 - Proposal A: SET registry append.
 - Proposal B: SET schema-valid record.
+- Alteration seeds include the complete SCHEME_ALTERATIONS record. Operational status follows established function; awareness follows character knowledge; stance follows established attitude or UNFORMED when none is established. Never seed STATUS = REJECTED or infer inactivity from rejection or denial.
 
 MUTABLE_STATE_BASELINE_SEEDS:
 - SET to canonical STATE_ path using COMMON_SEED_FIELDS.

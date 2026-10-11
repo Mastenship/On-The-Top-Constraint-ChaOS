@@ -1,13 +1,13 @@
 === SECTION: COT_ALTERATION_CASCADE_EFFECTS ===
 
 [KEEP: Purpose & Role]
-Propagates active or changed alterations through physiological, psychological, and skill systems.
+Propagates operational effects and independently supported psychological responses through physiological, psychological, and skill systems.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: STATE_BODY proposals, STATE_SKILLS proposals, STATE_TEMPORARY_MODIFIERS proposals.
-Is Informed By: STATE_ALTERATIONS, SCHEME_ALTERATIONS, DYNAMICS_ALTERATIONS, SCHEME_BODY, DYNAMICS_BODY, SCHEME_SKILLS.
+Is Informed By: STATE_ALTERATIONS, STATE_TEMPORARY_MODIFIERS, SCHEME_ALTERATIONS, DYNAMICS_ALTERATIONS, SCHEME_BODY, DYNAMICS_BODY, SCHEME_SKILLS, SCHEME_TEMPORARY_MODIFIERS, DYNAMICS_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 
@@ -21,9 +21,9 @@ Is Informed By: STATE_ALTERATIONS, SCHEME_ALTERATIONS, DYNAMICS_ALTERATIONS, SCH
 
 ANCHOR_CUES:
 - One or more ALT_XX records have STATUS = ACTIVE.
-- Alteration status changed this cycle.
+- Alteration operational status, psychological stance, or awareness has a change cue this cycle.
 - Narrative input establishes a newly acquired alteration or references alteration effect, reactivation, removal, rejection, or constraint change.
-- Active, rejected, or removed alteration requires downstream cascade/reversal evaluation.
+- An ACTIVE alteration, an aware REJECTING stance with stress cues, or an attributable alteration modifier requires cascade/expiry evaluation.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -38,38 +38,52 @@ ON_NEW_DURABLE_ALTERATION_CUE:
 - Run NEW_ALTERATION_GATE before proposing ALT_XX creation.
 - If it passes, PROPOSE SET pair:
   - TARGET_FIELD: [STATE_ALTERATIONS][ALTERATION_REGISTRY]; PROPOSED_VALUE: append one provisional ALT_XX
-  - TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX]; PROPOSED_VALUE: full SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA including alteration type, duration, evidence-based status, physical/ability/constraint details, and CHARACTER_AWARENESS.
+  - TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX]; PROPOSED_VALUE: full SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA including alteration type, duration, independent operational status, physical/ability/constraint details, and CHARACTER_AWARENESS with separate awareness and psychological stance.
 - MECHANISM_TAG: ALTERATION_ACTIVATION_OR_FAILURE; EPISTEMIC_TAG: INFERENCE; JUSTIFICATION_CATEGORY: DIRECT_APPLICATION.
 - If admission fails, prefer the appropriate BODY, SKILLS, or TEMPORARY_MODIFIERS mechanics; do not invent a persistent alteration record.
-- Any same-cycle cascade depending on the newly created ALT_XX is a linked unit with the projected lawful STATUS; governance suppresses dependent packets if creation fails.
+- Any same-cycle cascade depends on surviving ALT_XX creation and its specific projected supporting fields; failed creation suppresses all dependents, while a failed separate stance change does not invalidate a lawful creation pair.
 - Only the governance writer resolves the final ALT_XX identifier.
 
 === SECTION_BREAK ===
 
 === SECTION: ALTERATION_LIFECYCLE_EXECUTION ===
 
-[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION and PSYCHOLOGICAL_REJECTION. No other character-cognition COT owns ALT_XX.STATUS mutation.
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION, PSYCHOLOGICAL_STANCE, and PSYCHOLOGICAL_REJECTION. It is the runtime proposer for alteration status, stance, and awareness; instantiation seeding remains with COT_CHARACTER_INSTANTIATION_PROCESS. Never write persistent state directly.
 
 ON_STATUS_CUE:
-- Resolve one explicit STATUS endpoint per SCHEME_ALTERATIONS: ACTIVE, DORMANT, REJECTED, INACTIVE, or REMOVED.
-- Apply DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION and PSYCHOLOGICAL_REJECTION evidence gates.
+- Resolve one explicit operational STATUS endpoint from SCHEME_ALTERATIONS.
+- Apply DYNAMICS_ALTERATIONS.ACTIVATION_DEACTIVATION.OPERATIONAL_EVIDENCE_GATE.
 - PROPOSE SET:
   TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
   PROPOSED_VALUE: one cue-supported lawful categorical endpoint
   MECHANISM_TAG: ALTERATION_ACTIVATION_OR_FAILURE
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: explicit activation, deactivation, removal, or psychological rejection cue
-- Do not infer removal from temporary inhibition, or REJECTED from mere inconvenience.
+  JUSTIFICATION: explicit activation, deactivation, reactivation, or removal cue
+- Do not infer removal from temporary inhibition or operational inactivity from psychological rejection/denial.
 - When cascade effects depend on a proposed status transition in this cycle, bind them to the same ALT_XX and evaluate against its projected lawful status. If the status SET is suppressed, its dependent activation/deactivation cascade proposals must not commit as if it succeeded.
-- On removal or dormancy, apply DYNAMICS_ALTERATIONS.CASCADE_TRIGGER reversal evaluation: expire attributable overlays, and propose only independently cue-supported bounded physiological reversal; do not erase permanent past records or memories.
+- When STATUS ceases to be ACTIVE, evaluate removal of attributable functional overlays only. Physiological reversal needs independent recovery evidence; psychological stress follows its own supporting fields and cues.
 - Existing ACTIVE alterations may still produce lawful ongoing effects without proposing a duplicate status change.
+
+ON_STANCE_OR_AWARENESS_CUE:
+- Apply DYNAMICS_ALTERATIONS.PSYCHOLOGICAL_STANCE and PSYCHOLOGICAL_REJECTION gates.
+- Emit separate SET packets for supported changes to:
+  - [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][PSYCHOLOGICAL_STANCE]
+  - [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][AWARENESS_STATUS]
+- Each packet resolves one owning SCHEME enum endpoint, with MECHANISM_TAG: ALTERATION_PSYCHOLOGICAL_RESPONSE; EPISTEMIC_TAG: INFERENCE; JUSTIFICATION_CATEGORY: DIRECT_APPLICATION; JUSTIFICATION: explicit attitude or awareness cue.
+- Neither packet implies a STATUS change. If both operational and psychological changes have evidence, propose them separately with separate justifications.
+
+CASCADE_SOURCE_LINKAGE:
+- Record source ALT_XX, supporting canonical field paths, and any provisional source PROPOSAL_IDs in NOTES for every cascade packet, including refresh/removal. Name the concrete source and field conditions in modifier JUSTIFICATION and EXPIRY_CONDITION; keep TARGET_ID empty for DOMAIN_GLOBAL modifiers under SCHEME_TEMPORARY_MODIFIERS.
+- Dependents of suppressed source changes cannot commit as if those changes succeeded; independently supported effects remain eligible under the surviving committed fields.
+- Apply REMOVE_MODIFIER proposals to concrete attributable MOD_XX records per DYNAMICS_TEMPORARY_MODIFIERS; do not blanket-remove alteration effects or erase persistent consequences.
 
 === SECTION_BREAK ===
 
 === SECTION: PHYSIOLOGICAL_PROPAGATION ===
 
 ON_INJURY_OR_ILLNESS_TYPE:
+- Require operational eligibility from DYNAMICS_ALTERATIONS.CASCADE_EFFECT_CLASS_INFERENCE, irrespective of stance or awareness.
 - Apply DYNAMICS_BODY.STRESS_INJURY_ILLNESS and SCHEME_BODY.PHYSIOLOGICAL_HEALTH ordinal law before writing.
 - Only when an active alteration's injury/illness class actually supports deterioration:
   - If IMMUNE_MARKERS is ROBUST: PROPOSE TRANSITION ONE_STEP_UP to NORMAL.
@@ -89,6 +103,7 @@ ON_INJURY_OR_ILLNESS_TYPE:
 - This is distinct from governance's IMMUNE_TERMINAL_STATE_RECONCILIATION one-band forced correction.
 
 ON_ENHANCEMENT_TYPE:
+- Require STATUS = ACTIVE; psychological rejection or denial does not inhibit the enhancement.
 - PROPOSE ADD_MODIFIER:
   TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
   PROPOSED_VALUE:
@@ -99,7 +114,7 @@ ON_ENHANCEMENT_TYPE:
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: alteration deactivates or is removed
+    EXPIRY_CONDITION: named source ALT_XX STATUS is no longer ACTIVE
   STRENGTH: MODERATE
   MECHANISM_TAG: ALTERATION_ENHANCEMENT_OVERLAY
   EPISTEMIC_TAG: INFERENCE
@@ -107,6 +122,7 @@ ON_ENHANCEMENT_TYPE:
   JUSTIFICATION: active enhancement effect
 
 ON_DEBILITATING_TYPE:
+- Require STATUS = ACTIVE; psychological rejection or denial does not inhibit the constraint.
 - PROPOSE ADD_MODIFIER:
   TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
   PROPOSED_VALUE:
@@ -117,7 +133,7 @@ ON_DEBILITATING_TYPE:
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: UNTIL_CONDITION
-    EXPIRY_CONDITION: alteration deactivates or is removed
+    EXPIRY_CONDITION: named source ALT_XX STATUS is no longer ACTIVE
   STRENGTH: MODERATE
   MECHANISM_TAG: ALTERATION_DEGRADATION_OVERLAY
   EPISTEMIC_TAG: INFERENCE
@@ -128,29 +144,31 @@ ON_DEBILITATING_TYPE:
 
 === SECTION: PSYCHOLOGICAL_PROPAGATION ===
 
-ON_REJECTED_ALTERATION:
+ON_REJECTING_STANCE:
+- Require DYNAMICS_ALTERATIONS.REJECTION_GATE: projected PSYCHOLOGICAL_STANCE = REJECTING, AWARENESS_STATUS other than UNAWARE, and supporting stress cues. Operational STATUS is independent.
 - PROPOSE ADD_MODIFIER:
   TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
   PROPOSED_VALUE:
     MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
     EFFECT_FAMILY: ALTERATION_REJECTION_STRESS
     TARGET_FIELD: DOMAIN_GLOBAL:AFFECT
-    EFFECT_EXPRESSION: chronic stress overlay from rejected alteration
+    EFFECT_EXPRESSION: bounded stress overlay from psychological rejection of alteration
     MAGNITUDE: MODERATE
     STACKING_RULE: REPLACE
     DURATION_TYPE: PERSISTENT_UNTIL_REFRESH
-    EXPIRY_CONDITION: alteration status changes or rejection resolves
+    EXPIRY_CONDITION: named source ALT_XX stance is no longer REJECTING, awareness is UNAWARE, or supporting rejection-stress cues resolve
   STRENGTH: MODERATE
   MECHANISM_TAG: REJECTION_STRESS_OVERLAY
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
-  JUSTIFICATION: rejected alteration status
+  JUSTIFICATION: source alteration's rejecting stance, awareness, and explicit stress cue
+- When this rejection condition resolves, propose removal of attributable rejection-stress modifiers; preserve independently lawful functional overlays. Operational dormancy or removal alone does not prove psychological recovery.
 
 === SECTION_BREAK ===
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include new-alteration admission gate YES/NO, relevant ALT_XX list, status-change proposal YES/NO, dependent cascade linkage, inferred cascade classes, proposal count, and SCHEME/DYNAMICS compliance. GENERATED_IMPULSES is [NONE].
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include admission gate YES/NO, source ALT_XX list, separate status/stance/awareness proposal flags, source-field/proposal dependencies, functional and psychological cascade classes, expiry evaluation, proposal count, and SCHEME/DYNAMICS compliance. GENERATED_IMPULSES is [NONE].
 
 === SECTION_BREAK ===
 

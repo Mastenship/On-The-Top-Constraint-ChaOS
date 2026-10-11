@@ -13,7 +13,7 @@ ALTERATION_ID: ID_TOKEN (ALT_XX)
 ALTERATION_TYPE: ENUM [BIOLOGICAL, CYBERNETIC, MAGICAL, PSYCHOLOGICAL, ENVIRONMENTAL, OTHER]
 ALTERATION_NAME: STRING_DESCRIPTIVE
 DURATION: ENUM [PERMANENT, TEMPORARY, CONDITIONAL, EPISODIC]
-STATUS: ENUM [ACTIVE, DORMANT, REJECTED, INACTIVE, REMOVED]
+STATUS: ENUM [ACTIVE, DORMANT, INACTIVE, REMOVED]
 OBJECTIVE_SYSTEM_EFFECTS: STRING_DESCRIPTIVE
 PHYSIOLOGICAL_CHANGES: STRING_DESCRIPTIVE
 NEW_ABILITIES: STRING_DESCRIPTIVE
@@ -21,6 +21,7 @@ VULNERABILITIES_CONSTRAINTS: STRING_DESCRIPTIVE
 
 CHARACTER_AWARENESS:
 AWARENESS_STATUS: ENUM [FULLY_AWARE, PARTIALLY_AWARE, UNAWARE, DENIED]
+PSYCHOLOGICAL_STANCE: ENUM [UNFORMED, NEUTRAL, ACCEPTING, AMBIVALENT, REJECTING]
 PERCEIVED_CAUSE: STRING_DESCRIPTIVE
 PERCEIVED_EFFECT: STRING_DESCRIPTIVE
 SOURCE_OF_INFORMATION: STRING_DESCRIPTIVE
@@ -39,10 +40,14 @@ SOURCE_OF_INFORMATION: STRING_DESCRIPTIVE
 
 === SECTION: INVARIANTS ===
 
-- STATUS transitions require explicit trigger evidence.
-- REJECTED status should drive chronic stress overlay behavior in downstream COTs.
+- STATUS represents objective operation; PSYCHOLOGICAL_STANCE represents subjective attitude; AWARENESS_STATUS represents awareness. These fields are independent, not aliases.
+- STATUS and PSYCHOLOGICAL_STANCE changes require explicit evidence for their respective domains. Psychological rejection, acceptance, denial, or unawareness alone cannot establish activation, deactivation, or removal.
+- ACTIVE effects remain eligible with any lawful stance or awareness value. Beneficial or harmful objective effects do not dictate stance.
+- UNFORMED means no established stance; NEUTRAL means established indifference; ACCEPTING means psychological acceptance; AMBIVALENT means mixed acceptance and resistance; REJECTING means ego-dystonic or identity-threatening rejection.
+- Rejection-stress eligibility derives from PSYCHOLOGICAL_STANCE = REJECTING, awareness, and supporting cues per DYNAMICS_ALTERATIONS; it does not replace functional-effect eligibility.
 - DORMANT retains reactivation potential.
 - REMOVED should trigger cascade reversal proposals where applicable.
+- Legacy STATUS = REJECTED is invalid. Conversion requires independent operational evidence and a schema-valid stance; never default the operational value to ACTIVE or INACTIVE.
 
 === SECTION_BREAK ===
 
