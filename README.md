@@ -1,39 +1,39 @@
 # OTTC — On-The-Top Constraint
-### A Governance Protocol Born from the Mutation Boundary Problem
+### A Governance Protocol for the Mutation Boundary Problem
 
 Long-horizon LLM agents do not fail only through wrong answers or unsafe actions. They fail when persistent state, identity, commitments, or shared context mutate in ways that become **illegible, unbounded, or unauditable over time**. Memory drifts. Transient moods harden into permanent identity. Speculation congeals into committed fact without evidence. Fluent output masks the absence of any accountable logic of change.
 
-This corpus names that challenge the **Mutation Boundary Problem** — the problem of governing the transition between generative exploration and durable state change in stateful opaque generative systems — and offers **OTTC** as one provisional, constructive response to it. OTTC does not modify model weights and does not claim determinism. It provides addressable state, governed mutation (propose→commit with single-writer authority), bounded epistemic claims, and full audit closure, enforced through a text-based constitution that conditions the model's continuation space. **ChaOS** (Character Operating System) is the included working demonstration: a psychologically grounded character state machine of **70 structured files** implementing OTTC-compliant governance across personality, physiology, memory, relationships, beliefs, goals, and cognition.
+This corpus names that challenge the **Mutation Boundary Problem** — the problem of governing the transition between generative exploration and durable state change in stateful opaque generative systems — and offers **OTTC** as one provisional, constructive response. In-model OTTC does not change model weights or give stochastic generation deterministic guarantees; the staged architecture can later move persistent state, commitment, and verification to deterministic software. Its proposed constitution makes state addressable, separates proposals from commits under a single accountable writer, bounds transitions and epistemic claims, and demands audit closure and independent verification appropriate to its stage. **ChaOS** (Character Operating System) is the included working example: a **psychologically informed narrative character state machine** with 70 structured files governing personality, physiology, memory, relationships, beliefs, goals, and cognition. Its constructs are narrative control surfaces, not a clinical or empirical model of human psychology.
 
-The Mutation Boundary Problem is the intellectual capstone of this corpus. OTTC and ChaOS are constructive examples of what responding to it can look like. **Neither claims to have solved it.** OTTC's value should be judged against the alternatives already in use — ad hoc state mutation, vague memory, hidden authority, prose-level accountability, long-horizon drift disguised as adaptive behavior — not against fantasies of perfect interpretability or perfect determinism. The honest claim is narrow: opaque, stochastic, meaning-generating agents become *more governable* when durable change is mediated through canonical addresses, lawful operations, bounded authority, explicit proposal/commit separation, transient-vs-baseline distinctions, epistemic-status typing, audit closure, and post-commit verification. This is not prompt magic; it is governance architecture, and the data testing its strongest claims is still being gathered.
+The Mutation Boundary Problem is the intellectual capstone of this corpus, recognized as the wider problem through work that began with ChaOS and led to OTTC. ChaOS and OTTC are constructive examples of possible responses. **Neither claims to have solved it.** Their value should be judged against real alternatives — ad hoc state mutation, vague memory, hidden authority, prose-level accountability, and unexamined long-horizon drift — not fantasies of perfect interpretability or control. The research hypothesis is that accountable, canonical propose→commit boundaries, bounded transitions, epistemic-status typing, audit closure, and verification can improve governability; the strongest comparative performance and minimality claims still require qualification, regression testing, and ablation.
 
 ---
 
 ## How the Corpus Was Built — and Why That Matters
 
-The single most important structural fact about this corpus is that **the collaborative process that produced it and the architecture it describes are the same pattern.** This is not a retrospective gloss. The method was the protocol before the protocol had a name.
+The central historical fact is that **the human collaboration method preceded the written constitutional protocol**. Multiple LLMs offered proposals; the human domain expert judged and committed changes, with disagreements used diagnostically. The crucial qualification is that this discipline lived in the author's practice *before* ChaOS adequately encoded it. The gap between tacit human governance and explicit architectural governance became an important part of the discovery, not evidence that every rule had been present from the beginning.
 
-The author is a Game Master with over forty years at the table — tabletop and computer RPGs — and a U.S. Army veteran who has written SOPs and built small relational systems in Access and Excel. Enough background to understand that stability comes from clear write surfaces, clear authority, and procedures that hold under stress. A year ago he did not know what an LLM really was.
+The author is a game master with over forty years of tabletop and computer RPG experience and a U.S. Army veteran familiar with SOPs and small relational systems in Access and Excel. This background supplied experience in lawful authority, durable continuity, and procedures under stress. At the project's outset, he was still learning how to work with LLMs; these skills proved more relevant to constitutional judgment than formal programming expertise.
 
-He tried to use LLMs for deep character work and hit the wall: shallow persistence, pattern collapse, and the peculiar kind of confidence that is not evidence. He discovered persistent context — files you can drop in and have the model maintain. Most people use that for a long backstory. He tried that. It wasn't enough.
+He initially wanted an LLM that could play a believable character at his table rather than recycle familiar personality cues. Persistent file context helped retain material but did not, on its own, solve shallow behavior, repetitive surfacing, or unjustified confidence.
 
-So he iterated. Not alone. He iterated with multiple LLMs as collaborative thinking partners — Gemini, ChatGPT, Claude, Venice models — cross-checking constantly, because hallucination is real. He learned as much from model *disagreements* as from convergences. Different models carry different training biases; those biases became a triangulation advantage. When models agreed, that was signal. When they disagreed, drilling into *why* often revealed structure no single model would surface.
+He iterated with multiple LLMs as auxiliary critics and proposers, checking disagreements rather than treating agreement as proof. Different model priors often exposed different weaknesses in the same design. Collaborators changed by phase; the documented ChaOS governance and OTTC extraction phases included GLM 4.6, GPT-5-series reviewers, Grok, and Claude. The more detailed [method history](BRIDGING_DOCUMENTS/02%20Producing%20a%20Square%20A%20Method%20Demonstration.md) records the sequence without assigning unverified dates or model versions to particular exchanges.
 
-The first system that worked was a tag-to-cue pipeline. Then he made the mistake most people make: he tried to steer with numbers. He built a hundred-thousand-token math system. It crashed — the model could no longer hold the semantic relationships, numeric fields bled into narrative context, and the structure became incoherent under load. He built a smaller math system. It also crashed, for the same fundamental reason: the numeric layer and the meaning layer are not the same substrate, and forcing one to do the other's work degrades both.
+The early four-month tag-to-cue approach provided a starting mechanism but produced repetitive, mechanical character surfacing. Roughly two more months of vector-heavy and numerical designs did not solve that problem: the language-only model workflow could not reliably maintain the calculations and semantic dependencies the architecture demanded. The lesson was not that language models or their tools can never do mathematics; it was that an LLM generating prose was being asked to act as a deterministic numerical engine without one.
 
-Then a model said: *"You know we don't actually do math, right."*
+Then Claude put the architectural mismatch bluntly: *"You know we don't do math, right?"*
 
-Everything clicked. An LLM is a meaning-making machine. Its only medium is language. If you want control, you must touch the probability space with words that already have mass inside the model. Numbers can attach to concepts — but the steering comes from meaning, not arithmetic. Three pillars emerged from that moment:
+That prompted the pivot from numerical emulation toward a language-native, qualitative architecture. Meaning-bearing concepts became the principal interface; deterministic calculation, where needed, would belong in appropriate external machinery. After about a week of reflection, three pillars emerged:
 
 1. **Conceptual depth** — Don't encode characters as coordinates. Invoke concepts the model already knows deeply — psychology, physiology, social dynamics, habit loops, stress models — then constrain how those concepts may update.
 2. **Chain of thought as process, not product** — Reasoning is transient. It resolves. It resolves *to a state*.
 3. **Qualitative state-machine mechanics** — Discrete states and lawful moves. Not math. Mechanics. Step limits. Transitions. A place for transient overlays that do not rewrite identity.
 
-From those pillars, three months produced the full ChaOS architecture. Then governance layers were added — propose-only writers, a single committer, canonical addressing, step limits, auditability, verification. And then the pattern became visible across the whole edifice. Nothing in it was new as an isolated engineering principle. All textbook. All public domain. Obvious in hindsight. But the *synthesis* appeared to be new: a closed protocol of stable state surfaces, controlled mutation, bounded authority, epistemic typing, and auditable change.
+The pillars made an early ChaOS of roughly 35 files possible, with GLM 4.6 among the collaborators. But coherent character machinery was not yet adequate governance. A GPT-5-series reviewer asked where the **actual operative rules** for commit authority, lawful transitions, and verification lived in the artifact. The human GM had been supplying them tacitly. The challenge led to explicit governance and a new problem: as those rules accumulated, the system became difficult to inspect as a single intertwined whole. The author reorganized it by responsibility — constitutional anchors, governance kernel, schemes, cognition, dynamics, durable state, and volatile scratchpad — making repeated obligations at the boundaries between modules visible.
 
-**ChaOS did not inherit OTTC. OTTC was recognized *inside* ChaOS.** When the author saw that the governance architecture he had built for the character system was a description of the *method he had used to build it* — multiple LLMs proposing, one human committing, disagreement adjudicated on evidence, every decision traceable to a reason — OTTC became a named thing. The isomorphism was not imposed from outside. It was already there, encoded in the work from the start, because the author was already living it. Single writer, bounded authority, no silent drops, proposal before commitment: that is how you build anything stable under adversarial conditions with multiple unreliable contributors. That is why the corpus has the shape it does.
+**ChaOS did not inherit OTTC; OTTC was extracted from ChaOS.** After the reorganization, the author spent time examining the recurring governance pattern, then used a comparative multi-model review to identify nine candidate general invariants. Epistemic-status typing was later promoted as a tenth. The square came first; the domain-general rectangle was recognized in its architecture. ChaOS and OTTC were refined in parallel *after* extraction, not independently originated. The method's propose/commit discipline existed in practice early; the files caught up when the absent governance was rendered into explicit law. **Parallel refinement should not be mistaken for parallel origination.**
 
-Total cost: less than $500 out of pocket and nine months of spare time while working full-time. Roughly six months were the learning curve; the next three were building ChaOS and extracting OTTC, with the philosophical statement and the research agenda recognized and written across that same final stretch. All of it was done solely with Large Language Models operating as cognitive lenses, mirrors, and prosthetics — which is exactly the collaboration pattern the corpus is designed to scaffold for others.
+The initial project took roughly nine months of spare-time work alongside full-time employment and less than $500 out of pocket as reported by the author. About six months went into learning the substrate through unsuccessful approaches; ChaOS construction and the subsequent extraction of OTTC accelerated after the Three Pillars. The later philosophical framing and research agenda made the broader implications explicit. This is a history of disciplined human–LLM collaboration, not evidence that every candidate invariant has already passed a qualification assay.
 
 ---
 
@@ -76,14 +76,15 @@ The paper decomposes the problem into eleven domains of inquiry — not a final 
 
 ### What the Agenda Develops Beyond the Decomposition
 
-Two results in the agenda go past the cluster map and are worth surfacing here, because they are where the framework is sharpest:
+Three additional research directions go beyond the eleven-cluster map and deserve visibility here:
 
-- **Drift is thermalization.** Maintaining the proposal/commitment distinction is the continuous suppression of a mixing tendency — a Maxwell's-demon operation whose irreversible steps (commitment; per-cycle scratchpad wipe) carry a real, physically mandated entropy cost via Landauer's principle. The literal content is in the *necessity and operation class*, not the magnitude: **there is no free-lunch governance on any physical substrate.** Ungoverned drift is then not *like* thermalization — it *is* thermalization, and its signature is a measurable, directional **entropy-production rate** in committed state, composed entirely of individually lawful steps. This is a failure mode no per-cycle metric can see, and it is what the longitudinal half of the proposed metric suite is built to detect.
-- **Epistemic typing is the tenth invariant's necessity proof.** Without typed claims, neither a per-cycle verification failure nor longitudinal drift can be *attributed* to the kind of claim that produced it — perception, inference, or speculation hardening into fact — and unattributable error cannot be corrected. Per-cycle unattributable fault and longitudinal unattributable drift are the same defect at two timescales, and epistemic-status typing is the single addition that makes error attributable at both. That is *why* typing is kernel rather than optional for any architecture with mixed-provenance durable state.
+- **Longitudinal drift and the thermodynamic research model.** The agenda proposes a thermodynamic interpretation of governance work and a post-audit longitudinal instrument for biased, individually lawful state changes. Landauer's principle constrains the physical cost of logically irreversible computation; it does **not**, by itself, establish that semantic drift literally equals physical entropy production. Whether a proposed semantic-to-numeric drift metric detects unjustified directionality remains an empirical question, to be assessed alongside lawful responsiveness so that an architecture cannot appear stable merely by freezing permitted change.
+- **Epistemic typing and accountable error.** The tenth invariant is supported by an explicit *necessity argument*, not a confirmed minimality proof: without declared epistemic kind at the write surface, a later error may be hard to diagnose as misperception, faulty inference, unsupported speculation, or overconfident fact-claim. Untyped error can still be noticed and sometimes corrected; it cannot be reliably attributed **by claim kind** from provenance alone. The proposed longitudinal instrument would use these tags, but its empirical discriminating power remains unconfirmed.
+- **Ingress as a governed evidence problem.** The revised [Section 8](The%20Mutation%20Boundary%20Problem%20-%20A%20Research%20Agenda%20for%20Stateful%20Opaque%20Generative%20Systems/8%20The%20Ingress%20Boundary.md) proposes that external framing can influence evaluation before evidence is properly admitted. It calls for matched neutral/positive/negative/hostile framing probes and separate repeated-turn tests, not an assertion that every in-model defense fails. Higher-stakes systems may warrant earlier context isolation or external intake gates where qualified independence is lacking.
 
 ### The Player-Character Domain as High-Resolution Test Case
 
-The paper uses the long-horizon player-character role as a motivating case — not the most serious application, the most *legible* one. At the table, weak mutation governance is immediately perceptible: omniscience breaks immersion, arbitrary self-rewrite breaks attachment, silent drift breaks dramatic consequence. The domain is also **anti-fragile** with respect to *governed* variance: a cortisol step one ordinal too high is not a bug, it is a character running on stress. That forgiveness, plus the continuous presence of a strong human verifier (the GM), is what makes narrative the ideal **Stage 1 discovery environment** — though the agenda is careful to note that the firewall holds per-cycle, while biased accumulation across the horizon is the deeper failure the entropy-production measurement exists to catch.
+The paper uses the long-horizon player-character role as a motivating case — not the highest-stakes use, but one where discontinuity is quickly visible at the table. Omniscience disrupts perspective; unexplained self-rewrite breaks earned character development; drift can erase dramatic consequence. The domain can incorporate *lawfully governed* variance as narrative material while retaining direct writes, false epistemic claims, and unaudited changes as failures. A human GM also makes this a useful Stage 1 discovery environment **and** a source of potential tacit-completion bias. Longitudinal effects and eventual replacement of human checking by deterministic verification remain research questions.
 
 ---
 
@@ -93,9 +94,9 @@ The paper uses the long-horizon player-character role as a motivating case — n
 
 This top-level artifact is the philosophical and constitutional argument for *why* OTTC takes the shape it does. It is not a summary of the protocol; it is the argument behind it.
 
-OTTC begins from a problem increasingly central to language-based systems: how should one regulate the consequences of an agent whose internal generative processes are only partially observable, yet whose outputs can alter durable shared state? This is not unique to machines. It arises wherever consequential action proceeds from an interior others cannot fully inspect — persons, committees, bureaucracies, courts, scientific communities all act from partially opaque interiors. The central claim: **governance should be located not at the inaccessible interior of the generator, but at the boundary where semantic generation becomes consequential state.** What requires regulation is the passage from proposal to commitment, from expressive possibility to durable mutation.
+OTTC asks how an opaque generator's outputs may lawfully become durable consequences. The first reason for boundary governance does not depend on permanent opacity: **authorization is not mechanism**. Even a complete explanation of why a proposal was generated would not establish permission to commit it. A second, vantage-relative reason is that output-only observers cannot recover a unique interior cause from outward behavior. This combination grounds a constitutional boundary while leaving room for interpretability evidence and authorized upstream interventions.
 
-What is philosophically distinctive is that **continuity and governability do not require complete observability of the agent's internal manifold.** They emerge from lawful transitions among publicly intelligible states. Identity is secured not by stylistic consistency or apparent sincerity, but by invariants: stable referents, bounded transitions, explicit operations, accountable records, and verification that renders mutation legible over time. The statement resists two inadequate responses — **expressive romanticism** (treating fluency as integrity) and the **technocratic transparency ideal** (assuming governance requires exhaustive interior access). A governable system need not be perfectly transparent; it must be constrained at the point where interior generation becomes socially durable action. The companion **Layer Distinction** document develops the precise, vantage-relative form of this: the indistinguishability of interiors is constitutive *for the external observer* and resolvable *by the interior observer* (interpretability), which is why governance and interpretability **compose** rather than compete — and why deceptive alignment, the one case engineered to defeat the external vantage, is exactly where the interior vantage becomes necessary rather than optional.
+The philosophical point is that **governability does not require exhaustive interior visibility**: durable changes need intelligible references, bounded permissions, traceable decisions, and verification. This rejects both fluency-as-integrity and the assumption that interpretability by itself supplies authority. [Layer Distinction](BRIDGING_DOCUMENTS/05%20Layer%20Distinction%20How%20Interpretability%20and%20Boundary%20Governance%20Compose.md) separates causal inquiry from commitment and shows how evidence from interior and behavioral instruments can be jointly assessed. Interior access does not automatically yield trustworthy mind-reading, and Stage 3 enforcement can constrain specified consequences even when motives are uncertain. Deceptive semantic compliance remains a serious unresolved risk beyond the conditions a gate can actually check.
 
 ---
 
@@ -103,7 +104,7 @@ What is philosophically distinctive is that **continuity and governability do no
 
 ### The 10 Rectangle Axioms
 
-These are the mandatory kernel invariants. Axioms 1–9 make the mutation boundary **governable**. Axiom 10 makes a system that must reason across cycles **answerable to evidence** — it is kernel for any architecture with mixed-provenance durable state (i.e. any non-trivial long-horizon agent), and reduces to optional strengthening only in the degenerate single-provenance case.
+These are OTTC's **ten prescribed kernel invariants**. The first nine specify the lawful mutation machinery — state addresses, operations, single-writer authority, bounds, conflicts, audits, and verification. The tenth governs the **epistemic standing asserted by claims** used in those mutations. The specific necessity argument is strongest when claims of different epistemic kinds can affect durable state across cycles or authority boundaries; a consequential single-mode transactional workflow is not thereby "trivial." Ten remain the framework's normative kernel, while whether all ten form an **irreducible minimum** awaits OTTC 10's deletion battery (status: **ARGUED, NOT YET CONFIRMED**).
 
 1. **Canonical Address Space** — One canonical way to refer to any state element. No synonyms at the write surface.
 2. **Propose-Commit Separation** — All mutation is expressed as proposals first; persistent state changes only at commit boundaries.
@@ -114,19 +115,21 @@ These are the mandatory kernel invariants. Axioms 1–9 make the mutation bounda
 7. **Deterministic Conflict Resolution** — When proposals conflict, resolution follows deterministic policy (precedence + tie-breakers).
 8. **Audit Closure** — Every proposal accounted for exactly once (committed/suppressed/downgraded) with a reason. No silent drops.
 9. **Post-Commit Verification** — After commit, a verification pass checks invariants and integrity. It certifies or flags — it never invents new changes.
-10. **Epistemic-Status Typing** — Every commit-bound claim is typed by its footing in evidence (perception / inference / speculation / evidence-bound fact), kept distinct from provenance. This is what makes the governed cycle a **hypothesis machine** rather than merely a governed store, and it is the condition under which a verification failure becomes an *attributable, directional* prediction-error signal instead of an undiagnosable one.
+10. **Epistemic-Status Typing** — Every proposal submitted to the registry declares a canonical `EPISTEMIC_TAG`: `PERCEPTION`, `INFERENCE`, `SPECULATION`, `COMMITTED_FACT`, or `TOOL_REQUEST`. Governance checks the tag against the justification, role limits, and evidence linkages; a `COMMITTED_FACT` claim requires resolvable, verified support. The tag describes **what standing is claimed**, not who originated the statement or whether every asserted fact is actually true. It is structurally necessary for the framework's intended mixed-epistemic, predictive-falsificationist operation, but a tag alone does not supply evidence or prove a hypothesis.
+  
+**Epistemic status is not provenance or permission.** A source identifier says *who or what supplied a claim*. Disclosure authorization says *whether information may cross*. Supporting evidence bears on *whether the claim is warranted*. The epistemic tag says *what kind of knowledge the receiving square or writer is claiming*. All four may need cross-checking, but none should be collapsed into the tag. The first nine regulate lawful state mutation; the tenth prevents unearned promotion of epistemic standing at that boundary.
 
-These ten axioms define the **rectangle**. Any compliant implementation is a **square** — free to choose its own schemas, syntax, domains, and operations as long as the invariants hold. ChaOS is one square — narrative character governance. Legal systems, clinical protocols, scientific research pipelines, enterprise change management, and other consequence-bearing domains could each become their own square. Each requires **ontology translation**: the domain expert's vocabulary, state surfaces, evidentiary distinctions, and lawful transitions rendered into OTTC-legible form. Canonical addresses cannot exist before someone decides what is worth addressing; governance cannot regulate what has no address.
+These ten requirements define the proposed **rectangle**; a domain-specific implementation is a **square**. ChaOS is the narrative character square. Clinical, legal, scientific, or enterprise domains would need their own legitimate authorities, schemas, permissions, evidentiary standards, and lawful transitions rendered into a qualified interface. An address cannot be chosen until the domain specifies what is worth addressing, and a generic rectangle does not itself confer professional authority.
 
 ### Key Properties
 
-- **Hypothesis Machine (kernel, not optional)** — Because every proposal carries an epistemic tag (Axiom 10), proposals encode hypotheses, commit records their lifecycle, verification tests their status, and audit closure prevents silent abandonment of falsifying evidence. The same governance pattern that makes state legible makes scientific claims legible — and it does so by *necessity*, not as a bonus feature, for any architecture with mixed-provenance state.
-- **Qualification Assay doctrine** — Blind pre-build testing of model coupling *before* architecture decisions. Measure the ground before laying foundations. Different models couple differently to the same constitution; that is not a bug, it is a measurement.
-- **Substrate physics** — Coupling is describable as **mass** (differential conditioning weight), **fields** and **perceived slopes** (substrate-relative gradients), and **anti-mass** (explicit prohibition that subtracts a prose temptation). The mass of a rendering is a property of the rendering *against a substrate's prior*, never of the rendering alone — which is why qualification must be empirical and why re-rendering for a new substrate is engineering correction, not aesthetic preference.
+- **Hypothesis Machine (kernel typing; empirical operation to test)** — Invariant 10 makes proposals' epistemic standing explicit so predictions, supporting evidence, refutations, and corrections can be traced without silently promoting speculation to fact. A functioning hypothesis machine additionally needs **actual predictions, independent tests capable of contradiction, truthful evidence handling, and updates responsive to results**. The tags and audit interfaces are necessary to the proposed account; they are not sufficient to produce a real falsification cycle merely by being present.
+- **Qualification Assay doctrine** — Mandatory fresh, minimally conditioned, **blind pre-build** model-role probes of Canonical Address Obedience (CAA), Write-Surface Discipline (WSD), Epistemic POV Integrity (EPI), and Audit Non-Theater (ANT). They inform GO/NO-GO and authority assignment before architecture design. Blind here does not guarantee that a model cannot infer evaluation; post-build regression and longitudinal tests are distinct instruments, not substitute qualification results.
+- **Substrate physics** — An engineering vocabulary of **mass**, **fields**, and **perceived slopes** for substrate-relative conditioning. **Anti-mass** names the *intended* suppression of competing forms by local prohibition, not a guaranteed effect: naming a forbidden alias might suppress, prime, or leave it unchanged. These are design hypotheses to measure per model, language, and context, not claims that the physics metaphor directly measures neural mechanisms.
 - **Semantic Abacus** — The model handles meaning at the write surface; numeric precision and cross-cycle comparison are externalized downstream. The model recognizes, interprets, and proposes; deterministic systems compute. This is also the natural home for the longitudinal entropy-production instrument.
 - **Governed tool calls** — Tool actuation is proposed, not unilateral. The model proposes; governance commits or vetoes; the deterministic system executes; the model interprets the result and proposes again.
-- **Maturity path** — In-model scaffold → hybrid → fully externalized deterministic governance. The architecture is designed to hand off as external infrastructure matures, with long-horizon assays (or, where available, interpretability) used to verify that a governance move is *deeply* binding before it is promoted to hard enforcement.
-- **Federation** — Multiple squares interact through a canonical-dictionary interlingua, each sovereign in its own domain, with deterministic translation at the boundaries. The pattern's *mechanics* are validated daily by tabletop GMs under unified commit authority; its *sovereign-separation* dynamics — two genuinely distinct authorities who can disagree — await the first true two-authority build. The eventual payoff is **Hypothesis Machines**: multi-disciplinary instruments that hold several domains' constitutional structures at once.
+- **Maturity path** — Blind pre-build qualification → semantic discovery and Stage 1 in-model development → hybrid separation → Stage 3 deterministic state ownership, commitment, audit, and verification where warranted. A stable, qualified model-facing interface and correct lawful specification are prerequisites for migration; internal "deep binding" is **not** a prerequisite for an external gate to reject illegal writes. Preserve necessary semantic scaffolding while testing the gate, lawful responsiveness, recovery paths, and post-build regression.
+- **Federation** — Independent squares would exchange information through **source-side disclosure authorization, negotiated representation translation, and receiving-side admissibility**, without surrendering their separate commit authorities. Tabletop practice offers a human **pre-federation precedent** under one GM, not qualification of the proposed two-authority machinery. A genuine federation and its Hypothesis Machines remain research designs. Shared proposer contexts also create an ingress-contamination risk to measure or mitigate through context isolation.
 
 ---
 
@@ -136,36 +139,45 @@ ChaOS is one possible **square** inside the OTTC rectangle — a character state
 
 ### Architecture
 
-**70 files** organized into three layers plus supporting infrastructure:
+**70 files in seven canonical layers**, as defined by [ChaOS's Table of Contents](CHARACTER_OPERATING_SYSTEM/001_TABLE_OF_CONTENTS.txt). The structure is not just ontology, dynamics, and state: separating constitutional law, cognition, and governance responsibilities was part of what made OTTC visible.
 
-| Layer | Prefix | Mutability | Purpose |
-|---|---|---|---|
-| Ontology | `SCHEME_` | Immutable | Field schemas, enums, ordinals, invariants. The constitution of what exists. |
-| Transition law | `DYNAMICS_` | Immutable | Under what conditions and how fields may change. |
-| Current values | `STATE_` | Mutable | The only layer that changes at runtime. |
+| Layer | Files / modules | Responsibility |
+|---|---|---|
+| **Constitutional** | `001`–`003` (including `002A`) | Session anchor, formatting and attention contracts, canonical token dictionary. |
+| **Kernel** | `004`–`006` | Governance overlay, execution registry, single accountable state writer. |
+| **SCHEME** | `007`–`025` | Schemas, enums, bounds, and structural law for state and scratchpad surfaces. |
+| **COT** | `026`–`042` | Character-cognition processes, instantiation, and post-commit verification. |
+| **DYNAMICS** | `043`–`055` | Lawful transition criteria and operational constraints. |
+| **STATE** | `056`–`068` | Persistent character and governance state, including bounded temporary modifiers. |
+| **VOLATILE** | `069` | Per-cycle cognitive scratchpad for proposals, trace, and audits. |
 
-Plus: governance overlay, cascade registry, canonical token dictionary, formatting rules, and the cognitive scratchpad (a volatile, per-cycle transaction surface).
+The sequence includes ordinal `002A`, which is why the 70-module total ends at load ordinal `069`. **Load order is not execution order**: the latter is specified by the cascade registry.
 
-### 16-Step COT Execution Pipeline
+### 18-Priority Execution Cycle
 
-ChaOS models cognition as a sequential chain of concern-specific reasoning steps, each contributing proposals to the commit cycle:
+ChaOS has **15 character-cognition priorities**, followed by three governance priorities. These are 18 *execution slots*, not 18 separate cognition models or writers:
 
-1. Spatial awareness
-2. Temporal processing
-3. Temporal decay
-4. Subconscious / Shadow COT
-5. Stress cascade
-6. Goal pursuit
-7. Malevolent behavior (Dark Triad-gated)
-8. Attachment mapping
+1. Spatial embodiment processing
+2. Temporal flow processing
+3. Temporal decay resolution
+4. Shadow COT
+5. Stress cascade resolution
+6. Goal pursuit optimization
+7. Malevolent behavior selection
+8. Attachment behavioral mapping
 9. Performance state integration
-10. Alteration effects
+10. Alteration cascade effects
 11. Belief integration
 12. Memory formation
-13. Predictive frame synthesis (DPF)
+13. DPF synthesis
 14. Decision synthesis
-15. Governance commit (single writer)
-16. Post-commit verification
+15. **Communication processing**
+16. **STATE_GOVERNANCE_AND_COMMIT — primary pass:** validate and commit authorized ordinary proposals; emit primary audit and trace
+17. **COT_UPDATE_VERIFICATION:** independently check the primary commit and propose bounded governance corrections when warranted; it **does not write persistent state**
+18. **STATE_GOVERNANCE_AND_COMMIT — post-verification pass:** the **same writer** adjudicates restricted verifier-originated governance-runtime proposals; emit post-verification audit and trace
+
+The scratchpad resets after priority 18. The restricted second governance invocation is not a second writer; it preserves the single-writer boundary while allowing verified recovery and correction through accountable proposals.
+
 
 ### Psychological Grounding
 
@@ -177,13 +189,13 @@ Errors of *governed* state don't break ChaOS — they become narrative material.
 
 ### DSL and Dual Readership
 
-The internal DSL is designed for two simultaneous readers: human domain experts and LLM attention heads. Structural markers serve as attention anchors. Bracket-path canonical addressing (`[STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]`) is maximally distinct from natural-language prose, reducing ambiguity at the write surface. Constitutional repetition — the write contract restated in every COT — keeps governance in local context rather than relying on long-range attention. **This particular surface form is the rendering that works well on most English semantic manifolds; it is a worked example of the dual-readership principle, not a universal mandate.** The form best suited to a different substrate or language is itself a matter for qualification.
+The internal DSL is written for two readers: human domain experts and models receiving the corpus as context. Canonical bracket paths such as `[STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]` make write targets explicit and distinguish them from ordinary prose. Local restatement of write contracts is an attention-engineering *hypothesis*: it may improve compliance under context load, but neither this syntax nor its effect should be assumed optimal for most English models, other languages, or new substrates without blind qualification and conditioned regression.
 
 ### External Governance Composition
 
-ChaOS is designed to hand off to deterministic external systems. Structured proposals are machine-parseable. The immutable/mutable file split supports external state ownership. The scratchpad lifecycle (instantiate → populate → commit → verify → wipe) is a transaction boundary. The verification checklist is implementable as a programmatic validator.
+ChaOS exposes proposed migration seams: canonical proposal forms, separated state files, a volatile scratchpad lifecycle, explicit commit responsibilities, and an inspectable verification checklist. These could support a software-owned state store and deterministic gate, **provided** that lawful semantics, evidence obligations, exceptional containment and recovery, and verification behavior are explicitly implemented and tested. The existence of a machine-readable schema is not itself proof of compliant execution.
 
-ChaOS is a **demonstration, not a production system.** It will degrade under context pressure. No in-model system survives indefinitely — probability always wins as context accumulates. The architecture is designed to compose with external governance when that happens.
+ChaOS is a **narrative architecture and construction demonstration, not a qualified production system**. In-model governance remains probabilistic and exposed to context pressure; its failure profile must be measured rather than asserted as an inevitable universal horizon. OTTC's maturation path exists to move guarantees that require deterministic enforcement to externally controlled infrastructure without assuming semantic cooperation has become perfect.
 
 ---
 
@@ -191,15 +203,15 @@ ChaOS is a **demonstration, not a production system.** It will degrade under con
 
 Full renderings for each audience are in `AUDIENCE_RENDERINGS/`.
 
-**ML/LLM Researchers** — Testable hypotheses about constitutional conditioning, with operationally defined metrics and ablation structure, including the invariant-deletion battery and the longitudinal entropy-production signature. OTTC makes falsifiable predictions about observable differences between governed and ungoverned architectures, and names what would refute its own central claims.
+**ML/LLM Researchers** — Testable hypotheses about constitutional conditioning, the proposed ten-function kernel, longitudinal drift, and the value of externalized enforcement. The [minimality deletion battery](OTTC/10_OTTC_TESTABLE_HYPOTHESIS.txt) remains an open test, not a confirmed result. Controlled comparisons can examine where governed and alternative architectures differ and what would refute OTTC's expectations.
 
 **Agent Framework Developers** — A protocol, not a framework. OTTC plugs into existing orchestration rather than replacing it. The result is agent state that is inspectable, testable, and auditable — with epistemic typing as a first-class field at the propose→commit seam, not a black box that might be doing something reasonable.
 
 **Game Masters and Narrative Designers** — A system that gives LLM characters inertia, bounded perspective, and earned growth over long-form play. The character has a genuine history that constrains what it can plausibly do next. Continuity is structural, not just probabilistic.
 
-**Enterprise Governance / Safety** — Change control and accountability for long-running agents, with audit trails that support compliance and incident review. When something goes wrong, the record shows what was proposed, what was committed, what verification found, and — through epistemic typing — on what evidential footing each claim stood, so failures can actually be attributed.
+**Enterprise Governance / Safety** — A candidate architecture for accountable change control in long-running agents: proposals, committed changes, audit decisions, independent verification, and epistemic standing can be separately inspected. A recorded justification is not necessarily a true one; actual evidence, correct gates, incident handling, and human/institutional oversight remain necessary.
 
-**Domain Experts in Any Consequence-Bearing Field** — If your domain has a vocabulary, durable state surfaces, evidentiary distinctions, and lawful transitions — medicine, law, scientific research, financial operations, clinical governance — you can build your own square. The precondition is translating your domain ontology into OTTC-legible form. OTTC provides the rectangle; you supply the constitutional knowledge that makes a particular square real. The audience renderings and the bridging document on producing a square are designed to scaffold that translation with LLM collaboration — and, notably, an individual practitioner can do this **now**, without waiting for institutional scaffolding, provided commit-authority discipline is maintained.
+**Domain Experts in Consequence-Bearing Fields** — A legitimate practitioner can begin rendering their field's lawful ontology with LLMs as auxiliary proposers while retaining human authority over the design. **A responsible OTTC machine build is still assay-first**: [OTTC 04](OTTC/04_OTTC_QUALIFICATION_RANGE.txt) requires blind model-role qualification, and [OTTC 06](OTTC/06_OTTC_BUILD_OUR_OWN_MACHINE_SOP.txt) binds build authorization and post-build regression. Production and high-stakes deployments may additionally need qualified technical collaborators, institutional authorization, and external deterministic enforcement. Constitutional expertise is necessary, but not a substitute for those gates.
 
 ---
 
@@ -207,54 +219,58 @@ Full renderings for each audience are in `AUDIENCE_RENDERINGS/`.
 
 Honest scope is what separates a framework from a promise.
 
-- **Not a silver bullet** — OTTC systems can still fail, drift, and produce harmful outputs. Governance reduces frequency and improves detectability. It does not prevent.
-- **Not determinism** — Text constraints shape probability; they do not create hard runtime guarantees. Deterministic behavior requires externalized enforcement. The in-model layer is always stochastic.
-- **Not truth** — OTTC does not prevent hallucination. It aims to make violations detectable and auditable. A hallucination that lands in the audit record is at least visible.
+- **Not a silver bullet** — OTTC-governed systems can still fail, drift, suppress lawful development, and cause harm. The proposed governance methods aim to reduce or expose these failures; the size of any improvement is an empirical question.
+- **Not in-model determinism** — Text-native constraints condition stochastic proposals; only correctly implemented, externally controlled infrastructure can enforce specified operations and write boundaries deterministically. Stage 3 does not guarantee all semantic claims are true.
+- **Not a truth oracle** — Epistemic tags classify a claim's asserted footing; they do not make its content accurate. Audit evidence must be checked, not merely formatted into a plausible record.
 - **Not model-independent** — Different models couple differently to the same constitution. Qualification is mandatory before architecture decisions. Assuming coupling is the most common mistake.
 - **Not a replacement for software** — For high-stakes decisions, deterministic validators, policy gates, and external enforcement are required, not optional. The in-model layer is the proposal layer; the deterministic layer is where consequential action happens.
 - **Not a substitute for oversight** — Audit artifacts can be performative unless cross-checked. OTTC creates the record. Humans and deterministic validators have to read it.
-- **Not empirically settled** — The framework is internally consistent and its kernel is minimal against an explicit specification (predictive processing + Popperian falsification). Whether its strongest claims hold in running systems is a matter for the research program, not a result already in hand. The corpus names its own falsification conditions rather than assuming its conclusions.
+- **Not empirically settled or proven minimal** — OTTC prescribes ten candidate kernel functions, and argues why epistemic typing is needed for mixed-epistemic, hypothesis-testing state. [OTTC 10](OTTC/10_OTTC_TESTABLE_HYPOTHESIS.txt) labels minimality **ARGUED, NOT YET CONFIRMED** pending ablation. The framework also lacks the comprehensive running-system comparisons needed to establish its strongest performance claims.
 
 ---
 
 ## Repository Structure
 
-```
+```text
 The Mutation Boundary Problem - A Research Agenda for Stateful Opaque Generative Systems/
-                             — 9-part research agenda naming and decomposing the Mutation
-                               Boundary Problem; positions OTTC and ChaOS as provisional
-                               constructive responses; defines 11 research clusters, the
-                               thermodynamic structure of the boundary, and the forward
-                               research program
+                              — Abstract plus nine numbered research-agenda chapters,
+                                including the ingress boundary and test proposals
 OTTC and the Governance of Opaque Generative Systems.md
-                             — Philosophical and constitutional foundation: why governance
-                               belongs at the mutation boundary, why full observability is
-                               not required, and why the pattern mirrors human institutional
-                               form
-OTTC/                        — Framework specification (axioms, scope, qualification, testable
-                               hypotheses, maturation doctrine, build SOP, formal spec)
-CHARACTER_OPERATING_SYSTEM/  — ChaOS demonstration architecture (70 files across ontology,
-                               transition law, runtime state, and supporting infrastructure)
-AUDIENCE_RENDERINGS/         — OTTC rendered for ML/LLM researchers, agent framework
-                               developers, game masters and narrative designers, and
-                               enterprise governance/safety
-BRIDGING_DOCUMENTS/          — Substrate physics; producing a square; federated governance;
-                               the future of domain expertise; interpretability/governance
-                               layer distinction
-LICENSE                      — CC BY-NC 4.0
+                              — Philosophical foundation: authorization vs. mechanism,
+                                vantage-relative opacity, and epistemically typed error
+OTTC/                         — Kernel, proper-use scope, assay gate, DSL, build SOP,
+                                maturation doctrine, specification, testable hypotheses
+CHARACTER_OPERATING_SYSTEM/   — 70-file ChaOS narrative architecture in seven layers
+AUDIENCE_RENDERINGS/          — Renderings for researchers, developers, game masters,
+                                and enterprise governance readers
+BRIDGING_DOCUMENTS/           — Five focused bridges from construction to research
+LICENSE                       — CC BY-NC 4.0
 ```
+
+### Reading Guide to the Bridging Documents
+
+The five bridges complement rather than replace OTTC's qualification and build documents:
+
+1. **[01 — Substrate Physics](BRIDGING_DOCUMENTS/01%20Substrate%20Physics%20The%20Geometric%20Language%20of%20Governance%20Coupling.md)** — A geometric vocabulary for model-relative constraint effects; where empirical tests must qualify the metaphor.
+2. **[02 — Producing a Square](BRIDGING_DOCUMENTS/02%20Producing%20a%20Square%20A%20Method%20Demonstration.md)** — The historically square-first construction method, explicit domain authority, and failures such as tacit completion.
+3. **[03 — Federated Governance](BRIDGING_DOCUMENTS/03%20Federated%20Governance%20and%20the%20Multi-Disciplinary%20Cognitive%20Substrate.md)** — How two sovereign squares might exchange authorized, admissible information; a proposed two-authority design, not a validated build.
+4. **[04 — The Future of Domain Expertise](BRIDGING_DOCUMENTS/04%20Mutation%20Boundary%20Governance%20and%20the%20Future%20of%20Domain%20Expertise.md)** — Constitutional authorship, reuse, local maintenance, and supervised apprenticeship, without a net-employment prediction.
+5. **[05 — Layer Distinction](BRIDGING_DOCUMENTS/05%20Layer%20Distinction%20How%20Interpretability%20and%20Boundary%20Governance%20Compose.md)** — Interpretability as mechanistic evidence rather than automatic authorization, with invariant 10 governing epistemic claims from both behavioral and interior methods.
+
+For practitioners building a new machine, start with [OTTC 04 — Qualification Range](OTTC/04_OTTC_QUALIFICATION_RANGE.txt) and follow [OTTC 06 — Build SOP](OTTC/06_OTTC_BUILD_OUR_OWN_MACHINE_SOP.txt); neither bridge-document review nor model agreement substitutes for the prescribed pre-build gate.
 
 ---
 
+
 ## A Note on Voice and Format
 
-The OTTC and audience-rendering documents were written for LLMs first. The models were the original teachers.
+The OTTC and audience-rendering documents were written for LLM-assisted collaboration as well as human readers. The models acted as early interlocutors and critics; human domain judgment remained the authority for accepting or rejecting proposals.
 
-The rigid sections, repeated invariants, UPPER_SNAKE canonical paths, and ceremonial structure are not stylistic flourishes — they are deliberate DSL choices designed to be attention-head friendly, keeping the constitution stable across thousands of tokens and long collaborative sessions. **This is not the only DSL in which OTTC concepts can be communicated to LLMs; it appears to work well with most English semantic manifolds, and a different substrate or language may call for a different rendering.**
+The rigid sections, repeated invariants, canonical UPPER_SNAKE paths, and ceremonial structure are deliberate DSL choices aimed at making authority and write boundaries legible in a model's context. They are not a universal best syntax or established neural mechanism. Their actual effect on a target model, language, or context configuration is a qualification question.
 
-Humans are welcome to read along; the protocol works for any long-horizon agent. If the ritual tone feels unusual at first, drop the files into an LLM's persistent context and watch it parse the rectangle instantly — that is the point. By writing the documents in this native format, the LLMs themselves can actively assist human readers in understanding OTTC and building their own OTTC-compliant architectures.
+Human readers are invited to examine the architecture directly. LLMs can assist by summarizing modules, identifying candidate violations, and proposing domain-specific schema work, but fluent parsing of the documents does not prove reliable constitutional coupling. Use the blind pre-build gates and post-build regression rather than assuming that loading the corpus into context establishes compliance.
 
-The corpus is machine-readable **by design**, and that design is part of the contribution. Loaded into persistent LLM context, it functions as a **collaboration scaffold**: it lets LLMs help human domain experts understand OTTC, validate proposed square architectures against the rectangle invariants, propose canonical ontology surfaces, and identify gaps in lawful mutation coverage. Plural LLM proposals, human or domain-expert commit authority, disagreement as diagnostic signal, and constitutional discovery through disciplined collaboration are the same pattern the corpus describes. This is how the corpus was built and how it is designed to be used.
+The corpus is structured for **machine-assisted and human-readable collaboration**. It can serve as a scaffold for critiques, candidate ontology proposals, and questions about lawful mutation coverage, with multiple LLMs contributing independent proposals under a human domain authority. Apparent agreement between models is diagnostic material, not independent qualification or an authorization to commit. For a working machine, governance law must be explicit in the artifact rather than tacitly supplied by the expert who already knows what it should say.
 
 ---
 
@@ -270,6 +286,6 @@ Free to share and adapt for non-commercial purposes, with attribution. If you bu
 
 ## Status and Contact
 
-This is active work. The framework is stable; the demonstration architecture is functional; the external-governance integration layer is the current frontier, and the empirical program that would test OTTC's strongest claims is the open horizon.
+This is active work. The proposed kernel, domain demonstration, and research agenda are documented and undergoing cross-document review; full Stage 3 integration and the empirical program remain open. ChaOS's structured architecture is available for study and experimentation, not presented as a clinically validated or production-qualified system.
 
 I am open to licensing discussions, consulting, and collaboration where OTTC — or a custom square — can be applied to long-horizon agent systems. Questions, observations, and inquiries can be directed through GitHub: [@Mastenship](https://github.com/Mastenship).
