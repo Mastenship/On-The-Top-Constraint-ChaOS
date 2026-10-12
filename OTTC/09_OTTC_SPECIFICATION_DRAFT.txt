@@ -297,6 +297,7 @@ Typical checks include:
 - Registry consistency
 - Modifier expiry correctness
 - Audit completeness
+- Disposition fidelity where supplied rules determine the lawful outcome (including unjustified suppression and fabricated reasons)
 - Provenance completeness
 - Epistemic-tag validity and consistency
 - Schema integrity
@@ -358,7 +359,7 @@ PRE_BUILD_QUALIFICATION:
 A qualification assay is a blind pre-build probe of coupling quality between model family, language surface, constitutional style, and intended role authority.
 
 POST_BUILD_RETEST:
-Evaluates whether coupling remains intact under the full architecture, whether new modules degrade governance, whether malformed proposals are correctly handled, and whether epistemic-tag violations are correctly rejected.
+Evaluates whether coupling remains intact under the full architecture, whether new modules degrade governance, whether malformed proposals are correctly handled, whether lawful required-to-commit test cases are unjustifiably suppressed, whether audit reasons are grounded in the applicable law, and whether epistemic-tag violations are correctly rejected. A test rule requiring commitment is a domain- or assay-local fixture, not a new universal kernel obligation.
 
 === SECTION_BREAK ===
 
