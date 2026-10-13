@@ -7,158 +7,157 @@ OTTC (On-The-Top Constraint) Systems — Agent Framework Developer Rendering
 
 === SECTION: WHAT_IT_IS ===
 
-[[LLM_INSTRUCTION]]: This section defines what OTTC is.
+[[LLM_INSTRUCTION]]: Define an integration pattern, not a guarantee of measured success.
 
-OTTC is a pattern for keeping LLM agents from turning into spaghetti by making state, updates, and authority explicit in text. It doesn't replace your orchestration (LangChain/LangGraph/custom). It gives you a constitution + state API + audit protocol so your agent's long-run behavior is inspectable and testable.
+OTTC is a constitutional protocol for long-running agents that distinguishes what a stochastic generator may **propose** from what an accountable authority may **commit**. It does not replace LangGraph, LangChain, custom orchestrators, event stores, or your existing tool bus. It specifies canonical state targets, a closed write vocabulary, legal transition conditions, epistemic tags, a single state writer, auditable dispositions, and independent verification. Stage 1 uses a language-native interface; Stage 3 assigns durable writes, enforcement, and verification to external deterministic infrastructure. The claimed reliability improvements are hypotheses to qualify, not performance numbers this document has measured.
 
 === SECTION_BREAK ===
 
 === SECTION: PRACTICAL_PROBLEM ===
 
-[[LLM_INSTRUCTION]]: This section defines the practical problem OTTC solves.
+[[LLM_INSTRUCTION]]: Name actual integration hazards, including ingress and wrongful refusal.
 
-Common production pain:
-- memory drift and personality melt
-- multiple subsystems overwriting each other
-- tool calls that are syntactically valid but cognitively misguided
-- hard-to-debug loops (why did it do that?)
-- compliance/safety issues due to overclaiming
+Common integration failures include:
+- persistent state rewritten by multiple components with no authoritative transaction boundary
+- two names for one state target, or a valid schema attached to the wrong domain entity
+- a temporary observation, guess, or tool result silently treated as an established fact
+- agent/tool decisions accepted on plausible but unsupported justifications
+- audit logs that omit rejected proposals, invent reason codes, or never check the resulting store
+- an overly strict governor that silently refuses lawful, required updates (audit theater by suppression)
+- retrieved content or another domain's framing influencing evaluation before authorization and epistemic admission
+- context-conditioned behavior confused with deterministic guarantees
 
-OTTC solves these by forcing:
-- addressable state
-- governed writes
-- bounded claims
-- audit trails
+OTTC provides **testable requirements** to address these problems. A design containing those requirements is not, by itself, evidence that a particular model or deployment complies.
 
 === SECTION_BREAK ===
 
 === SECTION: MINIMAL_ARCHITECTURE ===
 
-[[LLM_INSTRUCTION]]: This section defines the minimal OTTC architecture.
+[[LLM_INSTRUCTION]]: Describe the current TEN-invariant kernel, not an old nine-invariant cut.
 
-1) Canonical state API (ontology)
-Define a stable address space for the state you care about.
-- bracket paths, JSON pointers, dot paths—doesn't matter
-- what matters: one canonical way to refer to the same lever
+A full OTTC square instantiates all ten prescribed invariants. Invariants 1–9 provide the proposed governability floor; invariant 10 protects epistemic standing. Their irreducible minimality is ARGUED, NOT YET CONFIRMED pending OTTC 10's deletion battery.
 
-This is domain ontology translation, not schema design. The addresses must reflect what actually has durable consequence in your deployment domain — what things are genuinely mutable, what transitions are lawful there, who holds commit authority over what. A canonical address space borrowed from another domain without expert review governs the wrong things.
+1) Canonical state addresses
+- One identity for each consequential mutable target; canonical bracket, JSON Pointer, or other surface chosen through substrate/language qualification.
+- A domain expert determines what those targets mean and which changes matter. Naming fields before examining domain law is not constitutional discovery.
 
-2) Propose→commit pipeline
-- Any reasoning component may propose a delta.
-- Only the governor applies deltas to persistent state.
+2) Proposal/commit separation and a single state writer
+- Proposer components emit structured mutation requests; none directly edits persistent state.
+- An accountable writer applies authorized deltas in one governed commit pipeline.
+- An independent verifier checks the resulting state. If it proposes governance corrections, those return through the **same writer**, not a hidden second writer.
 
-This can be implemented with:
-- a reducer function in code
-- or a governor prompt plus validator
-- for production/high-stakes contexts, an external deterministic governor is recommended
+3) Closed operations and lawful transitions
+- Operation enum: SET, TRANSITION, ADD_MODIFIER, REMOVE_MODIFIER, CAP, VETO.
+- Validate address, permitted operation, current state, applicable domain law, step limit, justified override, and conflict precedence.
+- A failed canonical form is rejected with a real reason; a valid locally required transition must not be suppressed on a fabricated pretext.
 
-3) Governance law
-Your governor enforces:
-- allowed ops: SET / TRANSITION / ADD_MODIFIER / REMOVE_MODIFIER / CAP / VETO
-- step limits for hard state
-- conflict policy
-- routing transient effects to modifiers
+4) Baseline state versus transient overlays
+- Durable identity, policy, or record fields are distinct from contextual modifiers with declared durations and expiry.
+- Temporary context never rewrites a persistent baseline by implication.
 
-4) Modifier registry
-Transient overlays live here, not in baseline state.
-- must expire
-- must not masquerade as baseline updates
+5) Epistemic status at the proposal boundary — **kernel invariant 10**
+- Every registered proposal carries EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, or TOOL_REQUEST.
+- A COMMITTED_FACT assertion needs resolvable, verified evidence linkage; tags must match the claim's actual support.
+- **Epistemic status ≠ provenance ≠ disclosure authorization ≠ evidence warrant.** Store and check them separately.
+- A predictive ledger is an optional domain-specific module; epistemic typing is not optional in the current ten-invariant kernel. Tags do not by themselves implement actual predictions, falsification, or truth.
 
-5) Epistemic rules
-Require labeling of:
-- observation vs inference vs committed state
-Optionally require evidence pointers for external claims.
-
-6) Predictive ledger (optional but high leverage)
-Track a small set of hypotheses and confidence. Don't let plan implicitly become truth.
-
-7) Audit + verification
-Every delta must be accounted for:
-- committed / suppressed / downgraded
-Then verify invariants and caps.
+6) Audited, verified commits
+- Account for **every** proposal exactly once: committed, suppressed, or downgraded, with a truthful reason and trace to any actual write.
+- Independently check post-commit state, invariant compliance, evidence/status consistency, and missed required changes.
+- Check lawful acceptance *and* unlawful rejection; a governor that rejects everything is not qualified.
 
 === SECTION_BREAK ===
 
 === SECTION: STACK_INTEGRATION ===
 
-[[LLM_INSTRUCTION]]: This section defines how OTTC plugs into your stack.
-
-OTTC is an internal protocol, not a framework:
-- Orchestrator decides which prompts/tools run.
-- OTTC defines how state is read/updated and what outputs are legal.
+[[LLM_INSTRUCTION]]: Separate Stage 1 protocol collaboration from Stage 3 enforcement.
 
 Typical integration:
-- your chain/graph runs lenses (analysis passes)
-- they output proposal objects
-- governor reconciles and commits
-- validator/verifier runs post-commit checks
-- transcripts become secondary; state deltas are primary artifacts
+- ORCHESTRATOR: calls model roles, tools, and external services but does not gain implicit authority to bypass commit law.
+- PROPOSER: returns typed, canonical candidate deltas or TOOL_REQUESTs under a qualified role.
+- INTAKE: admits only authorized source material; controls who can observe which data and what epistemic standing may be asserted.
+- GOVERNOR/WRITER: validates proposals against the square's declared law; exclusively owns the persistent write transaction.
+- AUDIT: records each proposal's accountable closure and actual write lineage.
+- VERIFIER: independently inspects committed state and trace; returns findings or new proposals to the writer, never silently changes state.
+- STORE: holds durable committed state; the model's exploratory context is not the source of record.
+
+STAGES:
+- Stage 1 — qualify the candidate first, then discover and build its lawful model-facing interface in context.
+- Stage 2 — split selected model/authority roles and checks while preserving the qualified interface.
+- Stage 3 — move state ownership, commit enforcement, audit and verification to deterministic systems; keep necessary semantic scaffolding for the proposer.
+
+A deterministic gate can reject illegal writes even when the model does not internally favor the rules. It cannot automatically establish the truth of every supplied claim or resolve underspecified domain law.
 
 === SECTION_BREAK ===
 
 === SECTION: TESTING_BENEFITS ===
 
-[[LLM_INSTRUCTION]]: This section defines why OTTC reduces brittleness.
+[[LLM_INSTRUCTION]]: Do not confuse proposed testing conveniences with demonstrated benefits.
 
-OTTC makes agent tests look like software tests:
-- replay scenario
-- assert invariants
-- diff committed deltas
-- track drift rates across runs and models
+OTTC gives developers concrete assertions to test:
+- canonical paths and closed operation types; invalid paths reliably refused
+- state deltas and audit dispositions reproducibly linked
+- external gate accepts mandatory lawful cases while blocking illegal ones
+- verifier catches planted violations without becoming a second writer
+- evidence tags and source permissions survive replay; no speculation silently promoted to fact
+- post-build regressions following changes to prompts, DSL, model, tools, or schemas
+- longitudinal scenarios that detect unjustified change *without* rewarding complete refusal to update
+- input-framing comparisons to measure ingress contamination and the effects of context isolation
 
-You stop arguing about prose, and start asserting protocol properties.
+Compare against realistic alternatives. Report failure signatures and evidence rather than advertising unmeasured drift reductions.
 
 === SECTION_BREAK ===
 
 === SECTION: TOOL_USE_IMPROVEMENT ===
 
-[[LLM_INSTRUCTION]]: This section defines why tool use gets better.
+[[LLM_INSTRUCTION]]: Tool safety is a boundary contract, not a guarantee that every choice is wise.
 
-Tools become:
-- sensors (reduce uncertainty)
-- actuators (risk-bearing actions)
-OTTC forces the agent to stabilize:
-intent + uncertainty + stakes
-before tool selection, so misguided tool calls drop even if schema validity was already high.
+Tools can be sensors (return evidence) or actuators (produce real-world consequences). A TOOL_REQUEST is an explicitly typed intent, **not permission to execute**. A separate authority checks tool identity, parameters, evidence, scope, approvals, and risk before actuation. A tool response is evidence with provenance and an admissibility decision; it does not become COMMITTED_FACT merely because it arrived from a tool. Stage 3 can enforce specified actuation gates and logging, but the semantic quality of an apparently lawful tool request remains an evaluation target.
 
 === SECTION_BREAK ===
 
 === SECTION: TRADEOFFS ===
 
-[[LLM_INSTRUCTION]]: This section defines the tradeoffs of OTTC.
+[[LLM_INSTRUCTION]]: Include costs and the limits of deterministic checks.
 
-- More context overhead
-- More ceremony (schemas, audits)
-- Less freeform creativity
-But you gain long-horizon coherence and debuggability.
+- Canonical specifications, qualifying tests, maintenance, audit, and recovery rules add real engineering work.
+- In-model enforcement uses context and may fail under load or adversarial framing.
+- Early externalization of an underspecified ontology can enforce the wrong rule perfectly or freeze lawful progress.
+- Stage 3 cannot decide claims whose warrant has not been made machine-checkable; qualified humans retain authority for those decisions.
+- Shared proposer context may save compute but expose domains to unadmitted framing.
+- The hoped-for result is better diagnosability and lawful control; superiority, cost effectiveness, and durability must be measured.
 
 === SECTION_BREAK ===
 
 === SECTION: DOMAIN_SQUARES ===
 
-[[LLM_INSTRUCTION]]: This section defines the rectangle/square framing and what it means for framework developers.
+[[LLM_INSTRUCTION]]: The development procedure MUST preserve the current assay-first SOP.
 
-OTTC is a rectangle. The nine kernel axioms define a constitutional shape. Your specific agent is a square: a domain-specific implementation that satisfies the rectangle.
+OTTC is a rectangle: ten prescribed governance functions, not a ready-made business ontology. Your domain implementation is a square. ChaOS was built first and generalized into OTTC after domain-specific governance seams became visible. The development method of expert-directed LLM proposals is reusable; the same model prompt cannot establish the law of a clinical, legal, or enterprise deployment.
 
 WHAT_THIS_MEANS_IN_PRACTICE:
-Your ontology (canonical state addresses) is the domain translation layer. It is not generic. It cannot be borrowed from another domain without expert review. The canonical addresses must reflect what actually has durable consequence in your deployment domain, what transitions are actually lawful there, and who actually holds commit authority over what.
+The **domain expert** determines consequential state, lawful transitions, data permissions, oversight and proper use. The **engineer** implements, instruments, and tests those requirements. A candidate model serves as an auxiliary proposer under the roles it has actually qualified for. Source authority to disclose, representation translation, and receiving-domain admissibility remain separate if multiple squares exchange information.
 
-HOW_TO_BUILD_A_SQUARE:
-1. Load this corpus into persistent LLM context.
-2. Have the LLM propose candidate canonical addresses and SCHEME_ modules for your domain.
-3. Have a domain expert review, revise, and commit the proposals.
-4. Use model disagreements as diagnostic signals, not as errors to suppress.
-5. Run the qualification assay before building. Test the ground.
+HOW_TO_BUILD_A_SQUARE (OTTC 06 ORDER — DO NOT REORDER):
+0. **KERNEL_PRECHECK** — confirm the intact ten-invariant constitutional target.
+1. **QUALIFICATION_ASSAY FIRST** — in a fresh minimally conditioned session, test the candidate model and intended language/role surface: CAA (Canonical Address Obedience), WSD (Write-Surface Discipline), EPI (Epistemic POV Integrity), ANT (Audit Non-Theater), in the prescribed order. No new machine ontology/COT build work precedes this gate. "Blind" means pre-build and minimally conditioned, not provably evaluation-unaware.
+2. **GO/NO-GO** — record prompts, per-axis scores, failures, risk controls and authorized role. NO-GO blocks the build under those conditions; post-build tests cannot retroactively qualify it.
+3. **IF GO: DOMAIN ONTOLOGY** — identify consequential targets and authorization with the expert; render canonical schema in the qualified surface form.
+4. **DEFINE LAWS** — legal operations, evidence rules, overrides, audit and recovery duties.
+5. **DEFINE PROPOSERS / COT ROLES** — only lawful proposal authority; no stealth writes.
+6. **DEFINE EXECUTION ORDER** — commit, verification, and any restricted corrective return through the same writer.
+7. **POST_BUILD_RETTEST** — conditioned regression, distinct from the original blind assay.
+8. **LOCK KERNEL AND ITERATE** — externalize where stakes/horizon warrant; requalify and retest material changes as doctrine requires.
 
-The corpus is a machine-facing collaboration scaffold. The LLM helps you discover the square. The domain expert owns it.
+The corpus can be read and critiqued before these steps. Reading is not a license to design and commit the new machine before the qualification gate. Domain expertise is essential, but LLM agreement does not constitute an assay result.
 
 === SECTION_BREAK ===
 
 === SECTION: BOTTOM_LINE ===
 
-[[LLM_INSTRUCTION]]: This section defines the bottom line of OTTC.
+[[LLM_INSTRUCTION]]: State the engineering proposition with clear evidence status.
 
-OTTC is a discipline: state as API + governed mutation + bounded claims + audits. It turns an LLM agent from a chatty improviser into a system you can reason about over weeks of operation. Your state API is domain ontology translation — it encodes what actually has durable consequence in your deployment domain, not a generic schema imposed from outside. That translation requires real domain knowledge; it cannot be automated or borrowed.
+**A constitution is an interface specification, not a compliance certificate.** Build a candidate model-facing protocol only after the required blind qualification, separate proposal from durable writes, and independently test both illegal rejection and lawful acceptance. Use ten invariants, including an evidence-checked epistemic tag, without confusing the source of information with what it proves. Stage 3 makes defined state boundaries deterministically enforceable; ongoing tests and domain experts address what the boundary does not already know.
 
 === SECTION_BREAK ===
 
