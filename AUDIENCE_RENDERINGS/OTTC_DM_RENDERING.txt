@@ -39,6 +39,8 @@ The distinction is familiar to a GM:
 
 A model's fluent narration is not the authority to resolve the world. In-model constraints remain probabilistic; the GM's judgment and, where built, deterministic external tools supply firmer boundaries.
 
+OTTC also has a maturation path: **Stage 1** discovers and tests the character-facing law in context; **Stage 2** separates some model and checking roles; **Stage 3** moves durable state ownership, commits, and verification into software-controlled governance where the stakes or horizon require it. A GM can experiment with a narrative square without pretending that the Stage 3 machine already exists.
+
 === SECTION_BREAK ===
 
 === SECTION: OTTC_EDIFICE ===
