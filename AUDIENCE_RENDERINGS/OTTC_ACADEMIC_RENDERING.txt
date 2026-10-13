@@ -7,153 +7,143 @@ OTTC (On-The-Top Constraint) Systems — Academic ML / LLM Research Rendering
 
 === SECTION: ABSTRACT ===
 
-[[LLM_INSTRUCTION]]: This section defines the abstract of the OTTC academic paper.
+[[LLM_INSTRUCTION]]: This section presents research hypotheses, not completed efficacy findings.
 
-We propose OTTC: a language-native constraint superstructure for long-horizon, stateful LLM agents. OTTC does not modify model weights and does not claim determinism. Instead, it conditions generation with a versioned constitution that defines (i) an addressable state ontology, (ii) governed state mutation via propose→commit, (iii) epistemic boundaries on claims, and (iv) audit+verification requirements. The result is a measurable reduction in state drift and overclaiming through distribution shaping: canonical tokens, enumerated state options, step-limited transitions, and post-hoc verifiers act as high-gravity attractors that constrain reachable continuations.
+OTTC proposes a constitutional architecture for durable, consequence-bearing state in opaque generative systems. It separates stochastic proposals from authorized commits using canonical addresses, a closed mutation vocabulary, single-writer state authority, bounded transitions, epistemic-status typing, accountable audit closure, and post-commit verification. In Stage 1 these functions are rendered as language-native governance; Stages 2 and 3 progressively move durable authority and checks outside the generator. The **testable hypothesis**, not an established result, is that qualified OTTC implementations can reduce unauthorized state mutation, epistemic overreach, and unjustified long-horizon drift compared with relevant baselines while retaining lawful responsiveness. ChaOS, a psychologically informed narrative character architecture, is the worked single-square example, not a cross-domain performance qualification. The ten-invariant kernel is prescribed; its claimed irreducible minimality remains ARGUED, NOT YET CONFIRMED pending deletion experiments.
 
 === SECTION_BREAK ===
 
 === SECTION: MOTIVATION ===
 
-[[LLM_INSTRUCTION]]: This section defines the motivation for OTTC.
+[[LLM_INSTRUCTION]]: This section defines the motivation and the epistemic scope of the research.
 
-Long-running LLM agents exhibit recurring failure modes: semantic drift in memory, uncontrolled mutation across subsystems, hallucinated authority, and uninspectable decision-making. Standard prompt-only approaches under-specify update semantics; standard tool-agent stacks often log actions but lack a formally enforced change-control protocol for internal state.
+Long-running LLM agents may lose stable referents, mutate persistent state without explicit authority, treat inference as fact, or present plausible audit records unsupported by the operations actually performed. Ordinary transcript inspection can leave the boundary between tentative generation and durable consequence underspecified. The Mutation Boundary Problem asks what lawful conditions must hold before proposed semantic content changes shared state. Both **egress** (proposals becoming commitments) and **ingress** (external framing changing what the evaluator treats as evidence) are research targets. A taxonomy of failures is not evidence that one proposed solution already outperforms alternatives.
 
 === SECTION_BREAK ===
 
 === SECTION: OTTC_CORE_CONSTRUCT ===
 
-[[LLM_INSTRUCTION]]: This section defines the core construct of OTTC.
+[[LLM_INSTRUCTION]]: This section describes the proposed constitutional functions, without confusing functional necessity with measured efficacy.
 
-OTTC is a bundle of text artifacts that jointly define agent operating constraints:
+OTTC prescribes TEN kernel invariants, distinguishing the nine-invariant governability floor from the tenth's epistemic function:
 
-1) Addressable ontology (canonical state addresses)
-- A canonical address space for commit-worthy levers.
-- Purpose: reduce synonym drift and stabilize referents across time.
+1) CANONICAL_ADDRESS_SPACE — one canonical address for each commit-worthy state target.
+2) PROPOSE_COMMIT_SEPARATION — reasoning modules propose; commits are separate accountable events.
+3) SINGLE_WRITER_PERSISTENT_STATE — only the designated writer may alter persistent state per cycle, including restricted post-verification invocation of that same writer.
+4) EXPLICIT_UPDATE_OPERATIONS — a closed operation vocabulary, with unlawful aliases rejected.
+5) HARD_STATE_VS_SOFT_MODIFIERS — durable baseline distinguished from time-bounded overlays.
+6) STEP_LIMITS_OVERRIDE_TRIGGERS — bounded updates with lawful exception evidence.
+7) DETERMINISTIC_CONFLICT_RESOLUTION — stated precedence for competing proposals.
+8) AUDIT_CLOSURE — each proposal receives exactly one accountable disposition; no silent drops or manufactured reasons.
+9) POST_COMMIT_VERIFICATION — independent, fallible checking of committed effects and invariants; the verifier cannot unilaterally write persistent state.
+10) EPISTEMIC_STATUS_TYPING — each registered proposal uses the closed EPISTEMIC_TAG vocabulary: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST. A COMMITTED_FACT claim requires verifiable evidence linkage.
 
-2) Propose→commit governance boundary
-- Multiple reasoning passes may propose deltas; only a single governor commits state updates.
-- Purpose: isolate stochastic deliberation from durable state.
+The first nine principally govern how and by whom state changes. The tenth governs **the epistemic standing asserted for claims supporting such changes**. A source identifier (provenance), source authorization to disclose, supporting evidence, and epistemic status are distinct fields or decisions that must be checked together. Authorized transport of a statement does not entitle the receiver to upgrade inference into fact.
 
-3) Update law (invariants, step limits, conflict policy)
-- Dial classification (hard state vs soft modifiers)
-- Step limits for hard state
-- Deterministic conflict resolution
-- Injection-defense boundary conditions
+The framework treats all ten as normative for an OTTC-compliant serious build. Its strongest necessity argument for the tenth concerns mixed-epistemic durable state and predictive-falsificationist cycles. A consequential single-mode workflow is not intrinsically trivial; the argument does not establish universal indispensability in every such system. Irreducible minimality is a separate, falsifiable hypothesis.
 
-4) Persistent modifier layer
-- Time-bounded overlays (arousal, fatigue, noise, pressure) with expiry semantics.
-- Purpose: preserve baseline identity while allowing context sensitivity.
-
-5) Epistemic output contract
-- Constraints on what can be asserted as fact vs labeled inference.
-- Purpose: reduce assistant omniscience and external-fact hallucination.
-
-6) Predictive ledger (hypothesis discipline)
-- Explicit hypotheses/predictions with certainty and falsification/resolution states.
-- Purpose: represent uncertainty structurally rather than via implicit tone.
-
-7) Audit + verification
-- Every proposal accounted for (committed/suppressed/downgraded).
-- Post-commit checks for caps, invariants, integrity.
-- Purpose: enable mechanized evaluation.
+A predictive ledger is a possible *square-specific module*, not an additional required kernel invariant. Epistemic tags alone do not implement predictive processing or Popperian falsification. Those claims require actual predictions, evidence able to contradict them, lawful revision, and reproducible attribution of error.
 
 === SECTION_BREAK ===
 
 === SECTION: RESEARCH_CONTRIBUTIONS ===
 
-[[LLM_INSTRUCTION]]: This section defines the testable claims of OTTC.
+[[LLM_INSTRUCTION]]: Keep structural proposals, testable hypotheses, and measured results epistemically distinct.
 
-Compliance framing:
-- The primary OTTC compliance floor is the 9 kernel axioms.
-- Additional invariants are extension controls activated by deployment context and risk tier.
+COMPLIANCE_AND_MINIMALITY:
+- OTTC's current prescribed kernel contains ten invariants.
+- Nine form the argued governability floor; the tenth is argued necessary where differently warranted claims affect durable state.
+- Minimality status: ARGUED, NOT YET CONFIRMED (OTTC/10_OTTC_TESTABLE_HYPOTHESIS). Calling the architecture minimal before ablation would turn a hypothesis into a finding.
 
-1) Constitution-as-conditioning reduces drift
-Hypothesis: canonical addressing + update law yields lower long-horizon semantic drift vs baseline prompt-only agents, measurable by:
-- rewrite rate of stable fields
-- registry/record integrity violations
-- divergence in repeated scenario replays
+1) Constitutional conditioning and lawful responsiveness
+Hypothesis: a qualified constitution reduces invalid proposals or unlawful commits under defined conditions compared with matched baselines.
+Measure: illegal-alias incidence, canonical-address errors, write-surface violations, erroneous refusals of mandatory lawful transitions, valid-change completion, and correct recovery. Low mutation volume alone is not success.
 
-2) Epistemic contracts reduce overclaiming
-Hypothesis: bounded-claim rules reduce unsupported factual assertions; measure:
-- unsupported named-entity claims
-- confidence calibration metrics under tool/no-tool conditions
+2) Epistemic attribution and hypothesis testing
+Hypothesis: typed proposal claims permit more reproducible diagnosis of misperception, inference failure, speculation, and unsupported fact promotion than otherwise comparable untyped architectures.
+Measure: truthful EPISTEMIC_TAG assignment, evidence-linkage quality, attribution of prediction errors, valid refutation handling, and revisions following contradicting evidence. Epistemic status must not be reconstructed uncritically from source provenance.
 
-3) Auditability enables mechanizable agent evaluation
-Hypothesis: OTTC yields more stable evaluation targets (deltas, audits) than freeform transcripts; measure:
-- inter-rater reliability on behavior correctness
-- automated invariant pass rates
+3) Auditable governance and independent verification
+Hypothesis: closed proposal dispositions and separate verification improve replayability and detection of improper commits, omissions, and pretextual suppression.
+Measure: audit completeness, reason fidelity, verifier error detection, false rejections and false acceptances, trace-to-state agreement, and restoration after governed faults. Audit documents may be theatrical; their correctness is itself a test.
 
-4) Ontology translation as governance precondition
-Observation: governance cannot operate over what has no address. The adequacy of an OTTC-governed deployment depends on prior domain-expert ontology translation. Research question: what failure modes arise when domain knowledge is insufficiently translated before governance architecture is built? Measurable by: rate of governance theater (audits over state surfaces that do not correspond to domain-consequential entities), mismatch between commit authority and domain authority structure, and post-deployment ontology revision rate.
+4) Ingress and long-horizon effects
+Hypothesis: framing at the input boundary can alter evaluation before a claim is lawfully admitted, and some individually permitted transitions may accumulate into unjustified directional bias.
+Measure: matched neutral/positive/negative/hostile-framing conditions; repeated-turn exposure; authorized versus unauthorized evidence uptake; longitudinal change conditioned on actual domain reconciliation duties; and lawful responsiveness. The proposed semantic-to-numeric drift instrument is not a confirmed thermodynamic entropy-production measurement.
+
+5) Ontology translation and federation
+Hypothesis: incomplete domain-law rendering or tacit completion produces consequential gaps not exposed by an apparently coherent transcript.
+Test whether experts and uninformed reviewers can locate operative rules in the artifact itself. Separately qualify any proposed two-authority federation: source disclosure authority, negotiated mapping, receiving admissibility, independent commit authority, and audit across the handoff. Tabletop single-DM practice is a human precedent, not evidence that the sovereign-separation axis has been validated.
 
 === SECTION_BREAK ===
 
 === SECTION: DOMAIN_ONTOLOGY_AND_RECTANGLE_SQUARE ===
 
-[[LLM_INSTRUCTION]]: This section states the rectangle/square framing and the domain-ontology translation claim as research-relevant structural observations.
+[[LLM_INSTRUCTION]]: Preserve the square-first origin and the distinction between expert authority and model assistance.
 
 STRUCTURAL_CLAIM:
-OTTC is a rectangle. The nine kernel axioms define the minimal constitutional shape any compliant implementation must satisfy. They do not define ontology, domain-specific state surfaces, or lawful transition conditions. Those are contributed by domain experts through ontology translation: the act of rendering a domain's constitutional world (durable things, lawful transitions, evidentiary standards, authority assignments) into OTTC-legible form.
+ChaOS was developed first as a narrative character square; nine generalized governance candidates were extracted after its responsibilities were separated into constitutional, kernel, scheme, cognition, dynamics, state, and volatile layers. The tenth was added later. Parallel subsequent refinement does not imply parallel origination. OTTC's rectangle states common functions, not the ontology or lawful transitions of a clinical, legal, scientific, or narrative square.
 
 RESEARCH_IMPLICATION:
-Governance is fundamentally a domain-knowledge translation problem. Canonical addresses cannot exist without a prior decision about what is worth addressing. Lawful transitions cannot be specified without prior domain knowledge of what transitions are lawful in that field. Generic orchestration frameworks fail at governed mutation not because they lack structure but because they lack the domain's constitutional knowledge. This is a structural insufficiency, not merely an implementation gap.
+Domain experts must specify consequential surfaces, admissibility, exceptions, standing, and proper use. "Tacit completion" occurs when an experienced founder unconsciously supplies a missing rule while reading their own specification. A review must identify the operative rule *in the artifact*, not infer it from the founder's knowledge. An LLM can assist as a proposer without acquiring constitutional authority.
 
 OPENNESS_CLAIM:
-Any consequence-bearing domain with durable state surfaces can in principle become its own square. Legal governance, clinical protocols, scientific hypothesis management, enterprise change control, and others are candidate domains. The research question is what is required to build a new square: what domain knowledge must be translated, what collaboration method produces viable ontology surfaces, and what failure modes arise when domain translation is incomplete.
+New domain squares and federations are prospective research objects. Cross-domain transfer additionally requires source-side permission and receiving-side epistemic admission. Their feasibility and safety are not established by the ChaOS narrative example.
 
 COLLABORATION_SCAFFOLD_CLAIM:
-The corpus is designed to function as a machine-facing collaboration scaffold. When loaded into persistent LLM context, it allows LLMs and domain experts to discover OTTC-compliant architectures together. The collaborative method (plural LLM proposals, domain-expert commit authority, disagreement as diagnostic signal) is itself a contribution and a research object.
+Plural-model critique and human expert commits are a candidate method for discovering the domain's lawful structure. Model agreement is not qualification, and a prior built square is not retroactive evidence that a blind pre-build gate was passed.
 
 === SECTION_BREAK ===
 
 === SECTION: EXPERIMENTAL_SETUP ===
 
-[[LLM_INSTRUCTION]]: This section defines the suggested experimental setup.
+[[LLM_INSTRUCTION]]: Preserve assay chronology, distinct experimental purposes, and falsification conditions.
 
-- Treat constitution variants as experimental conditions.
-- Run multi-model evaluation (distribution portability): different model families and RLHF regimes.
-- Ablations:
-  - remove modifier layer
-  - remove step limits
-  - remove predictive ledger
-  - remove verification pass
-- Metrics:
-  - state drift rate
-  - thrash frequency (repeated conflicting updates)
-  - hallucinated authority rate
-  - audit completeness
-  - recovery after contradiction events
+PHASE_0: Kernel precheck — confirm ten prescribed invariants without quietly treating epistemic typing as an optional enhancement.
+PHASE_1: Blind, fresh-session, minimal-law, **pre-build** qualification of the candidate model/role/language surface, in order: Canonical Address Obedience (CAA), Write-Surface Discipline (WSD), Epistemic POV Integrity (EPI), Audit Non-Theater (ANT). Use the assay's own locally binding approve and reject cases. Record actual prompts, scores, failures, model identity, and operating language. "Blind" does not guarantee the model cannot recognize an evaluation.
+PHASE_2: GO/NO-GO decision. If NO-GO, do not proceed to new ontology, governance, or COT machine design under the failed role assumptions.
+PHASE_3: If GO, render the domain ontology and lawful schema, model-facing constitutional interface, authorities, execution order, and risk-appropriate external enforcement.
+PHASE_4: Post-build conditioned regression testing (distinct from Phase 1, never relabeled as blind qualification); longer-horizon scenario evaluations when warranted.
+PHASE_5: Stage 2/3 migration and retesting of both correct external rejection *and* acceptance of obligatory lawful work, including recovery paths.
+
+INDEPENDENT_MINIMALITY_EXPERIMENT:
+- For each of the ten invariants, remove only that invariant while preserving the other nine; compare matched mixed-epistemic, long-horizon tasks to the intact kernel.
+- **Include deletion of epistemic-status typing**. Test whether the remaining architecture can still attribute, refute, and lawfully correct prediction errors without the tag.
+- If a smaller set passes the necessary predictive-falsificationist requirements, the ten-invariant minimality hypothesis is refuted.
+- An intact-kernel pass does not prove minimality. Separate this deletion battery from the model-coupling assay, and avoid post-hoc selection of only favorable runs.
+
+Collect operation/epistemic violations, valid-transition completion, audit and evidence fidelity, unwanted refusals, drift under lawful change, and cross-condition reproducibility. Use appropriate baselines; do not substitute one short trace or an interpretability correlate for long-horizon outcomes.
 
 === SECTION_BREAK ===
 
 === SECTION: RELATION_TO_PRIOR_WORK ===
 
-[[LLM_INSTRUCTION]]: This section defines the relation to prior work.
+[[LLM_INSTRUCTION]]: Present the relationship as positioning, not an unqualified novelty or performance assertion.
 
-OTTC intersects with:
-- structured memory and event sourcing for agents
-- program-of-thought / procedural prompting
-- verification and policy enforcement layers
-But differs by treating governance, epistemics, and audit as a unified, shippable text constitution.
+OTTC intersects with event sourcing, agent memory, structured output protocols, program-of-thought, policy engines, audit systems, mechanistic interpretability, and adversarial evaluation. The proposed contribution is the integrated **mutation-boundary specification**, domain-expert constitution, assay-first engineering sequence, and stage-dependent allocation of authority. Its distinctiveness, comparative efficacy, and ten-invariant minimality require independent research rather than declaration.
 
 === SECTION_BREAK ===
 
 === SECTION: LIMITATIONS ===
 
-[[LLM_INSTRUCTION]]: This section defines the limitations of OTTC.
+[[LLM_INSTRUCTION]]: This section states the live limits of OTTC, including the limits of instruments.
 
-- Model-dependent coupling: same constitution induces different behavior across models.
-- Context budget overhead.
-- OTTC constrains reachable behaviors; may reduce creativity/flexibility.
+- The strongest coupling, reliability, drift, and minimality claims are unconfirmed; existing reviews do not count retroactively as blind qualification.
+- In-model enforcement remains stochastic. Stage 3 can deterministically enforce *specified* state/operation boundaries but cannot certify unformalized semantics or automatically establish truth.
+- Evidence tags describe asserted standing and must be checked; recorded provenance alone does not prove warrant.
+- Blind minimal conditioning mitigates some evaluation confounds without proving lack of evaluation awareness.
+- Interpretability may contribute mechanistic evidence, not privileged commit authority or guaranteed deception detection.
+- Long-horizon tests can still miss failures; safety cannot be inferred from stability achieved by rejecting all changes.
+- Domain law and permissions may vary by institution; cross-square sovereignty and ingress remain separate unqualified axes.
+- Model/language dependence, context costs, maintenance, technical collaboration, and authority legitimacy are ongoing constraints.
 
 === SECTION_BREAK ===
 
 === SECTION: CONCLUSION ===
 
-[[LLM_INSTRUCTION]]: This section defines the conclusion of the paper.
+[[LLM_INSTRUCTION]]: Close with an accountable research claim rather than a promised outcome.
 
-OTTC reframes long-horizon agent reliability as a constitutional conditioning problem with mechanized accountability. It offers a researchable interface between stochastic policies and governed state transitions, enabling reproducible evaluation via replayable deltas and audits. Because governance cannot operate over what has no address, ontology translation is a prerequisite rather than a downstream concern: the adequacy of any OTTC-governed deployment depends on prior domain-expert translation of the field's durable things, lawful transitions, and authority assignments into OTTC-legible form. Domain-expert constitutional discovery — the method and failure modes of that translation process — is itself an open research direction.
+OTTC offers a falsifiable, architecture-level proposal for managing the passage from generative possibility into durable, consequential state. The first nine functions govern proposed changes, while the tenth preserves the declared epistemic standing of their supporting claims without merging status, origin, authorization, and warrant. The evidence program must determine whether this improves actual systems and whether any function can be removed without loss. A coherent constitution is a research object; it is not its own validation.
 
 === SECTION_BREAK ===
 
