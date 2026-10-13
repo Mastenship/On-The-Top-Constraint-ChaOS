@@ -7,148 +7,144 @@ OTTC (On-The-Top Constraint) Systems — Enterprise Governance / Safety Renderin
 
 === SECTION: EXECUTIVE_SUMMARY ===
 
-[[LLM_INSTRUCTION]]: This section defines the executive summary of OTTC for enterprise governance.
+[[LLM_INSTRUCTION]]: Separate architecture intent, stage of enforcement, and evidence of actual performance.
 
-OTTC is a governance-first architecture for LLM agents. It uses a versioned, human-readable constitution (plain text) to constrain what an agent can claim, what it can change, and how changes are audited. OTTC is designed for long-running agents operating under uncertainty where overreach and state drift are costly.
+OTTC is a proposed governance architecture for long-running AI systems whose generated statements can affect persistent records, approvals, plans, or actions. Its constitutional interface specifies **what may change, who may authorize change, what evidence is needed, and how every candidate change is accounted for**. The prescribed kernel has ten invariants, including mandatory epistemic-status typing. A Stage 1 model follows these constraints probabilistically; Stage 3 can assign durable state ownership, commit decisions, audits, and verification to external deterministic infrastructure.
 
-OTTC does not claim determinism. It makes stochastic behavior bounded, reviewable, and testable.
+OTTC does not certify an organization as safe or compliant merely because the constitution exists. Its claimed reduction in unauthorized changes, drift, and epistemic overreach must be established through the required pre-build qualification gate, post-build regression, risk-appropriate long-horizon tests, and operational assurance. Deterministic enforcement applies only to rules that have actually been specified and correctly implemented.
 
 === SECTION_BREAK ===
 
 === SECTION: ENTERPRISE_RISK ===
 
-[[LLM_INSTRUCTION]]: This section defines the enterprise risk OTTC targets.
+[[LLM_INSTRUCTION]]: Describe failures on ingress and egress and avoid unearned outcome claims.
 
-Agents fail in predictable governance-relevant ways:
-- Fabrication of facts or sources (hallucinated authority)
-- Uncontrolled changes to internal state (policy drift)
-- Inability to explain why actions were taken
-- Fragile coupling to deterministic systems (tickets, deployments, approvals)
-- Accumulating soft errors that become major failures over time
+Consequence-bearing agent deployments can fail through:
+- **Unlawful egress:** speculative output silently becoming a committed ticket, policy, patient record, legal claim, or tool action.
+- **Unlawful ingress:** retrieved text, user framing, another team or square's evaluative stance, or a tool result influencing a decision before its evidentiary role has been admitted.
+- **State authority confusion:** parallel agents, services, or retries rewriting persistent records without a single accountable writer.
+- **Evidence promotion:** an unsupported inference recorded as verified fact, or a model-generated audit justification treated as independent proof.
+- **Audit theater:** missing proposal dispositions, invented rejection reasons, or a governor that blocks required lawful work under fabricated pretexts.
+- **Hidden long-horizon damage:** individual changes may look lawful while accumulated results drift, or excessive suppression may appear stable.
+- **Underspecified policy:** deterministic systems may enforce a schema that omits real domain exceptions, approvals, or recovery routes.
+- **Cross-domain leakage:** privileged records crossing institutional boundaries because a representation mapping exists but disclosure permission does not.
 
-OTTC introduces change control and accountability as first-class requirements.
+These are risks the OTTC design makes explicit. Whether its controls measurably reduce them depends on the chosen architecture and qualified operating conditions.
 
 === SECTION_BREAK ===
 
 === SECTION: OTTC_CONTROLS ===
 
-[[LLM_INSTRUCTION]]: This section defines OTTC controls mapped to governance concerns.
+[[LLM_INSTRUCTION]]: State ten normative kernel functions and the limits of their control.
 
-1) Defined state surfaces (ontology)
-OTTC defines what the agent is allowed to remember and mutate using canonical addresses.
-Governance benefit:
-- supports reviews, approvals, and limits on what can persist
+OTTC's ten prescribed invariants are not risk-tier add-ons:
 
-Critical requirement:
-The canonical addresses must be designed by subject matter experts, not IT alone. The state surfaces must reflect what actually has durable consequence in the organization's operations — which workflows generate governed state, what transitions require approval, who holds commit authority over what, what counts as evidence for a state change. If SMEs have not reviewed and committed the ontology, the governance architecture will enforce the wrong things. Governance theater — audits over state surfaces that do not correspond to what actually matters — is as dangerous as no governance.
+1) **Canonical address space:** every durable target has one authorized reference. Domain experts determine which records and fields are consequential.
+2) **Proposal/commit separation:** model components may suggest changes; proposals are not writes or approvals.
+3) **Single-writer persistent state:** one accountable writer per governed cycle owns commits, including any restricted post-verification return.
+4) **Closed update vocabulary:** SET, TRANSITION, ADD_MODIFIER, REMOVE_MODIFIER, CAP, VETO; prohibited aliases cannot bypass the intake gate.
+5) **Durable versus transient separation:** situational pressure or provisional context may not silently become baseline policy, identity, or standing records.
+6) **Bounded transitions and justified exceptions:** an operation beyond declared bounds needs a named trigger and sufficient evidence.
+7) **Deterministic conflict precedence:** competing proposals resolve under stated, reproducible authority rules.
+8) **Exactly-once audit closure:** each proposal has a real committed/suppressed/downgraded disposition with truthful reasons, including the refusal of valid required work.
+9) **Independent post-commit verification:** an authorized checker reviews actual committed effects; it reports findings or proposes corrections rather than secretly rewriting state.
+10) **Epistemic-status typing:** every registered proposal carries PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, or TOOL_REQUEST. COMMITTED_FACT demands resolvable, verified evidence linkage. Typing is kernel for OTTC's intended mixed-epistemic, hypothesis-testing use.
 
-2) Change control via propose→commit
-Agent components may propose updates; only a single governed authority commits them.
-Governance benefit:
-- prevents uncontrolled mutation
-- enables approval gates and human-in-the-loop escalation at the commit point
+**Scope distinction:** Invariants 1–9 specify the proposed governability floor; the tenth governs **what standing supporting claims assert**, not merely which user, tool, or department supplied them. Provenance, disclosure authority, evidence warrant, and epistemic status must be checked separately. Their conditional necessity arguments do not erase the current ten-invariant compliance requirement, and ten-invariant **minimality is ARGUED, NOT YET CONFIRMED**, awaiting deletion tests.
 
-3) Invariants and step limits
-Hard-state fields have step limits and invariant constraints; risky jumps require explicit proof.
-Governance benefit:
-- prevents sudden shifts in risk posture, policy interpretation, or goals
-- reduces agent drift across long deployments
+**Control distinction:** In-model declarations are behavioral constraints, not deterministic write guarantees. A properly implemented Stage 3 gate can enforce declared write/operation boundaries independently of whether the proposer is sincerely aligned. It cannot, without adequate evidence and domain-specific logic, certify the truth of all semantic claims or guarantee organizational legitimacy.
 
-4) Separation of baseline vs transient modifiers
-Short-lived influences must expire and cannot silently rewrite baselines.
-Governance benefit:
-- prevents a transient incident from permanently shifting the agent's operating posture without review
-
-5) Epistemic boundaries (bounded authority)
-OTTC restricts what the agent may assert as fact. External claims can be required to carry evidence pointers (tool outputs, citations, approvals).
-Governance benefit:
-- reduces misinformation risk
-- improves compliance in regulated environments
-
-6) Audit + verification
-Every proposed state change must be logged as committed/suppressed/downgraded, and verified against caps/invariants.
-Governance benefit:
-- post-incident forensics become possible
-- supports internal controls, compliance evidence, and regression testing
+Governance outcomes therefore include **lawful acceptance** as well as lawful rejection. An all-reject policy may be safe-looking but violate real operational duties.
 
 === SECTION_BREAK ===
 
 === SECTION: TOOL_SAFETY ===
 
-[[LLM_INSTRUCTION]]: This section defines how OTTC improves tool safety.
+[[LLM_INSTRUCTION]]: A proposed tool action is not automatic authorization or proof of truth.
 
-OTTC treats tools as:
-- sensors (evidence acquisition)
-- actuators (world-changing actions)
+Classify tools as **sensors** (obtaining possible evidence) and **actuators** (changing external reality). The model may issue a typed TOOL_REQUEST, which is neither a durable commit nor permission to execute. Before an actuator runs, check the declared policy, tool identity, parameter bounds, approver authority, risk, and any necessary human escalation. Tie the final action to a verifiable transaction record.
 
-Actuators can be gated by:
-- explicit policy invariants
-- approvals
-- risk posture state
-- uncertainty thresholds
+A tool result carries **source provenance and a proposed epistemic role**. A web page, database row, or retrieved file can be authentic and still irrelevant, stale, privileged, or insufficiently warranted. An intake boundary decides what may be shown to a proposer and what the receiving domain may treat as evidence. Independent audit and verification must check the actual execution outcome; plausible log prose does not prove the gate worked.
 
-This supports safe actuation under uncertainty and prevents premature irreversible actions.
+This architecture can restrict explicitly governed actions. It cannot promise to prevent every premature or harmful action if semantics, downstream systems, or permissions remain incompletely specified.
 
 === SECTION_BREAK ===
 
 === SECTION: OPERATIONALIZATION ===
 
-[[LLM_INSTRUCTION]]: This section defines how OTTC can be adopted incrementally.
+[[LLM_INSTRUCTION]]: Assay first is mandatory. Incremental migration is allowed AFTER qualification, not as a way around it.
 
-OTTC can be adopted incrementally:
-1) Start with epistemic boundaries + evidence requirements.
-2) Add propose→commit with a governor.
-3) Add audit requirements and verification checks.
-4) Add modifier layer and step limits for long-horizon stability.
-5) For high-risk workloads, externalize persistent state and commit authority.
+Do not deploy OTTC by starting with a prompt and adding the controls later while treating the result as qualified. Follow the binding sequence in OTTC/04_OTTC_QUALIFICATION_RANGE and OTTC/06_OTTC_BUILD_OUR_OWN_MACHINE_SOP:
+
+STEP_00 — **KERNEL PRECHECK:** confirm the ten-invariant target and do not silently demote epistemic typing to an optional enhancement.
+STEP_01 — **BLIND PRE-BUILD ASSAY:** fresh minimally conditioned candidate-model session; execute Canonical Address Obedience (CAA), Write-Surface Discipline (WSD), Epistemic POV Integrity (EPI), Audit Non-Theater (ANT). Capture prompts, scores, model/role identity, operating language, and failure signatures. Blind does not guarantee the model is unaware of evaluation.
+STEP_02 — **GO/NO-GO:** authorize or block the proposed model role and level of authority using the actual assay evidence. Existing post-build runs cannot retroactively satisfy this gate.
+STEP_03 — **IF GO: DOMAIN ONTOLOGY AND LAW:** qualified subject-matter experts define consequential state, permitted transitions, evidence conditions, disclosure boundaries, legitimate authority, exceptions, and recovery.
+STEP_04 — **PROPOSERS AND EXECUTION:** implement the accepted model-facing protocol, the exclusive writer, accountable audit, independent verification, and tool controls appropriate to the target stage.
+STEP_05 — **POST-BUILD REGRESSION:** retest the conditioned architecture, including both invalid proposal rejection and locally required lawful commits. Test data isolation, reason fidelity, and recovery.
+STEP_06 — **MATURATION BY RISK:** Stage 1 discovers the usable law surface; Stage 2 separates selected authorities and checks; Stage 3 externalizes state, commitment, audit, and verification when consequence, horizon, or adversarial exposure warrants. Continue operational monitoring and change control.
+
+The **first qualified prototype** is not the same as authorization for a high-consequence deployment. Institutional standing, legal obligations, technical assurance, and independent oversight may require additional gates. Do not reuse another sector's ontology or disclosure law merely because the data schema fits.
 
 === SECTION_BREAK ===
 
 === SECTION: SUCCESS_METRICS ===
 
-[[LLM_INSTRUCTION]]: This section defines what success looks like with measurable outcomes.
+[[LLM_INSTRUCTION]]: These are proposed metrics, not observed improvements.
 
-- Lower rate of unsupported factual claims
-- Lower long-horizon drift in agent state
-- Improved incident review quality (why did it do that?)
-- Higher reproducibility in replay tests
-- Clearer separation of transient vs baseline behavior changes
+Measure *both sides* of the governance boundary:
+- rejected unauthorized writes, malformed addresses, impermissible operations, and improper actuator requests
+- correctly committed **required** lawful work; erroneous refusals and fabricated suppression pretexts
+- exactly-once proposal audit dispositions, accurate reason codes, and trace-to-store consistency
+- post-commit verification effectiveness, false alarms, and recovery from injected anomalies
+- epistemic-tag/evidence consistency and unwarranted promotion from speculation or inference to fact
+- unauthorized disclosures or privileged information accepted across a boundary
+- matched-framing ingress sensitivity and reduction under correctly qualified context isolation
+- longitudinal unjustified state changes **alongside** responsiveness to genuine new evidence
+- regression after model, policy, language, schema, or tool changes
+- actual operational cost, latency, human review burden, maintenance load, and incident follow-up
+
+A compliance dashboard cannot turn an unsupported conclusion into a verified fact. External metrics should be defined before a trial where possible, and negative findings must be retained.
 
 === SECTION_BREAK ===
 
 === SECTION: TRADEOFFS ===
 
-[[LLM_INSTRUCTION]]: This section defines the tradeoffs of OTTC.
+[[LLM_INSTRUCTION]]: Name real organizational work and risk rather than promising job growth.
 
-- Additional context and process overhead
-- More up-front design of state surfaces and invariants
-- Some loss of improvisational flexibility
+- Up-front constitutional design and empirical qualification cost time.
+- A common state schema can be reused, but local law, permissions, assurance, and governance authority may differ across jurisdictions, hospitals, firms, or business units.
+- Stage 1 context overhead and variability are real; Stage 3 implementation and maintenance costs are also real.
+- Overstrict controls may suppress necessary changes or freeze a workflow under an uncorrected specification error.
+- Human experts need qualification literacy and technical partners where appropriate. Domain expertise cannot be replaced by model fluency; neither does the framework predict the number of jobs this will create.
+- Federation between independent authorities requires negotiated source disclosure, mapping, receiving admissibility, and separate commit control—not just a deterministic translation function.
+- Interpretability can inform mechanism hypotheses but does not certify authority or remove the need for runtime checks.
 
 === SECTION_BREAK ===
 
 === SECTION: BOTTOM_LINE ===
 
-[[LLM_INSTRUCTION]]: This section defines the bottom line of OTTC for enterprise governance.
+[[LLM_INSTRUCTION]]: Finish as governance and assurance proposition, not a deployment certificate.
 
-OTTC provides a governance protocol for stochastic agents: explicit state surfaces, controlled mutation, bounded authority, and auditability. It enables deployment of long-running agents with change control comparable to established enterprise practices.
+OTTC offers an explicit constitutional route for making changes by stochastic agents inspectable, contestable, and, at the properly externalized boundary, enforceable under declared rules. Ten kernel invariants govern both state mutation and the **epistemic standing** of claims offered to justify it. The controls have to be qualified before architecture decisions, implemented by legitimate domain authorities, tested for wrongful acceptance *and* wrongful refusal, and verified against actual state. **A logged reason is not a warranted reason; a versioned constitution is not proof of safe deployment.**
 
 === SECTION_BREAK ===
 
 === SECTION: DOMAIN_ONTOLOGY_AND_SQUARE_BUILDING ===
 
-[[LLM_INSTRUCTION]]: This section defines the rectangle/square framing and its enterprise implications.
+[[LLM_INSTRUCTION]]: Explain square-specific expertise, cross-domain permission, and construction order.
 
 RECTANGLE_CLAIM:
-OTTC is a rectangle. The nine kernel axioms define a constitutional shape. An enterprise deployment is a square: a domain-specific implementation that satisfies the rectangle.
+OTTC is the domain-general rectangle prescribing ten invariants. An enterprise deployment is a domain-specific square only when those functions are rendered in authorized institutional law and qualified for its intended roles. The first nine constitute the proposed governability floor; epistemic typing is the tenth prescribed kernel function for claims of different standing. Universal minimality remains an open ablation question.
 
 ENTERPRISE_IMPLICATION:
-The ontology (canonical state surfaces) is not generic. It must reflect what actually has durable consequence in your organization's operations: what workflows generate governed state, what transitions require approval, who holds commit authority over what, what counts as evidence for a state change. That translation is not an IT project alone. It requires domain expertise from the business function the agent governs.
+Subject-matter experts must identify which operational states matter, whose signature authorizes transitions, which evidence may cross a boundary, and which exceptions require judgment. IT and platform teams implement the resulting protocol but cannot infer its legitimacy from well-formed JSON. A medical, legal, or human-resources square cannot silently inherit another square's authority or permissions.
 
 GOVERNANCE_RISK_OF_SKIPPING_ONTOLOGY_TRANSLATION:
-If canonical addresses are defined without domain-expert review, the governance architecture will enforce the wrong things. Governance theater — a system that produces audits and verifications over state that does not correspond to what actually matters in the domain — is as dangerous as no governance, because it produces false confidence.
+Audits over the wrong state surfaces can create false confidence. So can an otherwise deterministic gate that faithfully enforces an institutionally invalid rule or an override path no one rendered. An expert reader must be able to point to each operative rule **in the artifact**, not silently complete it from professional experience. Validate source and recipient permissions separately in federated integrations.
 
 COLLABORATION_SCAFFOLD:
-This corpus is designed to assist. Load it into persistent LLM context. Have the LLM propose candidate state surfaces, invariants, and transition rules for your deployment domain. Have domain experts (not just IT) review, revise, and commit those proposals. Treat model disagreements as diagnostic signals. The method: plural LLM proposals, domain-expert commit authority.
+LLMs can propose alternatives and expose missing assumptions; experts with proper standing accept or reject them. However, that collaboration occurs **after** the relevant candidate-role blind qualification and GO decision when constructing a new OTTC machine under the binding SOP. Review, model agreement, and post-build testing are not retrospective qualification. The institution owns the law; the authorized architecture owns the durable commit.
 
 === SECTION_BREAK ===
 
