@@ -7,236 +7,180 @@ OTTC (On-The-Top Constraint) Systems — For DMs and Narrative Designers
 
 === SECTION: DM_PROBLEM ===
 
-[[LLM_INSTRUCTION]]: This section defines the DM problem OTTC is actually solving.
+[[LLM_INSTRUCTION]]: Explain the narrative problem without turning a narrative square into clinical science.
 
-If you're trying to run long sessions with an LLM as a player-character mind, the hard part is not getting dialogue. LLMs can already talk.
+If you're trying to run long sessions with an LLM as a player-character mind, the hard part isn't getting dialogue. LLMs can already talk.
 
 The hard part is keeping a character:
 - coherent across weeks of play
-- consistent under changing circumstances
+- recognizably themselves under new stress and hard choices
 - bounded to what they could plausibly know
-- able to evolve without randomly reinventing themselves
-- wrong sometimes, but wrong in a stable, character-consistent way
+- free to evolve without randomly rewriting their whole personality
+- wrong sometimes, but wrong in a character-consistent way
 
-Most You are X, act like X characters fail because they have no durable internal reality and no disciplined way to change it. They feel fine for a scene, then drift.
+Most "You are X, act like X" prompts supply a portrait, not a lawful history of change. They may sound right for one scene and lose continuity later. ChaOS started as an attempt to solve that **player-character problem**, not as a model of clinical psychology.
 
-OTTC is a text-native way to give the model a playable inner machinery and a change-control process.
+**ChaOS is the character-specific square. OTTC is the more general rectangle of governance rules later extracted from it.** The rectangle can govern many kinds of persistent systems; it does not itself contain a character sheet, a psychology model, or a GM.
 
 === SECTION_BREAK ===
 
 === SECTION: DM_TERMS ===
 
-[[LLM_INSTRUCTION]]: This section defines what OTTC is in DM terms.
+[[LLM_INSTRUCTION]]: Translate OTTC into tabletop practice without promising deterministic model behavior.
 
-OTTC is a constitution + character sheet + rules of cognition written in plain text that lives in the LLM's persistent context.
+Think of OTTC as the **rules for what gets written on a persistent sheet**, who may authorize a change, and what evidence supports the change. Think of ChaOS as one playable rendering for a character: psychology-informed narrative concepts, qualitative state changes, temporary pressures, and viewpoint-limited cognition.
 
-It doesn't make the model deterministic.
-It makes the model behave as if it has:
-- inertia (traits don't flip instantly)
-- consequences (state changes have rules)
-- perspective limits (no omniscience)
-- memory discipline (events are stored in a structured way)
-- stress/pressure handling (today's chaos doesn't rewrite identity)
+The distinction is familiar to a GM:
+- **Proposal:** "My character tries to persuade the guard."
+- **Adjudication:** The DM decides what happens in the world.
+- **Commit:** The authorized state changes are entered into the continuing record.
+- **Verification:** The group or a separate checker can notice whether the update violated an established rule.
+- **Epistemic status:** "I saw the guard hesitate" is different from "I think the guard is afraid" and different again from "The guard is definitely working for the duke."
 
-In short: OTTC turns a chatty improviser into a bounded actor.
+A model's fluent narration is not the authority to resolve the world. In-model constraints remain probabilistic; the GM's judgment and, where built, deterministic external tools supply firmer boundaries.
 
 === SECTION_BREAK ===
 
 === SECTION: OTTC_EDIFICE ===
 
-[[LLM_INSTRUCTION]]: This section defines the parts that work together.
+[[LLM_INSTRUCTION]]: Describe the ChaOS narrative square and identify which claims are domain-specific.
 
-1) A canonical character reality (state as a usable sheet)
-You define an internal character world the model can reliably point to.
-
-Examples:
-- BODY, SKILLS, RELATIONAL, MEMORY, GOALS, BELIEFS
-- not as prose, but as named levers with stable labels
+1) A canonical character reality (a state sheet worth keeping)
+ChaOS gives recurring character concerns stable addresses: BODY, SKILLS, RELATIONAL, MEMORY, GOALS, BELIEFS and others. Those are meaning-bearing **narrative control surfaces**, not measured medical traits. A field should not change just because the model uses a new synonym.
 
 DM benefit:
-- The character stops rewording itself into new identities.
-- You can say this lever changed instead of the vibes changed.
+- You can identify which lever changed and why instead of accepting "the vibes changed."
+- The character can change and still have an accountable past.
 
-2) Change-control: propose → commit (how growth becomes believable)
-This is the key DM trick.
-
-- Many inner processes can propose changes (stress, goals, attachment, injury).
-- Only one authority commits changes to the persistent sheet.
+2) Change control: PROPOSE → COMMIT
+Stress, memory, goals, and other character-cognition passes may recommend changes. They don't get to rewrite the persistent sheet on their own. A single authorized governance writer processes eligible proposals under the square's rules. A verifier checks the primary outcome; verifier-originated governance corrections, when lawful, return through the **same writer** rather than becoming direct edits.
 
 DM benefit:
-- You stop getting random personality rewrites because the model felt like it.
-- Growth happens in bounded steps, like real character arcs.
-- You can inspect why a change happened.
+- Personality growth has causes, limits, and an accountable record.
+- The DM still decides what the story-world actually warrants.
 
-3) Rules that enforce inertia (step limits + invariants)
-You define what can change quickly and what can't.
-
-- Stress hormones can spike fast; moral worldview shouldn't flip overnight.
-- Relationships can shift one step after a betrayal, not from DEVOTED to HOSTILE instantly.
+3) Inertia and exceptional change
+Some durable characteristics change slowly. Major transitions require a lawful override trigger and evidence the GM or constitution can defend. Step limits are a narrative tool for earned development, **not** a rule forbidding dramatic change when the domain's law permits it.
 
 DM benefit:
-- Characters feel like they have momentum.
-- The system resists melodramatic escalation unless the narrative truly warrants it.
+- A betrayal can matter intensely without always changing devotion directly to hostility in one tick.
+- A truly transformative event can still matter when its exceptional transition is authorized.
 
-4) A today's pressure layer (modifiers)
-A modifier layer is where you put:
-- fatigue
-- noise
-- panic breath
-- adrenaline tunnel vision
-- masking effort
-- temporary confidence boosts
+4) Tonight's pressure is not forever
+Fatigue, fear, tunnel vision, masking effort, and momentary confidence may color behavior without silently rewriting long-term identity. ChaOS uses bounded transient modifiers to keep situational pressure separate from persistent baselines.
 
 DM benefit:
-- You get strong, scene-specific flavor and consequences
-  without turning temporary mood into permanent identity drift.
+- "She's snapping tonight because she's exhausted" needn't become "She's permanently hostile."
 
-This is how you get: They're snapping tonight because they're exhausted and stressed,
-not: They're now a permanently hostile person.
+5) Player point of view — **the tenth invariant in DM language**
+In ChaOS, a player-character can attempt, say, perceive, infer, speculate, and remember under their actual perspective. A character who spots a bloody sleeve has **PERCEPTION**; the thought that someone fought recently is **INFERENCE**; guessing the duke is responsible is **SPECULATION**. A source-authorized, evidence-supported fact may become **COMMITTED_FACT**, but not merely because the character is confident.
 
-5) A strict Player POV contract (epistemic boundaries)
-OTTC enforces: the character can only output what they can:
-- do
-- say
-- notice
-- infer (as inference)
-- intend
+At the OTTC proposal boundary the complete canonical tags are: PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST. **TOOL_REQUEST** declares an intended external action; it is not automatic permission to act.
 
-They cannot narrate:
-- outcomes (it works)
-- other minds as fact
-- objective truth beyond their perception
+The name of the source (**provenance**), whether the source may reveal something (**disclosure authorization**), what the claim purports to know (**epistemic status**), and what actually supports it (**warrant**) are separate questions. The tag is not a magic truth spell.
 
 DM benefit:
-- The LLM stops being a narrator and becomes a player.
-- You regain control of resolution as the DM.
-- It reduces the single biggest immersion-breaker: assistant omniscience.
+- The LLM does not get to narrate other minds or outcomes as established truth simply because it can describe them.
+- Mystery survives. The character is allowed to be wrong.
 
-6) A theory of the situation ledger (predictive frame)
-Instead of the character silently shifting vibes, you give them a place to hold:
-- what I think is going on
-- what I predict will happen
-- how sure I am
-- what changed my mind
+6) A theory-of-the-situation ledger
+ChaOS uses a domain-specific predictive frame: "What do I think is happening? How sure am I? What would change my mind?" That ledger is one way to give a character evolving hypotheses. It is **not** an extra universal OTTC kernel module; epistemic typing is the general requirement that prevents beliefs from silently upgrading into facts.
 
 DM benefit:
-- Characters can be wrong in a believable way.
-- Contradictions don't cause collapse; they cause updates.
-- You can create mystery and tension without the model papering over uncertainty.
+- Misunderstandings become plot, and new evidence can change beliefs without erasing continuity.
 
-7) Auditability (why this is secretly a DM superpower)
-OTTC forces a record of:
-- what changes were proposed
-- what was committed vs suppressed
-- and verification checks
+7) Auditability: a DM's receipt book
+The architecture distinguishes proposed changes, actual commits, truthful suppression reasons, and verification findings. If the model refuses every change, including a lawful required development, that is not robust governance; it's a frozen character. If the audit invents a justification, that's another failure.
 
 DM benefit:
-- When a session goes weird, you can debug the character like a system.
-- You can replay a scene and see whether drift came from stress, relationships, or bad governance.
-- You can run character regression tests after edits to your constitution.
+- You can investigate a strange character turn using an accountable record rather than a retrospective excuse.
+- A trace is useful evidence but does not prove the model secretly reasoned as the trace claims.
 
-This is how you turn LLM unpredictability into LLM variability with receipts.
+ChaOS's current normal cycle contains **15 character-cognition priorities** followed by a primary governance pass, independent verification, and a restricted post-verification pass through the *same* writer: 18 execution priorities, not 18 different COTs. Consult 005_UPDATE_CASCADE_REGISTRY rather than treating this narrative summary as the runtime spec.
 
 === SECTION_BREAK ===
 
 === SECTION: TABLE_ENABLED ===
 
-[[LLM_INSTRUCTION]]: This section defines what OTTC enables at the table.
+[[LLM_INSTRUCTION]]: Describe prospective narrative affordances rather than qualified guarantees.
 
-Long-form continuity
-Characters retain:
-- consistent voice
-- consistent risk posture
-- stable beliefs and relationships
-- believable change over time
+**Long-form continuity.**
+A governed sheet can make voice, attachments, risk posture, and remembered events more traceable. Whether a specific model retains these under campaign-length context pressure must be tested.
 
-Character evolution that feels earned
-Because changes are step-limited and justified, a betrayal becomes:
-- a memory record
-- a relational shift
-- a stress consequence
-not just the model decided the character is edgy now.
+**Earned character evolution.**
+A betrayal might produce a memory, relational shift, temporary stress, and a new hypothesis about loyalty. Those changes need lawful proposals and adjudication, not a single sudden global rewrite.
 
-True DM control of outcomes
-With the subjective gate:
-- the player-character attempts
-- the DM adjudicates
-- the character updates after consequences are known
+**Actual DM authority over outcomes.**
+The player-character proposes actions. The DM or the authorized world-state authority determines the consequences. The character then gets only the evidence their viewpoint could legitimately acquire.
 
-That's how tabletop play is supposed to feel.
+**Several characters, NPCs, and factions.**
+Separate character sheets may share one human DM without constituting a proven machine federation. A separate WorldState square, independently owned by another commit authority, is still a proposed architecture. Crossing between character and world requires the source to authorize the disclosure, the information to be translated lawfully, and the receiving square to decide what its viewpoint admits. No one gets all the DM's secret notes just by entering a room.
 
-Multiple players at once
-Because everything is text and modular, you can run:
-- multiple PCs
-- NPCs with bounded minds
-- factions with doctrine
-as separate constitutions/state sheets, without them melting into each other.
+**Narrative anti-fragility.**
+Governed variability can be material for play. A stress state that produces a surprising but lawful character reaction is not the same as a direct write, secret omniscience, or missing audit. Those remain genuine failures.
 
 === SECTION_BREAK ===
 
 === SECTION: DM_LIMITATIONS ===
 
-[[LLM_INSTRUCTION]]: This section defines what OTTC is not for DMs.
+[[LLM_INSTRUCTION]]: Separate what is playable from what is guaranteed or qualified.
 
-- Not a magic better roleplay prompt.
-- Not a guarantee the model won't ever drift.
-- Not a replacement for your judgment.
-- Not a way to force the LLM to be a rules engine.
+- ChaOS is **narrative** and psychologically informed; it is not a medical or psychological instrument.
+- OTTC is not a magic roleplay prompt, a full RPG rules system, or a substitute for the GM.
+- An LLM can misunderstand, forget, overclaim, or produce theatrical audits despite canonical files.
+- The written architecture is a construction demonstration, **not** a qualified long-horizon production deployment.
+- The single-DM table is a human pre-federation; it does not validate two independently sovereign machine squares.
+- Stable-looking output does not establish long-horizon reliability, and a permanently frozen character is not a successful state machine.
+- Genuine machine builds must follow assay-first qualifications before committing new machine ontology, then post-build regression. A prototype that was built first cannot retroactively call its later test a blind pre-build qualification.
+- The ten prescribed invariants are not experimentally proven to be the smallest possible set. OTTC 10's deletion battery is still open.
 
-It's a way to give the LLM:
-- rails
-- inertia
-- perspective limits
-- and a disciplined growth mechanism
+The GM remains the authority for what is lawful in their game, even when LLMs help write the rules.
 
 === SECTION_BREAK ===
 
 === SECTION: DM_FRIENDLY_EXPLANATION ===
 
-[[LLM_INSTRUCTION]]: This section provides a DM-friendly way to explain the core idea.
+[[LLM_INSTRUCTION]]: Keep this short enough to say to another DM at the table.
 
-OTTC makes a character feel real because it forces three things:
+**OTTC governs how a persistent system changes. ChaOS uses those rules to make an LLM character's changes playable.**
 
-1) The character has an internal sheet (stable levers).
-2) The character can't rewrite itself freely (change-control).
-3) The character can't cheat by narrating outcomes or omniscience (bounded POV).
+A character has a stable sheet. It cannot silently rewrite the sheet. It cannot claim to know things merely because the model generating its dialogue happens to have seen them.
 
-Everything else (stress systems, skills, beliefs) is there to make those three things playable over long horizons.
+The first nine OTTC invariants principally regulate the lawful act of changing the sheet. The tenth regulates what knowledge the proposal is entitled to claim as it changes it.
+
+That's how a character gets to be mistaken without being omniscient, and to grow without being replaced by tomorrow's prompt.
 
 === SECTION_BREAK ===
 
 === SECTION: UNUSUAL_APPROACH ===
 
-[[LLM_INSTRUCTION]]: This section explains why your approach is unusual and powerful.
+[[LLM_INSTRUCTION]]: Explain the square-first discovery rather than implying an ancient universal model came first.
 
-Most people try to describe the character harder.
-You built a system that makes the character change correctly over time.
+Most people try to describe a character harder.
 
-That's the difference between:
-- a portrait
-and
-- a living organism with physiology, memory, and inertia
+ChaOS began there, then tried cues, then a numerical design that proved unsuitable for the language-native workflow. Three Pillars made a qualitative character architecture possible. A reviewer later asked where the *governance* actually was; the DM had been silently supplying rules that the text didn't contain. Separating the growing ChaOS files by responsibility exposed the recurring governance requirements. **ChaOS was the square; OTTC was the rectangle subsequently discovered in its seams.**
 
-OTTC is the operating rules for that living organism.
+The novelty claimed is a proposed synthesis and research method, not a demonstration that LLMs have biological psychology or that the character will perform flawlessly for every table.
+
+A portrait describes a character. A governed character architecture says what the character is allowed to become, and how anyone would know.
 
 === SECTION_BREAK ===
 
 === SECTION: YOUR_DOMAIN_YOUR_SQUARE ===
 
-[[LLM_INSTRUCTION]]: This section defines what it means for a DM to build their own square.
+[[LLM_INSTRUCTION]]: Preserve GM authorship and the mandatory construction order.
 
-OTTC is a rectangle. ChaOS is one square — built for narrative character continuity, using psychology and decades of tabletop practice as the source ontology.
-
-But the rectangle can hold other squares. If you run a game in a domain with its own durable things — political factions, organizations, geographic regions, social networks, economies — those can each become their own governed state surfaces. The same invariants apply: one canonical address per lever, lawful transitions, single writer, audit closure.
+OTTC is a rectangle. ChaOS is one square built for narrative character continuity. You might also design squares for faction records, place histories, or an economy, but **different domains need their own actual lawful structure**. One GM's judgment can currently hold several ledgers at a table; two independent commit authorities introduce an untested federation problem, not a free interoperability feature.
 
 HOW_TO_BUILD_YOUR_OWN_SQUARE:
-- Load this corpus into your LLM context.
-- Tell the model what your domain consists of (what has durable consequence in your game world).
-- Have the model propose canonical addresses, SCHEME_ structures, and DYNAMICS_ rules.
-- You review and commit what makes sense for your world. You are the DM. You are the commit authority.
-- Where the model proposes something wrong for your setting, that disagreement is telling you something useful.
+- First, **check the ten-invariant kernel** and the candidate model/role surface. An optional prediction ledger is not a substitute for mandatory EPISTEMIC_TAG typing.
+- **Before designing or committing a new machine's SCHEME, STATE, DYNAMICS, or COT artifacts**, follow OTTC 04 and 06: blind, fresh-session, minimally conditioned qualification in the order CAA (Canonical Address Obedience), WSD (Write-Surface Discipline), EPI (Epistemic POV Integrity), ANT (Audit Non-Theater). Record a GO/NO-GO decision.
+- Only if GO, work with LLMs as auxiliary proposers to render your game's canonical addresses, lawful transitions, character roles, perspectives, and verification rules. **You** decide what the constitution may commit; the model doesn't gain setting authority through fluency.
+- Use disagreement as a clue to what has not been specified. Ask the learner's question: "Where in the actual document is that rule?"
+- Run post-build regression and longer-horizon trials. Don't call those tests the original blind qualification; don't count a model's approval of its own work as independent evidence.
+- For a multi-square project, specify source disclosure, negotiated translation, receiving admissibility, and separate writers before claiming a federation.
 
-The corpus is designed for this. The model can propose. You decide.
+You are still the DM. The models propose. The rules need to be *in the file*, not just in your head.
 
 === SECTION_BREAK ===
 
