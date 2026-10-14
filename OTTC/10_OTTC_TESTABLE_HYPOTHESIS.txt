@@ -165,6 +165,22 @@ mixed-provenance durable state.
 STATUS: ARGUED, NOT YET CONFIRMED. The protocol below specifies what confirms or refutes it. Until the
 deletion battery survives, "minimal" is under test (VERIFICATION_AXIOM).
 
+FUNCTIONAL_MINIMALITY_NOTE:
+[[LLM_INSTRUCTION]]: Minimality concerns constitutional FUNCTIONS, not the number of separately named
+invariants or their particular representations.
+
+A valid ablation must eliminate the targeted function throughout the architecture. Deleting a rule,
+field, tag, or component while preserving an equivalent function through another mechanism does not
+constitute functional removal.
+
+Combining invariants, redistributing responsibilities, or replacing explicit tags with an equally
+effective epistemic distinction is a change of implementation, not evidence that the function is
+unnecessary.
+
+A counterexample must demonstrate the required hypothesis-machine behavior under independently
+specified tests while genuinely lacking the targeted function. Otherwise, the ablation has tested
+representation rather than necessity.
+
 DELETION BATTERY (the minimality protocol):
 Minimality is a universal claim and is confirmed only by failed reduction, never by demonstrating the
 full kernel works. For each invariant: remove it, hold the other nine intact, run a mixed-provenance
