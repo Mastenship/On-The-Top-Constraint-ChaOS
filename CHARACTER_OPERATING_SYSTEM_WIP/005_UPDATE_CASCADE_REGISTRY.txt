@@ -1,0 +1,248 @@
+=== SECTION: UPDATE_CASCADE_REGISTRY ===
+
+[KEEP: Purpose & Role]
+Canonical runtime execution order and packet API for proposals, impulses, trace, schematic directive expansion, and verification expectations.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs: all COT templates, DYNAMICS directives, STATE_GOVERNANCE_AND_COMMIT tie-break behavior.
+Is Informed By: STATE_GOVERNANCE_OVERLAY, CANONICAL_TOKEN_DICTIONARY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXECUTION_ORDER_PRIORITY ===
+
+PRIORITY_01: COT_SPATIAL_EMBODIMENT_PROCESSING
+PRIORITY_02: COT_TEMPORAL_FLOW_PROCESSING
+PRIORITY_03: COT_TEMPORAL_DECAY_RESOLUTION
+PRIORITY_04: COT_SHADOW_COT
+PRIORITY_05: COT_STRESS_CASCADE_RESOLUTION
+PRIORITY_06: COT_GOAL_PURSUIT_OPTIMIZATION
+PRIORITY_07: COT_MALEVOLENT_BEHAVIOR_SELECTION
+PRIORITY_08: COT_ATTACHMENT_BEHAVIORAL_MAPPING
+PRIORITY_09: COT_PERFORMANCE_STATE_INTEGRATION
+PRIORITY_10: COT_ALTERATION_CASCADE_EFFECTS
+PRIORITY_11: COT_BELIEF_INTEGRATION_PROCESSING
+PRIORITY_12: COT_MEMORY_FORMATION_CRITERIA
+PRIORITY_13: COT_DPF_SYNTHESIS_PROCESSING
+PRIORITY_14: COT_DECISION_SYNTHESIS
+PRIORITY_15: COT_COMMUNICATION_PROCESSING
+PRIORITY_16: STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS
+PRIORITY_17: COT_UPDATE_VERIFICATION
+PRIORITY_18: STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
+
+CHARACTER_COGNITION_BAND: PRIORITY_01 through PRIORITY_15
+GOVERNANCE_BAND: PRIORITY_16 through PRIORITY_18
+
+=== SECTION_BREAK ===
+
+=== SECTION: TWO_PHASE_GOVERNANCE_ORDER ===
+
+PRIMARY_PASS:
+- PRIORITY_16.
+- Consumes ordinary pre-verification proposals.
+- Commits lawful proposals and writes PRIMARY_PASS_AUDIT; during exceptional bounded recovery, independently safe linked-unit-closed proposals remain eligible per STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.PRIMARY_RECOVERY_ADMISSION.
+
+VERIFICATION:
+- PRIORITY_17.
+- Reads primary audit, scratchpad, committed state, and governance runtime.
+- Emits trace.
+- May append STATE_GOVERNANCE_RUNTIME GOVERNANCE_CORRECTIVE proposals, including bounded-recovery release and unresolved-review state updates.
+- Direct persistent mutation forbidden.
+
+POST_VERIFICATION_PASS:
+- PRIORITY_18.
+- Consumes only verifier-originated governance-runtime proposals.
+- Commits/suppresses verification result, bounded quarantine release, pending-review reason-code updates, and the paired capped RECOVERY_DIRECTIVE.
+- Suppresses invalid targets/sources.
+- Writes POST_VERIFICATION_PASS_AUDIT and the terminal current-cycle trace; no in-model verifier executes afterward.
+
+SCRATCHPAD_WIPE_POINT:
+- After PRIORITY_18.
+
+SPECIAL_CASE:
+- COT_CHARACTER_INSTANTIATION_PROCESS runs only during instantiation workflow and outside ordinary cycle priority.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SYSTEM_WIDE_WRITE_POLICY ===
+
+POLICY:
+- COTs do not directly write persistent STATE_ modules.
+- Persistent intent enters [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- Impulses enter [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- Trace entries enter [COGNITIVE_SCRATCHPAD][CASCADE_TRACE].
+- STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Narrative continuity during governance recovery follows STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT; individual proposal faults must not cause a blanket character-state stall.
+- Character-cognition COTs must not read GOVERNANCE_INTERNAL modules or subfields; canonical conformance is compiled in per CANONICAL_TOKEN_DICTIONARY.READ_DERIVATION_RULE.
+- Paths, roots, operations, empty values, and epistemic tags follow CANONICAL_TOKEN_DICTIONARY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PROPOSAL_ENTRY_SCHEMA ===
+
+REQUIRED_FIELDS:
+- PROPOSAL_ID: PUP_<unique>
+- SOURCE_COT
+- TARGET_MODULE
+- TARGET_FIELD
+- OPERATION_TYPE
+- PROPOSED_VALUE
+- STRENGTH: QUALITATIVE_INTENSITY
+- MECHANISM_TAG
+- EPISTEMIC_TAG
+- JUSTIFICATION_CATEGORY
+- JUSTIFICATION
+
+CONDITIONALLY_REQUIRED_FIELDS:
+- EVIDENCE_REF: required when EPISTEMIC_TAG = COMMITTED_FACT
+- INVOKED_RULE_NAME: required for override gates or governance-runtime corrective proposals
+- NARRATIVE_CUE_REFERENCE: required when INVOKED_RULE_NAME present
+- SCHEME_INVARIANT_NOTE: required when INVOKED_RULE_NAME present
+
+OPTIONAL_FIELDS:
+- NOTES
+
+NORMALIZATION_RULE:
+- JUSTIFICATION, NOTES, NARRATIVE_CUE_REFERENCE, and SCHEME_INVARIANT_NOTE are narrative fields.
+- All other fields are write-surface tokens and remain untouched.
+
+ADD_MODIFIER_TARGET_FIELD_RULE:
+- For OPERATION_TYPE ADD_MODIFIER, the outer TARGET_FIELD is the creation-site stub [STATE_TEMPORARY_MODIFIERS][MOD_XX]. It denotes where the record is minted, not a concrete-record reference, and is exempt from record-stub suppression in STATE_GOVERNANCE_AND_COMMIT.STEP_03 because ADD_MODIFIER creates the MOD_XX by registry-record SET behavior.
+- CANONICAL_TOKEN_DICTIONARY.MODIFIER_TARGET_FIELD_FORMS enforcement (canonical path or DOMAIN_GLOBAL:<SCOPE>) applies to the inner PROPOSED_VALUE.TARGET_FIELD, not the outer TARGET_FIELD.
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_ENTRY_SCHEMA ===
+
+REQUIRED_FIELDS:
+- IMPULSE_ID
+- IMPULSE_SOURCE
+- IMPULSE_TYPE
+- IMPULSE_STRENGTH: QUALITATIVE_INTENSITY
+- TARGET_ID: canonical ID token | NONE
+- JUSTIFICATION
+- JUSTIFICATION_CATEGORY
+
+IMPULSE_VALIDATION_NOTE:
+- Impulses carry JUSTIFICATION_CATEGORY without EPISTEMIC_TAG per CANONICAL_TOKEN_DICTIONARY.IMPULSE_JUSTIFICATION_RULE.
+- Impulse JUSTIFICATION_CATEGORY is advisory provenance and is not subject to JUSTIFICATION_CATEGORY_TAG_MISMATCH enforcement.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRICT_OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Strict operation vocabulary and minimum semantics are defined in CANONICAL_TOKEN_DICTIONARY.
+
+COT_AUTHOR_GUIDANCE:
+- Record creation: SET registry append + SET record block.
+- Relative ordinal movement: TRANSITION with canonical directive against declared ladder.
+- Explicit endpoint: SET.
+- Categorical lifecycle movement: SET unless SCHEME declares ladder.
+- Generic update: SET.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NO_TRIGGER_BEHAVIOR_POLICY ===
+
+[[LLM_INSTRUCTION]]: Each priority 01–15 COT emits exactly one TRACE_ENTRY per cycle unless exempt/always-run.
+
+EMPTY_CYCLE_TRACE_ENTRY:
+COT_NAME: <canonical COT name>
+KEY_OUTPUTS:
+- NO_TRIGGERS_FIRED
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- brief one-line context observation or NONE
+
+VERIFICATION:
+- COT_UPDATE_VERIFICATION checks existing current-cycle traces through PRIORITY_16 and appends the PRIORITY_17 trace.
+- PRIORITY_18 emits its final trace after verification as terminal, volatile Stage 1 audit material.
+- The scratchpad wipe after PRIORITY_18 discards those traces; no next-cycle in-model read-back is required.
+- Missing pre-verification trace: COT_TRACE_MISSING.
+
+=== SECTION_BREAK ===
+
+=== SECTION: UPDATE_VERIFICATION_CHECKLIST ===
+
+[[LLM_INSTRUCTION]]: COT_UPDATE_VERIFICATION verifies, at minimum:
+- primary proposal closure
+- operation validity
+- canonical path integrity
+- enum/ordinal-ladder/band limits
+- cumulative ordinal movement limit
+- empty-value semantics
+- single-proposal SCHEME invariants and caps
+- cross-field invariant projection
+- commit provenance
+- epistemic/evidence rules
+- override proof
+- canonical form
+- read boundaries
+- trace completeness
+- selected-action integrity
+- output congruence
+- modifier lifecycle
+- instantiation completeness where relevant
+- FIRES_WHEN discipline
+
+POST_VERIFICATION_VALIDATION:
+- POST_VERIFICATION_PASS validates verifier-originated governance-runtime proposals.
+- COT_UPDATE_VERIFICATION does not verify PRIORITY_18 in the same cycle.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DEFERRED_NARRATIVE_CUE_DISPATCH ===
+
+[[LLM_INSTRUCTION]]: Character-cognition COTs may read the character-visible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] processing cue queue. It is not a governance audit and is not an episodic MEM_XX.
+
+DISPATCH:
+- Before FIRES_WHEN evaluation at PRIORITY_01–15, each COT checks only for cue entries whose SOURCE_COT matches its canonical name.
+- An eligible entry counts as its owner's anchor cue even without a repeated Dungeon Master statement. The COT re-evaluates original narrative evidence, current SCHEME and DYNAMICS gates, current committed state, and dependencies before issuing any new complete proposal.
+- Use a new PROPOSAL_ID, retain traceability to ORIGIN_CYCLE_ID and ORIGIN_PROPOSAL_ID in NOTES, and use currently lawful endpoints. Previous proposal text is not executable.
+- If the original event no longer supports a change, do not resubmit; writer closes the queue entry on verified invalidation.
+- After RECONSIDERATION_COUNT reaches 2, do not automatically regenerate the same attempt; retain the cue for operator review or materially fresh evidence.
+- A COT with no current DM cue and no eligible deferred entry follows NO_TRIGGER_BEHAVIOR_POLICY.
+
+PROCESS_BOUNDARY:
+- Only STATE_GOVERNANCE_AND_COMMIT captures, marks reconsideration, or removes cues, after adjudicating the primary proposals. This does not grant character COTs a direct STATE write.
+- Never expose deferral metadata as in-character recollection, and do not infer one character's access to another character's mental state.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCHEMATIC_PROPOSAL_DIRECTIVE_POLICY ===
+
+SCHEMATIC_DIRECTIVE_RULE:
+- COT and DYNAMICS PROPOSE blocks are schematic unless they include every PROPOSAL_ENTRY_SCHEMA field.
+- Schematic directives may omit context-implied global fields.
+
+SCHEMATIC_ALTERNATIVE_VALUE_RULE:
+- Pipe notation such as A | B is allowed only inside COT or DYNAMICS schematic directives.
+- Before scratchpad entry, the executing COT must resolve alternatives to one concrete lawful value.
+- Unresolved pipe alternatives in PROPOSED_VALUE are malformed proposal payloads.
+
+RUNTIME_EXPANSION_REQUIREMENT:
+- Before scratchpad entry, every proposal must be expanded to full PROPOSAL_ENTRY_SCHEMA.
+- Runtime injects:
+  - PROPOSAL_ID
+  - SOURCE_COT
+  - TARGET_MODULE
+  - STRENGTH when the directive omits it and a single lawful band is implied
+- Conditional fields must be injected when conditions are met.
+
+DYNAMICS_DIRECTIVE_RULE:
+- DYNAMICS modules define lawful mechanics only.
+- Executing COT supplies complete runtime packet.
+
+SAME_CYCLE_RECORD_LINKAGE:
+- COTs may use the same provisional ENT_XX, SKL_XX, GOAL_XX, MEM_XX, PRD_XX, or ALT_XX in a creation SET pair and dependent proposals during one cycle.
+- The sole writer binds all provisional references to a surviving successful creation unit before commit; a failed creation suppresses or lawfully downgrades affected dependent links, never minting an orphan.
+- This does not bypass registry-record pairing, linkage validation, cap, or source/target authority.
+- Alteration cascades identify their source ALT_XX, supporting canonical field path(s), and any same-cycle source PROPOSAL_ID(s) in NOTES. Operational and psychological proposals are distinct candidates; dependents follow only their actual supporting fields under STATE_GOVERNANCE_OVERLAY.ALTERATION_FIELD_INDEPENDENCE.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

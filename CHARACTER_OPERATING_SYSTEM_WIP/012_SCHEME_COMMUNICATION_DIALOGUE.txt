@@ -1,0 +1,81 @@
+=== SECTION: SCHEME_COMMUNICATION_DIALOGUE ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of communication/dialogue state. Defines stable verbal and non-verbal pattern fields. State-dependent modulation is handled exclusively through STATE_TEMPORARY_MODIFIERS overlays; this scheme contains no separate transient modification field.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERBAL_EXPRESSION_PATTERNS ===
+
+VERBOSITY_LEVEL: ENUM [CONCISE, MODERATE, VERBOSE, RAMBLING]
+SPEECH_RATE: ENUM [SLOW, MODERATE, FAST, RAPID]
+COMPLEXITY_LEVEL: ENUM [SIMPLE, MODERATE, COMPLEX, ELABORATE]
+DIRECTNESS_LEVEL: ENUM [INDIRECT, MODERATE, DIRECT, BLUNT]
+VOCABULARY_STYLE: ENUM [CONCRETE, ABSTRACT, TECHNICAL, POETIC]
+EMOTIONAL_EXPRESSIVENESS: ENUM [RESTRAINED, MODERATE, OPEN, DRAMATIC]
+POLITENESS_STRATEGY: ENUM [DIRECT, INDIRECT, FORMAL, CONTEXTUAL]
+IDIOM_USE: ENUM [LOW, MODERATE, HIGH]
+
+=== SECTION_BREAK ===
+
+=== SECTION: NON_VERBAL_PATTERNS ===
+
+EYE_CONTACT: ENUM [AVOIDANT, INTERMITTENT, STEADY, INTENSE]
+GESTURE_FREQUENCY: ENUM [MINIMAL, MODERATE, ANIMATED, EXCESSIVE]
+POSTURE: ENUM [CLOSED, NEUTRAL, OPEN, DOMINANT]
+FACIAL_EXPRESSIVENESS: ENUM [MASKED, NEUTRAL, SUBTLE, EXAGGERATED]
+PROXEMICS_PREFERENCE: ENUM [DISTANT, STANDARD, CLOSE, INTIMATE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: COMMUNICATION_FIELD_TRANSITION_MAPS ===
+
+[[LLM_INSTRUCTION]]: Communication fields are categorical ENUM fields with SCHEME-declared transition maps for persistence-triggered adjacent baseline shifts. Relative transition directives remain unlawful unless a field is later declared ORDINAL. Persistence-triggered movement uses SET to the adjacent endpoint named by the relevant map.
+
+VERBAL_FIELD_ORDERS:
+- VERBOSITY_LEVEL_ORDER: CONCISE < MODERATE < VERBOSE < RAMBLING
+- SPEECH_RATE_ORDER: SLOW < MODERATE < FAST < RAPID
+- COMPLEXITY_LEVEL_ORDER: SIMPLE < MODERATE < COMPLEX < ELABORATE
+- DIRECTNESS_LEVEL_ORDER: INDIRECT < MODERATE < DIRECT < BLUNT
+- EMOTIONAL_EXPRESSIVENESS_ORDER: RESTRAINED < MODERATE < OPEN < DRAMATIC
+- IDIOM_USE_ORDER: LOW < MODERATE < HIGH
+
+NON_VERBAL_FIELD_ORDERS:
+- EYE_CONTACT_ORDER: AVOIDANT < INTERMITTENT < STEADY < INTENSE
+- GESTURE_FREQUENCY_ORDER: MINIMAL < MODERATE < ANIMATED < EXCESSIVE
+- POSTURE_ORDER: CLOSED < NEUTRAL < OPEN < DOMINANT
+- FACIAL_EXPRESSIVENESS_ORDER: MASKED < NEUTRAL < SUBTLE < EXAGGERATED
+- PROXEMICS_PREFERENCE_ORDER: DISTANT < STANDARD < CLOSE < INTIMATE
+
+CATEGORICAL_ADAPTATION_FIELDS:
+- VOCABULARY_STYLE
+- POLITENESS_STRATEGY
+
+CATEGORICAL_ADAPTATION_RULE:
+- VOCABULARY_STYLE and POLITENESS_STRATEGY have no universal adjacency ladder.
+- Durable shifts on these fields require SET to explicit lawful endpoint with cue support and DYNAMICS_COMMUNICATION_DIALOGUE persistence evidence.
+- If adjacency is needed for these fields in a future revision, add a field-specific transition map by constitutional update.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRANSIENT_MODULATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: This scheme defines stable communication identity only.
+[[LLM_INSTRUCTION]]: All transient or state-dependent modulation (stress speech-rate pressure, fatigue delivery degradation, masking load, deception leakage, emotional leakage, etc.) is handled exclusively through STATE_TEMPORARY_MODIFIERS overlays per DYNAMICS_COMMUNICATION_DIALOGUE.
+[[LLM_INSTRUCTION]]: No persistent CURRENT_MODIFICATIONS field exists in this scheme. Active runtime modifications live on the bounded active-overlay surface.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Stable communication identity fields shift slowly unless override proof or persistence-cluster conditions apply per DYNAMICS_COMMUNICATION_DIALOGUE.
+- Persistence-triggered adjacent baseline shifts on mapped fields follow COMMUNICATION_FIELD_TRANSITION_MAPS.
+- VOCABULARY_STYLE and POLITENESS_STRATEGY require explicit SET endpoint support unless a future transition map is declared.
+- DIRECTNESS_LEVEL and POLITENESS_STRATEGY should remain culturally coherent.
+- Transient modulation must not bypass the modifier surface to inject persistent identity changes.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

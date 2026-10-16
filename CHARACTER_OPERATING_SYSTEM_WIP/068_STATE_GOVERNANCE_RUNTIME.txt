@@ -1,0 +1,35 @@
+=== SECTION: STATE_GOVERNANCE_RUNTIME ===
+
+[KEEP: Purpose & Role]
+Mutable governance runtime container. Carries cross-cycle governance signal: last commit cycle id, last verification result, quarantine status, capped reason codes, and lift-hook status. Invisible to character cognition.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_RUNTIME_FIELDS ===
+
+LAST_COMMIT_CYCLE_ID:
+LAST_VERIFICATION_RESULT: PENDING
+QUARANTINE_MODE: FALSE
+QUARANTINE_ENGAGED_CYCLE_ID: NONE
+QUARANTINE_REASON_CODES:
+- [NONE]
+RECOVERY_DIRECTIVE: NONE
+LIFT_HOOK_STATUS: EXTERNAL_GOVERNANCE_INACTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Sole persistent cross-cycle governance signal carrier. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Read access is governance-band only; character-cognition reads are READ_BOUNDARY_VIOLATION.
+[[LLM_INSTRUCTION]]: Write access is exclusive to STATE_GOVERNANCE_AND_COMMIT.
+[[LLM_INSTRUCTION]]: Defaults shown are lawful initial state. QUARANTINE_REASON_CODES is capped per SCHEME_GOVERNANCE_RUNTIME and DYNAMICS_GOVERNANCE_RUNTIME.
+[[LLM_INSTRUCTION]]: QUARANTINE_MODE TRUE denotes an exceptional bounded recovery cycle, not blanket punishment for an isolated failed proposal. FALSE with nonempty QUARANTINE_REASON_CODES denotes unresolved governance-only review; independent lawful character evolution continues under full validation.
+[[LLM_INSTRUCTION]]: RECOVERY_DIRECTIVE is one capped (240-character) current-case reformation instruction tied to QUARANTINE_REASON_CODES, not a cross-cycle journal; it is readable only in the governance band.
+[[LLM_INSTRUCTION]]: No persistent recovery journal is introduced. The bounded snapshot follows SCHEME_GOVERNANCE_RUNTIME.FIELD_LIFECYCLE_INVARIANTS and STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,51 @@
+=== SECTION: STATE_TEMPORAL_DYNAMICS ===
+
+[KEEP: Purpose & Role]
+Mutable temporal dynamics container. Contains current circadian, fatigue, routine, and time-perception values only.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: CIRCADIAN_PROFILE ===
+
+CHRONOTYPE:
+PEAK_PERFORMANCE_WINDOW:
+COGNITIVE_PEAK:
+ENERGY_DIP_WINDOW:
+BASELINE_ALERTNESS:
+
+=== SECTION_BREAK ===
+
+=== SECTION: FATIGUE_ACCUMULATION ===
+
+CURRENT_FATIGUE_LEVEL:
+TIME_SINCE_REST:
+ACCUMULATED_SLEEP_DEBT:
+
+=== SECTION_BREAK ===
+
+=== SECTION: ROUTINE_DEPENDENCY ===
+
+DAILY_STRUCTURE_ADHERENCE:
+ROUTINE_DISRUPTION_TOLERANCE:
+HABIT_STRENGTH:
+
+=== SECTION_BREAK ===
+
+=== SECTION: TIME_PERCEPTION_STATE ===
+
+SUBJECTIVE_TIME_FLOW:
+TIME_PRESSURE_PERCEPTION:
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_INTERPRETATION_NOTE ===
+
+[[LLM_INSTRUCTION]]: Current committed temporal dynamics values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+[[LLM_INSTRUCTION]]: Short-horizon alertness, fatigue, second-wind, routine comfort, or disorientation effects generally use STATE_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: Fatigue and sleep debt transitions follow DYNAMICS_TEMPORAL_DYNAMICS.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

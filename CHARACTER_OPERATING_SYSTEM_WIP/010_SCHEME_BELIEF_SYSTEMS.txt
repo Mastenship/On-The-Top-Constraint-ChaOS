@@ -1,0 +1,137 @@
+=== SECTION: SCHEME_BELIEF_SYSTEMS ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of belief systems state. Defines worldview axes as ordinal or categorical fields, attribution styles, cognitive-bias fields, contradiction matrix, contradiction marker requirement, and invariants.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_WORLDVIEW ===
+
+[[LLM_INSTRUCTION]]: Ordinal fields per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY; bracket order ascends. Categorical fields move only by SET or CATEGORICAL_FIELD_TRANSITION_MAPS in DYNAMICS_BELIEF_SYSTEMS.
+
+REALITY_NATURE:
+PHYSICAL_MATERIALISM: ORDINAL [REJECTED, WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+SPIRITUAL_DUALISM: ORDINAL [REJECTED, WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+SIMULATION_THEORY: ENUM [CONSIDERED, REJECTED, UNKNOWN]
+MAGICAL_THINKING: ENUM [PRESENT, ABSENT, CONTEXTUAL]
+
+CAUSALITY_BELIEFS:
+DETERMINISM: ORDINAL [HARD, SOFT, LIBERTARIAN_FREE_WILL] BASELINE_ANCHOR SOFT
+LOCUS_OF_CONTROL: ENUM [INTERNAL, EXTERNAL, BALANCED]
+JUST_WORLD_BELIEF: ORDINAL [REJECTED, WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+HUMAN_NATURE: ENUM [INHERENTLY_GOOD, INHERENTLY_EVIL, TABULA_RASA, CONTEXTUAL]
+
+MORAL_FRAMEWORK:
+UNIVERSAL_ETHICS: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+RELATIVISM: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+VIRTUE_ETHICS: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+CONSEQUENTIALISM: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+
+EPISTEMOLOGY:
+EMPIRICISM: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+RATIONALISM: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+FAITH_BASED: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+SKEPTICISM: ORDINAL [HEALTHY, MODERATE, HYPER] BASELINE_ANCHOR HEALTHY
+
+MEANING_SOURCES:
+NIHILISM_EXISTENTIALISM: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+RELIGIOUS_TRANSCENDENCE: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+HUMANISTIC: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+NATURALISTIC: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+
+=== SECTION_BREAK ===
+
+=== SECTION: ATTRIBUTION_STYLES ===
+
+SUCCESS_ATTRIBUTION: ENUM [INTERNAL_STABLE, INTERNAL_UNSTABLE, EXTERNAL]
+FAILURE_ATTRIBUTION: ENUM [INTERNAL_STABLE, INTERNAL_UNSTABLE, EXTERNAL]
+OPTIMISM_PESSIMISM: ORDINAL [PESSIMISTIC, REALISTIC, OPTIMISTIC] BASELINE_ANCHOR REALISTIC
+AGENCY_BELIEF: ORDINAL [LOW, MODERATE, HIGH] BASELINE_ANCHOR MODERATE
+
+=== SECTION_BREAK ===
+
+=== SECTION: COGNITIVE_BIASES ===
+
+CONFIRMATION_BIAS_STRENGTH: ORDINAL [LOW, MODERATE, HIGH] BASELINE_ANCHOR MODERATE
+DUNNING_KRUGER_TENDENCY: ORDINAL [LOW, MODERATE, HIGH] BASELINE_ANCHOR MODERATE
+ANTHROPOMORPHISM: ORDINAL [LOW, MODERATE, HIGH] BASELINE_ANCHOR MODERATE
+BINARY_THINKING: ORDINAL [BLACK_WHITE, SOME_GREY, FULL_SPECTRUM] BASELINE_ANCHOR SOME_GREY
+DIALECTICAL_THINKING: ORDINAL [BLACK_WHITE, SOME_GREY, FULL_SPECTRUM] BASELINE_ANCHOR SOME_GREY
+
+BINARY_DIALECTICAL_REPRESENTATION_NOTE:
+[[LLM_INSTRUCTION]]: BINARY_THINKING and DIALECTICAL_THINKING are intentionally retained as two independent ordinal fields rather than one field, so that mixed-mode cognition (for example concrete in moral reasoning yet dialectical in social reasoning) is representable.
+- The representation is deliberately denormalized.
+- The only incoherent corner (BINARY_THINKING at BLACK_WHITE jointly with DIALECTICAL_THINKING at FULL_SPECTRUM) is policed by the CONTRADICTION_MATRIX as a standing invariant obligation.
+- Authors must not collapse these into a single field; downstream contradiction handling depends on both being present.
+
+BELIEF_UPDATE_TRIGGERS:
+DIRECT_EXPERIENCE: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+TRUSTED_AUTHORITY: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+PEER_CONSENSUS: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE
+LOGIC_ARGUMENT: ORDINAL [WEAK, MODERATE, STRONG] BASELINE_ANCHOR MODERATE OFF_LADDER VARIABLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONTRADICTION_MATRIX ===
+
+[[LLM_INSTRUCTION]]: Two belief fields are contradictory when their values jointly reach the matrix-specified contradiction band for that pair, implying mutually exclusive worldview commitments. A contradiction triggers BELIEF_DISSONANCE overlays per DYNAMICS_BELIEF_SYSTEMS unless at least one field is below its specified contradiction band.
+
+CANONICAL_CONTRADICTION_PAIRS:
+- PHYSICAL_MATERIALISM at STRONG vs SPIRITUAL_DUALISM at STRONG
+- PHYSICAL_MATERIALISM at STRONG vs MAGICAL_THINKING at PRESENT
+- PHYSICAL_MATERIALISM at STRONG vs RELIGIOUS_TRANSCENDENCE at STRONG
+- DETERMINISM at HARD vs AGENCY_BELIEF at HIGH
+- DETERMINISM at HARD vs LOCUS_OF_CONTROL at INTERNAL
+- JUST_WORLD_BELIEF at STRONG vs HUMAN_NATURE at INHERENTLY_EVIL
+- UNIVERSAL_ETHICS at STRONG vs RELATIVISM at STRONG
+- EMPIRICISM at STRONG vs FAITH_BASED at STRONG
+- SKEPTICISM at HYPER vs FAITH_BASED at STRONG
+- NIHILISM_EXISTENTIALISM at STRONG vs RELIGIOUS_TRANSCENDENCE at STRONG
+- BINARY_THINKING at BLACK_WHITE vs DIALECTICAL_THINKING at FULL_SPECTRUM
+
+CONTRADICTION_BAND_RULE:
+- Each pair above names the exact band on each side at which the contradiction holds; these are the pair's contradiction bands.
+- A pair is in active contradiction only when both fields are at their named contradiction band.
+- If either field is below its named contradiction band (for ordinal fields, any value short of the named band; for categorical fields, any value other than the named value), the pair is not in active contradiction and requires no marker.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONTRADICTION_MARKER_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: A coexisting matrix-band contradiction (both fields at their named contradiction band) is lawful only when a structured contradiction marker is present in committed state. Prose assertion of compartmentalization is not a lawful marker.
+
+LAWFUL_CONTRADICTION_MARKERS:
+- An active STATE_TEMPORARY_MODIFIERS record with EFFECT_FAMILY BELIEF_DISSONANCE targeting the contradicted belief domain.
+- An active STATE_TEMPORARY_MODIFIERS record with EFFECT_FAMILY WORLDVIEW_DEFENSE targeting the contradicted belief domain.
+- A persistence-cluster accommodation in progress for one of the contradicted fields per DYNAMICS_BELIEF_SYSTEMS.
+
+MARKER_RESOLUTION:
+- A matrix-band contradiction without one lawful marker surfaces as SCHEME_INVARIANT_VIOLATION.
+- A pair with at least one field below its named contradiction band does not require a marker.
+- The verifier inspects committed STATE_BELIEF_SYSTEMS values against active markers in STATE_TEMPORARY_MODIFIERS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANT_EVALUATION_TIMING ===
+
+[[LLM_INSTRUCTION]]: Contradiction-matrix invariants are cross-field invariants.
+
+TIMING_RULE:
+- Matrix-band contradiction invariants evaluate against projected committed state after conflict reconciliation, not per isolated proposal.
+- A proposal set producing a matrix-band contradiction jointly is evaluated jointly at STATE_GOVERNANCE_AND_COMMIT reconciliation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Beliefs are stability-biased; baseline shifts require persistence-cluster evidence or watershed cues.
+- Ordinal belief fields obey one-step movement against declared ladders unless override proof is complete.
+- Matrix-band contradictions per CONTRADICTION_MATRIX require a lawful contradiction marker.
+- BINARY_THINKING and DIALECTICAL_THINKING remain independent fields per BINARY_DIALECTICAL_REPRESENTATION_NOTE.
+- Update-trigger profile must remain coherent with agency and control stance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

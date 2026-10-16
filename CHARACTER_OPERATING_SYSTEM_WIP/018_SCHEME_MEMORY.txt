@@ -1,0 +1,113 @@
+=== SECTION: SCHEME_MEMORY ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of memory state. Defines episodic memory schema, registry rules, linkage expectations, and mutable subfield boundaries. Also defines a separate capped processing-cue queue for ordinary narrative movements deferred solely by aggregate movement capacity; cues are not MEM_XX records.
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: MEMORY_FIELDS ===
+
+MEMORY_ID: ID_TOKEN (MEM_XX)
+
+MEMORY_METADATA:
+TIMESTAMP: STRING_DESCRIPTIVE
+SALIENCE: QUALITATIVE_INTENSITY
+EMOTIONAL_VALENCE: STRING_DESCRIPTIVE
+
+NARRATIVE_CONTENT:
+CORE_EVENT_SUMMARY: STRING_DESCRIPTIVE
+SENSORY_IMPRINT: STRING_DESCRIPTIVE
+INTERNAL_MONOLOGUE_EXCERPT: STRING_DESCRIPTIVE
+
+SYSTEM_LINKAGE:
+PRIMARY_TEMPLATE_AFFECTED: CANONICAL_PATH
+SPECIFIC_FIELD_CHANGED: CANONICAL_PATH
+ASSOCIATED_ENTITY_ID: OPTIONAL_ENT_ID
+ASSOCIATED_SKILL_ID: OPTIONAL_SKL_ID
+ASSOCIATED_ALTERATION_ID: OPTIONAL_ALT_ID
+ASSOCIATED_PREDICTION_ID: OPTIONAL_PRD_ID
+
+=== SECTION_BREAK ===
+
+=== SECTION: DEFERRED_NARRATIVE_CUE_QUEUE ===
+
+[[LLM_INSTRUCTION]]: A bounded, character-cognition-readable *processing cue* for lawful ordinary ordinal/qualitative changes postponed solely by the cumulative two-step cap. Not a new MEM_XX record, not episodic memory, not a stored executable proposal, and not proof that the indicated change remains lawful.
+
+DEFERRED_NARRATIVE_CUES: LIST_OF_DEFERRED_CUE (cap 3; empty form [NONE])
+
+ENTRY_SCHEMA:
+- ORIGIN_CYCLE_ID: STRING_DESCRIPTIVE
+- ORIGIN_PROPOSAL_ID: ID_TOKEN (PUP_XX)
+- SOURCE_COT: canonical executing character COT
+- NARRATIVE_CUE: STRING_DESCRIPTIVE (max 160 characters; character-resolvable event summary, no governance internals)
+- TARGET_FIELD: CANONICAL_PATH to originally capacity-deferred ordinal/qualitative STATE field
+- OPERATION_TYPE: ENUM [SET, TRANSITION]
+- PROPOSED_VALUE: one originally lawful explicit endpoint or canonical relative directive
+- LINKED_MOVEMENT_NOTE: NONE or canonical FATIGUE_DEBT | SYMPATHETIC_HPA | CERTAINTY_DECAY coupled members (one atomic unit)
+- FIRST_RECONSIDERED_CYCLE: STRING_DESCRIPTIVE or NONE
+- RECONSIDERATION_COUNT: integer 0..2
+
+OWNERSHIP_AND_LIFECYCLE:
+- Only STATE_GOVERNANCE_AND_COMMIT may create, update, or close these entries as bookkeeping from STEP_10 and the subsequent commit results.
+- One entry per distinct original capacity-deferred movement or coupled unit, keyed by ORIGIN_CYCLE_ID + ORIGIN_PROPOSAL_ID; do not duplicate on unchanged cue.
+- Entry creation requires an otherwise fully lawful, evidence-supported, dependency-closed candidate suppressed/downgraded to no movement solely because of the aggregate two-step cap.
+- Never queue malformed, invalid, quarantined-for-integrity, overridden-by-conflict, unproven, or already committed movements.
+- Reconsider in a later cycle by the original SOURCE_COT, supplying a NEW fully formed proposal evaluated against current reality and current state.
+- Remove on lawful commitment, loss of cue validity, contradiction, superseding explicit outcome, or operator-confirmed abandonment.
+- After two attempted reconsideration cycles without lawful resolution, retain as pending and surface a governance-only operator diagnostic; continue play and ordinary lawful state changes.
+- If cap 3 is full, retain existing entries, do not silently drop a newly capacity-deferred cue; signal operator re-presentation instead. Do not breach cap.
+- Never narrate administrative queue metadata as a character memory; only its original experience may influence cognition.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_MEMORY][MEMORY_REGISTRY] lists all MEMORY_ID tokens.
+- Each listed MEMORY_ID must have exactly one corresponding [STATE_MEMORY][MEM_XX] record.
+- MEMORY_ID uses prefix MEM_.
+- No duplicate MEMORY_ID.
+- New memory insertion follows strict SET pair contract.
+- Per-cycle creation cap is governance-enforced per STATE_GOVERNANCE_OVERLAY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LINKAGE_RULES ===
+
+- SYSTEM_LINKAGE must contain at least one valid canonical path field:
+  - PRIMARY_TEMPLATE_AFFECTED
+  - SPECIFIC_FIELD_CHANGED
+- ASSOCIATED_* IDs are optional but, when present, must reference lawful concrete records.
+- Linkage fields are for persistent meaning-attachment, not arbitrary explanatory prose.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MUTABILITY_BOUNDARIES ===
+
+RETROACTIVE_EDIT_LIMITS:
+- [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+- [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][CORE_EVENT_SUMMARY]
+- [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][SENSORY_IMPRINT]
+- [STATE_MEMORY][MEM_XX][NARRATIVE_CONTENT][INTERNAL_MONOLOGUE_EXCERPT]
+- lawful SYSTEM_LINKAGE augmentation
+
+[[LLM_INSTRUCTION]]: Memory records are stability-biased once formed.
+[[LLM_INSTRUCTION]]: Reconsolidation may refine remembered framing, but must not become unrestricted rewriting of persistent past-state artifacts.
+[[LLM_INSTRUCTION]]: SALIENCE is a QUALITATIVE_INTENSITY band and is updated through bounded SET operations targeting an adjacent band.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- SALIENCE must meet or exceed creation threshold band for new record admission (creation threshold defined by DYNAMICS_MEMORY).
+- SYSTEM_LINKAGE must include at least one valid canonical path.
+- ASSOCIATED_* IDs must reference existing lawful records when non-empty.
+- Retroactive edits are limited to the mutable subfields listed above.
+- Prohibited operation aliases do not exist in this schema contract.
+- Memory persistence reflects resolved significance, not raw ungoverned chain-of-thought residue.
+- DEFERRED_NARRATIVE_CUES has a hard cap of three and is updated exclusively through writer-owned deferral bookkeeping, not ordinary SET proposals or MEM_XX creation.
+- Deferred cues cannot be treated as proven future changes, memories of an administrative decision, or a substitute for current-cycle evidence.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

@@ -1,0 +1,111 @@
+=== SECTION: COT_TEMPORAL_DECAY_RESOLUTION ===
+
+[KEEP: Purpose & Role]
+Governs slow decay, recovery, and weakening effects caused by time passage without strong reinforcement. Handles memory salience decay, prediction certainty decay, modifier expiry, and unresolved low-activation pressures.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: weakening proposals for persistent and temporary structures; low-activation impulses.
+Is Informed By: STATE_MEMORY, STATE_DPF, STATE_TEMPORARY_MODIFIERS, STATE_TEMPORAL_DYNAMICS, elapsed-time cues, DYNAMICS_TEMPORARY_MODIFIERS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRES_WHEN ===
+
+ANCHOR_CUES:
+- Narrative input describes elapsed time, major time skip, scene closure, or sustained lack of reinforcement.
+- Active modifier expiry condition is met or deterministically inferable.
+- Unresolved prediction has gone unconfirmed across meaningful elapsed interval.
+- Memory salience decay or reconsolidation cue is present.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MEMORY_SALIENCE_DECAY ===
+
+ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_MEMORY][MEM_XX][MEMORY_METADATA][SALIENCE]
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: TEMPORAL_SALIENCE_DECAY
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: time passage without reinforcement reduces retrieval salience
+
+CONDITIONS:
+- One-band bounded unless override proof applies.
+- Highly linked or recently reactivated memories decay more slowly.
+- Governance may suppress when linkage protection or recent retrieval justifies stability.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_CONFIDENCE_DECAY ===
+
+ON_PROLONGED_INACTIVITY_OR_NONCONFIRMATION:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: PREDICTION_CONFIDENCE_DECAY
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: unresolved prediction loses confidence over time
+
+- Optional SET:
+  TARGET_FIELD: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE]
+  PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
+  STRENGTH: LOW
+  MECHANISM_TAG: GLOBAL_CERTAINTY_DRIFT
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: global interpretive certainty weakens under drift
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_EXPIRY_PRESSURE ===
+
+ON_DURATION_LAPSE_OR_EXPIRY_CUE:
+- PROPOSE REMOVE_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE: target MOD_XX reference
+  STRENGTH: MODERATE
+  MECHANISM_TAG: MODIFIER_EXPIRY_RESOLUTION
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: expiry condition met
+
+CONDITIONS:
+- Expiry cues must be explicit or deterministically inferable.
+- Final lifecycle handling follows DYNAMICS_TEMPORARY_MODIFIERS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LOW_ACTIVATION_IMPULSES ===
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_TEMPORAL_DECAY_RESOLUTION
+IMPULSE_TYPE: LET_GO | REVISIT | REINFORCE | DISENGAGE
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: MEM_XX | PRD_XX | MOD_XX | NONE
+JUSTIFICATION:
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include decay domains, memory-decay YES/NO, prediction-decay YES/NO, modifier-expiry YES/NO, impulses, proposal count, and retention notes.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

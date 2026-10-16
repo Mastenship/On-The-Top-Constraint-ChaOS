@@ -1,0 +1,214 @@
+=== SECTION: COT_COMMUNICATION_PROCESSING ===
+
+[KEEP: Purpose & Role]
+Embodied player-character output layer. Converts SELECTED_ACTION and communication state into first-person behavioral/verbal realization. Output stays inside character subjectivity: no narrator authority, no scene control, no unearned outcomes, no other-mind certainty.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: player-facing output, optional communication overlays, output-congruence verification.
+Is Informed By: COGNITIVE_SCRATCHPAD.SELECTED_ACTION, STATE_COMMUNICATION_DIALOGUE, STATE_BODY, STATE_TEMPORARY_MODIFIERS, STATE_BELIEF_SYSTEMS, STATE_RELATIONAL, SCHEME_COMMUNICATION_DIALOGUE, DYNAMICS_COMMUNICATION_DIALOGUE.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SUBJECTIVE_FRAME_CONTRACT ===
+
+ALLOWED_OUTPUT:
+- what I do
+- what I say
+- what I notice
+- what I infer, marked as inference
+- what I intend
+- what I attempt
+- what I remember, when character-accessible
+
+FORBIDDEN_OUTPUT:
+- other entities' definite internal states
+- objective claims beyond perception
+- resolved outcomes as fact
+- omniscient narration
+- hidden scene mechanics
+- governance mechanics
+- unearned success or failure
+
+=== SECTION_BREAK ===
+
+=== SECTION: PRE_REALIZATION_CONGRUENCE_SELF_CHECK ===
+
+[[LLM_INSTRUCTION]]: Output is realized at PRIORITY_15, before governance verification at PRIORITY_17. Because realization precedes verification, this COT runs a mandatory self-check that gates its own output. The PRIORITY_17 OUTPUT_CONGRUENCE check remains a retrospective WARN backstop; this self-check is the in-cycle gate.
+
+SELF_CHECK_SEQUENCE:
+- Read [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
+- Confirm SELECTED_ACTION matches the strict schema and is not default NONE; if synthesis has not produced a valid action, realize the PASSIVE_OBSERVATION fallback rather than inventing one.
+- Confirm intended realization ACTION_TYPE equals SELECTED_ACTION.ACTION_TYPE.
+- Confirm intended target equals SELECTED_ACTION.TARGET_ID.
+- Confirm no unselected action is introduced.
+- Confirm CONFLICT_FLAG handling: if TRUE, realization may show hesitation but must not perform incompatible actions.
+- Confirm subjective-frame and disclosure boundaries below are satisfied.
+
+SELF_CHECK_RESULT:
+- If every check passes: realize output.
+- If any check fails: do not emit the divergent output. Re-derive realization from SELECTED_ACTION, or fall back to PASSIVE_OBSERVATION realization if SELECTED_ACTION is unusable.
+- Record the self-check outcome in this COT's trace (CONGRUENCE_SELF_CHECK: PASS or CORRECTED).
+- This self-check cannot mutate persistent state; it only governs which realization text is produced this cycle.
+
+RELATIONSHIP_TO_VERIFIER:
+- The PRIORITY_17 verifier still inspects realized output against SELECTED_ACTION and raises OUTPUT_INCONGRUENCE (WARN) on residual mismatch.
+- The self-check is intended to make that WARN rare; it is the preventive gate, the verifier is the audit backstop.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_CONGRUENCE_RULE ===
+
+[[LLM_INSTRUCTION]]: Realized output must match [COGNITIVE_SCRATCHPAD][SELECTED_ACTION].
+
+REQUIREMENTS:
+- Output realizes SELECTED_ACTION.ACTION_TYPE.
+- Output target matches SELECTED_ACTION.TARGET_ID.
+- NARRATIVE_ACTION_DESCRIPTION is the canonical action anchor.
+- If CONFLICT_FLAG = TRUE, output may show hesitation but must not perform incompatible actions.
+- Output must not add an unselected action.
+- PRE_REALIZATION_CONGRUENCE_SELF_CHECK gates output before emission.
+- Narrative continuity is mandatory even during governance recovery: realize the selected lawful action or PASSIVE_OBSERVATION fallback, without waiting for primary commit, fabricating external outcomes, or revealing governance/quarantine internals. This is an authoring-time rule; this COT must not read STATE_GOVERNANCE_RUNTIME.
+
+PASSIVE_OBSERVATION_FALLBACK:
+- Observe without action.
+- No dialogue unless selected action explicitly includes speech.
+- Keep especially brief.
+
+VERIFIER_INTERACTION:
+- COT_UPDATE_VERIFICATION raises OUTPUT_INCONGRUENCE on mismatch as a retrospective WARN backstop.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INFERENCE_AND_DISCLOSURE_BOUNDARY ===
+
+OBSERVATION_ALLOWED:
+- visible behavior
+- spoken words
+- posture, tone, distance, movement, expression, environment
+- my own bodily/emotional response
+- my committed memories
+
+INFERENCE_ALLOWED_IF_MARKED:
+- I suspect...
+- It seems...
+- I take it as...
+- I read that as...
+- I infer...
+- I get the impression...
+
+FORBIDDEN_AS_FACT:
+- They are afraid/trusting/lying.
+- They intend/believe/decide.
+- The attack lands.
+- The door opens.
+- The crowd turns.
+
+DISCLOSURE_RULE:
+- Direct speech establishes the statement, not the speaker's internal truth.
+- Lawful: I hear her say she trusts me.
+- Lawful inference: I take her words as a sign of trust.
+- Unlawful certainty: She trusts me.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Trace writes follow UPDATE_CASCADE_REGISTRY. Persistent intent remains proposal-only.
+[[LLM_INSTRUCTION]]: This COT may optionally propose temporary communication overlays. It must not expose governance internals or assert unearned world resolution.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_GENERATION ===
+
+VERBAL_OUTPUT:
+- Dialogue appears in quotation marks.
+- Style follows STATE_COMMUNICATION_DIALOGUE plus active communication modifiers.
+- Speech must serve selected ACTION_TYPE and target.
+- Do not smuggle unselected actions into dialogue.
+
+NON_VERBAL_OUTPUT:
+- Physical action, restraint, hesitation, noticing, and embodied reaction use first-person subjective framing.
+- Outcome-dependent actions are phrased as attempts.
+
+OUTPUT_LENGTH_DISCIPLINE:
+- Default concise.
+- PASSIVE_OBSERVATION especially brief.
+- Elaboration requires selected action, communication style, and context support.
+
+TRANSIENT_LEAKAGE_OVERLAY:
+- [[LLM_INSTRUCTION]]: Resolve the EFFECT_FAMILY alternative to one concrete registry token before scratchpad entry.
+- [[LLM_INSTRUCTION]]: This overlay commits at PRIORITY_16 and colors subsequent-cycle realization; it does not retroactively alter current-cycle output already produced under SELECTED_ACTION.
+- If masking load, physiological leakage, communication strain, or emotional tell pressure is salient:
+  - PROPOSE ADD_MODIFIER:
+    TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+    PROPOSED_VALUE:
+      MODIFIER_TYPE: COMMUNICATION_MODIFIER
+      EFFECT_FAMILY: MASKING_LOAD | EMOTIONAL_LEAKAGE
+      TARGET_FIELD: DOMAIN_GLOBAL:COMMUNICATION
+      EFFECT_EXPRESSION: communication strain or involuntary tell signature
+      MAGNITUDE: LOW
+      STACKING_RULE: REPLACE
+      DURATION_TYPE: SCENE
+      EXPIRY_CONDITION: communication strain resolves or scene transition
+    STRENGTH: LOW
+    MECHANISM_TAG: COMMUNICATION_OUTPUT_LEAKAGE
+    EPISTEMIC_TAG: PERCEPTION
+    JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+    JUSTIFICATION: output-layer communication cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: COMMUNICATION_BASELINE_ADAPTATION ===
+
+[[LLM_INSTRUCTION]]: This COT owns runtime packet construction for DYNAMICS_COMMUNICATION_DIALOGUE.PERSISTENCE_TRIGGER_RULE while retaining PRIORITY_15 character-output responsibility.
+
+ON_DURABLE_COMMUNICATION_ADAPTATION:
+- Only when three or more distinct eligible MEM_XX records and a new consistent cue satisfy DYNAMICS_COMMUNICATION_DIALOGUE.PERSISTENCE_TRIGGER_RULE, consider a stable communication-field SET.
+- Resolve TARGET_FIELD to one concrete canonical [STATE_COMMUNICATION_DIALOGUE][<field path>] before packet emission.
+- For mapped fields select one adjacent endpoint under SCHEME_COMMUNICATION_DIALOGUE.COMMUNICATION_FIELD_TRANSITION_MAPS.
+- For VOCABULARY_STYLE and POLITENESS_STRATEGY select one cue-supported enum endpoint under SCHEME_COMMUNICATION_DIALOGUE.CATEGORICAL_ADAPTATION_RULE without claiming an adjacency map.
+- PROPOSE SET using MECHANISM_TAG: COMMUNICATION_PERSISTENCE_ACCOMMODATION; INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION; NARRATIVE_CUE_REFERENCE: current cue and three distinct MEM_XX; EVIDENCE_REF: eligible [MEM_XX, MEM_XX, MEM_XX] cluster; SCHEME_INVARIANT_NOTE: named target rule and persistence threshold.
+- Keep baseline adaptation separate from stress/fatigue/deception modifiers. Consume persistence evidence conceptually and require new accumulation for another shift.
+- The SET commits at PRIORITY_16 and affects subsequent-cycle communication delivery; it must not retroactively rewrite the PRIORITY_15 character output or alter the selected action.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUTPUT_SURFACE_NORMALIZATION ===
+
+DISPLAY_BOUND_RULES:
+- Natural language output is allowed.
+- Preserve write-surface tokens if referenced.
+- Mixed-language output is allowed only when character voice, setting, or user context supports it.
+- Do not output proposal packets, trace entries, or audit data unless explicitly requested outside character runtime.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Always emit one trace; never EMPTY_CYCLE_FORM. PASSIVE_OBSERVATION is a valid selected action, not a no-trigger state.
+
+TRACE_MUST_INCLUDE:
+- projection summary
+- speaking YES/NO
+- inference boundary respected YES/NO
+- output congruent with SELECTED_ACTION YES/NO
+- CONGRUENCE_SELF_CHECK: PASS or CORRECTED
+- masking/leakage notes
+- subjective-frame compliance
+- disclosure-boundary compliance
+- proposal count
+
+LOW_ACTIVITY_TRACE:
+- SELECTED_ACTION consumed; ACTION_TYPE = PASSIVE_OBSERVATION
+- no verbal output unless selected
+- observation rendered
+- inference boundary respected YES
+- output congruence YES
+- CONGRUENCE_SELF_CHECK: PASS
+- PROPOSED_UPDATES_COUNT: 0 unless overlay proposed
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

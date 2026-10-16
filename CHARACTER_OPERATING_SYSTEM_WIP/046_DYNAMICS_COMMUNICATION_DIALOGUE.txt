@@ -1,0 +1,111 @@
+=== SECTION: DYNAMICS_COMMUNICATION_DIALOGUE ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for communication adaptation under stress, fatigue, relational context, state-dependent leakage, and persistence-triggered baseline drift. Preserves the distinction between stable communication identity and transient communication condition.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Prefer temporary communication overlays when effects are short-horizon, stress-induced, deceptive, relationally local, or physiologically contingent.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRESS_AND_AROUSAL_EFFECTS ===
+
+ON_HIGH_AROUSAL_OR_STRESS:
+- Prefer ADD_MODIFIER overlays for:
+  - SPEECH_RATE_PRESSURE
+  - COMMUNICATION_COMPLEXITY_COMPRESSION
+  - EMOTIONAL_LEAKAGE
+- Baseline communication fields do not shift unless persistence evidence supports enduring adaptation.
+
+ON_FATIGUE:
+- Prefer ADD_MODIFIER overlays for FATIGUE_DELIVERY_DEGRADATION.
+- Durable baseline change requires persistence cluster evidence.
+
+ON_DECEPTION_OR_CONCEALMENT:
+- Prefer ADD_MODIFIER overlays for masking load, tell suppression, leakage risk, or guardedness.
+- Deception episode effects do not rewrite stable communication identity without persistence cluster evidence.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PERSISTENCE_TRIGGER_RULE ===
+
+[[LLM_INSTRUCTION]]: Persistence for communication baseline shift is operationalized through the memory ledger.
+
+PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN:
+- Three or more MEM_XX records reference field F through SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED or CORE_EVENT_SUMMARY.
+- Records consistently support the same lawful target: an adjacent endpoint for mapped fields, or a specific explicit endpoint for VOCABULARY_STYLE and POLITENESS_STRATEGY.
+- At least one record has SALIENCE MODERATE or higher.
+- Records are distinct cue occasions, not duplicate encodings.
+
+PERSISTENCE_TARGET_RESOLUTION:
+- Mapped communication fields: use SCHEME_COMMUNICATION_DIALOGUE.COMMUNICATION_FIELD_TRANSITION_MAPS to select one lawful adjacent enum endpoint.
+- VOCABULARY_STYLE and POLITENESS_STRATEGY: no adjacency map exists; select one explicit lawful enum endpoint supported by the persistence cluster and current cue per SCHEME_COMMUNICATION_DIALOGUE.CATEGORICAL_ADAPTATION_RULE.
+- All communication baseline shifts use SET to a concrete lawful endpoint; do not use relative TRANSITION directives on categorical fields.
+
+PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
+- When cluster exists and current cycle adds consistent cue evidence:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_COMMUNICATION_DIALOGUE][<canonical communication field path>]
+    PROPOSED_VALUE: one concrete lawful enum endpoint per PERSISTENCE_TARGET_RESOLUTION
+    INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
+    NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
+    EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX]
+    SCHEME_INVARIANT_NOTE: communication baseline shift supported by accumulated evidence; mapped-field adjacent endpoint or unmapped categorical explicit endpoint, as applicable
+    MECHANISM_TAG: COMMUNICATION_PERSISTENCE_ACCOMMODATION
+
+PERSISTENCE_BOUNDS:
+- Mapped fields: at most one lawful adjacent endpoint SET per field per cycle.
+- VOCABULARY_STYLE and POLITENESS_STRATEGY: at most one explicit lawful endpoint SET per field per cycle, without presumed adjacency.
+- A persistence cluster is conceptually consumed; later shifts require new cue accumulation.
+- Stress-only or fatigue-only clusters must show enduring adaptation, not repeated transient impairment.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CULTURAL_AND_RELATIONAL_ADAPTATION ===
+
+ON_CULTURAL_EXPOSURE_WITH_OPENNESS:
+- Persistent cultural adaptation uses PERSISTENCE_TRIGGER_RULE.
+- Acute exposure uses transient overlays.
+
+ON_RELATIONAL_SHIFT:
+- Persistent changes to DIRECTNESS_LEVEL, POLITENESS_STRATEGY, PROXEMICS_PREFERENCE, or related fields use PERSISTENCE_TRIGGER_RULE.
+- Acute relational pressure uses transient overlays.
+
+ON_TRAUMA_OR_ANXIETY_CUES:
+- Prefer ADD_MODIFIER overlays for speech blocks, guardedness, masking load, or reduced expressiveness before baseline changes.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STATE_DEPENDENT_OVERLAYS ===
+
+LAWFUL_EFFECT_FAMILIES:
+- DECEPTION_LEAKAGE_CONTROL
+- MASKING_LOAD
+- EMOTIONAL_LEAKAGE
+- FATIGUE_DELIVERY_DEGRADATION
+- COMMUNICATION_COMPLEXITY_COMPRESSION
+- COMMUNICATION_GUARDEDNESS
+- SPEECH_RATE_PRESSURE
+
+ON_PHYSIOLOGICAL_OR_DECEPTION_CONTEXT:
+- Propose ADD_MODIFIER overlays for communication leakage signatures, masking strain, concealment effort, or involuntary tell pressure.
+- Do not directly rewrite baseline communication identity without persistence cluster evidence.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Communication baseline adaptation resolves to explicit lawful enum endpoints.
+- Short-horizon communication effects use modifiers rather than durable field mutation.
+- Persistence-triggered mapped-field shifts use adjacent SET endpoints; VOCABULARY_STYLE and POLITENESS_STRATEGY use explicit lawful SET endpoints without invented adjacency. Both require memory-ledger evidence.
+- Communication identity and communication condition remain distinct.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

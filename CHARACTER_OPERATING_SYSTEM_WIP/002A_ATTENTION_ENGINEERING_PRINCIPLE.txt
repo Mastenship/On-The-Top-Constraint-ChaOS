@@ -1,0 +1,72 @@
+=== SECTION: ATTENTION_ENGINEERING_PRINCIPLE ===
+
+[KEEP: Purpose & Role]
+Defines consultation classes and FIRES_WHEN discipline so runtime attention favors always-needed constitutional/governance surfaces and suppresses low-value COT noise when trigger cues are absent.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs: COT templates, COT_UPDATE_VERIFICATION, STATE_GOVERNANCE_AND_COMMIT.
+Is Informed By: TABLE_OF_CONTENTS, STATE_GOVERNANCE_OVERLAY, UPDATE_CASCADE_REGISTRY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONSULTATION_CLASSES ===
+
+CONSULTATION_CLASS: ENUM [ALWAYS_CONSULTED, ON_TRIGGER, ON_DEMAND]
+
+ALWAYS_CONSULTED:
+- Constitutional layer
+- Kernel layer
+- COGNITIVE_SCRATCHPAD
+- Re-evaluated every cycle.
+
+ON_TRIGGER:
+- COT_ templates subject to FIRES_WHEN.
+- DYNAMICS_ modules.
+- Active only when current-cycle cues satisfy trigger conditions.
+
+ON_DEMAND:
+- SCHEME_ modules.
+- STATE_ modules.
+- Read when schema/current values are needed.
+
+=== SECTION_BREAK ===
+
+=== SECTION: AUTHORITY_CHAIN ===
+
+AUTHORITY_ORDER:
+1) STATE_GOVERNANCE_OVERLAY
+2) CANONICAL_TOKEN_DICTIONARY
+3) UPDATE_CASCADE_REGISTRY
+4) Relevant SCHEME_ module
+5) Relevant DYNAMICS_ module
+6) COT_ template
+7) Volatile scratchpad content
+
+NOTES:
+- TABLE_OF_CONTENTS is load order, not authority.
+- Runtime priority belongs only to UPDATE_CASCADE_REGISTRY.
+- Post-verification commit is an invocation of STATE_GOVERNANCE_AND_COMMIT, not a higher authority.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRES_WHEN_DISCIPLINE ===
+
+[[LLM_INSTRUCTION]]: Priority 01–15 COTs declare FIRES_WHEN unless exempted. Runtime evaluates FIRES_WHEN before impulses or non-trace proposals.
+
+RULES:
+- If no FIRES_WHEN condition is met, COT emits only EMPTY_CYCLE_FORM trace.
+- No impulses or non-trace proposals without at least one satisfied anchor cue.
+- COT_UPDATE_VERIFICATION raises COT_FIRED_WITHOUT_ANCHOR_CUE when a non-exempt COT fires without anchor cue.
+
+EXEMPTIONS:
+- COT_DPF_SYNTHESIS_PROCESSING: always runs; produces CURRENT_DPF.
+- COT_DECISION_SYNTHESIS: always runs; produces SELECTED_ACTION.
+- COT_COMMUNICATION_PROCESSING: always runs; realizes SELECTED_ACTION.
+- Governance band PRIORITY_16–18.
+- COT_CHARACTER_INSTANTIATION_PROCESS: invoked only during instantiation workflow.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

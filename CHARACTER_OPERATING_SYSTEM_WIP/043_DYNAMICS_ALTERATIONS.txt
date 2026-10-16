@@ -1,0 +1,161 @@
+=== SECTION: DYNAMICS_ALTERATIONS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for alteration activation, deactivation, removal, psychological stance, cascade-class inference, and cascade triggering. Defines lawful transition patterns only; never performs direct writes.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: STATUS, CHARACTER_AWARENESS.PSYCHOLOGICAL_STANCE, and CHARACTER_AWARENESS.AWARENESS_STATUS are independent categorical fields under SCHEME_ALTERATIONS. Changes use SET to explicit endpoints, not relative movement.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NEW_ALTERATION_ADMISSION ===
+
+[[LLM_INSTRUCTION]]: When the Dungeon Master establishes a new durable alteration, DYNAMICS defines the gate; COT_ALTERATION_CASCADE_EFFECTS is the sole runtime packet producer.
+
+NEW_ALTERATION_GATE:
+- Explicit cue establishes a persistent, temporary-but-record-worthy, conditional, or episodic change in physical, psychological, magical, technological, or environmental capability/constraint.
+- No existing ALT_XX adequately captures this change.
+- It materially affects body, skill capability, perceived identity, vulnerability, behavior, goals, or narrative continuity beyond a passing scene effect.
+- Enough evidence exists to populate a complete SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA, including independently grounded STATUS, AWARENESS_STATUS, and PSYCHOLOGICAL_STANCE.
+- A purely fleeting sensation, ordinary injury without alteration significance, or momentary performance shift is handled by body state or temporary modifier instead of inventing ALT_XX.
+
+ON_NEW_ALTERATION:
+- When gate passes, executing COT emits a linked SET pair:
+  - [STATE_ALTERATIONS][ALTERATION_REGISTRY] append provisional ALT_XX
+  - [STATE_ALTERATIONS][ALT_XX] full schema-valid alteration record
+- STATUS reflects established operation; rejection or denial provides no operational endpoint. If operation cannot be established, do not invent ACTIVE or INACTIVE to complete admission.
+- Stance reflects established attitude; use UNFORMED when no attitude has been established. Awareness is seeded independently.
+- Cascade packets depend on surviving creation and their specific supporting fields: STATUS for functional effects; stance, awareness, and stress cues for rejection effects.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACTIVATION_DEACTIVATION ===
+
+ON_CONSTRAINT_MET:
+- If STATUS = DORMANT and activation conditions are satisfied:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: ACTIVE
+    JUSTIFICATION: activation condition satisfied
+
+ON_CONSTRAINT_UNMET:
+- If STATUS = ACTIVE and activation conditions are no longer satisfied:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: DORMANT
+    JUSTIFICATION: activation condition no longer met
+
+ON_REMOVAL_EVENT:
+- If a cue establishes functional cessation or actual removal, resolve one endpoint:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][STATUS]
+    PROPOSED_VALUE: INACTIVE | REMOVED
+    JUSTIFICATION: functional cessation for INACTIVE, actual removal for REMOVED
+
+OPERATIONAL_EVIDENCE_GATE:
+- Activation, dormancy, functional cessation, removal, and reactivation require objective mechanism or Dungeon Master cue evidence.
+- Psychological rejection, denial, acceptance, or attitude change alone cannot satisfy this gate. If resistance actually disables an alteration through a lawful physical or magical mechanism, that event supplies separate operational evidence.
+
+STATUS_ENDPOINTS:
+- ACTIVE: produces runtime-relevant effects.
+- DORMANT: present but inactive.
+- INACTIVE: present in history or identity but non-functional.
+- REMOVED: no longer present; may trigger cascade reversal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PSYCHOLOGICAL_STANCE ===
+
+ON_STANCE_CUE:
+- Resolve one cue-supported SCHEME_ALTERATIONS.PSYCHOLOGICAL_STANCE endpoint.
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][PSYCHOLOGICAL_STANCE]
+  PROPOSED_VALUE: one lawful stance endpoint
+  JUSTIFICATION: explicit attitude, adaptation, ambivalence, indifference, or loss-of-formed-stance cue
+- Acceptance or adaptation may resolve rejection; operational status remains independently governed.
+
+ON_AWARENESS_CUE:
+- PROPOSE SET to [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][AWARENESS_STATUS] only when explicit knowledge, discovery, denial, or loss-of-awareness cues support one lawful endpoint. Do not infer awareness from operation or stance alone.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PSYCHOLOGICAL_REJECTION ===
+
+ON_TRAUMATIC_REJECTION:
+- If linked memory salience and awareness support rejection:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][PSYCHOLOGICAL_STANCE]
+    PROPOSED_VALUE: REJECTING
+    JUSTIFICATION: trauma-linked rejection cue
+- Optionally trigger downstream stress overlay proposals; neither rejection nor its stress overlay changes STATUS.
+
+REJECTION_GATE:
+- REJECTING requires explicit cue evidence of ego-dystonic, traumatic, alien, shameful, violating, or identity-threatening experience and awareness of the alteration or its perceived effects.
+- Mere inconvenience or dislike is insufficient.
+- Rejection stress additionally requires supporting stress cues and AWARENESS_STATUS other than UNAWARE. DENIED may coexist with experienced identity threat; neither denotes operational inactivity.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CASCADE_TRIGGER ===
+
+ON_STATUS_STANCE_OR_AWARENESS_CHANGE:
+- Trigger COT_ALTERATION_CASCADE_EFFECTS.
+- Dynamics does not directly write propagated effects.
+
+ON_STATUS_NO_LONGER_ACTIVE:
+- Evaluate removal of functional overlays attributable to that source alteration. Physiological reversal needs independent recovery evidence and existing BODY bounds; cessation is not automatic restoration.
+- Psychological stress remains independently eligible while its stance, awareness, and stress cues support it, including after removal.
+
+ON_REJECTION_RESOLVED:
+- Evaluate removal of attributable rejection-stress overlays when stance, awareness, or supporting stress cues no longer satisfy REJECTION_GATE. Preserve lawful ACTIVE functional effects.
+
+REVERSAL_BOUNDARY:
+- Reversal proposals remain bounded and must not erase memories, alteration records, or audit history.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CASCADE_EFFECT_CLASS_INFERENCE ===
+
+[[LLM_INSTRUCTION]]: COT_ALTERATION_CASCADE_EFFECTS classifies relevant alterations at runtime from their independent operational and psychological fields. No persistent classification field exists.
+
+INJURY_OR_ILLNESS_CLASS:
+- Functional eligibility requires STATUS = ACTIVE, irrespective of stance or awareness.
+- Infer from PHYSIOLOGICAL_CHANGES or OBJECTIVE_SYSTEM_EFFECTS describing damage, disease, infection, organ impairment, wound, or compromised biological function.
+- Drives STATE_BODY proposals.
+- Focus: biological integrity or health state.
+
+ENHANCEMENT_CLASS:
+- Functional eligibility requires STATUS = ACTIVE, irrespective of stance or awareness.
+- Infer from NEW_ABILITIES or OBJECTIVE_SYSTEM_EFFECTS describing added capability, performance augmentation, expanded sense, or new motor function.
+- Drives STATE_TEMPORARY_MODIFIERS enhancement overlays.
+- Persistent capability source remains the alteration record.
+
+DEBILITATING_CLASS:
+- Functional eligibility requires STATUS = ACTIVE, irrespective of stance or awareness.
+- Infer from VULNERABILITIES_CONSTRAINTS or OBJECTIVE_SYSTEM_EFFECTS describing functional reduction, capacity loss, action restriction, or performance penalty.
+- Drives STATE_TEMPORARY_MODIFIERS degradation overlays.
+- Focus: functional capability loss.
+
+REJECTION_PSYCHOLOGICAL_CLASS:
+- Infer when CHARACTER_AWARENESS.PSYCHOLOGICAL_STANCE = REJECTING, AWARENESS_STATUS is not UNAWARE, and REJECTION_GATE stress cues apply, regardless of STATUS.
+- Drives ALTERATION_REJECTION_STRESS overlays.
+
+MULTI_CLASS_RESOLUTION:
+- Classes are independent; an alteration may satisfy multiple classes.
+- Each applicable class may generate bounded proposals subject to governance caps.
+- No class takes precedence over another.
+- An ACTIVE, REJECTING alteration may produce both functional effects and rejection stress; an ACTIVE, UNAWARE alteration may produce functional effects without rejection stress.
+
+CLASSIFICATION_TRACE:
+- Runtime classification is recorded in COT_ALTERATION_CASCADE_EFFECTS TRACE_ENTRY NOTES.
+- Verifier may inspect trace-classification consistency against the alteration record.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

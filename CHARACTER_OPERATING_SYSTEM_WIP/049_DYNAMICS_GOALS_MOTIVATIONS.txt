@@ -1,0 +1,119 @@
+=== SECTION: DYNAMICS_GOALS_MOTIVATIONS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for drive escalation, goal formation, goal-worthiness gating, conflict handling, and temporal goal pressure.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Goal creation uses SET pair: append GOAL_XX to GOAL_REGISTRY, then SET full GOAL_XX record.
+[[LLM_INSTRUCTION]]: Drive and qualitative goal-field movement uses lawful SET endpoints or TRANSITION where ordinal; governance enforces one-step/one-band limits unless override proof is complete.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DRIVE_ESCALATION ===
+
+ON_PHYSIOLOGICAL_DEPRIVATION:
+- Propose SET to next more severe lawful drive value.
+- Stronger deterioration requires override proof or governance downgrade/suppression.
+
+ON_SAFETY_THREAT:
+- Propose SET to next more severe lawful value in PHYSICAL_SAFETY and/or EMOTIONAL_SAFETY as cue type warrants.
+- Higher-order drive suppression requires explicit governance-readable proposals.
+
+ON_ATTACHMENT_EVENT:
+- Positive cues may SET attachment drive fields less severe.
+- Negative cues may SET attachment drive fields more severe.
+- Minor social texture should not change durable drive fields unless attachment-relevant, repeated, or state-salient.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOAL_WORTHINESS_GATE ===
+
+[[LLM_INSTRUCTION]]: Not every desire, impulse, or immediate action intent becomes GOAL_XX.
+
+GOAL_RECORD_ADMISSION_CRITERIA:
+A new GOAL_XX is warranted only when all are true:
+- Pressure is action-organizing beyond a single moment.
+- No existing ACTIVE, BLOCKED, or DORMANT GOAL_XX captures it.
+- Success criteria are describable.
+- It serves drive, value, safety, attachment, competence, meaning, legacy, or self-actualization pressure.
+- It can persist across cycles or structure multiple actions.
+
+NON_ADMISSION_CASES:
+- Passing wants.
+- Single-turn tactical actions.
+- Momentary impulses handled by COT_DECISION_SYNTHESIS.
+- Duplicates of existing goals.
+- Emotional pressure better represented as temporary modifier.
+- Predictions better represented as PRD_XX.
+- Memories better represented as MEM_XX.
+
+ADMISSION_RESULT:
+- If not admitted, express as impulse, selected action, modifier, or DPF interpretation.
+- If admitted, use SET pair with schema-valid payload.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOAL_FORMATION ===
+
+ON_HIGH_URGENCY_DRIVE:
+- Form GOAL_XX only when GOAL_RECORD_ADMISSION_CRITERIA are met.
+- Initial URGENCY and CONFIDENCE must cohere with drive intensity, resources, body state, and skills.
+
+ON_OPPORTUNITY_OR_OBSTACLE:
+- Prefer SET updates to existing GOAL_XX when lawful.
+- Create new GOAL_XX only when existing records do not capture the pressure and admission criteria are met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONFLICT_RESOLUTION ===
+
+ON_GOAL_CONFLICT:
+- Classify conflict.
+- Propose bounded SET to URGENCY, STATUS, or CONFIDENCE when cue support exists.
+- Use ADD_MODIFIER for short-horizon conflict pressure when more lawful than durable goal rewrite.
+
+CONFLICT_TYPES:
+- RESOURCE_CONFLICT
+- VALUE_CONFLICT
+- SAFETY_VS_DESIRE
+- ATTACHMENT_VS_AUTONOMY
+- SHORT_TERM_VS_LONG_TERM
+- IDENTITY_VS_SURVIVAL
+- TIME_PRESSURE_CONFLICT
+
+=== SECTION_BREAK ===
+
+=== SECTION: TEMPORAL_DYNAMICS ===
+
+ON_DEADLINE_APPROACH:
+- Propose bounded SET increases to GOAL_XX urgency when time pressure is explicit.
+- Propose SET to DEADLINE_RESPONSE when cue support is sufficient.
+
+ON_TIME_PERSPECTIVE_SHIFT:
+- Propose SET to TIME_PERSPECTIVE when cue support is sufficient.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_FORMATION_LINK ===
+
+ON_ACTIVE_HIGH_URGENCY_GOAL:
+- Trigger DPF prediction evaluation when anticipatory framing is warranted and DYNAMICS_DPF.PREDICTION_RECORD_ADMISSION_CRITERIA are met.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Goal-drive severity resolves to explicit lawful values.
+- Qualitative goal fields are bounded SET or lawful TRANSITION.
+- Short-horizon pressure should prefer modifiers.
+- New GOAL_XX requires admission criteria and registry-record coherence.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

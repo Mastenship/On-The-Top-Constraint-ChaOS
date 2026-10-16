@@ -1,0 +1,129 @@
+=== SECTION: COT_ATTACHMENT_BEHAVIORAL_MAPPING ===
+
+[KEEP: Purpose & Role]
+Applies attachment style as social interpretation and impulse bias. Durable relational movement follows DYNAMICS_RELATIONAL gates; attachment fear alone does not establish facts about others. Coping involvement is limited to attachment-cued probability-bias nudges; coping selection and lifecycle belong to COT_STRESS_CASCADE_RESOLUTION.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: relational interpretation, coping bias, attachment impulses, temporary attachment overlays.
+Is Informed By: SCHEME_ASQ, STATE_RELATIONAL, STATE_MEMORY, STATE_GOALS_MOTIVATIONS, STATE_TEMPORARY_MODIFIERS, STATE_COPE, SCHEME_RELATIONAL, DYNAMICS_RELATIONAL, SCHEME_COPE, DYNAMICS_COPE, DYNAMICS_TEMPORARY_MODIFIERS, narrative input.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRES_WHEN ===
+
+ANCHOR_CUES:
+- Narrative input introduces social interaction with existing relational entity.
+- Narrative input introduces salient social encounter likely to become ENT_XX per DYNAMICS_RELATIONAL.
+- Relational valence was updated this cycle and needs attachment-pattern reinterpretation.
+- Attachment-relevant drive is MODERATE or higher.
+- Active modifier targets attachment EFFECT_FAMILY.
+- Narrative input contains reassurance, rejection, abandonment, betrayal, intimacy, distancing, dependency, loyalty-testing, separation, reunion, or vulnerability cue.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ATTACHMENT_SCHEMA_APPLICATION ===
+
+[[LLM_INSTRUCTION]]: Attachment style biases interpretation and impulse generation; it does not establish another entity's internal state.
+
+SECURE:
+- Favor trust, repair, and balanced intimacy-autonomy.
+
+ANXIOUS_PREOCCUPIED:
+- Heighten rejection sensitivity.
+- Prefer ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION overlay when cue support exists.
+
+AVOIDANT_DISMISSIVE:
+- Bias toward distancing, suppression, and guarded communication under intimacy pressure.
+
+FEARFUL_AVOIDANT:
+- Bias toward conflicted approach-avoid pressure; allow competing SEEK_INTIMACY and WITHDRAW impulses.
+
+ATTACHMENT_THREAT_OVERLAY_PATTERN:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
+    EFFECT_FAMILY: ATTACHMENT_SOCIAL_THREAT_AMPLIFICATION
+    TARGET_FIELD: DOMAIN_GLOBAL:PERCEPTION
+    EFFECT_EXPRESSION: amplified perception of social threat or rejection
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: relational reassurance cue or scene transition
+  STRENGTH: MODERATE
+  MECHANISM_TAG: ATTACHMENT_THREAT_AMPLIFICATION
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: TRAIT_GATED
+  JUSTIFICATION: attachment bias under social threat cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: NEW_ENTITY_ONBOARDING ===
+
+[[LLM_INSTRUCTION]]: This COT is the runtime producer for DYNAMICS_RELATIONAL.NEW_ENTITY_ENCOUNTER; DYNAMICS provides the gate, but does not emit the packet.
+
+ON_SALIENT_NEW_ENTITY:
+- If DYNAMICS_RELATIONAL.NEW_ENTITY_ENCOUNTER.SALIENT_SOCIAL_ENCOUNTER_GATE passes and no existing ENT_XX identifies the entity:
+  - PROPOSE SET linked creation pair:
+    - TARGET_FIELD: [STATE_RELATIONAL][RELATIONAL_REGISTRY]; PROPOSED_VALUE: append one provisional ENT_XX
+    - TARGET_FIELD: [STATE_RELATIONAL][ENT_XX]; PROPOSED_VALUE: one complete SCHEME_RELATIONAL.RELATIONAL_RECORD_SCHEMA payload
+  - Use DYNAMICS_RELATIONAL.NEW_ENTITY_ENCOUNTER.DEFAULT_NEW_ENTITY_VALUES unless stronger same-cycle evidence supports a separately lawful valence update.
+  - Supply entity name/role, evidence for salience, linkage cue, and one shared provisional ENT_XX. Resolve the final ID only at governance commit.
+  - A new entity's AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE are independent; never infer another mind as COMMITTED_FACT.
+- If gate fails or encounter is incidental: retain in current perception/impulse only; create no ENT_XX.
+- Same-cycle MEM_XX, GOAL_XX, or PRD_XX links using provisional ENT_XX are dependent on successful linked entity creation, otherwise omitted or suppressed lawfully.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_AND_COPING_PROPOSALS ===
+
+RELATIONAL_MOVEMENT:
+- Durable AFFECTIVE_VALENCE movement requires DYNAMICS_RELATIONAL.MEANINGFUL_INTERACTION_GATE.
+- PERCEIVED_OTHER_VALENCE follows DYNAMICS_RELATIONAL.PERCEIVED_OTHER_VALENCE_DYNAMICS.
+- Direct disclosure may establish the statement occurred; internal state remains INFERENCE unless substrate grants direct access.
+
+ON_POSITIVE_SOCIAL_CUE:
+- If meaningful-interaction gate fails: prefer impulse or temporary overlay.
+- If gate passes: may propose TRANSITION with PROPOSED_VALUE ONE_STEP_UP on AFFECTIVE_VALENCE.
+
+ON_NEGATIVE_SOCIAL_CUE:
+- If meaningful-interaction gate fails: prefer impulse or temporary overlay.
+- If gate passes: may propose TRANSITION with PROPOSED_VALUE ONE_STEP_DOWN on AFFECTIVE_VALENCE.
+
+ON_ATTACHMENT_TRIGGER:
+- Propose bounded COPE_PROBABILITY_BIASES movement on attachment cue support only, one band per field per cycle.
+- Coping selection, PRIMARY/SECONDARY mechanism, escalation, stabilization, and substance handling are owned by COT_STRESS_CASCADE_RESOLUTION and are not proposed here.
+- Prefer temporary overlays for acute attachment threat, reassurance need, distancing pressure, or loyalty-testing pressure.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_ATTACHMENT_BEHAVIORAL_MAPPING
+IMPULSE_TYPE: SEEK_INTIMACY | WITHDRAW | TEST_LOYALTY | CLING
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: ENT_XX | NONE
+JUSTIFICATION:
+JUSTIFICATION_CATEGORY: TRAIT_GATED
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated attachment schema, impulses, proposal count, meaningful-interaction gate YES/NO, inference boundary YES/NO, and SCHEME_ASQ compliance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

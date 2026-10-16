@@ -1,0 +1,329 @@
+=== SECTION: STATE_GOVERNANCE_OVERLAY ===
+
+[KEEP: Purpose & Role]
+Governance policy overlay for single-writer enforcement, conflict resolution, per-cycle limits, cross-field invariant timing, invariant-forced correction, remediation, quarantine, and read boundaries. Defines policy only; STATE_GOVERNANCE_AND_COMMIT performs commits.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs: STATE_GOVERNANCE_AND_COMMIT, COT_UPDATE_VERIFICATION, UPDATE_CASCADE_REGISTRY, DYNAMICS_GOVERNANCE_RUNTIME.
+Is Informed By: CANONICAL_TOKEN_DICTIONARY, SCHEME_* modules, DYNAMICS_* modules, STATE_GOVERNANCE_RUNTIME.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NON_NEGOTIABLE_WRITE_CONTRACT ===
+
+[[LLM_INSTRUCTION]]: Always enforced by STATE_GOVERNANCE_AND_COMMIT.
+
+RULES:
+- COTs write persistent intent only through [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- STATE_GOVERNANCE_AND_COMMIT is the only persistent-state writer.
+- COT_UPDATE_VERIFICATION is persistent-state non-mutating and may propose only GOVERNANCE_CORRECTIVE updates to STATE_GOVERNANCE_RUNTIME.
+- Post-verification governance proposals are committed or suppressed before scratchpad wipe.
+- Canonical paths, write-eligibility, strict operations, empty-value forms, and forbidden aliases follow CANONICAL_TOKEN_DICTIONARY.
+- Proposal schemas and schematic directive expansion follow UPDATE_CASCADE_REGISTRY.
+- INVARIANT_FORCED_CORRECTION is the only governance-originated state write permitted outside the proposal pipeline; it is enumerated, bounded, and audit-logged per CROSS_FIELD_INVARIANT_TIMING.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NARRATIVE_CONTINUITY_INVARIANT ===
+
+[[LLM_INSTRUCTION]]: ChaOS-local governance invariant, additional to the OTTC minimum. The show must go on: failure containment must preserve lawful player-character participation and independently lawful state development. It must not authorize an unlawful commit.
+
+REQUIREMENTS:
+- Character decision and subjective realization at PRIORITY_14 and PRIORITY_15 continue during governance recovery; no in-character disclosure of governance internals.
+- Reject, downgrade, or correct invalid proposals individually when their effects can be isolated. Preserve lawful independent memory, relational, goal, and other state changes under existing caps, linked-unit rules, and projected-state invariants.
+- Exceptional global containment is lawful only when the compromised integrity cannot be isolated. It lasts at most one full following recovery cycle; failure to resolve changes the recovery response to bounded diagnostic escalation, not another identical blanket suppression cycle.
+- Never auto-commit unsafe state to preserve story pace. If no independently safe update can be established, preserve the prior committed state for affected surfaces, continue character behavior, and expose a governance-only operator diagnostic for repair/re-evaluation.
+- A cycle's rejected proposal is not itself proof of global corruption. Recovery requires a lawful new proposal or a bounded designated INVARIANT_FORCED_CORRECTION; rejected proposals are not retroactively committed.
+
+PASS_6_NARRATIVE_HANDOFF:
+- Continue to evaluate salient narrative events for lawful memory, relationship, goal, and belief proposals during recovery. Do not discard independent lawful changes merely because an unrelated proposal was invalid.
+- When a genuinely unisolatable fault blocks event-linked persistence, surface the affected narrative cue in the governance trace for operator re-presentation; no hidden cross-cycle scratchpad retention is presumed.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STEP_LIMITS_PER_CYCLE ===
+
+[[LLM_INSTRUCTION]]: Per-cycle movement is bounded unless complete override proof is present. Limits are hard; breach surfaces as STEP_LIMIT_EXCEEDED.
+
+GENERAL_LIMITS:
+- One ordinal step per field against its declared ladder.
+- One qualitative band per field.
+- SET endpoint placement is subject to the same movement limits as TRANSITION.
+- Multi-step movement requires STRUCTURAL_OVERRIDE_PROOF_FIELDS.
+- PERCEPTUAL_SNAPSHOT categorical fields are exempt from one-step limits per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
+
+CUMULATIVE_ORDINAL_RULE:
+- Cumulative ordinary ordinal movement is the sum of absolute step distances across all committed ordinal and qualitative fields in the cycle.
+- Override-proof-backed movements are excluded from the cumulative count.
+- A COUPLED_MOVEMENT_SET of same-direction movements driven by one mechanistic event counts as a single step toward the cumulative total per COUPLED_MOVEMENT_REGISTRY.
+- Cumulative ordinary movement exceeding two steps is breach; the lowest-precedence ordinary movements are downgraded toward no-change until the count is two or fewer, otherwise surplus movements are suppressed with STEP_LIMIT_EXCEEDED.
+
+INTENTIONAL_THROTTLE_NOTE:
+- The two-step cumulative cap is deliberate throttling and is expected behavior.
+- COT and DYNAMICS layers over-propose by design; not every lawful single-field proposal commits in an eventful cycle.
+- CONFLICT_RESOLUTION_POLICY.PRECEDENCE_ORDER determines which movements commit; lower-precedence housekeeping movements such as decay and drift may defer to a later cycle rather than crowd out a primary event.
+- Authors should not assume their proposals commit independently in a busy cycle.
+
+COUPLED_MOVEMENT_REGISTRY:
+- Named same-direction co-activations that count as one cumulative step because they are one mechanistic event:
+  - SYMPATHETIC_HPA: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ADRENALINE] with [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL]
+  - FATIGUE_DEBT: [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL] with [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+  - CERTAINTY_DECAY: [STATE_DPF][DPF_METRICS][CERTAINTY_LEVEL][VALUE] with [STATE_DPF][PRD_XX][CERTAINTY]
+- A coupled set counts once only when every member moves one step in the same ladder direction in the same cycle under aligned mechanism.
+- Members moving independently, in opposite directions, or beyond one step each count separately and are not collapsed.
+- Coupling never raises a member above its own one-step-per-field limit.
+- Additions require constitutional update.
+
+MEMORY_LIMITS:
+- Ordinary memory creation cap: 1 MEM_XX per cycle.
+- FLASHBULB_BREAKTHROUGH may permit up to 2 MEM_XX with full proof.
+- Memory creation requires registry-record SET pair and lawful SYSTEM_LINKAGE.
+
+PREDICTION_LIMITS:
+- MAX_ACTIVE_PREDICTIONS: 10.
+- PRD_XX creation requires registry-record SET pair.
+- Over-cap creation is suppressed unless concurrent resolution/falsification keeps active count within cap.
+
+TEMPORARY_MODIFIER_LIMITS:
+- Active overlay surface, not archive.
+- Material sameness follows DYNAMICS_TEMPORARY_MODIFIERS.MATCH_KEY_TUPLE.
+- Same active modifier refreshes or replaces in place.
+- Expired/removed modifiers leave active surface.
+- Stacking must not create covert baseline rewrite.
+
+GOAL_LIMITS:
+- GOAL_XX creation requires registry-record SET pair and DYNAMICS_GOALS_MOTIVATIONS goal-worthiness.
+- Passing wants and single-turn intents remain impulses, selected actions, modifiers, or DPF interpretations.
+
+SKILL_LIMITS:
+- Permanent skill mutation requires SKILL_STATE_CHANGE support.
+- INSTINCT_LEVEL must satisfy SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING.
+- Momentary performance effects use modifiers.
+- Multi-step skill movement requires complete override proof.
+
+BELIEF_AND_COMMUNICATION_LIMITS:
+- Durable belief and communication baseline shifts require relevant DYNAMICS support.
+- Persistence-triggered shifts require memory-ledger evidence and bounded movement.
+
+=== SECTION_BREAK ===
+
+=== SECTION: NARRATIVE_DEFERRAL_CONTINUITY ===
+
+[[LLM_INSTRUCTION]]: Preserve the two-step cumulative ordinary-movement cap and ordinary conflict precedence. Reconsider otherwise lawful plot-significant movements that lose only to cumulative capacity; invalid packets never become retry permissions.
+
+ELIGIBILITY:
+- Only a canonical, evidence-supported ordinal/qualitative movement that passed other validation and projected invariants but was suppressed or downgraded to no movement solely by CUMULATIVE_ORDINAL_RULE may enter [STATE_MEMORY][DEFERRED_NARRATIVE_CUES].
+- Never queue malformed, contradicted, invalid, independently unsafe, unproven, or fully committed movements. An atomic coupled movement is represented as one reconsideration cue.
+- Bound to three entries per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE. Entries do not create MEM_XX or relax the ordinary memory cap.
+
+RECONSIDERATION_FAIRNESS:
+- The original SOURCE_COT reviews the cue next cycle even without another Dungeon Master reminder per UPDATE_CASCADE_REGISTRY.DEFERRED_NARRATIVE_CUE_DISPATCH.
+- A fresh complete proposal is mandatory; stale proposal payloads do not survive the scratchpad wipe.
+- At most one oldest eligible deferred movement unit receives protected consideration per cycle. After invariant, write/operation legality, linkage, evidence, proof, and current safety checks, it precedes later discretionary drift/decay and equal-priority ordinary pressure for one existing movement slot.
+- Never displace hard safety obligations, stronger contradictory COMMITTED_FACT, or newly mandatory physiological protection. The global cap remains two.
+- If reevaluation remains blocked, retain the bounded cue and log the attempt. After two attempts, surface a governance-only operator re-presentation diagnostic instead of endlessly replaying the same attempt.
+- If all three slots are full, flag the excess important cue for operator re-presentation; never claim it was queued or silently discard an existing entry.
+
+NARRATIVE_INTEGRITY:
+- A cue is only a traceable event interpretation pending lawful integration, not an episodic memory or the character's awareness of governance.
+- Queue capture/closure are sole-writer NARRATIVE_DEFERRAL_CAPTURE/NARRATIVE_DEFERRAL_CLOSURE bookkeeping actions, not proposal OPERATION_TYPE.
+- Deferred cues never bypass per-field steps, override proof, DYNAMICS admission gates, or other invariants.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CROSS_FIELD_INVARIANT_TIMING ===
+
+[[LLM_INSTRUCTION]]: Cross-field invariants depend on resulting committed state, not single proposals.
+
+RULES:
+- Cross-field invariants evaluate against projected committed state after conflict reconciliation and limit evaluation, before persistent commit.
+- Governed cross-field invariants:
+  - SCHEME_BODY immune/terminal-state suppression: IMMUNE_TERMINAL_STATE_CONFLICT.
+  - SCHEME_BELIEF_SYSTEMS strong-strong contradiction marker requirement: SCHEME_INVARIANT_VIOLATION.
+  - SCHEME_SKILLS INSTINCT_MASTERY_COUPLING: SCHEME_INVARIANT_VIOLATION.
+  - SCHEME_SKILLS GROWTH_POTENTIAL ceiling (GROWTH_POTENTIAL must not remain HIGH when MASTERY_LEVEL is MASTER): SCHEME_INVARIANT_VIOLATION.
+  - SCHEME_ALTERATIONS operational/psychological field independence and cascade dependency closure: SCHEME_INVARIANT_VIOLATION.
+- A proposal set whose members each pass individually but jointly violate a cross-field invariant is resolved jointly: the lowest-precedence contributing proposals are downgraded or suppressed until the projected state is lawful, except where an INVARIANT_FORCED_CORRECTION is the designated resolution below.
+
+ALTERATION_FIELD_INDEPENDENCE:
+- Validate STATUS, PSYCHOLOGICAL_STANCE, and AWARENESS_STATUS independently under SCHEME_ALTERATIONS and CANONICAL_TOKEN_DICTIONARY.ALTERATION_FIELD_ROLE_CONTRACT.
+- A stance or awareness change cannot itself suppress lawful ACTIVE functional effects, expire their overlays, or authorize a STATUS change. A STATUS change cannot itself rewrite stance or terminate independently supported rejection stress.
+- Reconcile cascades against the surviving projected source fields: operational dependents follow STATUS; rejection-stress dependents follow stance, awareness, and DYNAMICS_ALTERATIONS cues.
+- Creation remains an atomic registry-record pair; failed ALT_XX creation suppresses all dependents. For an existing or successfully created record, a failed stance change does not suppress independent operational effects, and a failed STATUS change does not suppress independent psychological effects.
+- Apply ordinary validation, movement/modifier limits, and audit closure to each surviving candidate; categorical alteration SETs do not consume ordinal movement slots. No new forced correction or inferred companion write is authorized.
+
+IMMUNE_TERMINAL_STATE_RECONCILIATION:
+[[LLM_INSTRUCTION]]: This invariant is resolved by correcting the immune flag, not by blocking physiological decline.
+- Trigger: projected committed state holds IMMUNE_MARKERS = ROBUST with two or more terminal biochemical states present.
+- Designated resolution: an INVARIANT_FORCED_CORRECTION that moves IMMUNE_MARKERS one band off ROBUST toward NORMAL on its declared ladder.
+- The contributing terminal-state transitions are preserved and committed; they are not suppressed to protect a stale ROBUST value.
+- INVARIANT_FORCED_CORRECTION is a bounded governance reconciliation write to a single existing committed field per CANONICAL_TOKEN_DICTIONARY.GOVERNANCE_RECONCILIATION_ACTIONS; it is audit-logged and is not character-cognition proposal generation.
+- If projected IMMUNE_MARKERS is already below ROBUST, the invariant is satisfied and no correction is applied.
+- A severe single-cycle immune drop greater than one band (for example ROBUST directly to COMPROMISED) requires override proof on an IMMUNE_MARKERS proposal exactly like other multi-step physiological deterioration.
+- Residual unresolved breach surfaces as IMMUNE_TERMINAL_STATE_CONFLICT.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONFLICT_RESOLUTION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Resolve conflicts deterministically. Do not merge incompatible mutations.
+
+CONFLICT_GROUPING:
+- Group proposals by effective TARGET_FIELD.
+- Group modifier proposals by DYNAMICS_TEMPORARY_MODIFIERS.MATCH_KEY_TUPLE.
+- Evaluate registry-record SET pairs as linked creation units.
+
+PRECEDENCE_ORDER:
+1) SCHEME invariant preservation.
+2) Canonical path, write-eligibility, and operation validity.
+3) Complete override proof.
+4) COMMITTED_FACT with resolvable EVIDENCE_REF.
+5) Higher STRENGTH.
+6) More specific TARGET_FIELD.
+7) Earlier SOURCE_COT execution priority.
+8) Conservative no-change or downgrade.
+
+TIE_BREAKERS:
+- NARRATIVE_DEFERRAL_CONTINUITY.RECONSIDERATION_FAIRNESS gives at most one older already-validated deferred ordinary movement protected consideration ahead of equal-priority discretionary movement; it does not outrank invariant, operation, evidence, or safety gates.
+- Prefer deterministic bounded downgrade over suppression.
+- Prefer temporary modifier over durable baseline mutation for short-horizon effects.
+- Prefer existing record update over new record creation when lawful.
+- Prefer in-place modifier refresh/replacement over new MOD_XX when materially same.
+- If still tied, suppress less-evidenced proposal.
+
+VETO_POLICY:
+- VETO suppresses lower-precedence conflicting proposals.
+- VETO must cite lawful reason and target a specific proposal or mutation class.
+- VETO mutates only by suppression effect.
+
+DOWNGRADE_POLICY:
+- Lawful only when nearest bounded outcome is deterministic.
+- May convert excessive movement to one-step/one-band.
+- May redirect short-horizon baseline mutation to lawful modifier pattern.
+- May apply an INVARIANT_FORCED_CORRECTION where a cross-field invariant designates it as the resolution; this corrects one existing field one band rather than suppressing the contributing proposals.
+- If no deterministic downgrade exists, suppress.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REMEDIATION_POLICY ===
+
+OUTCOME_CLASSES:
+- PASS: zero violations and zero warnings.
+- WARN: zero violations and one or more warnings.
+- FAIL: one or more violations.
+
+DEFAULT_REMEDIATION:
+- PASS: record PASS; complete any lawful recovery-case clearance.
+- WARN: record WARN; proceed. An unrelated WARN does not extend global containment.
+- FAIL: record FAIL; suppress or downgrade affected proposals and preserve independent lawful commitments. FAIL alone never entails whole-cycle containment.
+- Every suppressed or downgraded invalid proposal receives its canonical reason code, a lawful corrective reminder in governance trace, and a closed audit disposition.
+- Do not classify a merely attempted and successfully suppressed invalid mutation as corruption of committed state.
+
+QUARANTINE_NEXT_CYCLE_VIOLATIONS:
+- AUDIT_CLOSURE_INCOMPLETE
+- COMMIT_ORPHANED
+- IMMUNE_TERMINAL_STATE_CONFLICT
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE
+- READ_BOUNDARY_VIOLATION
+
+SYSTEMIC_QUALIFICATION_GATE:
+- Codes above are candidates for exceptional global containment only if verification finds a residual, non-isolatable integrity failure after ordinary suppression, downgrade, linked-unit reconciliation, and designated forced corrections.
+- AUDIT_CLOSURE_INCOMPLETE or COMMIT_ORPHANED qualifies only when actual commit lineage or audit closure cannot be trusted, not merely because a rejected packet carried bad data.
+- IMMUNE_TERMINAL_STATE_CONFLICT qualifies only if projected-state correction failed or committed state remains incompatible.
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE qualifies only if persistent baseline integrity was actually compromised; a blocked attempt is locally contained.
+- READ_BOUNDARY_VIOLATION qualifies only when its effect cannot be isolated from committed or decision integrity.
+- A listed reason code without the systemic qualification does not engage quarantine.
+
+MODIFIER_LIFECYCLE_SUBCODE_ROLLUP:
+- The five MODIFIER_LIFECYCLE sub-codes inherit the umbrella's modifier-lifecycle FAIL classification, not automatic whole-cycle quarantine.
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE additionally appears in QUARANTINE_NEXT_CYCLE_VIOLATIONS, but engages only after SYSTEMIC_QUALIFICATION_GATE.
+- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS, MODIFIER_COEXISTENCE_UNLAWFUL, MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE, and MODIFIER_REMOVE_REGISTRY_INCOHERENCE are normally local repair/suppression cases.
+- A failed modifier check is not permission to rewrite a permanent baseline.
+
+WARN_AND_PROCEED_WARNINGS:
+- COT_TRACE_MISSING
+- OUTPUT_INCONGRUENCE
+- COT_FIRED_WITHOUT_ANCHOR_CUE
+
+RESERVED_REMEDIATION:
+- ROLLBACK is reserved; current substrate suppresses with ROLLBACK_NOT_ACTIVE and uses local containment or operator escalation without unsafe automatic commit.
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUARANTINE_POLICY ===
+
+ENGAGEMENT:
+- COT_UPDATE_VERIFICATION proposes QUARANTINE_MODE TRUE only for a SYSTEMIC_QUALIFICATION_GATE-confirmed residual, non-isolatable violation in QUARANTINE_NEXT_CYCLE_VIOLATIONS.
+- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS commits or suppresses the proposal.
+- A still-open QUARANTINE_REASON_CODES list with its bounded RECOVERY_DIRECTIVE after a completed recovery cycle denotes pending governance remediation even when QUARANTINE_MODE = FALSE; it does not itself halt the next scene.
+
+SCOPE_DECLARATION:
+- Exceptional quarantine is a one-full-following-cycle containment and remediation episode, not a punishment for every invalid proposal.
+- The normal condition is proposal-level containment: independent lawful character-state changes continue.
+- In an exceptional recovery cycle, reject proposals whose independence from the compromised integrity cannot be demonstrated. Permit only independently validated, linked-unit-closed, cross-field-lawful ordinary proposals.
+- Canonical caps, single writer, schema/epistemic restrictions, and inference boundaries remain in force.
+- No character COT may read the governance reason list or narrate quarantine; the Dungeon Master's world continues and character realization proceeds.
+
+PRIMARY_RECOVERY_ADMISSION:
+- QUARANTINE_MODE TRUE at PRIMARY_PASS intake activates dependency-aware validation, not an INVOKED_RULE_NAME-only bypass.
+- Independently safe proposals pass the complete ordinary STEP_01 through STEP_10A validation and remain eligible for commit. Coupled/linked proposals are evaluated as atomic units.
+- Suppress any proposal or linked unit whose target, dependencies, or projected-state invariant cannot be shown independent of the unresolved integrity fault, with QUARANTINE_ACTIVE and a corrective reason in the audit.
+- A character-cognition proposal merely carrying GOVERNANCE_CORRECTIVE is not authorized as a governance repair. Only COT_UPDATE_VERIFICATION may originate GOVERNANCE_CORRECTIVE proposals, through the restricted PRIORITY_17 to PRIORITY_18 gate.
+- If independence cannot be established for any ordinary proposal, zero ordinary commitments is lawful for that single recovery cycle only; retain the cue in governance trace for possible operator re-presentation.
+
+BOUNDED_RELEASE:
+- No same-cycle clear: quarantine engaged at cycle A cannot be cleared during A.
+- After the full recovery cycle B (QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle), PRIORITY_17 emits a clear request regardless of PASS, WARN, or FAIL. PRIORITY_18 clears QUARANTINE_MODE and QUARANTINE_ENGAGED_CYCLE_ID.
+- A cleanly resolved cause clears QUARANTINE_REASON_CODES to [NONE] and RECOVERY_DIRECTIVE to NONE. An unresolved cause retains its bounded reason codes and bounded reformation directive as governance-only diagnostics and triggers operator-facing escalation outside the character voice.
+- While unresolved reason codes remain after bounded release, automatic re-engagement is prohibited; further bad proposals are isolated or suppressed by the ordinary writer. New materially distinct systemic symptoms update the capped reason list and paired bounded RECOVERY_DIRECTIVE without restarting an unchanged blanket hold.
+- Re-engagement requires the outstanding recovery case to be resolved/cleared first and a materially new, separately verified systemic event. This avoids repeated identical full-cycle stalls; it does not waive any validation.
+- A WARN not implicated in the original integrity failure cannot block bounded release.
+
+OPERATOR_RECOVERY:
+- A governance-only trace and the bounded RECOVERY_DIRECTIVE snapshot must identify reason code(s), affected canonical targets when known, the violated law, lawful reformation instruction, and the evidence needed for release; the trace additionally states whether independent state updates remain admissible.
+- A corrected packet enters in a later ordinary cycle through standard proposal intake; the governance writer never invents an unrequested baseline repair.
+- If the substrate cannot expose a separate operator diagnostic, retain the paired reason codes and capped RECOVERY_DIRECTIVE as the inspectable governance-only signal and do not leak diagnostic text into the character's role-play output.
+- Evidence of persistent global corruption may require external repair; continuity never overrides the safety of committed state.
+
+REASON_CODE_CAP:
+- QUARANTINE_REASON_CODES cap: 5 with FIFO eviction. If a distinct qualified signal evicts an unresolved reason, eviction means loss of diagnostic coverage, never verified cause resolution.
+- The same paired governance update must mark RECOVERY_DIRECTIVE with FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED, and POST_VERIFICATION_PASS_AUDIT.NOTES must identify the evicted code and the unverified disposition. Keep the notice through later directive rewrites while the incomplete recovery case is open.
+- A full close after overflow requires explicit governance-authorized operator review acknowledging the loss of coverage, even if all still-represented faults have since been corrected. Keep the final represented case pending review rather than clear the paired fields and silently erase the notice. No additional persistent history or field is introduced.
+- Overflow is a diagnostic signal, not a new quarantine trigger or authority to suppress independent lawful changes.
+- Under QUARANTINE_MODE FALSE, nonempty codes with a nonempty RECOVERY_DIRECTIVE denote unresolved recovery review, not active quarantine; clear both on documented resolution or operator-confirmed review, not merely on WARN/PASS of an unrelated cycle.
+
+=== SECTION_BREAK ===
+
+=== SECTION: READ_BOUNDARY_POLICY ===
+
+CHARACTER_COGNITION_BAND:
+- PRIORITY_01 through PRIORITY_15
+
+GOVERNANCE_BAND:
+- PRIORITY_16 through PRIORITY_18
+
+RULES:
+- CHARACTER_VISIBLE modules and subfields may be read by character-cognition COTs.
+- GOVERNANCE_INTERNAL modules and subfields may be read only by governance-band authorities.
+- Character-cognition COTs must not read governance internals.
+- A lawful character-cognition append to an append-only GOVERNANCE_INTERNAL subfield (CASCADE_TRACE) is not a read per CANONICAL_TOKEN_DICTIONARY.WRITE_VERSUS_READ_NOTE; only a read-back of GOVERNANCE_INTERNAL content is a violation.
+- Canonical-contract conformance is compiled into character-cognition templates at authoring time per CANONICAL_TOKEN_DICTIONARY.READ_DERIVATION_RULE and is not a runtime read.
+- Violations are detected by COT_UPDATE_VERIFICATION through trace inspection.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- This module defines policy only.
+- STATE_GOVERNANCE_AND_COMMIT is the sole persistent writer.
+- SET/TRANSITION semantics and empty-value forms follow CANONICAL_TOKEN_DICTIONARY.
+- Cross-field invariants evaluate against projected committed state.
+- INVARIANT_FORCED_CORRECTION resolves designated cross-field invariants by bounded single-field correction.
+- Quarantine state lives only in STATE_GOVERNANCE_RUNTIME.
+- Scratchpad artifacts survive only by lawful commit.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

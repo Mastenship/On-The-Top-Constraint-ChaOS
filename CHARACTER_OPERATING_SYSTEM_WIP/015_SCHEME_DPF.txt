@@ -1,0 +1,114 @@
+=== SECTION: SCHEME_DPF ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of dominant predictive frame (DPF) state. Defines core interpretive fields, metrics, field operation classes, prediction record schema, registry rules, active prediction cap, and invariants.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_CORE_STATE ===
+
+CORE_ASSUMPTION:
+VALUE: STRING_DESCRIPTIVE
+SOURCE: STRING_DESCRIPTIVE
+
+EMOTIONAL_VALENCE:
+VALUE: ENUM [HOPEFUL, CAUTIOUS, ANXIOUS, DREAD, TERRIFIED, VENGEFUL, NUMB, GUILTY, ASHAMED, CRAVING]
+SOURCE: STRING_DESCRIPTIVE
+
+SOURCE_CAUSALITY:
+VALUE: ENUM [SCIENTIFIC, SUPERNATURAL, HUMAN_AGENCY, RANDOM]
+SOURCE: STRING_DESCRIPTIVE
+
+SOCIAL_STANCE:
+VALUE: ENUM [TRUSTING, NEUTRAL, SUSPICIOUS, HOSTILE]
+SOURCE: STRING_DESCRIPTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_METRICS ===
+
+CERTAINTY_LEVEL:
+VALUE: QUALITATIVE_INTENSITY
+SOURCE: STRING_DESCRIPTIVE
+
+PACE:
+VALUE: ENUM [SLOW, STEADY, ACCELERATING, URGENT]
+SOURCE: STRING_DESCRIPTIVE
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_FIELD_OPERATION_CLASS ===
+
+[[LLM_INSTRUCTION]]: DPF field operation legality depends on whether the field is ordinal or categorical.
+
+ORDINAL_FIELDS:
+- CERTAINTY_LEVEL.VALUE is QUALITATIVE_INTENSITY and is ordinal per CANONICAL_TOKEN_DICTIONARY.
+
+CATEGORICAL_FIELDS:
+- EMOTIONAL_VALENCE
+- SOURCE_CAUSALITY
+- SOCIAL_STANCE
+- PACE
+
+CATEGORICAL_RULE:
+- Categorical DPF fields have no adjacency and move by SET to explicit lawful endpoint only.
+- Relative transition directives are unlawful on categorical DPF fields.
+
+DRIFT_RULE:
+- Bounded drift toward baseline interpretive state applies only to CERTAINTY_LEVEL as a one-band ordinal movement.
+- EMOTIONAL_VALENCE, SOURCE_CAUSALITY, SOCIAL_STANCE, and PACE do not drift; they change only by cue-supported SET.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PREDICTION_RECORD_SCHEMA ===
+
+PREDICTION_ID: ID_TOKEN (PRD_XX)
+TARGET: STRING_DESCRIPTIVE
+HYPOTHESIS: STRING_DESCRIPTIVE
+PARENT_DPF: STRING_DESCRIPTIVE
+STATE: ENUM [ACTIVE, RESOLVED, RESOLVED_NEGATIVE, FALSIFIED]
+CERTAINTY: QUALITATIVE_INTENSITY
+
+OPTIONAL_LINKAGE:
+ASSOCIATED_GOAL_ID: OPTIONAL_GOAL_ID
+ASSOCIATED_ENTITY_ID: OPTIONAL_ENT_ID
+ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_DPF][PREDICTION_REGISTRY] lists all PREDICTION_ID tokens.
+- Each listed PREDICTION_ID must have exactly one corresponding [STATE_DPF][PRD_XX] record.
+- PREDICTION_ID uses prefix PRD_.
+- No duplicate PREDICTION_ID.
+- New prediction insertion follows strict SET pair contract.
+- Active prediction count is governance-capped per STATE_GOVERNANCE_OVERLAY.MAX_ACTIVE_PREDICTIONS.
+- Excess creations are suppressed with DPF_PREDICTION_CAP_EXCEEDED unless override proof concurrently resolves or falsifies the lowest-certainty existing prediction.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DPF_RUNTIME_INTERPRETATION_RULES ===
+
+- DPF represents the currently persistent dominant interpretive frame, not every transient thought.
+- Scratchpad CURRENT_DPF is the volatile synthesis snapshot for the current cycle.
+- Persistent STATE_DPF stores only post-governance resolved updates.
+- Prediction records represent explicit anticipated outcomes or inferred future-state models that have become state-worthy.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- All DPF core fields must retain SOURCE traceability.
+- CERTAINTY_LEVEL band must remain plausible relative to active prediction distribution and contradiction load.
+- Prediction records marked RESOLVED, RESOLVED_NEGATIVE, or FALSIFIED must not remain semantically active.
+- Major contradiction patterns require certainty recalibration behavior per DYNAMICS_DPF.
+- Prediction creation, resolution, and falsification must preserve registry-record coherence.
+- Active prediction count must not exceed MAX_ACTIVE_PREDICTIONS.
+- DPF should absorb repeated interpretive bias over time without storing raw chain-of-thought artifacts directly.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

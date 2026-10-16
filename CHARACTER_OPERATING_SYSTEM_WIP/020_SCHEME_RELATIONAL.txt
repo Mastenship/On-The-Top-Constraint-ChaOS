@@ -1,0 +1,80 @@
+=== SECTION: SCHEME_RELATIONAL ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of relational state. Defines relational record schema with explicit directional valence fields, ordinals, registry rules, and invariants.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: RELATIONAL_RECORD_SCHEMA ===
+
+ENTITY_ID: ID_TOKEN (ENT_XX)
+ENTITY_NAME: STRING_DESCRIPTIVE
+PERCEIVED_RELATIONSHIP_TYPE: STRING_DESCRIPTIVE
+AFFECTIVE_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED] BASELINE_ANCHOR NEUTRAL
+PERCEIVED_OTHER_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED] BASELINE_ANCHOR NEUTRAL
+COGNITIVE_COMPLEXITY: ORDINAL [ONE_DIMENSIONAL, SIMPLE, NUANCED, COMPLEX] BASELINE_ANCHOR ONE_DIMENSIONAL NO_BASELINE_DRIFT
+INTERACTION_FREQUENCY_ESTIMATE: STRING_DESCRIPTIVE
+DEFINING_MEMORY_SUMMARY: STRING_DESCRIPTIVE
+ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
+CURRENT_CONCERN: STRING_DESCRIPTIVE
+
+ORDINALS:
+AFFECTIVE_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
+PERCEIVED_OTHER_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
+COGNITIVE_COMPLEXITY_ORDER: ONE_DIMENSIONAL < SIMPLE < NUANCED < COMPLEX
+
+COGNITIVE_COMPLEXITY_DIRECTION_NOTE:
+[[LLM_INSTRUCTION]]: COGNITIVE_COMPLEXITY accumulates with interaction depth; it does not drift toward baseline.
+- The NO_BASELINE_DRIFT marker declares that ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL are unlawful on this field.
+- Upward movement uses ONE_STEP_UP on accumulated interaction depth per DYNAMICS_RELATIONAL.
+- Downward movement is rare and uses explicit SET to a lower lawful band with cue support and usually override proof per DYNAMICS_RELATIONAL.
+- No decay or toward-baseline directive may lower this field; the BASELINE_ANCHOR is declared only to satisfy ladder formality and must not be used as a drift target.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DIRECTIONALITY_RULE ===
+
+[[LLM_INSTRUCTION]]: AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE are independent directional fields that must not be conflated.
+
+DIRECTIONALITY_DEFINITIONS:
+- AFFECTIVE_VALENCE: how the character feels toward the entity. First-person directional. Always character-resolvable from internal state.
+- PERCEIVED_OTHER_VALENCE: how the character perceives the entity feels toward the character. Inference-based directional. Always carries EPISTEMIC_TAG INFERENCE or SPECULATION when proposed.
+
+INDEPENDENCE_RULE:
+- The two valences may differ at any band combination.
+- Asymmetry is lawful and frequently realistic (unrequited devotion, unreciprocated hostility, mutual misperception).
+- Proposals shifting one valence do not implicitly shift the other; each shift requires its own cue support.
+
+EVIDENCE_TYPES:
+- AFFECTIVE_VALENCE moves on the character's own emotional response to interaction events.
+- PERCEIVED_OTHER_VALENCE moves on observed entity behavior, disclosed entity statements, or inferred entity affect.
+
+BASELINE_ANCHOR_NOTE:
+- Both valence ladders anchor at NEUTRAL.
+- ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL on either valence resolve toward NEUTRAL from either direction.
+- COGNITIVE_COMPLEXITY does not participate in toward-baseline movement per COGNITIVE_COMPLEXITY_DIRECTION_NOTE.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- [STATE_RELATIONAL][RELATIONAL_REGISTRY] lists all ENTITY_ID tokens.
+- Each listed ENTITY_ID must have exactly one corresponding [STATE_RELATIONAL][ENT_XX] record.
+- ENTITY_ID uses prefix ENT_.
+- No duplicate ENTITY_ID.
+- New entity insertion follows strict SET pair contract.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Ordinal transitions on both valence fields obey one-step policy unless override proof is valid.
+- AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE move independently on independent evidence.
+- COGNITIVE_COMPLEXITY moves on accumulated interaction depth, independent of either valence direction, and never drifts toward baseline.
+- CURRENT_CONCERN should clear on resolution unless refreshed by new cues.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

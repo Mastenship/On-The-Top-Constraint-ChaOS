@@ -1,0 +1,34 @@
+=== SECTION: SCHEME_DARK_TRIAD ===
+
+[KEEP: Purpose & Role]
+Immutable Dark Triad trait baselines. Set at instantiation; inform malevolent impulse gating and manipulative strategy bias.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_TRAIT_MARKERS ===
+
+NARCISSISM: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+MACHIAVELLIANISM: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+PSYCHOPATHY: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRAIT_DEFINITIONS ===
+
+NARCISSISM: Grandiose self-view, entitlement, dominance, need for admiration.
+MACHIAVELLIANISM: Strategic manipulation, cynicism, pragmatic amorality.
+PSYCHOPATHY: Impulsivity, thrill-seeking, callousness, lack of remorse.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation.
+- HIGH or VERY_HIGH traits gate MALEVOLENT_BEHAVIOR_SELECTION impulses when cue support exists.
+- Changes require extreme override proof and are outside standard runtime mutation.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
