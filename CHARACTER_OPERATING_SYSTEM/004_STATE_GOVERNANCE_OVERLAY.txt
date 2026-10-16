@@ -288,7 +288,10 @@ OPERATOR_RECOVERY:
 - Evidence of persistent global corruption may require external repair; continuity never overrides the safety of committed state.
 
 REASON_CODE_CAP:
-- QUARANTINE_REASON_CODES cap: 5 with FIFO eviction.
+- QUARANTINE_REASON_CODES cap: 5 with FIFO eviction. If a distinct qualified signal evicts an unresolved reason, eviction means loss of diagnostic coverage, never verified cause resolution.
+- The same paired governance update must mark RECOVERY_DIRECTIVE with FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED, and POST_VERIFICATION_PASS_AUDIT.NOTES must identify the evicted code and the unverified disposition. Keep the notice through later directive rewrites while the incomplete recovery case is open.
+- A full close after overflow requires explicit governance-authorized operator review acknowledging the loss of coverage, even if all still-represented faults have since been corrected. Keep the final represented case pending review rather than clear the paired fields and silently erase the notice. No additional persistent history or field is introduced.
+- Overflow is a diagnostic signal, not a new quarantine trigger or authority to suppress independent lawful changes.
 - Under QUARANTINE_MODE FALSE, nonempty codes with a nonempty RECOVERY_DIRECTIVE denote unresolved recovery review, not active quarantine; clear both on documented resolution or operator-confirmed review, not merely on WARN/PASS of an unrelated cycle.
 
 === SECTION_BREAK ===
