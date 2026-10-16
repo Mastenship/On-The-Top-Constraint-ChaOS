@@ -177,3 +177,65 @@ Here the **parser** must still establish the relevant light source position and 
 **OPEN:** Which system authors and stores these reusable mechanical definitions? Are definitions part of a DM-controlled item catalog, part of an expanded ChaOS scheme, or an explicit negotiated interface between them? How are per-item overrides, multiple light sources, condition changes, unit/scale conversion, and synchronization handled?
 
 **Key refinement:** A descriptive item name may suffice for freeform character improvisation, but **deterministic parser-facing properties must be explicit data**. The inventory ontology may therefore need a machine-consumable mechanical definition in addition to canonical field grammar and optional character-readable description.
+
+## 10. Items as conditional sources of Alterations — sword and interchangeable-eye thought experiments (2026-10-16)
+
+**DISCUSSION STATUS:** Exploratory, not a ratified ontology, module contract, or decision to extend the present architecture. The human architect emphasized: **we are kicking ideas around and preserving them, not committing to an implementation.**
+
+### Important correction from the human architect
+
+**NOT every inventory item creates an alteration.** Twenty gold coins, an ordinary sword, or other mundane possessions need not create `ALT_XX` entries. Earlier speculation that *any* item necessarily becomes an Alteration is **explicitly rejected**. The current hypothesis is narrower: **some DM-established items**, such as a magical sword or cybernetic device, **may act as sources of character alterations** when their particular abilities and conditions warrant it.
+
+An item remains an independently manipulable object: it may be carried, picked up, put down, worn, installed, removed, stolen, damaged, traded, or exchanged. An alteration is the **change in the character's operating capabilities/constraints or bodily condition** produced by that item under applicable conditions. These are distinct aspects of reality; an item is not identical to its effect.
+
+### Magical sword: source, applicability, effect
+
+**USER-ESTABLISHED EXAMPLE:** A DM creates a sword that makes its wielder more skilled in swordplay.
+
+**WORKING PROPOSAL:**
+- Inventory tracks the **particular sword**, its availability, and any relevant use/equipment condition.
+- A DM-defined magical property supplies the **potential source mechanism**; possession alone need not activate it.
+- While the sword is lawfully wielded, its dependent swordplay enhancement *may* be represented by an `ALT_XX` with conditional operational `STATUS`, propagating through the existing Alterations/temporary-performance-modifier machinery.
+- When the sword is put down or unavailable, **the physical object continues to exist**, but the conditional enhancement no longer applies if the mechanism requires wielding. Whether the alteration record becomes DORMANT, INACTIVE, or REMOVED must be decided against the actual mechanism and existing DYNAMICS; do **not** silently create a fresh alteration every time the sword is drawn.
+- Enhanced performance **does not automatically increase durable `SKL_XX` mastery**. If an item actually teaches enduring skill and the DM supplies evidence of real learning, `DYNAMICS_SKILLS` admission/progression rules govern that separate consequence.
+- Equipping, attempting activation, and actually achieving activation are distinct events. The character cannot establish world outcomes merely by deciding to use an item.
+
+### Cybernetic eyes: removable objects versus character alterations
+
+**USER-ESTABLISHED THOUGHT EXPERIMENT:** Someone might reasonably call a cybernetic eye an item. If a character can freely remove and re-socket eyes, they might carry several swappable eye units in inventory, each with different abilities.
+
+**WORKING DISTINCTIONS:**
+1. **Interchangeable eye unit:** Independently existing, transferable inventory object whether it is in a bag or socket.
+2. **Body/socket interface:** A potentially lasting physiological/cybernetic change to the character, which may warrant a separate Alterations or Body representation, independent of any single eye unit.
+3. **Installed eye's function:** A conditional character capability (e.g., thermal perception) sourced by the specific fitted eye when installed, compatible, and functional; potentially an alteration effect distinct from both the eye object and the underlying socket.
+4. **Swap/remove:** Changes the item–character connection and potentially which effects operate, without erasing the eye unit or automatically reversing the socket or durable downstream consequences.
+
+The **DM's world and character facts** determine whether a cybernetic socket is itself an alteration: artificial appearance alone is not the criterion; what differs from the character's established physiology/continuity matters. These are cases to test, not universal automatic admission rules.
+
+### Two different psychological relationships
+
+**USER-ESTABLISHED:** How the character feels about the *item* can differ from how they feel about the *alteration* it produces.
+
+Illustration: The character deeply loves the enchanted sword because it was inherited from a parent but dislikes the uncanny loss of control caused by its swordplay enchantment. Conversely, they might dislike the artifact yet welcome the functional augmentation.
+
+**WORKING IMPLICATION:** Inventory-side attachment/significance and `SCHEME_ALTERATIONS.CHARACTER_AWARENESS.PSYCHOLOGICAL_STANCE` are **distinct phenomena**; neither can substitute for the other. Do not automatically classify an object as an `ENT_XX` interpersonal relationship or force a single emotional value onto both surfaces. The exact inventory-side representation of attachment is **OPEN**.
+
+### Proposed boundary, *not adopted*
+
+> **Inventory represents the detachable/transferable object and its item-level properties. Alterations represents the consequential change in the character when a qualified, DM-established source mechanism applies. The item–character connection determines when a source-dependent effect is eligible.**
+
+This could let Inventory reuse existing Alterations cascade/reversal mechanics for **special** items without building a duplicate inventory-effects cascade or turning every mundane affordance into an `ALT_XX`.
+
+**Existing source alignment and caveats:** `SCHEME_ALTERATIONS` recognizes CYBERNETIC, MAGICAL, CONDITIONAL, and independent STATUS/AWARENESS/STANCE; `DYNAMICS_ALTERATIONS` already gates record-worthy changes and conditional activation, and `COT_ALTERATION_CASCADE_EFFECTS` handles multiple effect classes with source-dependent reversal. **None currently establishes a canonical `ITM_XX` source-link contract**. An example link or effect name in these notes does not create a token or make any new proposal lawful.
+
+### Unresolved design decisions
+
+1. How does a specific `ITM_XX` link to one or more `ALT_XX` effects? Where does the source/condition contract reside?
+2. Does picking up, equipping, installing, attuning, or actively using an item trigger the ability—and who confirms the condition?
+3. When an item is removed, which status endpoint is appropriate, and how do we avoid duplicate `ALT_XX` entries on re-equipping?
+4. How do we distinguish a removable source effect from a **lasting induced change**, such as socket surgery, lingering curse, physiological injury, or genuine learned skill?
+5. Should all DM-defined **special item abilities** enter through Alterations, or only those that genuinely satisfy the alteration admission gate? How do ordinary item affordances remain usable without excess records?
+6. How should an item's subjective sentimental/psychological relationship be represented separately from the character's attitude toward its induced alteration?
+7. What evidence and dependency handling prevent a suppressed equip/install proposal from producing functional effects anyway?
+
+**Development posture:** Remain in low-cost conceptual experimentation; do not draft runtime Inventory or revise Alterations solely on the strength of this thought experiment. Test more examples and have the human architect decide the ontology before schema changes.
