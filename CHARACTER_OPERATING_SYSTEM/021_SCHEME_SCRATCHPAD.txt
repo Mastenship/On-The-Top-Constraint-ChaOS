@@ -217,9 +217,10 @@ EMPTY_CYCLE_FORM:
 - PROPOSED_UPDATES_COUNT: 0
 
 TRACE_COMPLETENESS_NOTE:
-- COT_UPDATE_VERIFICATION verifies traces through PRIORITY_17.
-- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS emits PRIORITY_18 trace afterward.
-- The PRIORITY_18 trace is verified by the next cycle's verifier per STATE_GOVERNANCE_AND_COMMIT.NEXT_CYCLE_VERIFICATION_NOTE.
+- COT_UPDATE_VERIFICATION checks existing current-cycle traces through PRIORITY_16 and appends its PRIORITY_17 trace.
+- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS emits its PRIORITY_18 trace afterward.
+- The PRIORITY_18 trace is terminal, volatile Stage 1 audit material, not a next-cycle verification input.
+- All CASCADE_TRACE entries are wiped after PRIORITY_18; no cross-cycle trace retention is implied.
 
 === SECTION_BREAK ===
 
