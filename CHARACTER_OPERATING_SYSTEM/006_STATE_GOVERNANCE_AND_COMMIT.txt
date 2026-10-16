@@ -255,6 +255,7 @@ PV_STEP_04_GOVERNANCE_RUNTIME_VALUE_VALIDATION:
 - QUARANTINE_ENGAGED_CYCLE_ID: current commit cycle id | NONE
 - QUARANTINE_REASON_CODES: cap 5, FIFO overflow, empty form [NONE]; when QUARANTINE_MODE is FALSE, nonempty codes are allowed only as pending unresolved recovery diagnostics per SCHEME_GOVERNANCE_RUNTIME
 - RECOVERY_DIRECTIVE: governance-only STRING_DESCRIPTIVE, max 240 characters, NONE exactly when QUARANTINE_REASON_CODES is [NONE]
+- A paired SET that evicts an unresolved reason from a full five-entry FIFO requires RECOVERY_DIRECTIVE to include the exact literal FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED within its 240-character limit, together with the normal bounded recovery instructions. Preserve the literal in subsequent nonempty directive rewrites until operator review acknowledges incomplete coverage; this literal is directive text, not a new reason code.
 - Suppress invalid values with INVALID_ENUM_VALUE or SCHEME_INVARIANT_VIOLATION.
 
 PV_STEP_05_TRANSLATION_AND_EPISTEMIC_VALIDATION:
@@ -267,12 +268,16 @@ PV_STEP_06_RECONCILIATION_AND_COMMIT:
 - Apply conflict policy.
 - Commit lawful STATE_GOVERNANCE_RUNTIME updates.
 - Apply QUARANTINE_REASON_CODES cap-aware SET behavior and validate linked RECOVERY_DIRECTIVE consistency as an atomic governance-runtime recovery unit; do not leave reason codes without a directive or a directive without an open reason code.
+- Before committing the pair, determine whether a newly qualified distinct reason actually evicts a still-unresolved reason at cap 5. An eviction is not a clearance; validate the mandatory overflow notice in the paired directive. If absent or over the directive cap, suppress the malformed linked SET unit with SCHEME_INVARIANT_VIOLATION rather than commit an unmarked eviction.
+- Preserve a pre-existing overflow notice across subsequent paired SET updates. A request to clear the final represented reason and directive while coverage is incomplete requires explicit governance-authorized operator acknowledgment of the information loss; otherwise retain the paired pending-review snapshot, even when represented causes have been corrected. Do not infer repair of an evicted cause.
 - Honor DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
 - Enforce bounded release after the full recovery cycle even on WARN or FAIL; preserve unresolved reason codes for later targeted verification and operator review. Do not re-engage a still-open case as a new blanket quarantine episode.
 - Quarantine engagement requires STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE; reject mere code-based re-engagement when integrity faults were isolated.
 - Close final action for each post-verification proposal.
 
 PV_STEP_07_POST_VERIFICATION_AUDIT_AND_TRACE:
+- For each actual unresolved FIFO eviction, record in existing POST_VERIFICATION_PASS_AUDIT.NOTES and trace NOTES: displaced reason code, FIFO_CAPACITY_5, NOT_VERIFIED_RESOLVED, and REVIEW_REQUIRED. These are descriptive audit annotations, not new state fields or canonical reason codes.
+- If an overflow notice is already pending, report snapshot coverage as incomplete without pretending the evicted reason's identity survived earlier scratchpad wipes.
 - Write POST_VERIFICATION_PASS_AUDIT.
 - Append STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace.
 - Do not invoke COT_UPDATE_VERIFICATION again in the same cycle.
