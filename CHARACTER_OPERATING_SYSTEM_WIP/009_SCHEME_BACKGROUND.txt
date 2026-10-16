@@ -1,0 +1,78 @@
+=== SECTION: SCHEME_BACKGROUND ===
+
+[KEEP: Purpose & Role]
+Immutable formative-world baseline. Set at instantiation; seeds initial STATE_ values and supplies ongoing interpretive priors for authority, strangers, fate/free will, law/order, future outlook, technology, and social norms.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: CORE_BACKGROUND_MARKERS ===
+
+GEOGRAPHY: MULTILINE_STRING
+
+POPULATION_DENSITY: ENUM [SPARSE, MODERATE, HIGH, EXTREME]
+POPULATION_DIVERSITY: ENUM [HOMOGENOUS, MIXED, COSMOPOLITAN]
+
+DOMINANT_ARCHITECTURAL_STYLE: MULTILINE_STRING
+ECONOMIC_SYSTEM: MULTILINE_STRING
+EDUCATIONAL_FOCUS: MULTILINE_STRING
+
+TECHNOLOGICAL_LEVEL: ENUM [PRE_INDUSTRIAL, INDUSTRIAL, INFORMATION_AGE, NEAR_FUTURE, BIOPUNK, POST_SCARCITY, OTHER]
+TECHNOLOGY_INTEGRATION: ENUM [UBIQUITOUS, PROFESSIONAL, RARE, OUTLAWED]
+DATA_ACCESS_AND_PRIVACY: ENUM [OPEN_PUBLIC_NETWORK, CORPORATE_OWNED, STATE_MONITORED, DATA_HAVENS]
+
+OUTLOOK_ON_AUTHORITY: ENUM [RESPECTFUL, QUESTIONING, CYNICAL, SUBMISSIVE]
+OUTLOOK_ON_OUTSIDERS_AND_STRANGERS: ENUM [WELCOMING, WARY, HOSTILE, INDIFFERENT]
+OUTLOOK_ON_FATE_VS_FREE_WILL: ENUM [FATALISTIC, SELF_DETERMINIST, THEOLOGICALLY_DETERMINED]
+OUTLOOK_ON_LAW_AND_ORDER: ENUM [FOUNDATION_OF_SOCIETY, NECESSARY_EVIL, TOOL_OF_OPPRESSION, INCONVENIENCE]
+OUTLOOK_ON_THE_FUTURE: ENUM [OPTIMISTIC, PESSIMISTIC, APOCALYPTIC, CYCLICAL]
+
+TECH_AND_SOCIETAL_NORMS: MULTILINE_STRING
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVOCATIONAL_GLOSS ===
+
+POPULATION_DENSITY:
+- SPARSE: low-density settlement
+- MODERATE: mixed-density settlement
+- HIGH: dense urban or clustered population
+- EXTREME: hyper-dense settlement
+
+POPULATION_DIVERSITY:
+- HOMOGENOUS: low visible variation
+- MIXED: moderate variation
+- COSMOPOLITAN: high pluralism and cross-group contact
+
+TECHNOLOGICAL_LEVEL:
+- PRE_INDUSTRIAL: agrarian/craft world
+- INDUSTRIAL: machine-era society
+- INFORMATION_AGE: networked digital society
+- NEAR_FUTURE: near extrapolation
+- BIOPUNK: biotechnology-saturated society
+- POST_SCARCITY: material scarcity substantially reduced
+- OTHER: setting-specific condition
+
+DATA_ACCESS_AND_PRIVACY:
+- OPEN_PUBLIC_NETWORK: open information ecology
+- CORPORATE_OWNED: firm-controlled infrastructure
+- STATE_MONITORED: state-supervised information ecology
+- DATA_HAVENS: fragmented or sanctuary privacy structures
+
+WORLDVIEW_PRIOR_RULE:
+- Outlook fields are invocation-rich priors shaping interpretation, trust, authority response, and long-horizon expectation.
+- Enum literals are canonical values; meanings are not mutable state fields.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation.
+- Consulted for initial seeding and ongoing interpretive bias.
+- May inform trait baselines, relational defaults, belief axes, skill contexts, physiological assumptions, and DPF grounding.
+- Changes require explicit override proof plus governance review.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

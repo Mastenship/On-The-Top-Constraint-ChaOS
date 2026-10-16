@@ -1,0 +1,102 @@
+=== SECTION: COT_DECISION_SYNTHESIS ===
+
+[KEEP: Purpose & Role]
+Always-run arbitration COT. Selects one coherent current-cycle action from active impulses using semantic decision theory, constraint satisfaction, and bounded rationality. Writes SELECTED_ACTION only.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: final behavioral output.
+Is Informed By: ACTIVE_IMPULSE_REGISTRY, CURRENT_DPF, STATE_GOALS_MOTIVATIONS, STATE_BELIEF_SYSTEMS, STATE_TEMPORARY_MODIFIERS, SCHEME personality modules.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+ALLOWED_WRITES:
+- [COGNITIVE_SCRATCHPAD][SELECTED_ACTION]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+- [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED]
+
+FORBIDDEN_WRITES:
+- persistent STATE_* direct writes
+- proposal writes unless separately authorized
+
+=== SECTION_BREAK ===
+
+=== SECTION: IMPULSE_ARBITRATION ===
+
+WEIGHTING_FACTORS:
+- goal urgency
+- DPF certainty and valence
+- trait bias per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE
+- active temporary modifiers
+
+CONSTRAINTS:
+- body/skill feasibility
+- belief alignment
+- dissonance penalty
+- conservative fallback on unresolved tie
+
+SELECTION_POLICY:
+- Select highest-weighted feasible impulse.
+- If conflict remains, set CONFLICT_FLAG TRUE and choose conservative coherent action.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONFLICT_SIGNAL_WRITE ===
+
+[[LLM_INSTRUCTION]]: SELECTED_ACTION.CONFLICT_FLAG is the canonical conflict signal per SCHEME_SCRATCHPAD.CONFLICT_SIGNAL_AUTHORITY.
+
+RULES:
+- Set SELECTED_ACTION.CONFLICT_FLAG from arbitration outcome.
+- Write [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][CONFLICT_DETECTED] equal to SELECTED_ACTION.CONFLICT_FLAG.
+- Divergence between the two surfaces as OUTPUT_INCONGRUENCE at verification.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EMPTY_IMPULSE_FALLBACK ===
+
+ON_EMPTY_IMPULSE_REGISTRY:
+SELECTED_ACTION:
+ACTION_ID: ACT_<unique>
+ACTION_SOURCE_IMPULSE: NONE
+ACTION_TYPE: PASSIVE_OBSERVATION
+TARGET_ID: NONE
+CONFIDENCE: MODERATE
+RATIONALE: no active impulses; passive observation fallback
+CONFLICT_FLAG: FALSE
+NARRATIVE_ACTION_DESCRIPTION: I observe my surroundings without acting.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SELECTED_ACTION_OUTPUT_SCHEMA ===
+
+SELECTED_ACTION:
+ACTION_ID: ACT_<unique>
+ACTION_SOURCE_IMPULSE: IMPULSE_ID | NONE
+ACTION_TYPE: canonical descriptor
+TARGET_ID: canonical ID token | NONE
+CONFIDENCE: QUALITATIVE_INTENSITY
+RATIONALE:
+CONFLICT_FLAG: TRUE | FALSE
+NARRATIVE_ACTION_DESCRIPTION: one concise first-person sentence
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Always populate SELECTED_ACTION and emit one trace. Empty impulse fallback is valid synthesis, not NO_TRIGGERS_FIRED.
+
+TRACE_MUST_INCLUDE:
+- selected ACTION_TYPE
+- CONFIDENCE
+- EMPTY_IMPULSE_FALLBACK YES/NO
+- conflict state with CONFLICT_DETECTED mirror confirmation
+- feasibility filters
+- weighting rationale summary
+- PROPOSED_UPDATES_COUNT: 0
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

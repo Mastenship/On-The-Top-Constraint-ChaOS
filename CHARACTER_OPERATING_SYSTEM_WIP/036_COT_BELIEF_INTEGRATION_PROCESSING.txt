@@ -1,0 +1,130 @@
+=== SECTION: COT_BELIEF_INTEGRATION_PROCESSING ===
+
+[KEEP: Purpose & Role]
+Processes how beliefs filter perception, constrain options, and generate meaning. Prefers temporary dissonance and worldview-defense overlays over baseline rewrites unless persistence-cluster or watershed conditions are met per DYNAMICS_BELIEF_SYSTEMS.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: DECISION constraints, memory meaning-attribution cues, stress framing.
+Is Informed By: STATE_BELIEF_SYSTEMS, STATE_MEMORY, STATE_TEMPORARY_MODIFIERS, SCHEME_BELIEF_SYSTEMS, DYNAMICS_BELIEF_SYSTEMS, narrative input.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRES_WHEN ===
+
+ANCHOR_CUES:
+- Narrative input aligns with or contradicts a core belief field.
+- Active BELIEF_DISSONANCE or WORLDVIEW_DEFENSE modifier exists.
+- Persistence cluster exists and current cycle adds consistent cue evidence.
+- Watershed or existential cue is present.
+- Memory or DPF cue raises belief-relevant contradiction, meaning, justice, or worldview pressure.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BELIEF_FILTERING_AND_ALIGNMENT ===
+
+ON_CUE_ALIGNING_WITH_CORE_BELIEF:
+- Reinforce worldview-consistent interpretation.
+- No baseline mutation.
+
+ON_CUE_CONTRADICTING_CORE_BELIEF:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: COGNITIVE_MODIFIER
+    EFFECT_FAMILY: BELIEF_DISSONANCE
+    TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
+    EFFECT_EXPRESSION: dissonance pressure from cue contradicting core belief
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: contradiction resolves or accommodation occurs
+  STRENGTH: MODERATE
+  MECHANISM_TAG: BELIEF_CONTRADICTION_DISSONANCE
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: contradiction to core belief
+
+ON_ACTIVE_DEFENSE_OF_THREATENED_CORE_BELIEF:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: COGNITIVE_MODIFIER
+    EFFECT_FAMILY: WORLDVIEW_DEFENSE
+    TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
+    EFFECT_EXPRESSION: protective rationalization sustaining a threatened core belief under contradiction
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: threat resolves or accommodation begins
+  STRENGTH: MODERATE
+  MECHANISM_TAG: WORLDVIEW_DEFENSE_SUSTAIN
+  EPISTEMIC_TAG: INFERENCE
+  JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+  JUSTIFICATION: defended contradiction sustained by structured marker
+
+MARKER_NOTE:
+- A coexisting strong-strong contradiction is lawful only while a BELIEF_DISSONANCE or WORLDVIEW_DEFENSE marker is active, or a persistence-cluster accommodation is in progress, per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_MARKER_REQUIREMENT.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PERSISTENCE_TRIGGERED_ACCOMMODATION ===
+
+ON_PERSISTENCE_CLUSTER_PLUS_NEW_CUE:
+- Apply DYNAMICS_BELIEF_SYSTEMS.PERSISTENCE_TRIGGER_RULE.
+- Before proposing, confirm the qualifying cluster carries at least one MEM_XX outside every consumed basis for this field per DYNAMICS_BELIEF_SYSTEMS.CONSUMED_BASIS_DEFINITION. Absent fresh accumulation, propose no baseline shift; retain or refresh a BELIEF_DISSONANCE or WORLDVIEW_DEFENSE overlay instead.
+- If admitted:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_BELIEF_SYSTEMS][<canonical belief field path>]
+    PROPOSED_VALUE: adjacent lawful enum value or mapped categorical value
+    STRENGTH: HIGH
+    MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
+    EPISTEMIC_TAG: INFERENCE
+    EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX]
+    INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
+    NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
+    SCHEME_INVARIANT_NOTE: belief baseline shift accommodated under accumulated evidence
+    JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP
+    JUSTIFICATION: persistence cluster plus new consistent cue
+
+=== SECTION_BREAK ===
+
+=== SECTION: WATERSHED_AND_CRISIS_PATHWAYS ===
+
+ON_WATERSHED_TRIGGER:
+- Propose SET or TRANSITION on specific belief fields only with INVOKED_RULE_NAME WATERSHED_BELIEF_SHIFT and full override proof.
+
+ON_EXISTENTIAL_CRISIS_TRIGGER:
+- Propose multi-field SET only with INVOKED_RULE_NAME EXISTENTIAL_CRISIS_OVERRIDE and full override proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_BELIEF_INTEGRATION_PROCESSING
+IMPULSE_TYPE: RATIONALIZE | SEEK_EVIDENCE | MEANING_MAKING | JUSTICE_SEEKING
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: ENT_XX | NONE
+JUSTIFICATION:
+JUSTIFICATION_CATEGORY: INFERENTIAL_LEAP | DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated belief themes, dissonance YES/NO, worldview-defense YES/NO, impulses, proposal count, and SCHEME/DYNAMICS compliance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

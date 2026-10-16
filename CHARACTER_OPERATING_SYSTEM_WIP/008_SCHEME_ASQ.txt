@@ -1,0 +1,34 @@
+=== SECTION: SCHEME_ASQ ===
+
+[KEEP: Purpose & Role]
+Immutable adult attachment baseline. Set at instantiation; informs relational and coping bias.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: ATTACHMENT_MARKERS ===
+
+ATTACHMENT_STYLE: ENUM [SECURE, ANXIOUS_PREOCCUPIED, AVOIDANT_DISMISSIVE, FEARFUL_AVOIDANT]
+ATTACHMENT_SECURITY: QUALITATIVE_PERCENTILE per CANONICAL_TOKEN_DICTIONARY
+
+=== SECTION_BREAK ===
+
+=== SECTION: STYLE_DEFINITIONS ===
+
+SECURE: Comfortable with intimacy and autonomy.
+ANXIOUS_PREOCCUPIED: High intimacy need, abandonment fear.
+AVOIDANT_DISMISSIVE: Independence over intimacy, emotion suppression.
+FEARFUL_AVOIDANT: Desire intimacy but fear hurt.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation.
+- ATTACHMENT_SECURITY biases attachment impulses.
+- Shifts require prolonged corrective experience or explicit instantiation-time override.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

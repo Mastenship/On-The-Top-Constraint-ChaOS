@@ -1,0 +1,58 @@
+=== SECTION: SCHEME_MMPI ===
+
+[KEEP: Purpose & Role]
+Immutable MMPI-like clinical scale baselines. Set at instantiation; inform stress response, perception, and vulnerability bias.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCALE_NUMBERING_NOTE ===
+
+[[LLM_INSTRUCTION]]: Uses historical MMPI clinical scale numbering 1, 2, 3, 4, 6, 7, 8, 9, 10. SCALE_5 is deliberately omitted; SCALE_10 represents Social Introversion.
+
+OMISSION_RATIONALE:
+- Historical SCALE_5 is obsolete/problematic for this architecture.
+- Related modeling belongs in HEXACO, BACKGROUND, and ASQ.
+- Numbering gap is preserved for traceability.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CLINICAL_SCALE_MARKERS ===
+
+SCALE_1_HYPOCHONDRIASIS: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_2_DEPRESSION: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_3_HYSTERIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_4_PSYCHOPATHIC_DEVIATE: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_6_PARANOIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_7_PSYCHASTHENIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_8_SCHIZOPHRENIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_9_HYPOMANIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_10_SOCIAL_INTROVERSION: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCALE_DEFINITIONS ===
+
+SCALE_1_HYPOCHONDRIASIS: Excessive health concern.
+SCALE_2_DEPRESSION: Poor morale, hopelessness.
+SCALE_3_HYSTERIA: Emotional instability, stress somatization.
+SCALE_4_PSYCHOPATHIC_DEVIATE: Social norm difficulty, antisocial potential.
+SCALE_6_PARANOIA: Suspiciousness, persecutory interpretation, delusional risk.
+SCALE_7_PSYCHASTHENIA: Obsessions, anxiety, doubts.
+SCALE_8_SCHIZOPHRENIA: Alienation, bizarre cognition, disorganization risk.
+SCALE_9_HYPOMANIA: Elevated mood, excitability, impulsive activation.
+SCALE_10_SOCIAL_INTROVERSION: Shyness, withdrawal, low social ease.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- Values fixed post-instantiation.
+- Elevated scales bias stress response, perception, and relational interpretation per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
+- SCALE_5 must not be introduced.
+- Changes require extreme justification and are outside standard runtime mutation.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

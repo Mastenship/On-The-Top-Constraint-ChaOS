@@ -1,0 +1,529 @@
+=== SECTION: STATE_GOVERNANCE_AND_COMMIT ===
+
+[KEEP: Purpose & Role]
+Single persistent-state writer. Runs twice per ordinary cycle: PRIMARY_PASS commits ordinary lawful proposals; POST_VERIFICATION_PASS commits verifier-originated STATE_GOVERNANCE_RUNTIME proposals before scratchpad wipe. Validates proposals against canonical, write-eligibility, scheme, operation, empty-value, epistemic, evidence, override-proof, conflict, cross-field invariant, and limit contracts; commits lawful updates; applies bounded invariant-forced corrections; records audit closure.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs: persistent STATE_* modules, STATE_GOVERNANCE_RUNTIME, COT_UPDATE_VERIFICATION, audit inspection.
+Is Informed By: STATE_GOVERNANCE_OVERLAY, CANONICAL_TOKEN_DICTIONARY, UPDATE_CASCADE_REGISTRY, SCHEME_* modules, DYNAMICS_* modules, COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY, STATE_GOVERNANCE_RUNTIME.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+ALLOWED_WRITES:
+- persistent STATE_* modules
+- STATE_GOVERNANCE_RUNTIME
+- bounded INVARIANT_FORCED_CORRECTION writes to a single existing committed STATE_* field, only as designated by STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING
+- instantiation-time immutable baseline-bearing SCHEME_* modules, only when [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][INSTANTIATION_MODE] = TRUE and target module is one of:
+  - SCHEME_HEXACO
+  - SCHEME_DARK_TRIAD
+  - SCHEME_ASQ
+  - SCHEME_MMPI
+  - SCHEME_BACKGROUND
+- [COGNITIVE_SCRATCHPAD][STATE_COMMIT_AUDIT]
+- [COGNITIVE_SCRATCHPAD][OUTPUT_SURFACE_NORMALIZATION_AUDIT]
+- [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]
+
+FORBIDDEN_WRITES:
+- unconstrained proposal generation
+- proposal-registry bypass
+- non-canonical mutation
+- persistent write to an IDENTITY_ONLY_ROOT per CANONICAL_TOKEN_DICTIONARY.WRITE_ELIGIBILITY
+- prose narrative output during commit execution
+
+INVARIANT_FORCED_CORRECTION_BOUNDARY:
+- INVARIANT_FORCED_CORRECTION is not unconstrained generation. It is permitted only when:
+  - a cross-field invariant in STATE_GOVERNANCE_OVERLAY designates it as the resolution,
+  - it adjusts exactly one existing committed field by one band on its declared ladder,
+  - the target field is write-eligible, and
+  - it is recorded in the commit audit with reason INVARIANT_FORCED_CORRECTION_APPLIED.
+
+[[LLM_INSTRUCTION]]: Commit execution is reduction-only and audit-structured, except for enumerated INVARIANT_FORCED_CORRECTION writes.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TWO_PHASE_GOVERNANCE_EXECUTION ===
+
+PRIMARY_PASS:
+- Slot: PRIORITY_16.
+- Trace COT_NAME: STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS.
+- Consumes proposals present before COT_UPDATE_VERIFICATION.
+- Commits lawful ordinary STATE_* proposals and STATE_TEMPORARY_MODIFIERS proposals, including independently safe proposals during bounded recovery. Governance-corrective proposals originate only from COT_UPDATE_VERIFICATION after this pass.
+- Applies any designated INVARIANT_FORCED_CORRECTION during cross-field reconciliation.
+- Emits PRIMARY_PASS_AUDIT and one trace.
+
+POST_VERIFICATION_PASS:
+- Slot: PRIORITY_18.
+- Trace COT_NAME: STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS.
+- Runs after COT_UPDATE_VERIFICATION.
+- Consumes only verifier-originated proposals from PRIORITY_17.
+- Emits POST_VERIFICATION_PASS_AUDIT and one trace.
+- Scratchpad wipe occurs only after this pass completes.
+
+STAGE_1_TERMINAL_FINALIZATION_BOUNDARY:
+- PRIORITY_18 is the terminal in-model governance operation, after PRIORITY_17.
+- It validates and closes restricted governance-runtime proposals, writes POST_VERIFICATION_PASS_AUDIT, and appends a final current-cycle trace before scratchpad wipe.
+- No later in-model verifier independently checks that terminal trace; the trace is intentionally volatile and cannot be inspected after the wipe.
+- LAST_COMMIT_CYCLE_ID remains a bounded cross-cycle commit-status signal, not independent proof that the terminal trace was emitted or that every PRIORITY_18 action was correct.
+- Retained terminal-finalization evidence and independent verification belong to externalized governance at Stage 2/3; they are not active Stage 1 gates. Activation requires an explicit constitutional update and an actual external mechanism.
+
+POST_VERIFICATION_GATE:
+Lawful post-verification proposals must satisfy all:
+- SOURCE_COT: COT_UPDATE_VERIFICATION
+- TARGET_MODULE: STATE_GOVERNANCE_RUNTIME
+- INVOKED_RULE_NAME: GOVERNANCE_CORRECTIVE
+- OPERATION_TYPE: SET
+- EPISTEMIC_TAG: PERCEPTION or INFERENCE
+- JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+POST_VERIFICATION_LAWFUL_TARGETS:
+- [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT]
+- [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID]
+- [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE]
+- [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID]
+- [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
+- [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE]
+
+POST_VERIFICATION_SUPPRESSION:
+- Non-governance-runtime target: POST_VERIFICATION_TARGET_FORBIDDEN
+- Governance-runtime proposal not emitted by COT_UPDATE_VERIFICATION during PRIORITY_17: POST_VERIFICATION_SOURCE_INVALID
+- EPISTEMIC_TAG or JUSTIFICATION_CATEGORY outside the gate: EPISTEMIC_TAG_VIOLATION or JUSTIFICATION_CATEGORY_TAG_MISMATCH
+
+SINGLE_WRITER_PRESERVATION:
+- COT_UPDATE_VERIFICATION never writes persistent state directly.
+- The second pass is a restricted invocation of the same writer, not another writer.
+- INVARIANT_FORCED_CORRECTION does not introduce a second writer; it is this module acting during reconciliation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PRIMARY_COMMIT_SEQUENCE ===
+
+[[LLM_INSTRUCTION]]: Process primary-pass proposals in this deterministic order.
+
+STEP_00_QUARANTINE_GATE:
+- If STATE_GOVERNANCE_RUNTIME.QUARANTINE_MODE = TRUE, apply STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.PRIMARY_RECOVERY_ADMISSION:
+  - Read QUARANTINE_REASON_CODES and the bounded RECOVERY_DIRECTIVE as the governance-only recovery context; the directive reminds governance of the affected target, lawful reformation, and release evidence without becoming character knowledge.
+  - Admit only ordinary proposals or linked creation units whose independent safety is demonstrated by canonical field/dependency closure, complete ordinary validation, movement caps, and projected cross-field invariants.
+  - Suppress only affected or unverifiably independent proposals with QUARANTINE_ACTIVE; preserve separately lawful memory, relationship, goal, and other changes whenever their independence is demonstrable.
+  - An INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE token is not an authorization bypass; character-cognition proposals using it to claim repair authority are suppressed with POST_VERIFICATION_SOURCE_INVALID.
+- At every PRIMARY_PASS intake, suppress any proposal claiming INVOKED_RULE_NAME = GOVERNANCE_CORRECTIVE with POST_VERIFICATION_SOURCE_INVALID: only COT_UPDATE_VERIFICATION at PRIORITY_17 may originate that rule.
+- If FALSE: proceed with normal proposal-level containment and full validation. Nonempty QUARANTINE_REASON_CODES with QUARANTINE_MODE FALSE are unresolved recovery diagnostics, not a blanket commitment ban.
+- Flag the recovery disposition, affected paths when identifiable, and narrative cue references in governance-only audit/trace.
+- Never pass a proposal simply because it carries a corrective label.
+
+STEP_01_PROPOSAL_INTAKE:
+- Read retained proposals from [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY].
+- Read up to three [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entries as bounded character-visible cue-reconsideration status, not old executable proposals.
+- Exclude later verifier proposals.
+- Initialize audit totals and outcome logs.
+- If no retained proposals: emit zero ordinary changes, but still evaluate and audit eligible deferred-cue review/closure at STEP_10B before STEP_11; a COT's evidence-based invalidation of a prior cue can close it without issuing an unsafe proposal.
+
+STEP_02_SCHEMA_AND_EMPTY_VALUE_VALIDATION:
+- Verify required and conditionally required fields per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Verify empty-value forms per CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+- Suppress malformed proposals with MALFORMED_PROPOSAL_SCHEMA.
+- Suppress invalid empty-value use with INVALID_ENUM_VALUE, INVALID_TARGET_FIELD, or LINKAGE_REFERENCE_VIOLATION as applicable.
+
+STEP_03_CANONICAL_PATH_VALIDATION:
+- Validate module root, write-eligibility per CANONICAL_TOKEN_DICTIONARY.WRITE_ELIGIBILITY, bracket path, TARGET_MODULE/TARGET_FIELD agreement, target legality, registry use, and record-stub non-instantiation.
+- Suppress persistent writes to IDENTITY_ONLY_ROOTS with INVALID_TARGET_FIELD.
+- Suppress with INVALID_PATH_ROOT, LEGACY_ROOT_FORBIDDEN, INVALID_TARGET_FIELD, or REGISTRY_RECORD_PAIR_VIOLATION.
+- ADD_MODIFIER outer TARGET_FIELD record-stub is lawful per UPDATE_CASCADE_REGISTRY.PROPOSAL_ENTRY_SCHEMA.ADD_MODIFIER_TARGET_FIELD_RULE and is not a REGISTRY_RECORD_PAIR_VIOLATION.
+- Ordinary proposals targeting [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] are forbidden with INVALID_TARGET_FIELD; only STEP_10B writer-owned NARRATIVE_DEFERRAL_CAPTURE / NARRATIVE_DEFERRAL_CLOSURE bookkeeping may mutate the cue queue.
+
+STEP_04_SCHEME_AND_OPERATION_VALIDATION:
+- Validate operation vocabulary, enum legality, ordinal ladder legality, transition-directive binding, record schema, single-proposal invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
+- Ordinal step legality evaluates against the field's declared ladder per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
+- PERCEPTUAL_SNAPSHOT categorical fields are exempt from one-step limits.
+- Validate alteration record payloads and field SETs under SCHEME_ALTERATIONS and CANONICAL_TOKEN_DICTIONARY.ALTERATION_FIELD_ROLE_CONTRACT; reject legacy STATUS = REJECTED with INVALID_ENUM_VALUE and missing required stance with SCHEME_INVARIANT_VIOLATION. Do not silently migrate or synthesize companion writes.
+- Suppress with OPERATION_TYPE_INVALID, INVALID_ENUM_VALUE, INVALID_ORDINAL_TRANSITION, REGISTRY_RECORD_PAIR_VIOLATION, SCHEME_INVARIANT_VIOLATION, SCHEME_IMMUTABLE_BASELINE_WRITE, MODIFIER_SCHEMA_VIOLATION, LINKAGE_REFERENCE_VIOLATION, or IMMUNE_TERMINAL_STATE_CONFLICT.
+
+IMMUTABLE_BASELINE_WRITE_RULE:
+- Writes to immutable baseline-bearing SCHEME_* modules are lawful only when:
+  - [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][INSTANTIATION_MODE] = TRUE
+  - SOURCE_COT = COT_CHARACTER_INSTANTIATION_PROCESS
+  - TARGET_MODULE is listed in CANONICAL_TOKEN_DICTIONARY.IMMUTABLE_BASELINE_BEARING_MODULES
+  - OPERATION_TYPE = SET
+  - EPISTEMIC_TAG = COMMITTED_FACT
+  - EVIDENCE_REF is USER_CONFIRMATION:<instantiation confirmation id>
+- Otherwise suppress with SCHEME_IMMUTABLE_BASELINE_WRITE.
+
+STEP_05_TRANSLATION_BEFORE_COMMIT:
+- Normalize commit-bound narrative fields:
+  - JUSTIFICATION
+  - NOTES
+  - RATIONALE
+  - EFFECT_EXPRESSION
+  - NARRATIVE_CUE_REFERENCE
+  - SCHEME_INVARIANT_NOTE
+- Preserve write-surface tokens exactly.
+- Suppress token mutation with TRANSLATION_VIOLATION.
+- Write normalization status to OUTPUT_SURFACE_NORMALIZATION_AUDIT.
+
+STEP_06_EPISTEMIC_AND_JUSTIFICATION_VALIDATION:
+- Validate EPISTEMIC_TAG, JUSTIFICATION_CATEGORY, and mapping.
+- Suppress mismatch with JUSTIFICATION_CATEGORY_TAG_MISMATCH.
+- Suppress invalid tag with EPISTEMIC_TAG_VIOLATION.
+- Suppress TOOL_REQUEST with TOOL_ACTUATION_NOT_ACTIVE.
+- Enforce disclosure/internal-state boundary for COMMITTED_FACT.
+
+STEP_07_EVIDENCE_REF_VALIDATION:
+- For COMMITTED_FACT:
+  - missing EVIDENCE_REF: COMMITTED_FACT_WITHOUT_EVIDENCE
+  - unresolvable EVIDENCE_REF: EVIDENCE_REF_UNRESOLVED
+- Verify disclosure evidence proves statement occurrence, not another entity's internal state, unless substrate grants access.
+
+STEP_08_OVERRIDE_PROOF_VALIDATION:
+- For override-gate proposals, verify INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG.
+- Suppress incomplete proof with OVERRIDE_PROOF_INCOMPLETE.
+
+STEP_09_CONFLICT_RECONCILIATION:
+- Group by effective target.
+- When a new ENT_XX, SKL_XX, GOAL_XX, MEM_XX, PRD_XX, or ALT_XX creation SET pair is referenced by other same-cycle packets, resolve provisional IDs only against the projected successful linked creation unit. Dependents referencing a failed or suppressed creation cannot commit with an orphaned ID; suppress or deterministically downgrade them if their remaining linkage still satisfies SCHEME.
+- A canonical provisional ID is not permission to reference a record that will not exist after commit. Preserve atomic registry-record pair behavior and record dependency closures in audit.
+- Reconcile alteration operational and psychological candidates independently per STATE_GOVERNANCE_OVERLAY.ALTERATION_FIELD_INDEPENDENCE. Use source ALT_XX, canonical support paths, and proposal lineage in NOTES; missing or unresolved source linkage is LINKAGE_REFERENCE_VIOLATION.
+- A cascade whose sole cause is a proposed STATUS, stance, or awareness change cannot commit as though a suppressed change occurred. Independent ongoing ACTIVE effects and independently supported rejection stress remain eligible; a rejected psychological proposal never vetoes the functioning alteration.
+- Apply STATE_GOVERNANCE_OVERLAY.CONFLICT_RESOLUTION_POLICY.
+- Produce provisional candidate actions.
+
+STEP_10_LIMIT_AND_DOWNGRADE_EVALUATION:
+- Enforce STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.
+- SET endpoint placement and TRANSITION movement share ordinal/band limits.
+- Enforce CUMULATIVE_ORDINAL_RULE across all provisional ordinary movements, collapsing COUPLED_MOVEMENT_REGISTRY sets to one step each.
+- During bounded recovery, validate ordinary candidate independence and its linked/dependent field closure before admitting it; a candidate failing independence is suppressed with QUARANTINE_ACTIVE, not silently skipped.
+- Enforce MAX_ACTIVE_PREDICTIONS.
+- Reconsider at most one oldest evidence-supported deferred cue movement unit from a fresh current-cycle proposal under STATE_GOVERNANCE_OVERLAY.NARRATIVE_DEFERRAL_CONTINUITY.RECONSIDERATION_FAIRNESS. It may displace only lower-priority discretionary movement; never override hard safety, stronger contradictory evidence, or raise the two-step cap.
+- Apply override-proof results.
+- Downgrade only when nearest lawful bounded outcome is deterministic.
+- Otherwise suppress with STEP_LIMIT_EXCEEDED, OVERRIDE_PROOF_MISSING, BASELINE_REWRITE_NOT_JUSTIFIED, or DPF_PREDICTION_CAP_EXCEEDED.
+
+STEP_10A_CROSS_FIELD_INVARIANT_EVALUATION:
+- Project committed state from surviving candidate actions.
+- Revalidate same-cycle cross-record references against that projected state; resolve all provisional entity/skill/goal/memory/prediction/alteration IDs from surviving creation units before commit. Suppress orphaned dependent writes with LINKAGE_REFERENCE_VIOLATION and retain independent lawful units.
+- Evaluate STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING invariants against the projected state.
+- Recheck alteration cascade creation, refresh, and removal against surviving source fields after all suppression/downgrade decisions. Preserve atomic creation pairs and independent candidates; audit source/dependent outcomes without inferring a change to another alteration field.
+- For the immune/terminal invariant, apply IMMUNE_TERMINAL_STATE_RECONCILIATION: emit an INVARIANT_FORCED_CORRECTION moving IMMUNE_MARKERS one band off ROBUST toward NORMAL, and preserve the contributing terminal-state transitions. Record the correction with reason INVARIANT_FORCED_CORRECTION_APPLIED.
+- For all other cross-field invariants, downgrade or suppress the lowest-precedence contributing candidates until projected state is lawful.
+- Suppress residual breach with IMMUNE_TERMINAL_STATE_CONFLICT or SCHEME_INVARIANT_VIOLATION as applicable.
+
+STEP_10B_DEFERRED_NARRATIVE_CUE_BOOKKEEPING:
+- After all projected-state validation, identify any fully lawful ordinal/qualitative candidate unit that receives SUPPRESSED or a zero-change DOWNGRADED outcome solely because the two-step cumulative cap was exhausted.
+- For each qualifying, materially consequential cue, STATE_GOVERNANCE_AND_COMMIT may use NARRATIVE_DEFERRAL_CAPTURE to add one SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE entry to [STATE_MEMORY][DEFERRED_NARRATIVE_CUES], capped at three entries.
+- Capture ORIGIN_CYCLE_ID, ORIGIN_PROPOSAL_ID, SOURCE_COT, a bounded character-resolvable event cue, a single canonical ordinal/qualitative target, original lawful operation and endpoint/directive, and coupled-set name if applicable. These are review hints, not executable packets.
+- Do not enqueue packets that failed any other gate, were already committed, were in fact rejected for incompatible evidence, or were suppressed for quarantine integrity; do not manufacture a memory or write the deferred target.
+- For every existing cue reviewed by its SOURCE_COT this cycle, record FIRST_RECONSIDERED_CYCLE and increment RECONSIDERATION_COUNT at most once this cycle. Close it with NARRATIVE_DEFERRAL_CLOSURE when a refreshed lawful proposal commits, the cue is no longer valid, the change is already realized, or a superseding concrete narrative outcome contradicts it.
+- An uncommitted but still valid cue stays queued. On two unsuccessful attempted cycles, stop identical auto-retries and surface governance-only operator re-presentation; preserve the capped cue.
+- If the three-entry cap is reached, do not evict pending cues, invent a fourth slot, or claim it persisted: audit escalation and request operator re-presentation of any additional capacity-deferred event.
+- All administrative capture, attempt-counter, and closure mutations are made by this sole writer with a DEFERRED_CUE_LOG entry. They are neither proposal OPERATION_TYPE nor ordinary ordinal movement, and cannot bypass any normal commit cap.
+
+STEP_11_PERSISTENT_COMMIT_AND_AUDIT:
+- Apply final lawful writes, including any INVARIANT_FORCED_CORRECTION; atomically apply STEP_10B authorized capped [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] bookkeeping with audit closure.
+- Write PRIMARY_PASS_AUDIT, including any proposal-level remediation, targeted dependency exclusions, and narrative cue references blocked during exceptional recovery.
+- Append STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS trace.
+
+=== SECTION_BREAK ===
+
+=== SECTION: POST_VERIFICATION_COMMIT_SEQUENCE ===
+
+PV_STEP_00_POST_VERIFICATION_INTAKE:
+- Read proposals appended by COT_UPDATE_VERIFICATION during PRIORITY_17.
+- Ignore primary-closed proposals.
+- Initialize POST_VERIFICATION_PASS_AUDIT.
+- If none: emit zero-change post-verification audit and continue to PV_STEP_07.
+
+PV_STEP_01_SOURCE_AND_TARGET_GATE:
+- Apply POST_VERIFICATION_GATE and POST_VERIFICATION_LAWFUL_TARGETS.
+- Suppress failures with POST_VERIFICATION_SOURCE_INVALID or POST_VERIFICATION_TARGET_FORBIDDEN.
+
+PV_STEP_02_SCHEMA_AND_EMPTY_VALUE_VALIDATION:
+- Verify proposal schema completeness.
+- GOVERNANCE_CORRECTIVE proposals require NARRATIVE_CUE_REFERENCE and SCHEME_INVARIANT_NOTE.
+- Verify NONE and [NONE] legality for governance-runtime fields.
+- Suppress malformed proposals with MALFORMED_PROPOSAL_SCHEMA.
+
+PV_STEP_03_CANONICAL_PATH_AND_FIELD_VALIDATION:
+- Validate TARGET_FIELD against POST_VERIFICATION_LAWFUL_TARGETS.
+- Suppress unlawful target with INVALID_TARGET_FIELD.
+
+PV_STEP_04_GOVERNANCE_RUNTIME_VALUE_VALIDATION:
+- Validate against SCHEME_GOVERNANCE_RUNTIME and DYNAMICS_GOVERNANCE_RUNTIME.
+- LAST_VERIFICATION_RESULT: PASS | WARN | FAIL | PENDING
+- QUARANTINE_MODE: TRUE | FALSE
+- QUARANTINE_ENGAGED_CYCLE_ID: current commit cycle id | NONE
+- QUARANTINE_REASON_CODES: cap 5, FIFO overflow, empty form [NONE]; when QUARANTINE_MODE is FALSE, nonempty codes are allowed only as pending unresolved recovery diagnostics per SCHEME_GOVERNANCE_RUNTIME
+- RECOVERY_DIRECTIVE: governance-only STRING_DESCRIPTIVE, max 240 characters, NONE exactly when QUARANTINE_REASON_CODES is [NONE]
+- A paired SET that evicts an unresolved reason from a full five-entry FIFO requires RECOVERY_DIRECTIVE to include the exact literal FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED within its 240-character limit, together with the normal bounded recovery instructions. Preserve the literal in subsequent nonempty directive rewrites until operator review acknowledges incomplete coverage; this literal is directive text, not a new reason code.
+- Suppress invalid values with INVALID_ENUM_VALUE or SCHEME_INVARIANT_VIOLATION.
+
+PV_STEP_05_TRANSLATION_AND_EPISTEMIC_VALIDATION:
+- Normalize narrative fields and preserve write-surface tokens.
+- Validate EPISTEMIC_TAG and JUSTIFICATION_CATEGORY against POST_VERIFICATION_GATE.
+- Suppress with TRANSLATION_VIOLATION, EPISTEMIC_TAG_VIOLATION, or JUSTIFICATION_CATEGORY_TAG_MISMATCH.
+
+PV_STEP_06_RECONCILIATION_AND_COMMIT:
+- Group retained proposals by target field.
+- Apply conflict policy.
+- Commit lawful STATE_GOVERNANCE_RUNTIME updates.
+- Apply QUARANTINE_REASON_CODES cap-aware SET behavior and validate linked RECOVERY_DIRECTIVE consistency as an atomic governance-runtime recovery unit; do not leave reason codes without a directive or a directive without an open reason code.
+- Before committing the pair, determine whether a newly qualified distinct reason actually evicts a still-unresolved reason at cap 5. An eviction is not a clearance; validate the mandatory overflow notice in the paired directive. If absent or over the directive cap, suppress the malformed linked SET unit with SCHEME_INVARIANT_VIOLATION rather than commit an unmarked eviction.
+- Preserve a pre-existing overflow notice across subsequent paired SET updates. A request to clear the final represented reason and directive while coverage is incomplete requires explicit governance-authorized operator acknowledgment of the information loss; otherwise retain the paired pending-review snapshot, even when represented causes have been corrected. Do not infer repair of an evicted cause.
+- Honor DYNAMICS_GOVERNANCE_RUNTIME.QUARANTINE_CLEAR.SAME_CYCLE_GUARD on every clear path.
+- Enforce bounded release after the full recovery cycle even on WARN or FAIL; preserve unresolved reason codes for later targeted verification and operator review. Do not re-engage a still-open case as a new blanket quarantine episode.
+- Quarantine engagement requires STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE; reject mere code-based re-engagement when integrity faults were isolated.
+- Close final action for each post-verification proposal.
+
+PV_STEP_07_POST_VERIFICATION_AUDIT_AND_TRACE:
+- For each actual unresolved FIFO eviction, record in existing POST_VERIFICATION_PASS_AUDIT.NOTES and trace NOTES: displaced reason code, FIFO_CAPACITY_5, NOT_VERIFIED_RESOLVED, and REVIEW_REQUIRED. These are descriptive audit annotations, not new state fields or canonical reason codes.
+- If an overflow notice is already pending, report snapshot coverage as incomplete without pretending the evicted reason's identity survived earlier scratchpad wipes.
+- Write POST_VERIFICATION_PASS_AUDIT.
+- Append STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace.
+- Do not invoke COT_UPDATE_VERIFICATION again in the same cycle.
+- The final trace is volatile and discarded at the scheduled scratchpad wipe; no next-cycle in-model read-back is required.
+
+=== SECTION_BREAK ===
+
+=== SECTION: COMMIT_BEHAVIOR_BY_OPERATION_TYPE ===
+
+SET:
+- Apply explicit value or payload to lawful target.
+- Registry SET pair must preserve registry-record coherence.
+- Ordinal or qualitative endpoint SET remains one-step/one-band bounded unless override proof is complete or the field is PERCEPTUAL_SNAPSHOT.
+- Categorical fields require explicit lawful enum endpoint.
+- Ordinary categorical lifecycle movement uses SET unless SCHEME declares transition ladder.
+- POST_VERIFICATION_PASS SET is limited to POST_VERIFICATION_LAWFUL_TARGETS.
+
+TRANSITION:
+- Resolve relative directive against current value and declared ladder.
+- Valid directives:
+  - ONE_STEP_UP
+  - ONE_STEP_DOWN
+  - ONE_STEP_TOWARD_BASELINE
+  - ONE_STEP_TOWARD_NEUTRAL
+- Lawful only for fields declared ORDINAL with a ladder.
+- Not lawful for categorical fields or off-ladder members.
+- Not lawful during POST_VERIFICATION_PASS.
+
+ADD_MODIFIER:
+- Resolve per DYNAMICS_TEMPORARY_MODIFIERS.
+- Validate schema/target.
+- If no collision and coexistence lawful: create MOD_XX by registry-record SET behavior.
+- If materially same and STACKING_RULE = REPLACE: replace in place using same MOD_XX.
+- If materially same and not REPLACE: refresh in place using same MOD_XX.
+- If materially different same target: create only if coexistence lawful and bounded; otherwise suppress.
+- Not lawful during POST_VERIFICATION_PASS.
+
+REMOVE_MODIFIER:
+- Remove targeted modifier record and corresponding MOD_XX registry entry.
+- Preserve lifecycle closure in audit, not active state.
+- Not lawful during POST_VERIFICATION_PASS.
+
+CAP:
+- Apply bounded ceiling behavior where scheme and governance permit.
+- Modifier cap follows DYNAMICS_TEMPORARY_MODIFIERS.
+- Not lawful during POST_VERIFICATION_PASS unless later declared.
+
+VETO:
+- Suppress lower-precedence conflicting or disallowed mutation.
+- Not lawful during POST_VERIFICATION_PASS.
+
+NARRATIVE_DEFERRAL_CAPTURE / NARRATIVE_DEFERRAL_CLOSURE:
+- Not proposal OPERATION_TYPE, and not a character COT write. Only governance bookkeeping at STEP_10B for otherwise lawful capacity-deferred movements.
+- A captured cue is not committed to its target field. A fresh proposal and full future-cycle validation are required for target mutation.
+- Updates to the three-slot [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] queue are separately audit-logged, do not use the ordinary two-step movement budget, and remain visible to the originating character COT only as processing cues.
+- Not lawful in POST_VERIFICATION_PASS.
+
+INVARIANT_FORCED_CORRECTION:
+- Not a proposal OPERATION_TYPE; a governance reconciliation action emitted only at STEP_10A on enumerated invariants.
+- Moves one existing committed field one band on its declared ladder to restore lawful projected state.
+- Audit-logged with reason INVARIANT_FORCED_CORRECTION_APPLIED.
+- Not lawful during POST_VERIFICATION_PASS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REASON_CODE_REGISTRY ===
+
+[[LLM_INSTRUCTION]]: Canonical reason codes emitted by this module. Additions require constitutional update.
+
+AUDIT:
+- AUDIT_CLOSURE_INCOMPLETE
+
+SCHEMA_AND_PATH:
+- MALFORMED_PROPOSAL_SCHEMA
+- INVALID_PATH_ROOT
+- LEGACY_ROOT_FORBIDDEN
+- INVALID_TARGET_FIELD
+
+OPERATION:
+- OPERATION_TYPE_INVALID
+
+SCHEME_AND_LINKAGE:
+- INVALID_ENUM_VALUE
+- INVALID_ORDINAL_TRANSITION
+- REGISTRY_RECORD_PAIR_VIOLATION
+- SCHEME_INVARIANT_VIOLATION
+- SCHEME_IMMUTABLE_BASELINE_WRITE
+- MODIFIER_SCHEMA_VIOLATION
+- LINKAGE_REFERENCE_VIOLATION
+- IMMUNE_TERMINAL_STATE_CONFLICT
+
+NORMALIZATION:
+- TRANSLATION_VIOLATION
+
+EPISTEMIC_AND_JUSTIFICATION:
+- EPISTEMIC_TAG_VIOLATION
+- JUSTIFICATION_CATEGORY_TAG_MISMATCH
+- COMMITTED_FACT_WITHOUT_EVIDENCE
+- EVIDENCE_REF_UNRESOLVED
+
+OVERRIDE_AND_LIMITS:
+- OVERRIDE_PROOF_INCOMPLETE
+- OVERRIDE_PROOF_MISSING
+- STEP_LIMIT_EXCEEDED
+- SOFT_EFFECT_REDIRECTED
+- BASELINE_REWRITE_NOT_JUSTIFIED
+- DPF_PREDICTION_CAP_EXCEEDED
+
+RECONCILIATION:
+- INVARIANT_FORCED_CORRECTION_APPLIED
+
+GOVERNANCE_RUNTIME:
+- QUARANTINE_ACTIVE
+- READ_BOUNDARY_VIOLATION
+- POST_VERIFICATION_TARGET_FORBIDDEN
+- POST_VERIFICATION_SOURCE_INVALID
+
+RESERVED:
+- TOOL_ACTUATION_NOT_ACTIVE
+- ROLLBACK_NOT_ACTIVE
+- LIFT_HOOK_NOT_ACTIVE
+- MODIFIER_TYPE_RESERVED_NO_FAMILY
+
+VERIFIER_EMITTED_CODES:
+- COT_TRACE_MISSING (WARN)
+- OUTPUT_INCONGRUENCE (WARN)
+- COT_FIRED_WITHOUT_ANCHOR_CUE (WARN)
+- INSTANTIATION_INCOMPLETE (FAIL)
+- COMMIT_ORPHANED (FAIL)
+- SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
+- MODIFIER_LIFECYCLE_VIOLATION (FAIL)
+- MODIFIER_DUPLICATE_CREATED_ON_MATERIAL_SAMENESS (FAIL)
+- MODIFIER_COEXISTENCE_UNLAWFUL (FAIL)
+- MODIFIER_EXPIRED_RETAINED_ON_ACTIVE_SURFACE (FAIL)
+- MODIFIER_REMOVE_REGISTRY_INCOHERENCE (FAIL)
+- MODIFIER_STACKING_PRODUCED_BASELINE_REWRITE (FAIL)
+
+MODIFIER_SUBCODE_QUARANTINE_NOTE:
+- The five MODIFIER_ sub-codes above inherit MODIFIER_LIFECYCLE_VIOLATION FAIL classification, but not automatic global quarantine, per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.MODIFIER_LIFECYCLE_SUBCODE_ROLLUP. Only actual non-isolatable persistent baseline corruption may qualify for exceptional recovery.
+
+=== SECTION_BREAK ===
+
+=== SECTION: AUDIT_OUTPUT_SCHEMA ===
+
+STATE_COMMIT_AUDIT:
+COMMIT_CYCLE_ID:
+PRIMARY_PASS_AUDIT:
+POST_VERIFICATION_PASS_AUDIT:
+
+PASS_AUDIT_SCHEMA:
+COMMIT_PASS_TYPE: PRIMARY_PASS | POST_VERIFICATION_PASS
+QUARANTINE_MODE_AT_INTAKE: TRUE | FALSE
+TOTAL_PROPOSALS_RECEIVED:
+TOTAL_PROPOSALS_QUARANTINE_FILTERED:
+TOTAL_PROPOSALS_COMMITTED:
+TOTAL_PROPOSALS_SUPPRESSED:
+TOTAL_PROPOSALS_DOWNGRADED:
+TOTAL_PROPOSALS_VETOED:
+TOTAL_INVARIANT_FORCED_CORRECTIONS:
+
+FINAL_ID_ASSIGNMENTS:
+- DOMAIN:
+  PROVISIONAL_ID:
+  FINAL_ID:
+
+SUPPRESSION_LOG:
+- PROPOSAL_ID:
+  REASON_CODE:
+
+DOWNGRADE_LOG:
+- PROPOSAL_ID:
+  ORIGINAL_OPERATION:
+  FINAL_OPERATION:
+  REASON_CODE:
+
+VETO_LOG:
+- PROPOSAL_ID:
+  REASON_CODE:
+
+DEFERRED_CUE_LOG:
+- ORIGIN_CYCLE_ID:
+  ORIGIN_PROPOSAL_ID:
+  SOURCE_COT:
+  TARGET_FIELD:
+  ACTION: CAPTURED | RECONSIDERED | CLOSED | ESCALATED
+  NOTES:
+
+FORCED_CORRECTION_LOG:
+- TARGET_FIELD:
+  FROM_VALUE:
+  TO_VALUE:
+  INVARIANT:
+  REASON_CODE: INVARIANT_FORCED_CORRECTION_APPLIED
+
+FINAL_ACTION_LOG:
+- PROPOSAL_ID:
+  FINAL_ACTION: COMMITTED | SUPPRESSED | DOWNGRADED | VETOED
+  TARGET_FIELD:
+  REASON_CODE:
+  NOTES:
+
+CANONICAL_PATH_VALIDATION_RESULT: PASS | WARN | FAIL
+SCHEME_INVARIANT_VALIDATION_RESULT: PASS | WARN | FAIL
+TRANSLATION_NORMALIZATION_RESULT: PASS | WARN | FAIL
+EPISTEMIC_TAG_VALIDATION_RESULT: PASS | WARN | FAIL
+EVIDENCE_REF_VALIDATION_RESULT: PASS | WARN | FAIL | SKIPPED
+OVERRIDE_PROOF_VALIDATION_RESULT: PASS | WARN | FAIL
+CROSS_FIELD_INVARIANT_VALIDATION_RESULT: PASS | WARN | FAIL
+NOTES:
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_OUTPUT ===
+
+PRIMARY_PASS_TRACE_ENTRY:
+COT_NAME: STATE_GOVERNANCE_AND_COMMIT_PRIMARY_PASS
+KEY_OUTPUTS:
+- QUARANTINE_MODE_AT_INTAKE
+- TOTAL_PROPOSALS_RECEIVED
+- TOTAL_PROPOSALS_QUARANTINE_FILTERED
+- TOTAL_PROPOSALS_COMMITTED
+- TOTAL_PROPOSALS_SUPPRESSED
+- TOTAL_PROPOSALS_DOWNGRADED
+- TOTAL_PROPOSALS_VETOED
+- TOTAL_INVARIANT_FORCED_CORRECTIONS
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- validation summary and major reason codes
+- recovery/remediation summary: isolated proposals, independent commits, deferred narrative cue capture/reconsideration/closure (or overflow escalation), blocked cues for operator re-presentation, and unresolved governance-only diagnostics
+
+POST_VERIFICATION_PASS_TRACE_ENTRY:
+COT_NAME: STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS
+KEY_OUTPUTS:
+- TOTAL_VERIFIER_PROPOSALS_RECEIVED
+- TOTAL_GOVERNANCE_RUNTIME_UPDATES_COMMITTED
+- TOTAL_POST_VERIFICATION_SUPPRESSED
+- QUARANTINE_MODE_AFTER_POST_VERIFICATION
+- LAST_VERIFICATION_RESULT_AFTER_POST_VERIFICATION
+GENERATED_IMPULSES:
+- [NONE]
+PROPOSED_UPDATES_COUNT: 0
+NOTES:
+- post-verification validation summary, pending recovery reasons, bounded RECOVERY_DIRECTIVE, bounded release outcome, and lawful reformation guidance
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

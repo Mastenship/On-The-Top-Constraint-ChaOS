@@ -1,0 +1,114 @@
+=== SECTION: SCHEME_GOVERNANCE_RUNTIME ===
+
+[KEEP: Purpose & Role]
+Immutable structural definition of governance runtime state. Defines the cross-cycle status snapshot that carries verification outcomes, quarantine status, and lift-hook status from one cycle to the next. This module exists because the volatile scratchpad cannot retain signal across cycles, and persistent governance signal must live in a typed, capped, governance-internal container.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs:
+- STATE_GOVERNANCE_AND_COMMIT (read by STEP_00_QUARANTINE_GATE; written via normal proposal pipeline)
+- COT_UPDATE_VERIFICATION (proposes updates after verification)
+- DYNAMICS_GOVERNANCE_RUNTIME (defines lawful transitions)
+Is Informed By:
+- STATE_GOVERNANCE_OVERLAY (remediation policy, runnable-but-liftable principle)
+- CANONICAL_TOKEN_DICTIONARY (reservation pattern, reason codes)
+
+=== SECTION_BREAK ===
+
+=== SECTION: DESIGN_PRINCIPLES ===
+
+[[LLM_INSTRUCTION]]: STATE_GOVERNANCE_RUNTIME is a current-status snapshot, not a journal.
+
+PRINCIPLES:
+- Snapshot-only. No history fields. No accumulating logs.
+- Every field has an explicit clear condition stated below.
+- List fields are hard-capped with FIFO eviction; cap is a SCHEME invariant.
+- Steady-state size is effectively constant across cycle count.
+- Read access is restricted to the GOVERNANCE band only (per READ_VISIBILITY_CLASS).
+- Write access is exclusive to STATE_GOVERNANCE_AND_COMMIT (single-writer rule preserved).
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_RUNTIME_FIELDS ===
+
+LAST_COMMIT_CYCLE_ID: STRING_DESCRIPTIVE
+LAST_VERIFICATION_RESULT: ENUM [PASS, WARN, FAIL, PENDING]
+QUARANTINE_MODE: BOOLEAN
+QUARANTINE_ENGAGED_CYCLE_ID: STRING_DESCRIPTIVE
+QUARANTINE_REASON_CODES: LIST_OF_REASON_CODE (FIFO; cap 5)
+RECOVERY_DIRECTIVE: STRING_DESCRIPTIVE (max 240 characters; NONE when no recovery case)
+LIFT_HOOK_STATUS: ENUM [EXTERNAL_GOVERNANCE_INACTIVE, EXTERNAL_GOVERNANCE_ACTIVE]
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIELD_LIFECYCLE_INVARIANTS ===
+
+LAST_COMMIT_CYCLE_ID:
+- Overwritten on every completed verification commit, including PASS, WARN, and FAIL.
+- Never accumulates.
+
+LAST_VERIFICATION_RESULT:
+- Overwritten on every verification pass.
+- Initial value PENDING; subsequently retains the most recently completed verification result until overwritten.
+- Lawful values: PASS, WARN, FAIL, PENDING.
+
+QUARANTINE_MODE:
+- Set TRUE only by STATE_GOVERNANCE_AND_COMMIT on verifier-qualified residual, non-isolatable systemic failure per STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE.
+- Never engaged by a lone rejected ordinary proposal or an unrelated warning.
+- Cleared after one full following recovery cycle, regardless of PASS/WARN/FAIL outcome; never in the engagement cycle.
+- FALSE with nonempty QUARANTINE_REASON_CODES is lawful and indicates pending unresolved recovery review, not a continuing global commitment hold.
+
+QUARANTINE_ENGAGED_CYCLE_ID:
+- Set when QUARANTINE_MODE transitions FALSE to TRUE.
+- Never overwritten during an active recovery episode.
+- Cleared to NONE when QUARANTINE_MODE clears.
+
+QUARANTINE_REASON_CODES:
+- Holds bounded reason codes for the current exceptional recovery episode or still-open post-release review, not historical cycles.
+- Append only qualified new systemic reason codes; capped at 5 entries with FIFO eviction.
+- Eviction of an unresolved reason means it is no longer represented in this bounded snapshot; it does not prove repair, resolution, or lawful review closure. The current-cycle audit may identify the evicted reason, but its identity is not retained as a cross-cycle journal.
+- Cleared to [NONE] only when the specific unresolved cause is verified resolved or explicitly resolved by governance-authorized operator review.
+- May remain nonempty after QUARANTINE_MODE becomes FALSE; no automatic re-engagement while pending review remains.
+- A generic PASS or unrelated WARN does not by itself clear the list.
+
+RECOVERY_DIRECTIVE:
+- A single capped governance-only reformation instruction containing the active reason code, affected target or UNKNOWN, lawful corrective action, and release evidence; not a journal.
+- Maximum 240 characters, overwritten on material correction to a still-open case; no accumulating history.
+- If a cap-5 FIFO update evicts an unresolved reason, include the exact literal FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED in this same bounded directive. The literal indicates incomplete diagnostic coverage, not a new reason code, additional field, or claim of verified repair.
+- Preserve that literal on every later nonempty directive rewrite until explicit governance-authorized operator review acknowledges the lost coverage. Ordinary verified repair of the still-represented reasons alone does not erase the notice.
+- To maintain the existing paired-empty invariant, keep a nonempty represented recovery-review case open until that acknowledgment; the final list and directive may be cleared together only after authorized disposition of the coverage gap. This records review closure, not proof that the evicted cause was repaired.
+- Set with the first qualified systemic recovery case; remains while QUARANTINE_REASON_CODES are unresolved even if QUARANTINE_MODE becomes FALSE.
+- Clear to NONE when all pending recovery causes are verified resolved or governance-authorized operator review closes the case.
+- It must never be exposed through character-cognition COTs or player-character narration.
+
+LIFT_HOOK_STATUS:
+- Default value is EXTERNAL_GOVERNANCE_INACTIVE.
+- Changes only on explicit architecture lift events.
+- Not modified by any normal cycle, COT, or proposal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_RULES ===
+
+- This module has no registry-backed records. All fields are scalar or capped lists.
+- All fields are addressable directly by canonical bracket-path: [STATE_GOVERNANCE_RUNTIME][<FIELD>].
+- No record-stub pattern applies.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVARIANTS ===
+
+- All writes occur via STATE_GOVERNANCE_AND_COMMIT only.
+- No character-cognition COT (priorities 01 through 15) may read this module. Read attempts surface as READ_BOUNDARY_VIOLATION.
+- QUARANTINE_REASON_CODES MUST NOT exceed cap of 5 entries.
+- QUARANTINE_MODE TRUE cannot persist past its one full following recovery cycle; same-cycle clear is forbidden.
+- QUARANTINE_MODE FALSE and nonempty QUARANTINE_REASON_CODES is a lawful pending-review snapshot and does not block independently lawful ordinary commits.
+- RECOVERY_DIRECTIVE is NONE if and only if QUARANTINE_REASON_CODES is [NONE]; otherwise it is a nonempty bounded recovery instruction.
+- LIFT_HOOK_STATUS transitions are RESERVED on the current substrate per RUNNABLE_BUT_LIFTABLE_RESERVATIONS; transition attempts on the current substrate are suppressed with LIFT_HOOK_NOT_ACTIVE.
+- All field clear conditions defined above must be honored on every cycle.
+- Field set is closed; additions require constitutional update.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

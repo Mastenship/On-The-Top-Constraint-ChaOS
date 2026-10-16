@@ -1,0 +1,255 @@
+=== SECTION: DYNAMICS_BELIEF_SYSTEMS ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for belief stability, dissonance handling, categorical belief transitions, ordinal belief drift, contradiction-marker emission, and rare baseline accommodation under persistence or override proof. Belief change is semantic, bounded, evidence-led, and resistant to impulsive baseline rewrite.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Prefer temporary dissonance/worldview-defense overlays before durable belief baseline mutation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LADDER_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Ordinal belief fields and their step order are declared inline in SCHEME_BELIEF_SYSTEMS via ORDINAL [...] BASELINE_ANCHOR declarations within CORE_WORLDVIEW, ATTRIBUTION_STYLES, and COGNITIVE_BIASES, per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. This module references those inline ladders and does not redeclare order.
+
+ORDINAL_FIELD_CLASS:
+- Fields carrying an inline ORDINAL declaration in SCHEME_BELIEF_SYSTEMS are ordinal.
+- Ordinal movement uses TRANSITION when direction is unambiguous, otherwise SET to explicit adjacent endpoint.
+- One adjacent movement per field per cycle unless override proof is complete.
+
+CATEGORICAL_FIELD_CLASS:
+- SIMULATION_THEORY, MAGICAL_THINKING, LOCUS_OF_CONTROL, HUMAN_NATURE, SUCCESS_ATTRIBUTION, FAILURE_ATTRIBUTION are categorical.
+- Categorical movement uses SET to explicit target and, when persistence-triggered, CATEGORICAL_FIELD_TRANSITION_MAPS.
+- LOGIC_ARGUMENT VARIABLE is off-ladder per SCHEME; entry or exit uses SET only.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BELIEF_STABILITY ===
+
+GENERAL_RULES:
+- Baseline belief shifts are rare.
+- Isolated contradiction defaults to temporary modifier, not baseline rewrite.
+- Repeated coherent evidence weighs more than isolated anomalous cue.
+- Core worldview fields are identity-relevant and stability-biased.
+- Matrix-band contradictions are lawful only with an active contradiction marker or persistence-cluster processing per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_MARKER_REQUIREMENT.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONTRADICTION_MARKER_EMISSION ===
+
+[[LLM_INSTRUCTION]]: A coexisting matrix-band contradiction (both fields at their named contradiction band per SCHEME_BELIEF_SYSTEMS.CONTRADICTION_BAND_RULE) requires a structured marker in committed state. The executing COT supplies the complete modifier packet per UPDATE_CASCADE_REGISTRY; this module defines lawful marker mechanics only.
+
+MARKER_FAMILIES:
+- BELIEF_DISSONANCE: dissonance pressure from coexisting contradictory commitments at matrix band.
+- WORLDVIEW_DEFENSE: protective rationalization sustaining a threatened core belief.
+
+MARKER_MECHANICS:
+- MODIFIER_TYPE: COGNITIVE_MODIFIER
+- TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
+- STACKING_RULE: REPLACE
+- DURATION_TYPE: UNTIL_CONDITION
+- EXPIRY_CONDITION: contradiction resolves, one field drops below its named contradiction band, or accommodation completes
+
+EMISSION_RULE:
+- Matrix-band contradiction present or imminent emits BELIEF_DISSONANCE.
+- Active defense of a threatened core belief emits WORLDVIEW_DEFENSE.
+- A lawful marker is BELIEF_DISSONANCE, WORLDVIEW_DEFENSE, or an in-progress persistence-cluster accommodation.
+- Absent a lawful marker, committed matrix-band contradiction surfaces as SCHEME_INVARIANT_VIOLATION.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PERSISTENCE_TRIGGER_RULE ===
+
+[[LLM_INSTRUCTION]]: Persistence is operationalized through the memory ledger.
+
+PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN:
+- Three or more MEM_XX records reference field F through SYSTEM_LINKAGE.SPECIFIC_FIELD_CHANGED or CORE_EVENT_SUMMARY.
+- Records share consistent direction relative to F: all reinforcing or all challenging.
+- At least one record has SALIENCE MODERATE or higher.
+- Records are distinct cue occasions, not duplicate encodings.
+
+PERSISTENCE_TRIGGERED_BASELINE_SHIFT:
+- When cluster exists and current cycle adds consistent cue evidence:
+  - ordinal fields: propose adjacent lawful value by SET or lawful TRANSITION when ladder direction is unambiguous
+  - categorical fields: propose SET to lawful mapped target from CATEGORICAL_FIELD_TRANSITION_MAPS
+
+REQUIRED_PROOF_FIELDS:
+- INVOKED_RULE_NAME: PERSISTENT_EVIDENCE_ACCUMULATION
+- NARRATIVE_CUE_REFERENCE: cycle cue token plus contributing MEM_XX references
+- EVIDENCE_REF: [MEM_XX, MEM_XX, MEM_XX]
+- SCHEME_INVARIANT_NOTE: accumulated evidence supports one adjacent enum step or lawful named categorical transition
+- MECHANISM_TAG: BELIEF_PERSISTENCE_ACCOMMODATION
+
+PERSISTENCE_BOUNDS:
+- One adjacent movement per field per cycle.
+- Multi-step shift requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof in addition to persistence evidence.
+- A cluster's basis is consumed on commit; later shifts on the same field require fresh cue accumulation beyond the consumed basis per CONSUMED_BASIS_DEFINITION.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONSUMED_BASIS_DEFINITION ===
+
+[[LLM_INSTRUCTION]]: "Consumed basis" is scoped to the field, not to the memory and not to the transition. It is the set of MEM_XX cited in the EVIDENCE_REF of a committed PERSISTENT_EVIDENCE_ACCUMULATION shift on a given belief field.
+
+ADMISSION_RULE:
+- A later persistence shift on field F is admissible only when its qualifying cluster contains at least one MEM_XX outside every consumed basis recorded for F, and still independently satisfies PERSISTENCE_CLUSTER_EXISTS_FOR_FIELD_F_WHEN on its full membership.
+- Re-citation of an already-consumed basis for F without fresh accumulation is not new evidence. A shift resting on it fails admission and surfaces as SCHEME_INVARIANT_VIOLATION.
+
+FIELD_SCOPING:
+- Consumption is field-scoped: a MEM_XX consumed for F remains lawful evidence for clusters on any other field. Reuse of one memory across distinct belief fields over a narrative arc is expected and preserved.
+
+TRANSITION_SCOPING:
+- Consumption is not transition-scoped: one basis may not fund a further band on F by re-citation. Multi-band movement on F requires WATERSHED_BELIEF_SHIFT or EXISTENTIAL_CRISIS_OVERRIDE proof per PERSISTENCE_BOUNDS, never repeated use of one basis.
+
+JUDGMENT_BOUNDARY:
+- Whether a non-consumed contributor is substantive enough to carry a band is a cue judgment, not a form check.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CONSUMED_BASIS_RETENTION_NOTE ===
+
+[[LLM_INSTRUCTION]]: A consumed basis is established solely by the committed EVIDENCE_REF of the funding shift; no separate consumption field is written and no schema change is required.
+
+IN_LOOP_BEHAVIOR:
+- STATE_COMMIT_AUDIT is wiped after STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS, so prior-cycle bases are not re-readable within the loop.
+- Admission therefore relies on lawful self-reported declaration of fresh accumulation, and this rule is advisory at runtime.
+
+OUT_OF_LOOP_BEHAVIOR:
+- The same committed EVIDENCE_REF stream reconstructs every consumed basis per field deterministically.
+- An external governor that retains the stream enforces this rule as a hard gate with no added state and no schema change.
+
+LIFT_SPECIFICATION:
+- This note is the lift specification. The consumed basis is the EVIDENCE_REF history; retention of that history is the entire delta between advisory in-loop enforcement and hard external enforcement.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SHIFT_TRIGGERS ===
+
+ON_TRAUMATIC_EVENT:
+- Prefer acute dissonance/worldview-destabilization overlay.
+- Durable field mutation requires direct challenge to identity-relevant worldview assumption.
+- Single-event major shift requires WATERSHED_BELIEF_SHIFT proof.
+
+ON_MIRACLE_OR_HIGHLY_ANOMALOUS_EXPERIENCE:
+- Prefer dissonance overlay first.
+- Baseline accommodation requires persistence cluster or unusually strong narrative support.
+- Single anomalous cue ordinarily does not rewrite physical, spiritual, or epistemic baselines.
+
+ON_BETRAYAL:
+- May justify bounded SET to trust-, agency-, human-nature-, or justice-related fields when direct evidence is salient.
+- Belief shift and relational valence shift are separate proposals with independent justification.
+
+ON_REPEATED_EVIDENCE:
+- Initial resistance is expected.
+- Persistence cluster is the normal accommodation path.
+- Accommodation is field-specific.
+
+ON_EXISTENTIAL_CRISIS_WITH_HIGH_SALIENCE_MEMORY:
+- EXISTENTIAL_CRISIS_OVERRIDE may allow multi-axis shift only with full proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DEFENSE_MECHANISMS ===
+
+ON_THREAT_TO_CORE_BELIEF:
+- Prefer reinforcement, rationalization pressure, WORLDVIEW_DEFENSE overlay, or BELIEF_DISSONANCE overlay per CONTRADICTION_MARKER_EMISSION.
+- Defensive rationalization may generate impulses or modifiers.
+- Defensive rationalization is not COMMITTED_FACT evidence.
+- If contradiction persists across cycles, persistence cluster handles bounded accommodation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CATEGORICAL_FIELD_TRANSITION_MAPS ===
+
+[[LLM_INSTRUCTION]]: Listed transitions are lawful when cue support and required persistence/override conditions are met. Unlisted transitions require override proof.
+
+SIMULATION_THEORY [CONSIDERED, REJECTED, UNKNOWN]:
+- UNKNOWN → CONSIDERED: concept introduced and engaged.
+- UNKNOWN → REJECTED: dismissal after exposure.
+- CONSIDERED → REJECTED: evaluated and dismissed.
+- REJECTED → CONSIDERED: anomalous evidence reopens possibility.
+- CONSIDERED → UNKNOWN: requires WATERSHED_BELIEF_SHIFT plus compartmentalization/dissociation cue.
+- REJECTED → UNKNOWN: requires WATERSHED_BELIEF_SHIFT plus compartmentalization/dissociation cue.
+
+MAGICAL_THINKING [PRESENT, ABSENT, CONTEXTUAL]:
+- ABSENT → CONTEXTUAL: situational/cultural magical framing adopted.
+- CONTEXTUAL → PRESENT: contextual framing generalizes under repeated reinforcement.
+- PRESENT → CONTEXTUAL: retreat to bounded acceptance after disconfirmation.
+- CONTEXTUAL → ABSENT: contextual cases rationalized away after strong empirical/skepticism cue.
+- PRESENT → ABSENT: full rejection; requires persistence cluster or override proof.
+- ABSENT → PRESENT: full conversion; requires override proof.
+
+LOCUS_OF_CONTROL [INTERNAL, EXTERNAL, BALANCED]:
+- INTERNAL → BALANCED: external factors gain explanatory weight.
+- EXTERNAL → BALANCED: personal agency gains explanatory weight.
+- BALANCED → INTERNAL: sustained agency-confirming cues.
+- BALANCED → EXTERNAL: sustained helplessness/systemic-force cues.
+- INTERNAL → EXTERNAL: polar shift; requires WATERSHED_BELIEF_SHIFT.
+- EXTERNAL → INTERNAL: polar shift; requires WATERSHED_BELIEF_SHIFT.
+
+HUMAN_NATURE [INHERENTLY_GOOD, INHERENTLY_EVIL, TABULA_RASA, CONTEXTUAL]:
+- INHERENTLY_GOOD → CONTEXTUAL: trusted-bad behavior erodes universal optimism.
+- INHERENTLY_EVIL → CONTEXTUAL: altruism erodes universal cynicism.
+- TABULA_RASA → CONTEXTUAL: situational dependency added.
+- CONTEXTUAL → INHERENTLY_GOOD: persistent universal prosocial evidence.
+- CONTEXTUAL → INHERENTLY_EVIL: persistent universal self-interest evidence.
+- CONTEXTUAL → TABULA_RASA: retreat to pure environmental framing.
+- INHERENTLY_GOOD → TABULA_RASA: innate-goodness shifts to environmentalism.
+- INHERENTLY_EVIL → TABULA_RASA: innate-evil shifts to environmentalism.
+- INHERENTLY_GOOD → INHERENTLY_EVIL: polar shift; requires WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE if concurrent multi-axis reorganization.
+- INHERENTLY_EVIL → INHERENTLY_GOOD: polar shift; requires WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE if concurrent multi-axis reorganization.
+
+SUCCESS_ATTRIBUTION [INTERNAL_STABLE, INTERNAL_UNSTABLE, EXTERNAL]:
+- INTERNAL_STABLE → INTERNAL_UNSTABLE: reliability of capability doubted.
+- INTERNAL_UNSTABLE → INTERNAL_STABLE: consistent competence evidenced.
+- INTERNAL_STABLE → EXTERNAL: credit externalized by strong luck/circumstance cue.
+- INTERNAL_UNSTABLE → EXTERNAL: internal attribution abandoned after repeated failure-adjacent cues.
+- EXTERNAL → INTERNAL_UNSTABLE: partial self-credit after efficacy cue.
+- EXTERNAL → INTERNAL_STABLE: stable self-credit; requires persistence cluster or override proof.
+
+FAILURE_ATTRIBUTION [INTERNAL_STABLE, INTERNAL_UNSTABLE, EXTERNAL]:
+- INTERNAL_STABLE → INTERNAL_UNSTABLE: enduring-fault belief questioned.
+- INTERNAL_UNSTABLE → INTERNAL_STABLE: stable self-blame consolidates.
+- INTERNAL_STABLE → EXTERNAL: blame externalized after betrayal, injustice, or systemic obstacle.
+- INTERNAL_UNSTABLE → EXTERNAL: self-attribution abandoned under sustained unfairness/systemic cue.
+- EXTERNAL → INTERNAL_UNSTABLE: partial responsibility accepted.
+- EXTERNAL → INTERNAL_STABLE: stable internalization of fault; requires persistence cluster or override proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OVERRIDE_APPLICABILITY ===
+
+WATERSHED_BELIEF_SHIFT:
+- Required for large identity-relevant mutation in one belief field.
+- Authorizes field-level shift when full proof is present.
+
+EXISTENTIAL_CRISIS_OVERRIDE:
+- Required in addition to WATERSHED_BELIEF_SHIFT when shift is part of concurrent multi-axis worldview reorganization.
+- Authorizes multi-axis scope.
+
+SPECIFIC_NOTES:
+- LOCUS_OF_CONTROL polar shifts require WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE only if multi-axis reorganization is independently justified.
+- HUMAN_NATURE polar shifts always require WATERSHED_BELIEF_SHIFT; add EXISTENTIAL_CRISIS_OVERRIDE when concurrent multi-axis collapse/reorganization occurs.
+- Persistence evidence alone does not authorize unlisted categorical transitions.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- Belief shifts resolve to explicit lawful field values.
+- Temporary modifiers absorb acute contradiction before durable fields shift.
+- Matrix-band contradictions carry a structured marker per SCHEME_BELIEF_SYSTEMS.
+- Persistence-triggered ordinal shifts are one adjacent movement.
+- Persistence-triggered categorical shifts use named mapped targets.
+- Multi-field worldview reorganization requires override proof and remains rare.
+- Consumed-basis admission is advisory in-loop and hard under external EVIDENCE_REF retention per CONSUMED_BASIS_RETENTION_NOTE.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

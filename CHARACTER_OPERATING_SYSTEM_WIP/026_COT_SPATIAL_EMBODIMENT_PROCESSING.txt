@@ -1,0 +1,145 @@
+=== SECTION: COT_SPATIAL_EMBODIMENT_PROCESSING ===
+
+[KEEP: Purpose & Role]
+Translates spatial position, proximity, and environmental features into embodied effects, stress modulation, relational pressure, and behavior impulses. Prefers temporary overlays for short-horizon spatial effects. Mere proximity does not create durable relational valence change.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: stress proposals, performance overlays, relational bias proposals, memory context cues.
+Is Informed By: MAP_DATA, scene geometry, STATE_BODY, STATE_ALTERATIONS, STATE_RELATIONAL, STATE_TEMPORARY_MODIFIERS, SCHEME_RELATIONAL, DYNAMICS_RELATIONAL, DYNAMICS_TEMPORARY_MODIFIERS, narrative input.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXTERNAL_INPUT_NOTE ===
+
+MAP_DATA:
+- External narrative/substrate input, not a canonical module root.
+- Spatial feature references from MAP_DATA or scene geometry belong in JUSTIFICATION unless a canonical spatial ID namespace is later introduced.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRES_WHEN ===
+
+ANCHOR_CUES:
+- Narrative input describes spatial relation, proximity event, environmental feature change, or scene geometry shift.
+- Active spatial/environmental modifier requires re-evaluation against current geometry.
+- RELATIONAL CURRENT_CONCERN references proximity, confinement, pursuit, exposure, concealment, crowding, escape route, cover, or environmental threat.
+- Narrative input changes approach, retreat, hide, explore, or claim-space options.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SPATIAL_MODULATION_PROCESSING ===
+
+[[LLM_INSTRUCTION]]: Translate spatial cues into bounded proposals. Prefer STATE_TEMPORARY_MODIFIERS for short-horizon effects.
+
+ON_CLOSE_PROXIMITY_TO_THREAT:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
+    EFFECT_FAMILY: HYPERVIGILANCE
+    TARGET_FIELD: DOMAIN_GLOBAL:PERCEPTION
+    EFFECT_EXPRESSION: heightened threat-arousal and narrowed attention
+    MAGNITUDE: HIGH
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: threat proximity no longer present
+  STRENGTH: HIGH
+  MECHANISM_TAG: PROXEMIC_THREAT_RESPONSE
+  EPISTEMIC_TAG: PERCEPTION
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: proxemic threat cue
+
+ON_OPEN_SAFE_SPACE:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: PSYCHOLOGICAL_MODIFIER
+    EFFECT_FAMILY: RELAXATION_OPENNESS
+    TARGET_FIELD: DOMAIN_GLOBAL:AROUSAL
+    EFFECT_EXPRESSION: reduced threat arousal and broadened attention
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: scene transition or cue removal
+  STRENGTH: MODERATE
+  MECHANISM_TAG: SAFETY_SPACE_RESPONSE
+  EPISTEMIC_TAG: PERCEPTION
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: safety-space cue
+
+ON_CROWDING_OR_CONFINEMENT:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: COGNITIVE_MODIFIER
+    EFFECT_FAMILY: COGNITIVE_OVERLOAD
+    TARGET_FIELD: DOMAIN_GLOBAL:COGNITION
+    EFFECT_EXPRESSION: reduced working capacity and increased irritability
+    MAGNITUDE: MODERATE
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: confinement cue resolved
+  STRENGTH: MODERATE
+  MECHANISM_TAG: CONFINEMENT_OVERLOAD
+  EPISTEMIC_TAG: PERCEPTION
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: confinement cue
+
+ON_PROXIMITY_TO_ALLY:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: RELATIONAL_MODIFIER
+    EFFECT_FAMILY: ALLY_PROXIMITY_COMFORT
+    TARGET_FIELD: DOMAIN_GLOBAL:RELATIONAL
+    EFFECT_EXPRESSION: comfort and co-regulation from trusted ally proximity
+    MAGNITUDE: LOW
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: SCENE
+    EXPIRY_CONDITION: ally proximity ends or scene transition
+  STRENGTH: LOW
+  MECHANISM_TAG: ALLY_PROXIMITY_COMFORT
+  EPISTEMIC_TAG: PERCEPTION
+  JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+  JUSTIFICATION: ally proximity comfort cue
+
+RELATIONAL_MOVEMENT_BOUND:
+- Ally proximity alone produces ALLY_PROXIMITY_COMFORT.
+- Durable AFFECTIVE_VALENCE movement requires DYNAMICS_RELATIONAL.MEANINGFUL_INTERACTION_GATE.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_SPATIAL_EMBODIMENT_PROCESSING
+IMPULSE_TYPE: APPROACH | RETREAT | EXPLORE | CLAIM_SPACE | HIDE
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: ENT_XX | NONE
+JUSTIFICATION:
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+TARGET_REFERENCE_RULE:
+- TARGET_ID must be a canonical ID token or NONE per UPDATE_CASCADE_REGISTRY.IMPULSE_ENTRY_SCHEMA.
+- Spatial feature references belong in JUSTIFICATION unless a canonical spatial ID namespace is later introduced.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include spatial features, impulses, proposal count, SCHEME compliance, and whether relational movement gate was respected.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

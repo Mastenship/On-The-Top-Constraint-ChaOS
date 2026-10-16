@@ -1,0 +1,561 @@
+=== SECTION: CANONICAL_TOKEN_DICTIONARY ===
+
+[KEEP: Purpose & Role]
+Single source of truth for canonical paths, roots, write-eligibility, ID prefixes, empty-value forms, strict operations, ordinal ladder convention, qualitative enums, epistemic/evidence rules, override vocabulary, read-visibility classes, read-derivation rule, modifier vocabulary authority, modifier target-field forms, reservations, and scheme subtype convention.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+[KEEP: Relationship to Other Modules]
+Informs: all SCHEME_, DYNAMICS_, STATE_, COT_, and governance artifacts.
+Is Informed By: Nothing.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CANONICAL_STYLE_RULES ===
+
+TOKEN_STYLE:
+- UPPER_SNAKE only
+- no spaces, hyphens, mixed case, colon pseudo-paths, non-canonical roots, or legacy-root translation
+
+CANONICAL_PATH_FORMAT:
+- [MODULE_ROOT][GROUP_OR_ID][FIELD]
+- nested groups extend with additional brackets
+
+ID_STYLE:
+- ENT_XX
+- SKL_XX
+- ALT_XX
+- MEM_XX
+- PRD_XX
+- GOAL_XX
+- MOD_XX
+- PUP_
+- ACT_
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODULE_ROOT_POLICY ===
+
+[[LLM_INSTRUCTION]]: Roots outside CANONICAL_MODULE_ROOTS are rejected with INVALID_PATH_ROOT or LEGACY_ROOT_FORBIDDEN.
+[[LLM_INSTRUCTION]]: Canonical recognition is not the same as write-eligibility. A root may be canonical for identity reference yet forbidden as a persistent write TARGET_MODULE. See WRITE_ELIGIBILITY.
+
+CANONICAL_MODULE_ROOTS_SCOPE:
+- CANONICAL_MODULE_ROOTS governs bracket-path recognition.
+- It is not the complete session module manifest.
+- A loaded module may have MODULE_ID identity without being a lawful bracket-path root.
+- TABLE_OF_CONTENTS, ATTENTION_ENGINEERING_PRINCIPLE, and CANONICAL_TOKEN_DICTIONARY may be loaded governance artifacts without being persistent write TARGET_MODULE roots.
+
+CANONICAL_MODULE_ROOTS:
+- STATE_ALTERATIONS
+- STATE_BODY
+- STATE_BELIEF_SYSTEMS
+- STATE_COMMUNICATION_DIALOGUE
+- STATE_COPE
+- STATE_DPF
+- STATE_GOALS_MOTIVATIONS
+- STATE_MEMORY
+- STATE_RELATIONAL
+- STATE_SKILLS
+- STATE_TEMPORAL_DYNAMICS
+- STATE_TEMPORARY_MODIFIERS
+- STATE_GOVERNANCE_AND_COMMIT
+- STATE_GOVERNANCE_OVERLAY
+- STATE_GOVERNANCE_RUNTIME
+- SCHEME_ALTERATIONS
+- SCHEME_ASQ
+- SCHEME_BACKGROUND
+- SCHEME_BELIEF_SYSTEMS
+- SCHEME_BODY
+- SCHEME_COMMUNICATION_DIALOGUE
+- SCHEME_COPE
+- SCHEME_DARK_TRIAD
+- SCHEME_DPF
+- SCHEME_GOALS_MOTIVATIONS
+- SCHEME_GOVERNANCE_RUNTIME
+- SCHEME_HEXACO
+- SCHEME_MEMORY
+- SCHEME_MMPI
+- SCHEME_RELATIONAL
+- SCHEME_SCRATCHPAD
+- SCHEME_SKILLS
+- SCHEME_TEMPORAL_DYNAMICS
+- SCHEME_TEMPORARY_MODIFIERS
+- DYNAMICS_ALTERATIONS
+- DYNAMICS_BELIEF_SYSTEMS
+- DYNAMICS_BODY
+- DYNAMICS_COMMUNICATION_DIALOGUE
+- DYNAMICS_COPE
+- DYNAMICS_DPF
+- DYNAMICS_GOALS_MOTIVATIONS
+- DYNAMICS_GOVERNANCE_RUNTIME
+- DYNAMICS_MEMORY
+- DYNAMICS_RELATIONAL
+- DYNAMICS_SKILLS
+- DYNAMICS_TEMPORAL_DYNAMICS
+- DYNAMICS_TEMPORARY_MODIFIERS
+- COGNITIVE_SCRATCHPAD
+- UPDATE_CASCADE_REGISTRY
+- LLM_FORMATTING_GUIDELINES
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_ELIGIBILITY ===
+
+[[LLM_INSTRUCTION]]: Persistent-commit TARGET_MODULE legality is governed here. Roots not listed as write-eligible are recognized for identity reference only and must be suppressed as INVALID_TARGET_FIELD when used as a persistent write target.
+
+PERSISTENT_WRITE_ELIGIBLE_ROOTS:
+- STATE_ALTERATIONS
+- STATE_BODY
+- STATE_BELIEF_SYSTEMS
+- STATE_COMMUNICATION_DIALOGUE
+- STATE_COPE
+- STATE_DPF
+- STATE_GOALS_MOTIVATIONS
+- STATE_MEMORY
+- STATE_RELATIONAL
+- STATE_SKILLS
+- STATE_TEMPORAL_DYNAMICS
+- STATE_TEMPORARY_MODIFIERS
+- STATE_GOVERNANCE_RUNTIME
+
+INSTANTIATION_ONLY_WRITE_ELIGIBLE_ROOTS:
+- SCHEME_HEXACO
+- SCHEME_DARK_TRIAD
+- SCHEME_ASQ
+- SCHEME_MMPI
+- SCHEME_BACKGROUND
+- Lawful only under STATE_GOVERNANCE_AND_COMMIT.IMMUTABLE_BASELINE_WRITE_RULE.
+
+VOLATILE_WRITE_ELIGIBLE_ROOTS:
+- COGNITIVE_SCRATCHPAD
+- Subfield write access follows SCHEME_SCRATCHPAD.ACCESS_RULES.
+
+IDENTITY_ONLY_ROOTS:
+- STATE_GOVERNANCE_OVERLAY
+- STATE_GOVERNANCE_AND_COMMIT
+- SCHEME_GOVERNANCE_RUNTIME
+- UPDATE_CASCADE_REGISTRY
+- LLM_FORMATTING_GUIDELINES
+- All SCHEME_ and DYNAMICS_ roots not otherwise listed as write-eligible.
+- These roots are policy, mechanics, or writer definitions. They are read or referenced, never written by a persistent commit.
+
+ENFORCEMENT:
+- Persistent write whose TARGET_MODULE is an IDENTITY_ONLY_ROOT: INVALID_TARGET_FIELD.
+- This is a STEP_03 canonical-path check, not merely a downstream target-legality check.
+
+=== SECTION_BREAK ===
+
+=== SECTION: CANONICAL_ID_PREFIXES ===
+
+ENTITY_ID_PREFIX: ENT_
+SKILL_ID_PREFIX: SKL_
+ALTERATION_ID_PREFIX: ALT_
+MEMORY_ID_PREFIX: MEM_
+PREDICTION_ID_PREFIX: PRD_
+GOAL_ID_PREFIX: GOAL_
+PROPOSAL_ID_PREFIX: PUP_
+MODIFIER_ID_PREFIX: MOD_
+ACTION_ID_PREFIX: ACT_
+
+=== SECTION_BREAK ===
+
+=== SECTION: REGISTRY_CANONICAL_TOKENS ===
+
+REGISTRY_PATHS:
+- [STATE_MEMORY][MEMORY_REGISTRY]
+- [STATE_GOALS_MOTIVATIONS][GOAL_REGISTRY]
+- [STATE_RELATIONAL][RELATIONAL_REGISTRY]
+- [STATE_SKILLS][SKILL_REGISTRY]
+- [STATE_ALTERATIONS][ALTERATION_REGISTRY]
+- [STATE_TEMPORARY_MODIFIERS][MODIFIER_REGISTRY]
+- [STATE_DPF][PREDICTION_REGISTRY]
+
+RECORD_ROOT_TOKENS:
+- [STATE_MEMORY][MEM_XX]
+- [STATE_GOALS_MOTIVATIONS][GOAL_XX]
+- [STATE_RELATIONAL][ENT_XX]
+- [STATE_SKILLS][SKL_XX]
+- [STATE_ALTERATIONS][ALT_XX]
+- [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+- [STATE_DPF][PRD_XX]
+
+=== SECTION_BREAK ===
+
+=== SECTION: ALTERATION_FIELD_ROLE_CONTRACT ===
+
+OPERATIONAL_STATUS:
+- Canonical target: [STATE_ALTERATIONS][ALT_XX][STATUS]
+- Governs objective operation and functional-effect eligibility.
+
+PSYCHOLOGICAL_STANCE:
+- Canonical target: [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][PSYCHOLOGICAL_STANCE]
+- Governs subjective attitude and psychological-effect eligibility.
+
+AWARENESS_STATUS:
+- Canonical target: [STATE_ALTERATIONS][ALT_XX][CHARACTER_AWARENESS][AWARENESS_STATUS]
+- Governs awareness, not objective operation.
+
+FIELD_AUTHORITY:
+- All three fields are categorical; lawful enum values are owned solely by SCHEME_ALTERATIONS. Updates use SET to explicit lawful endpoints.
+- These paths are not aliases. Rejection or denial cannot substitute for operational deactivation, and operational activity cannot substitute for acceptance.
+- Legacy STATUS = REJECTED is not a lawful operational endpoint. Validate record payloads and nested-field proposals against the owning SCHEME.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EMPTY_VALUE_FORMS ===
+
+EMPTY_FIELD:
+- Blank value after key.
+- Means uninitialized template or pre-instantiation value.
+
+NONE:
+- Explicit initialized scalar absence where schema permits.
+
+[NONE]:
+- Explicit empty list placeholder.
+- Never an ID token.
+
+[XX_XX] RECORD_STUB:
+- Bracketed stubs indicate schema shape only.
+- Concrete record requires registry membership plus matching concrete record block.
+
+EMPTY_LIST_CANONICAL_RULE:
+- The only lawful empty-list value is [NONE].
+- Empty-list expressions such as empty list, blank list, or omitted list are non-canonical and surface as INVALID_ENUM_VALUE or INVALID_TARGET_FIELD as applicable.
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRICT_OPERATION_VOCABULARY ===
+
+ALLOWED_OPERATION_TYPE:
+- SET
+- TRANSITION
+- ADD_MODIFIER
+- REMOVE_MODIFIER
+- CAP
+- VETO
+
+FORBIDDEN_OPERATION_ALIASES:
+- CREATE_NEW_RECORD
+- UPDATE
+- INCREMENT
+- DECREMENT
+
+OPERATION_SEMANTICS_MINIMUM:
+- SET names explicit lawful endpoint or schema-valid payload; it does not bypass movement, enum, invariant, cap, or override-proof limits.
+- TRANSITION applies canonical relative directive to lawful ordinal ladder.
+- Categorical fields use SET unless SCHEME declares transition ladder.
+- ADD_MODIFIER and REMOVE_MODIFIER operate on STATE_TEMPORARY_MODIFIERS.
+- CAP applies bounded ceiling only where permitted.
+- VETO suppresses lower-precedence or disallowed mutation.
+
+GOVERNANCE_RECONCILIATION_ACTIONS:
+- NARRATIVE_DEFERRAL_CAPTURE and NARRATIVE_DEFERRAL_CLOSURE are governance-only bookkeeping actions on SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE; they do not mutate the deferred TARGET_FIELD, count as ordinary movements, create MEM_XX, or authorize a proposal OPERATION_TYPE.
+- INVARIANT_FORCED_CORRECTION is a bounded governance reconciliation action, not a proposal OPERATION_TYPE.
+- It is generated by STATE_GOVERNANCE_AND_COMMIT only during cross-field invariant reconciliation, only on enumerated invariants, and only as a one-band correction of a single existing committed field.
+- It preserves single-writer discipline because STATE_GOVERNANCE_AND_COMMIT remains the sole writer; it is enumerated and bounded, so it is not unconstrained proposal generation.
+- It is always audit-logged in the commit pass that emits it.
+
+CANONICAL_RELATIVE_TRANSITION_DIRECTIVES:
+- ONE_STEP_UP
+- ONE_STEP_DOWN
+- ONE_STEP_TOWARD_BASELINE
+- ONE_STEP_TOWARD_NEUTRAL
+
+TRANSITION_DIRECTIVE_BINDING_RULE:
+- A relative transition directive is lawful only as the PROPOSED_VALUE of an OPERATION_TYPE TRANSITION proposal.
+- A relative transition directive appearing as a SET payload is a malformed proposal payload.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ORDINAL_LADDER_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Ordinal step legality and one-step movement are evaluable only against a declared ladder. An ordinal field declares its ladder inline in its owning SCHEME as ORDINAL with members in ascending order.
+
+ORDINAL_DECLARATION_RULE:
+- An ordinal field is declared ORDINAL with members in ascending ladder order.
+- Bracket position is the canonical ladder; step counting uses bracket position.
+- BASELINE_ANCHOR defaults to the first bracket member; a field whose baseline differs declares BASELINE_ANCHOR <member> inline after the bracket.
+- ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL resolve toward BASELINE_ANCHOR.
+- A field may declare OFF_LADDER <member>; an off-ladder member is reached only by SET, never by relative transition.
+- A field treated as ordinal by any DYNAMICS module without an ORDINAL declaration in its owning SCHEME surfaces as SCHEME_INVARIANT_VIOLATION.
+
+NO_BASELINE_DRIFT_MARKER:
+- A SCHEME ordinal field may declare NO_BASELINE_DRIFT inline.
+- ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL are unlawful on that field.
+- Movement must use explicit lawful TRANSITION or SET mechanics declared by the owning DYNAMICS module.
+- BASELINE_ANCHOR may still be declared for ladder formality but is not a drift target.
+
+CATEGORICAL_DECLARATION_RULE:
+- A field declared ENUM without ORDINAL is categorical.
+- Categorical movement uses SET to explicit endpoint or a SCHEME-declared transition map.
+- Relative transition directives are unlawful on categorical fields.
+
+PERCEPTUAL_SNAPSHOT_DECLARATION_RULE:
+- A categorical field may declare PERCEPTUAL_SNAPSHOT inline when it represents a whole-cycle perceptual or clinical reading rather than a laddered quantity.
+- A PERCEPTUAL_SNAPSHOT field is exempt from one-step movement limits by design and may SET to any lawful endpoint in one cycle.
+- The exemption is intentional and must be declared inline; an undeclared intensity-looking ENUM remains an ordinary categorical field.
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUALITATIVE_ENUMS ===
+
+QUALITATIVE_INTENSITY: ORDINAL [MINIMAL, LOW, MODERATE, HIGH, EXTREME]
+QUALITATIVE_INTENSITY_GLOSS:
+- MINIMAL: trace presence
+- LOW: weak but relevant
+- MODERATE: clearly present
+- HIGH: domain-dominant
+- EXTREME: acute saturating presence
+
+QUALITATIVE_INTENSITY_USAGE:
+- proposal STRENGTH
+- impulse IMPULSE_STRENGTH
+- memory SALIENCE
+- prediction CERTAINTY
+- DPF CERTAINTY_LEVEL.VALUE
+- goal URGENCY, CONFIDENCE, PROGRESS, COMMITMENT_LEVEL, VALUE_ALIGNMENT, IDENTITY_RELEVANCE
+- SELECTED_ACTION.CONFIDENCE
+- COPE qualitative risk/probability fields
+
+QUALITATIVE_PERCENTILE: ORDINAL [VERY_LOW, LOW, AVERAGE, HIGH, VERY_HIGH]
+QUALITATIVE_PERCENTILE_GLOSS:
+- VERY_LOW: below 20th percentile
+- LOW: 20th to 40th percentile
+- AVERAGE: 40th to 60th percentile
+- HIGH: 60th to 80th percentile
+- VERY_HIGH: above 80th percentile
+
+QUALITATIVE_T_SCORE: ORDINAL [NORMAL, MILD_ELEVATION, MODERATE, SIGNIFICANT, CLINICAL]
+QUALITATIVE_T_SCORE_GLOSS:
+- NORMAL: below 55
+- MILD_ELEVATION: 55 to 65
+- MODERATE: 65 to 75
+- SIGNIFICANT: 75 to 85
+- CLINICAL: above 85
+
+QUALITATIVE_MAGNITUDE: ORDINAL [TRACE, LOW, MODERATE, HIGH, EXTREME]
+QUALITATIVE_MAGNITUDE_GLOSS:
+- TRACE: barely perceptible transient influence
+- LOW: weak transient influence
+- MODERATE: clear situational influence
+- HIGH: strong situational influence
+- EXTREME: acute overriding pressure bounded by governance
+
+QUALITATIVE_MAGNITUDE_USAGE:
+- SCHEME_TEMPORARY_MODIFIERS.MAGNITUDE only
+
+QUALITATIVE_SCALE_BASELINE_ANCHOR:
+- QUALITATIVE_INTENSITY: MODERATE
+- QUALITATIVE_PERCENTILE: AVERAGE
+- QUALITATIVE_T_SCORE: NORMAL
+- QUALITATIVE_MAGNITUDE: TRACE
+
+=== SECTION_BREAK ===
+
+=== SECTION: EPISTEMIC_TAG_ENUM ===
+
+EPISTEMIC_TAG: ENUM [PERCEPTION, INFERENCE, SPECULATION, COMMITTED_FACT, TOOL_REQUEST]
+
+RULES:
+- Required on every proposal.
+- COMMITTED_FACT requires EVIDENCE_REF.
+- TOOL_REQUEST is reserved.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EVIDENCE_REF_POLICY ===
+
+EVIDENCE_REF_FIELD:
+- Required when EPISTEMIC_TAG = COMMITTED_FACT.
+- Optional otherwise.
+
+EVIDENCE_REF_VALUE_FORMS:
+- MEM_XX
+- PRD_XX only when RESOLVED or RESOLVED_NEGATIVE
+- PRIOR_COMMIT:<COMMIT_CYCLE_ID>:<PROPOSAL_ID>
+- USER_CONFIRMATION:<CONFIRMATION_ID>
+- CYCLE_CUE:<CYCLE_ID>:<CUE_TOKEN>
+- [MEM_XX, MEM_XX, MEM_XX] for persistence clusters of three or more memories
+
+EVIDENCE_REF_PREDICTION_RULE:
+- A PRD_XX is evidence-eligible only in a settled outcome state: RESOLVED or RESOLVED_NEGATIVE.
+- Both forms establish a settled prediction outcome as fact.
+- FALSIFIED is not a clean resolution event and is not evidence-eligible.
+- ACTIVE predictions are never evidence-eligible.
+
+DISCLOSURE_BOUNDARY:
+- Direct disclosure may establish that a statement occurred.
+- Another entity's internal state remains INFERENCE or SPECULATION unless substrate grants direct access.
+
+ENFORCEMENT:
+- Missing COMMITTED_FACT evidence: COMMITTED_FACT_WITHOUT_EVIDENCE
+- Unresolvable evidence: EVIDENCE_REF_UNRESOLVED
+- CYCLE_CUE is lawful only when cue alone reaches COMMITTED_FACT threshold.
+
+=== SECTION_BREAK ===
+
+=== SECTION: JUSTIFICATION_CATEGORY_ENUM ===
+
+JUSTIFICATION_CATEGORY: ENUM [DIRECT_APPLICATION, INFERENTIAL_LEAP, UNJUSTIFIED_LEAP, GOAL_DIRECTED, TRAIT_GATED]
+
+MAPPING:
+- DIRECT_APPLICATION: PERCEPTION or INFERENCE or COMMITTED_FACT
+- INFERENTIAL_LEAP: INFERENCE
+- UNJUSTIFIED_LEAP: SPECULATION
+- GOAL_DIRECTED: INFERENCE
+- TRAIT_GATED: INFERENCE
+
+COMMITTED_FACT_DIRECT_APPLICATION_RULE:
+- COMMITTED_FACT with DIRECT_APPLICATION is lawful for established, evidence-supported facts only.
+- A lawful, resolvable EVIDENCE_REF is mandatory per EVIDENCE_REF_POLICY; this mapping does not relax the DISCLOSURE_BOUNDARY for other entities' internal states.
+
+ENFORCEMENT:
+- Mismatch: JUSTIFICATION_CATEGORY_TAG_MISMATCH
+
+IMPULSE_JUSTIFICATION_RULE:
+- Impulse packets carry JUSTIFICATION_CATEGORY without EPISTEMIC_TAG.
+- Impulse JUSTIFICATION_CATEGORY is advisory provenance, not a commit-gated mapping.
+- Mapping enforcement applies to proposals only.
+
+=== SECTION_BREAK ===
+
+=== SECTION: INVOKED_RULE_NAME_ENUM ===
+
+INVOKED_RULE_NAME: ENUM [
+  FLASHBULB_BREAKTHROUGH,
+  TRAUMA_INDUCED_ATROPHY,
+  SECOND_WIND,
+  ALTERATION_ACTIVATION_OR_FAILURE,
+  DPF_CONTRAST_EVENT,
+  SKILL_STATE_CHANGE,
+  WATERSHED_BELIEF_SHIFT,
+  EXISTENTIAL_CRISIS_OVERRIDE,
+  PERSISTENT_EVIDENCE_ACCUMULATION,
+  GOVERNANCE_CORRECTIVE
+]
+
+=== SECTION_BREAK ===
+
+=== SECTION: STRUCTURAL_OVERRIDE_PROOF_FIELDS ===
+
+REQUIRED_FIELDS_WHEN_OVERRIDE_GATE_TRIGGERED:
+- INVOKED_RULE_NAME
+- NARRATIVE_CUE_REFERENCE: cycle-resolvable cue token or quoted cue fragment
+- SCHEME_INVARIANT_NOTE: names relevant invariant and asserts compatibility
+- MECHANISM_TAG: domain-canonical mechanism aligned with DYNAMICS pattern
+
+ENFORCEMENT:
+- Missing or unlawful proof field: OVERRIDE_PROOF_INCOMPLETE
+
+=== SECTION_BREAK ===
+
+=== SECTION: READ_VISIBILITY_CLASS_ENUM ===
+
+READ_VISIBILITY_CLASS: ENUM [CHARACTER_VISIBLE, GOVERNANCE_INTERNAL]
+
+GLOSS:
+- CHARACTER_VISIBLE: readable by character-cognition COTs and governance.
+- GOVERNANCE_INTERNAL: readable only by governance band authorities.
+
+SUBFIELD_VISIBILITY_RULE:
+- A module may declare a default READ_VISIBILITY_CLASS and override visibility on named subfields.
+- A subfield declared GOVERNANCE_INTERNAL inside a CHARACTER_VISIBLE module is readable only by governance band authorities.
+
+WRITE_VERSUS_READ_NOTE:
+- Read-visibility governs read access only.
+- Write/append eligibility to a GOVERNANCE_INTERNAL subfield is separately enumerated by the owning module's ACCESS_RULES.
+- A lawful character-cognition append to a GOVERNANCE_INTERNAL append-only subfield (for example CASCADE_TRACE) is not a read and is not a READ_BOUNDARY_VIOLATION; only a read-back is.
+
+ENFORCEMENT:
+- Character-cognition read of GOVERNANCE_INTERNAL module or subfield: READ_BOUNDARY_VIOLATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: READ_DERIVATION_RULE ===
+
+[[LLM_INSTRUCTION]]: An Informs relationship from a GOVERNANCE_INTERNAL module to a character-cognition template denotes design-time derivation, not runtime read.
+
+RULES:
+- Canonical token, path, operation, epistemic, and ID conformance is compiled into character-cognition COT templates at authoring time.
+- Character-cognition COTs satisfy canonical contracts without runtime read of any GOVERNANCE_INTERNAL module.
+- Conformance compiled into a template is not a READ_BOUNDARY_VIOLATION; only a runtime read of a GOVERNANCE_INTERNAL surface by a character-cognition COT is.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_VOCABULARY_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Modifier semantic vocabularies are closed and centrally owned.
+
+EFFECT_FAMILY_AUTHORITY:
+- DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_REGISTRY is the closed canonical EFFECT_FAMILY set.
+- An EFFECT_FAMILY token outside the registry surfaces as MODIFIER_SCHEMA_VIOLATION.
+
+MECHANISM_TAG_AUTHORITY:
+- DYNAMICS_TEMPORARY_MODIFIERS.MECHANISM_TAG_POLICY governs MECHANISM_TAG form and MATCH_KEY_TUPLE participation.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MODIFIER_TARGET_FIELD_FORMS ===
+
+[[LLM_INSTRUCTION]]: A modifier TARGET_FIELD identifies what is modulated. It does not authorize direct mutation of the target.
+
+LAWFUL_TARGET_FIELD_FORMS:
+- CANONICAL_PATH: a concrete canonical state field path for scoped modulation.
+- DOMAIN_GLOBAL:<SCOPE>: a diffuse overlay scoped to one DOMAIN_GLOBAL_SCOPE.
+
+DOMAIN_GLOBAL_SCOPES: ENUM [
+  PERCEPTION,
+  COGNITION,
+  AROUSAL,
+  AFFECT,
+  BODY,
+  COMMUNICATION,
+  RELATIONAL,
+  SKILL_EXECUTION,
+  TEMPORAL_PERCEPTION
+]
+
+ENFORCEMENT:
+- TARGET_FIELD that is neither a canonical path nor a lawful DOMAIN_GLOBAL:<SCOPE>: MODIFIER_SCHEMA_VIOLATION.
+- DOMAIN_GLOBAL scope outside DOMAIN_GLOBAL_SCOPES: MODIFIER_SCHEMA_VIOLATION.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RUNNABLE_BUT_LIFTABLE_RESERVATIONS ===
+
+CURRENTLY_RESERVED:
+- TOOL_REQUEST epistemic tag: TOOL_ACTUATION_NOT_ACTIVE
+- ROLLBACK remediation mode: ROLLBACK_NOT_ACTIVE
+- LIFT_HOOK transition: LIFT_HOOK_NOT_ACTIVE
+- BIOCHEMICAL_MODIFIER modifier type: MODIFIER_TYPE_RESERVED_NO_FAMILY
+- OTHER modifier type: MODIFIER_TYPE_RESERVED_NO_FAMILY
+
+RULE:
+- Reserved surfaces are declared but suppressed until external governance lifts them.
+- A reserved MODIFIER_TYPE has no lawful EFFECT_FAMILY pairing in DYNAMICS_TEMPORARY_MODIFIERS.EFFECT_FAMILY_REGISTRY until a constitutional update populates it; creation attempts surface as MODIFIER_SCHEMA_VIOLATION.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SCHEME_MODULE_CONVENTION ===
+
+SCHEME_SUBTYPES:
+- STRUCTURAL_SCHEMA: field shapes, enums, invariants, creation requirements; no character-specific values.
+- IMMUTABLE_BASELINE_BEARING: schema plus instantiation-time baseline values fixed after seeding.
+
+IMMUTABLE_BASELINE_BEARING_MODULES:
+- SCHEME_HEXACO
+- SCHEME_DARK_TRIAD
+- SCHEME_ASQ
+- SCHEME_MMPI
+- SCHEME_BACKGROUND
+
+RUNTIME_RULES:
+- STATE_ modules store mutable runtime values.
+- SCHEME_ modules are read-only during runtime.
+- Immutable baseline-bearing SCHEME values may be set during instantiation only, or by explicit architecture-level watershed-equivalent override.
+- Runtime write to immutable baseline-bearing SCHEME outside instantiation: SCHEME_IMMUTABLE_BASELINE_WRITE.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

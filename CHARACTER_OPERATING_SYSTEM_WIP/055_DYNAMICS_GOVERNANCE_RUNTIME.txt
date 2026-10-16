@@ -1,0 +1,140 @@
+=== SECTION: DYNAMICS_GOVERNANCE_RUNTIME ===
+
+[KEEP: Purpose & Role]
+Immutable mechanics for governance-runtime state: verification result overwrite, quarantine engage/clear, capped reason-code handling, and lift-hook stability.
+
+READ_VISIBILITY_CLASS: GOVERNANCE_INTERNAL
+
+=== SECTION_BREAK ===
+
+=== SECTION: OPERATION_POLICY ===
+
+[[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
+[[LLM_INSTRUCTION]]: Governance-runtime updates use SET only. QUARANTINE_REASON_CODES cap behavior is intrinsic to its SET operation.
+[[LLM_INSTRUCTION]]: The only lawful empty-list value is [NONE] per CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXECUTION_HANDOFF ===
+
+HANDOFF_RULES:
+- COT_UPDATE_VERIFICATION may propose STATE_GOVERNANCE_RUNTIME updates only.
+- STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS commits or suppresses those proposals in the same cycle.
+- No governance-runtime proposal survives scratchpad wipe.
+- STATE_GOVERNANCE_RUNTIME is the only persistent cross-cycle governance signal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: VERIFICATION_RESULT_HANDLING ===
+
+ON_VERIFICATION_COMPLETE:
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][LAST_VERIFICATION_RESULT]
+  PROPOSED_VALUE: PASS | WARN | FAIL
+  JUSTIFICATION: verification outcome
+
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][LAST_COMMIT_CYCLE_ID]
+  PROPOSED_VALUE: current commit cycle id
+  JUSTIFICATION: cycle close
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUARANTINE_ENGAGEMENT ===
+
+ON_VERIFIED_UNISOLATABLE_FAILURE:
+- Only when STATE_GOVERNANCE_OVERLAY.REMEDIATION_POLICY.SYSTEMIC_QUALIFICATION_GATE confirms a new residual, non-isolatable QUARANTINE_NEXT_CYCLE_VIOLATIONS fault, and no active or pending unresolved recovery case exists:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE]
+    PROPOSED_VALUE: TRUE
+    JUSTIFICATION: exceptional bounded containment
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID]
+    PROPOSED_VALUE: current commit cycle id
+    JUSTIFICATION: beginning of bounded recovery episode
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES]
+    PROPOSED_VALUE: append verified systemic reason code; FIFO-evict oldest if cap 5
+    JUSTIFICATION: bounded recovery diagnostic
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE]
+    PROPOSED_VALUE: concrete governance-only instruction (max 240 characters) identifying reason code, affected target or UNKNOWN, lawful correction, and release evidence
+    JUSTIFICATION: capped reformation reminder tied to pending reason codes
+
+ON_NEW_SYSTEMIC_SIGNAL_DURING_ACTIVE_RECOVERY:
+- If QUARANTINE_MODE is TRUE and a materially distinct unresolved systemic signal is verified during the one recovery cycle, update QUARANTINE_REASON_CODES and paired bounded RECOVERY_DIRECTIVE as a linked snapshot SET unit.
+- Do not refresh QUARANTINE_ENGAGED_CYCLE_ID, extend the episode, or suppress independent lawful commitments because of the additional signal alone.
+- At recovery-cycle close, retain all still-unresolved bounded reasons and the updated directive while clearing QUARANTINE_MODE and engagement cycle ID.
+
+ON_NEW_SYSTEMIC_SIGNAL_DURING_PENDING_REVIEW:
+- If QUARANTINE_MODE is FALSE but QUARANTINE_REASON_CODES remains nonempty, do not set QUARANTINE_MODE TRUE.
+- PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] to the cap-5 FIFO list including the new verified systemic reason code if materially distinct.
+- PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] to the updated <=240-character instruction describing the active unresolved root or combined affected scope, lawful next response, and release evidence.
+- Both SET proposals are an atomic review-snapshot update; unresolved cases do not create an unbounded journal.
+
+FIFO_OVERFLOW_COVERAGE_NOTICE:
+- For either active-recovery or pending-review paired SET, first apply any independently verified reason resolutions, then append only materially distinct qualified systemic reasons in FIFO order. An actual eviction of an unresolved oldest entry at cap 5 triggers the coverage notice.
+- The paired RECOVERY_DIRECTIVE must contain the exact text FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED within the existing 240-character cap, along with an abbreviated current-case reason, affected target or UNKNOWN, lawful corrective action, and release evidence. It is directive content, not a new reason code, field, or audit history.
+- On subsequent nonempty directive updates, preserve an existing notice while the case remains pending; never interpret FIFO displacement as verified root-cause resolution. A final paired clear requires explicit governance-authorized operator acknowledgment of the lost coverage, even if the remaining represented faults were technically corrected.
+- The writer records the evicted reason and unverified disposition in volatile post-verification audit NOTES. The persistent notice does not retain that identity after scratchpad wipe.
+- Overflow alone neither engages nor extends quarantine, changes recovery-cycle timing, or suppresses independently lawful character-state commits.
+
+NON_REENGAGEMENT_RULE:
+- If QUARANTINE_MODE is TRUE, do not re-engage or overwrite QUARANTINE_ENGAGED_CYCLE_ID.
+- If QUARANTINE_MODE is FALSE with outstanding QUARANTINE_REASON_CODES, do not automatically re-engage while the existing recovery case awaits resolution or operator review.
+- An ordinary FAIL, isolated proposal fault, modifier-lifecycle sub-code without actual persistent corruption, or WARN does not engage quarantine.
+- Canonical reason codes and their inherited FAIL classifications do not alone prove systemic impact.
+
+=== SECTION_BREAK ===
+
+=== SECTION: QUARANTINE_CLEAR ===
+
+[[LLM_INSTRUCTION]]: Same-cycle engagement/clear remains forbidden. Bounded recovery release is independent of PASS/WARN/FAIL outcome; no unchanged full-cycle quarantine may recur indefinitely.
+
+ON_BOUNDED_RECOVERY_CYCLE_COMPLETE:
+- If QUARANTINE_MODE is TRUE and QUARANTINE_ENGAGED_CYCLE_ID is a prior cycle:
+  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_MODE] = FALSE
+  - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_ENGAGED_CYCLE_ID] = NONE
+  - When and only when the original systemic cause is verified resolved: PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE] and PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] = NONE
+  - Otherwise leave QUARANTINE_REASON_CODES unchanged and produce an operator-review diagnostic in governance trace.
+  - JUSTIFICATION: bounded recovery cycle completed; independent lawful narrative development must resume.
+
+ON_PENDING_RECOVERY_RESOLVED:
+- If QUARANTINE_MODE is FALSE with nonempty reason codes, only verified structural resolution or explicit governance-authorized operator review may PROPOSE SET [STATE_GOVERNANCE_RUNTIME][QUARANTINE_REASON_CODES] = [NONE] paired with PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] = NONE.
+- A generic PASS, unrelated warning, or lack of further proposals does not prove root-cause repair.
+
+SAME_CYCLE_GUARD:
+- If QUARANTINE_ENGAGED_CYCLE_ID equals current commit cycle id, no clear path may clear quarantine.
+- Release applies after one full following recovery cycle, never in the engagement cycle itself.
+- Retained reason codes while QUARANTINE_MODE is FALSE are a pending-review signal, not authority for another blanket hold.
+
+NARRATIVE_CONTINUITY_BOUND:
+- Quarantine affects commit eligibility, not the character's subjective realization or Dungeon Master control of the world.
+- Independently safe proposals must remain eligible through STATE_GOVERNANCE_OVERLAY.QUARANTINE_POLICY.PRIMARY_RECOVERY_ADMISSION.
+- Do not construct new persistent repairs outside the standard lawful proposal pipeline.
+
+=== SECTION_BREAK ===
+
+=== SECTION: LIFT_HOOK_STATUS_HANDLING ===
+
+ON_NORMAL_CYCLE:
+- LIFT_HOOK_STATUS remains stable.
+- Ordinary runtime behavior does not modify this field.
+
+ON_LIFT_EVENT:
+- RESERVED. Current substrate suppresses lift-hook activation with LIFT_HOOK_NOT_ACTIVE.
+- If external governance becomes active, SET to EXTERNAL_GOVERNANCE_ACTIVE becomes lawful.
+
+=== SECTION_BREAK ===
+
+=== SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
+
+- This module reads only governance runtime, commit outcomes, and verification outcomes.
+- It does not generate character-visible narration or authorize character-cognition reading governance internals.
+- Same-cycle clear prohibition and full-following-cycle bounded release both apply.
+- QUARANTINE_REASON_CODES and a bounded nonempty RECOVERY_DIRECTIVE persist together when QUARANTINE_MODE is FALSE during unresolved operator review.
+- Governance-runtime proposals must be committed or suppressed before scratchpad wipe.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]

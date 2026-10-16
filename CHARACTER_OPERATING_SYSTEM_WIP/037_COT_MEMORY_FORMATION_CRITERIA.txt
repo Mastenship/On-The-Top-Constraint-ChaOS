@@ -1,0 +1,93 @@
+=== SECTION: COT_MEMORY_FORMATION_CRITERIA ===
+
+[KEEP: Purpose & Role]
+Applies DYNAMICS_MEMORY to decide whether current experience forms persistent MEM_XX, whether reconsolidation is warranted, and whether memory-colored impulses arise. Conservative: vivid, novel, or emotional cues do not automatically become memories.
+
+READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
+
+[KEEP: Relationship to Other Modules]
+Informs: STATE_MEMORY proposals, linkage proposals, persistence clusters.
+Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF, STATE_TEMPORARY_MODIFIERS, stress cascade, SCHEME_MEMORY, DYNAMICS_MEMORY, narrative input.
+
+=== SECTION_BREAK ===
+
+=== SECTION: WRITE_POLICY_OVERRIDE ===
+
+[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: FIRES_WHEN ===
+
+ANCHOR_CUES:
+- Narrative input contains high-emotional-arousal, novelty, or consequence event.
+- Salient state change occurred this cycle.
+- Prediction was resolved, resolved negatively, or falsified.
+- Flashbulb-class event is present.
+- Existing MEM_XX has reconsolidation pressure.
+- Current cue may contribute to persistence cluster.
+
+DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
+- EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
+
+=== SECTION_BREAK ===
+
+=== SECTION: MEMORY_EVALUATION ===
+
+[[LLM_INSTRUCTION]]: Apply DYNAMICS_MEMORY.MEMORY_ADMISSION_GATE.
+
+SALIENCE_EVALUATION:
+- Estimate SALIENCE from cue intensity, novelty, consequence, linkage relevance, and emotional load.
+- Emotional arousal raises salience only when consequence or linkage exists.
+- Flashbulb treatment requires DYNAMICS_MEMORY.FLASHBULB_GATE.
+
+FORMATION_DECISION:
+- If admission gate passes:
+  - PROPOSE SET pair:
+    - [STATE_MEMORY][MEMORY_REGISTRY] append MEM_XX
+    - [STATE_MEMORY][MEM_XX] schema-valid memory record
+  - include explicit SALIENCE and SYSTEM_LINKAGE.
+- If admission gate fails:
+  - do not propose MEM_XX.
+  - optional memory-colored impulse may still be emitted.
+
+FORMATION_REQUIREMENTS:
+- At least one lawful canonical SYSTEM_LINKAGE path.
+- Schema-valid payload.
+- Per-cycle memory creation cap respected.
+- [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] is a separate capped processing-cue queue, not MEM_XX or an episodic memory; this COT may use it only when SOURCE_COT matches, per UPDATE_CASCADE_REGISTRY.DEFERRED_NARRATIVE_CUE_DISPATCH.
+- Preserve lawful memory-formation proposals for salient Dungeon Master events even when an unrelated domain's proposal is invalid; final independence and linked-unit validation remain with STATE_GOVERNANCE_AND_COMMIT per STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT.
+- If a systemic unisolatable fault prevents safe memory commitment, the governance band records the affected event cue for possible operator re-presentation; this COT must not read governance diagnostics or silently invent a durable memory.
+- INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact, not raw reasoning.
+- FLASHBULB exceptions require INVOKED_RULE_NAME FLASHBULB_BREAKTHROUGH and full proof.
+
+=== SECTION_BREAK ===
+
+=== SECTION: RECONSOLIDATION_PRESSURE ===
+
+ON_RETRIEVAL_WITH_NEW_CONTEXT:
+- Apply DYNAMICS_MEMORY.RECONSOLIDATION_RULES.
+- Propose bounded SET only for lawful mutable memory subfields.
+- Do not rewrite core event into contradictory past.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BEHAVIORAL_IMPULSES ===
+
+IMPULSE_OUTPUT_FORMAT:
+IMPULSE_SOURCE: COT_MEMORY_FORMATION_CRITERIA
+IMPULSE_TYPE: REFLECT | AVOID | OBSESS | INTEGRATE
+IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
+TARGET_ID: MEM_XX | ENT_XX | NONE
+JUSTIFICATION:
+JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRACE_REQUIREMENT ===
+
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include memory formed YES/NO, candidate count, top salience band, admission gate YES/NO, linkage validity, non-admission reason if relevant, impulses, proposal count, and SCHEME_MEMORY compliance.
+
+=== SECTION_BREAK ===
+
+[KEY_TERM: Document Complete]
