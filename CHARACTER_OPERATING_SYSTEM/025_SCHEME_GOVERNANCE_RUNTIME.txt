@@ -67,6 +67,7 @@ QUARANTINE_ENGAGED_CYCLE_ID:
 QUARANTINE_REASON_CODES:
 - Holds bounded reason codes for the current exceptional recovery episode or still-open post-release review, not historical cycles.
 - Append only qualified new systemic reason codes; capped at 5 entries with FIFO eviction.
+- Eviction of an unresolved reason means it is no longer represented in this bounded snapshot; it does not prove repair, resolution, or lawful review closure. The current-cycle audit may identify the evicted reason, but its identity is not retained as a cross-cycle journal.
 - Cleared to [NONE] only when the specific unresolved cause is verified resolved or explicitly resolved by governance-authorized operator review.
 - May remain nonempty after QUARANTINE_MODE becomes FALSE; no automatic re-engagement while pending review remains.
 - A generic PASS or unrelated WARN does not by itself clear the list.
@@ -74,6 +75,9 @@ QUARANTINE_REASON_CODES:
 RECOVERY_DIRECTIVE:
 - A single capped governance-only reformation instruction containing the active reason code, affected target or UNKNOWN, lawful corrective action, and release evidence; not a journal.
 - Maximum 240 characters, overwritten on material correction to a still-open case; no accumulating history.
+- If a cap-5 FIFO update evicts an unresolved reason, include the exact literal FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED in this same bounded directive. The literal indicates incomplete diagnostic coverage, not a new reason code, additional field, or claim of verified repair.
+- Preserve that literal on every later nonempty directive rewrite until explicit governance-authorized operator review acknowledges the lost coverage. Ordinary verified repair of the still-represented reasons alone does not erase the notice.
+- To maintain the existing paired-empty invariant, keep a nonempty represented recovery-review case open until that acknowledgment; the final list and directive may be cleared together only after authorized disposition of the coverage gap. This records review closure, not proof that the evicted cause was repaired.
 - Set with the first qualified systemic recovery case; remains while QUARANTINE_REASON_CODES are unresolved even if QUARANTINE_MODE becomes FALSE.
 - Clear to NONE when all pending recovery causes are verified resolved or governance-authorized operator review closes the case.
 - It must never be exposed through character-cognition COTs or player-character narration.
