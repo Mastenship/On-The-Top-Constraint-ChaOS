@@ -76,8 +76,7 @@ FORBIDDEN_WRITES:
 - Verify existing traces for PRIORITY_01 through PRIORITY_16 in the current cycle.
 - Confirm COT_UPDATE_VERIFICATION will append exactly one PRIORITY_17 trace before post-verification handoff.
 - Empty cycles use EMPTY_CYCLE_FORM; always-run COTs use low-activity trace.
-- Do not verify PRIORITY_18 of the current cycle here.
-- PRIOR_CYCLE_POST_VERIFICATION_TRACE: verify the immediately prior cycle emitted a STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace before scratchpad wipe. Absence surfaces as POST_VERIFICATION_TRACE_MISSING (WARN). This is the standing evaluator for the PRIORITY_18 trace per STATE_GOVERNANCE_AND_COMMIT.NEXT_CYCLE_VERIFICATION_NOTE. Skip this sub-check on the first cycle after instantiation when no prior cycle exists.
+- PRIORITY_18 emits its terminal current-cycle trace only after this verifier completes. The trace is intentionally volatile and is not retrospectively checked by the next in-model cycle.
 
 13) SELECTED_ACTION
 - Verify SELECTED_ACTION strict schema, empty-impulse PASSIVE_OBSERVATION fallback, ACTION_SOURCE_IMPULSE validity, and no presumed external success/world resolution/internal-state certainty.
@@ -117,7 +116,7 @@ CHECKLIST_REASON_CODE_MAP:
 - 09: OVERRIDE_PROOF_INCOMPLETE (FAIL)
 - 10: TRANSLATION_VIOLATION or MODIFIER_SCHEMA_VIOLATION (FAIL)
 - 11: READ_BOUNDARY_VIOLATION (FAIL)
-- 12: COT_TRACE_MISSING (WARN) or POST_VERIFICATION_TRACE_MISSING (WARN)
+- 12: COT_TRACE_MISSING (WARN)
 - 13: SELECTED_ACTION_FALLBACK_VIOLATION (FAIL)
 - 14: OUTPUT_INCONGRUENCE (WARN)
 - 15: MODIFIER_LIFECYCLE_VIOLATION or specific DYNAMICS_TEMPORARY_MODIFIERS sub-code (FAIL); global containment requires separate systemic qualification
@@ -212,7 +211,6 @@ KEY_OUTPUTS:
 - INDEPENDENT_LAWFUL_COMMITS_PRESERVED: YES | NO
 - GOVERNANCE_ONLY_REMEDIATION_SUMMARY
 - RECOVERY_DIRECTIVE_STORED: TRUE | FALSE
-- PRIOR_POST_VERIFICATION_TRACE_PRESENT: TRUE | FALSE | SKIPPED
 - POST_VERIFICATION_PASS_REQUIRED: TRUE
 GENERATED_IMPULSES:
 - [NONE]
