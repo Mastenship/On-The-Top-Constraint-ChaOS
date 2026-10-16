@@ -140,3 +140,40 @@ Review actual source modules before designing contracts; this table is navigatio
 **Not yet decided:** the canonical item record, exact field names, legal enums and operations, COT ownership, effect routing, or verifier additions.
 
 **Implementation status:** no inventory edits have been made to the WIP modules. Do not interpret example paths in this file as new law.
+
+## 9. External map parser and mechanical item definitions — new discussion (2026-10-16)
+
+**USER-ESTABLISHED EXAMPLE:** The human architect is building a map generator and a parser that supplies the character with **slices** of a map. `COT_SPATIAL_EMBODIMENT_PROCESSING` already accepts `MAP_DATA` as external narrative/substrate input. When a character enters darkness carrying a torch, a parser might need the torch's **effective light radius of 20 feet** to determine which parts of a dark map area are illuminated or included in the character's view. The radius is a concrete parameter another system must consume, not simply descriptive prose for the LLM.
+
+**Design consequence under discussion:** We should distinguish at least:
+1. A **mechanical item definition/profile** establishing reproducible parser-facing properties for an item *kind* (e.g., a lit torch emits light with radius 20 feet).
+2. An **individual item instance** in or linked from character inventory, with specific identity, availability, and relevant runtime conditions such as whether the torch is lit.
+3. An **external world/map state and parser**, which knows position, geometry, line of sight, obstacles and environmental conditions, and computes the actual slice delivered to the character.
+
+**WORKING INFERENCE / ASSISTANT PROPOSAL — not yet adopted:**
+- The canonical dictionary defines legal field names, ID/addressing formats, unit/value forms, and interface vocabulary; it should not need one token per radius or one token per conceivable torch type.
+- An item definition/profile can carry numeric, typed, machine-readable values such as `LIGHT_RADIUS_FT: 20` **for the deterministic parser**, even though ChaOS Stage 1's cognitive state mechanics deliberately favor qualitative reasoning. A real geometry engine can compute exact radius/occlusion; the LLM need not emulate that arithmetic.
+- A compact `ITM_XX` record might refer to a definition (e.g., `ITEM_DEFINITION: STANDARD_TORCH`) plus current character-relevant instance state (e.g., `USE_STATE: LIT`), rather than duplicating a 20-foot definition in every torch record. Names are illustrative, not canonical.
+- Alternatively, the sparse item record could store an exact typed `LIGHT_RADIUS_FT` line directly when needed; the location/ownership of profiles versus instance overrides is **OPEN**.
+- **No free omniscience:** mechanical truth used by a DM-controlled parser is not necessarily all character-visible. The character consumes a filtered map slice. If an item's hidden properties are not known to the character, the external mechanical definition should not leak them into character-cognition input through `STATE_INVENTORY`.
+- Light emission, map illumination, unobstructed viewing radius, and actual character perception are different. A nominal 20-foot light radius does not itself establish seeing through walls, smoke, obstructions, or other perception limits.
+- **Authority and sequence:** the character may attempt to light a torch; a proposed action does not itself establish successful ignition. DM/world resolution plus lawful state update must precede treating the torch as lit in authoritative parser calculations. Where the DM directly establishes that a torch is already lit, that established condition can be used as source evidence under the appropriate input contract.
+- Existing `MAP_DATA` is **external input**, not a canonical ChaOS root; avoid inventing such a root or giving a character COT direct access to hidden full-map truth.
+
+### Illustrative interface sketch (not a canonical proposal)
+
+```text
+ITEM_DEFINITION: STANDARD_TORCH
+LIGHT_RADIUS_FT: 20
+
+[ITM_01]
+ITEM_NAME: Torch
+ITEM_DEFINITION: STANDARD_TORCH
+USE_STATE: LIT
+```
+
+Here the **parser** must still establish the relevant light source position and apply obstruction and scene rules before emitting character-visible `MAP_DATA`. The exact record owner, interface schema, light semantics, and definition/instance split have **not** been approved.
+
+**OPEN:** Which system authors and stores these reusable mechanical definitions? Are definitions part of a DM-controlled item catalog, part of an expanded ChaOS scheme, or an explicit negotiated interface between them? How are per-item overrides, multiple light sources, condition changes, unit/scale conversion, and synchronization handled?
+
+**Key refinement:** A descriptive item name may suffice for freeform character improvisation, but **deterministic parser-facing properties must be explicit data**. The inventory ontology may therefore need a machine-consumable mechanical definition in addition to canonical field grammar and optional character-readable description.
