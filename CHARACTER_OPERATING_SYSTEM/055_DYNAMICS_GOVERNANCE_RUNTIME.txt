@@ -72,6 +72,13 @@ ON_NEW_SYSTEMIC_SIGNAL_DURING_PENDING_REVIEW:
 - PROPOSE SET [STATE_GOVERNANCE_RUNTIME][RECOVERY_DIRECTIVE] to the updated <=240-character instruction describing the active unresolved root or combined affected scope, lawful next response, and release evidence.
 - Both SET proposals are an atomic review-snapshot update; unresolved cases do not create an unbounded journal.
 
+FIFO_OVERFLOW_COVERAGE_NOTICE:
+- For either active-recovery or pending-review paired SET, first apply any independently verified reason resolutions, then append only materially distinct qualified systemic reasons in FIFO order. An actual eviction of an unresolved oldest entry at cap 5 triggers the coverage notice.
+- The paired RECOVERY_DIRECTIVE must contain the exact text FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED within the existing 240-character cap, along with an abbreviated current-case reason, affected target or UNKNOWN, lawful corrective action, and release evidence. It is directive content, not a new reason code, field, or audit history.
+- On subsequent nonempty directive updates, preserve an existing notice while the case remains pending; never interpret FIFO displacement as verified root-cause resolution. A final paired clear requires explicit governance-authorized operator acknowledgment of the lost coverage, even if the remaining represented faults were technically corrected.
+- The writer records the evicted reason and unverified disposition in volatile post-verification audit NOTES. The persistent notice does not retain that identity after scratchpad wipe.
+- Overflow alone neither engages nor extends quarantine, changes recovery-cycle timing, or suppresses independently lawful character-state commits.
+
 NON_REENGAGEMENT_RULE:
 - If QUARANTINE_MODE is TRUE, do not re-engage or overwrite QUARANTINE_ENGAGED_CYCLE_ID.
 - If QUARANTINE_MODE is FALSE with outstanding QUARANTINE_REASON_CODES, do not automatically re-engage while the existing recovery case awaits resolution or operator review.
