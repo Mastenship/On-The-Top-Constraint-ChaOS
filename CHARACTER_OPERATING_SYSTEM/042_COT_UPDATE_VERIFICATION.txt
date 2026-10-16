@@ -191,7 +191,9 @@ ON_RECOVERY_CYCLE_CLOSE:
 ON_PENDING_RECOVERY_REVIEW:
 - QUARANTINE_MODE FALSE with nonempty QUARANTINE_REASON_CODES indicates unresolved governance review, not global quarantine.
 - Continue ordinary rigorous validation, suppress unsafe proposals, and preserve independent lawful changes.
-- Clear pending reason codes and paired RECOVERY_DIRECTIVE only on verified root-cause correction or explicit governance-authorized operator review, not an unrelated PASS.
+- Before proposing a distinct systemic reason that would evict an unresolved reason at cap 5, prepare an atomic reason-list and bounded-directive SET pair carrying the literal FIFO_OVERFLOW_UNRESOLVED; REVIEW_REQUIRED. Carry forward an existing notice on later nonempty directive updates. Do not treat eviction as repair.
+- Clear pending reason codes and paired RECOVERY_DIRECTIVE only on verified root-cause correction or explicit governance-authorized operator review, not an unrelated PASS. If the overflow notice is present, final paired clearance additionally requires explicit operator acknowledgment that coverage was lost, even if every represented cause was corrected; do not fabricate a resolution for an evicted reason.
+- An overflow notice is governance-only diagnostic context, not a new quarantine trigger, new verifier reason code, or a demand to inspect a wiped PRIORITY_18 trace.
 - Do not automatically re-engage the same recovery episode.
 
 === SECTION_BREAK ===
