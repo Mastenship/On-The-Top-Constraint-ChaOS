@@ -246,7 +246,6 @@ WARN_AND_PROCEED_WARNINGS:
 - COT_TRACE_MISSING
 - OUTPUT_INCONGRUENCE
 - COT_FIRED_WITHOUT_ANCHOR_CUE
-- POST_VERIFICATION_TRACE_MISSING
 
 RESERVED_REMEDIATION:
 - ROLLBACK is reserved; current substrate suppresses with ROLLBACK_NOT_ACTIVE and uses local containment or operator escalation without unsafe automatic commit.

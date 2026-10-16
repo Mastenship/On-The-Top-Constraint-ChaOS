@@ -63,9 +63,12 @@ POST_VERIFICATION_PASS:
 - Emits POST_VERIFICATION_PASS_AUDIT and one trace.
 - Scratchpad wipe occurs only after this pass completes.
 
-NEXT_CYCLE_VERIFICATION_NOTE:
-- The PRIORITY_18 trace is not verified in its own cycle.
-- The next cycle's COT_UPDATE_VERIFICATION confirms the prior cycle emitted a POST_VERIFICATION_PASS trace before scratchpad wipe, raising POST_VERIFICATION_TRACE_MISSING (WARN) if absent, per COT_UPDATE_VERIFICATION.VERIFICATION_CHECKLIST item 12.
+STAGE_1_TERMINAL_FINALIZATION_BOUNDARY:
+- PRIORITY_18 is the terminal in-model governance operation, after PRIORITY_17.
+- It validates and closes restricted governance-runtime proposals, writes POST_VERIFICATION_PASS_AUDIT, and appends a final current-cycle trace before scratchpad wipe.
+- No later in-model verifier independently checks that terminal trace; the trace is intentionally volatile and cannot be inspected after the wipe.
+- LAST_COMMIT_CYCLE_ID remains a bounded cross-cycle commit-status signal, not independent proof that the terminal trace was emitted or that every PRIORITY_18 action was correct.
+- Retained terminal-finalization evidence and independent verification belong to externalized governance at Stage 2/3; they are not active Stage 1 gates. Activation requires an explicit constitutional update and an actual external mechanism.
 
 POST_VERIFICATION_GATE:
 Lawful post-verification proposals must satisfy all:
@@ -273,7 +276,7 @@ PV_STEP_07_POST_VERIFICATION_AUDIT_AND_TRACE:
 - Write POST_VERIFICATION_PASS_AUDIT.
 - Append STATE_GOVERNANCE_AND_COMMIT_POST_VERIFICATION_PASS trace.
 - Do not invoke COT_UPDATE_VERIFICATION again in the same cycle.
-- The next cycle's verifier confirms this trace was emitted per NEXT_CYCLE_VERIFICATION_NOTE.
+- The final trace is volatile and discarded at the scheduled scratchpad wipe; no next-cycle in-model read-back is required.
 
 === SECTION_BREAK ===
 
@@ -386,7 +389,6 @@ GOVERNANCE_RUNTIME:
 - READ_BOUNDARY_VIOLATION
 - POST_VERIFICATION_TARGET_FORBIDDEN
 - POST_VERIFICATION_SOURCE_INVALID
-- POST_VERIFICATION_TRACE_MISSING
 
 RESERVED:
 - TOOL_ACTUATION_NOT_ACTIVE
