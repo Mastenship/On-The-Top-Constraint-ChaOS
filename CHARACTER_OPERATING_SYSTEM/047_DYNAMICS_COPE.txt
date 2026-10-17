@@ -31,11 +31,12 @@ DISTINCTNESS_RULE:
 [[LLM_INSTRUCTION]]: Selection is deterministic. Bias bands rank mechanisms; ties resolve by cascade.
 
 SELECTION_PROCEDURE:
-1) Read all five COPE_PROBABILITY_BIASES.
+1) Read all COPE_PROBABILITY_BIASES.
 2) Apply situational filters:
    - If SUBSTANCE_USE_RISK = MINIMAL, treat SUBSTANCE_USE_PROBABILITY as one band lower for selection.
    - If CORTISOL is SPIKE or CHRONIC, treat PLANNING_PROBABILITY as one band lower.
    - If fatigue is SEVERE_FATIGUE or EXHAUSTED, treat ACTIVE_COPING_PROBABILITY as one band lower.
+   - If no present or reachable ENT_XX holds TRUST at TRUSTING or IMPLICIT, treat SEEKING_SUPPORT_PROBABILITY as one band lower.
 3) Rank effective bands: EXTREME > HIGH > MODERATE > LOW > MINIMAL.
 4) Select highest-ranked mechanism.
 
@@ -76,7 +77,7 @@ ON_SUBSTANCE_USE_EVENT:
 === SECTION: MALADAPTIVE_ESCALATION ===
 
 ESCALATION_CONDITIONS:
-- Selected mechanism is DENIAL, SUBSTANCE_USE, or VENTING.
+- Selected mechanism is in SCHEME_COPE.MALADAPTIVE_MECHANISMS.
 - Underlying stressor remains unresolved.
 - Same maladaptive mechanism was PRIMARY_MECHANISM in the immediately prior cycle.
 - Continuity is inferred from PRIMARY_MECHANISM persistence; no separate counter exists.
@@ -85,6 +86,8 @@ ESCALATION_BEHAVIOR:
 - SUBSTANCE_USE: bounded SET upward on SUBSTANCE_USE_RISK and SUBSTANCE_USE_PROBABILITY.
 - DENIAL: bounded SET upward on DENIAL_PROBABILITY; optional REALITY_CONTACT_DEGRADATION modifier targeting DPF certainty.
 - VENTING: bounded SET upward on VENTING_PROBABILITY; optional RELATIONAL_FRICTION_AMPLIFICATION modifier targeting relevant relational field.
+- SELF_BLAME: bounded SET upward on SELF_BLAME_PROBABILITY.
+- BEHAVIORAL_DISENGAGEMENT: bounded SET upward on BEHAVIORAL_DISENGAGEMENT_PROBABILITY.
 
 ESCALATION_BOUNDS:
 - One band per field per cycle.
