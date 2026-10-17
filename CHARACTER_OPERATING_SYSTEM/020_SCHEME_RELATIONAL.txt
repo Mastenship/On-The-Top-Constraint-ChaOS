@@ -1,7 +1,7 @@
 === SECTION: SCHEME_RELATIONAL ===
 
 [KEEP: Purpose & Role]
-Immutable structural definition of relational state. Defines relational record schema with explicit directional valence fields, ordinals, registry rules, and invariants.
+Immutable structural definition of relational state. Defines relational record schema with explicit directional valence fields, trust, ordinals, registry rules, and invariants.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -15,6 +15,7 @@ PERCEIVED_RELATIONSHIP_TYPE: STRING_DESCRIPTIVE
 AFFECTIVE_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED] BASELINE_ANCHOR NEUTRAL
 PERCEIVED_OTHER_VALENCE: ORDINAL [HOSTILE, COLD, NEUTRAL, WARM, DEVOTED] BASELINE_ANCHOR NEUTRAL
 COGNITIVE_COMPLEXITY: ORDINAL [ONE_DIMENSIONAL, SIMPLE, NUANCED, COMPLEX] BASELINE_ANCHOR ONE_DIMENSIONAL NO_BASELINE_DRIFT
+TRUST: ORDINAL [DISTRUSTFUL, GUARDED, TRUSTING, IMPLICIT] BASELINE_ANCHOR GUARDED NO_BASELINE_DRIFT OFF_LADDER BETRAYED EXIT DISTRUSTFUL
 INTERACTION_FREQUENCY_ESTIMATE: STRING_DESCRIPTIVE
 DEFINING_MEMORY_SUMMARY: STRING_DESCRIPTIVE
 ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
@@ -24,6 +25,16 @@ ORDINALS:
 AFFECTIVE_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
 PERCEIVED_OTHER_VALENCE_ORDER: HOSTILE < COLD < NEUTRAL < WARM < DEVOTED
 COGNITIVE_COMPLEXITY_ORDER: ONE_DIMENSIONAL < SIMPLE < NUANCED < COMPLEX
+TRUST_ORDER: DISTRUSTFUL < GUARDED < TRUSTING < IMPLICIT
+
+TRUST_NOTE:
+[[LLM_INSTRUCTION]]: TRUST is the character's willingness to rely on the entity. It is independent of AFFECTIVE_VALENCE: a character may love someone they do not trust, or trust someone they dislike.
+- DISTRUSTFUL: expects the entity to fail or deceive them.
+- GUARDED: reserves judgment; the default toward strangers.
+- TRUSTING: relies on the entity in ordinary matters.
+- IMPLICIT: relies on the entity without checking.
+- BETRAYED: an off-ladder rupture after trust the character had extended was deliberately violated. Entered and left by SET per DYNAMICS_RELATIONAL.TRUST_DYNAMICS and CANONICAL_TOKEN_DICTIONARY.OFF_LADDER_MOVEMENT_RULE.
+- TRUST never drifts with time. It moves only on evidence of reliability or its violation.
 
 COGNITIVE_COMPLEXITY_DIRECTION_NOTE:
 [[LLM_INSTRUCTION]]: COGNITIVE_COMPLEXITY accumulates with interaction depth; it does not drift toward baseline.
@@ -73,6 +84,7 @@ BASELINE_ANCHOR_NOTE:
 - Ordinal transitions on both valence fields obey one-step policy unless override proof is valid.
 - AFFECTIVE_VALENCE and PERCEIVED_OTHER_VALENCE move independently on independent evidence.
 - COGNITIVE_COMPLEXITY moves on accumulated interaction depth, independent of either valence direction, and never drifts toward baseline.
+- TRUST moves on reliability evidence, independent of both valences, and never drifts toward baseline.
 - CURRENT_CONCERN should clear on resolution unless refreshed by new cues.
 
 === SECTION_BREAK ===

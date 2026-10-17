@@ -91,6 +91,7 @@ ON_SALIENT_NEW_ENTITY:
 RELATIONAL_MOVEMENT:
 - Durable AFFECTIVE_VALENCE movement requires DYNAMICS_RELATIONAL.MEANINGFUL_INTERACTION_GATE.
 - PERCEIVED_OTHER_VALENCE follows DYNAMICS_RELATIONAL.PERCEIVED_OTHER_VALENCE_DYNAMICS.
+- TRUST follows DYNAMICS_RELATIONAL.TRUST_DYNAMICS. Attachment style biases how readily trust is extended or withdrawn, never moves it without reliability evidence.
 - Direct disclosure may establish the statement occurred; internal state remains INFERENCE unless substrate grants direct access.
 
 ON_POSITIVE_SOCIAL_CUE:
@@ -103,6 +104,7 @@ ON_NEGATIVE_SOCIAL_CUE:
 
 ON_ATTACHMENT_TRIGGER:
 - Propose bounded COPE_PROBABILITY_BIASES movement on attachment cue support only, one band per field per cycle.
+- SEEKING_SUPPORT_PROBABILITY is the field most directly shaped by attachment: ANXIOUS_PREOCCUPIED favors upward movement, AVOIDANT_DISMISSIVE favors downward movement, and FEARFUL_AVOIDANT may move either way with the cue.
 - Coping selection, PRIMARY/SECONDARY mechanism, escalation, stabilization, and substance handling are owned by COT_STRESS_CASCADE_RESOLUTION and are not proposed here.
 - Prefer temporary overlays for acute attachment threat, reassurance need, distancing pressure, or loyalty-testing pressure.
 

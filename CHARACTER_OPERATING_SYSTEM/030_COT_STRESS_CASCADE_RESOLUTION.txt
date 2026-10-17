@@ -25,7 +25,7 @@ ANCHOR_CUES:
 - Active modifier targets HYPERVIGILANCE or CHRONIC_LOAD_NUMBING.
 - SIGNIFICANT or CLINICAL MMPI scale interacts with moderate cue per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
 - Substance-use event relevant to coping is present.
-- A maladaptive PRIMARY_MECHANISM (DENIAL, SUBSTANCE_USE, VENTING) persisted from the prior cycle with the stressor unresolved, or a stressor resolves while coping bands remain off baseline.
+- A maladaptive PRIMARY_MECHANISM (any of SCHEME_COPE.MALADAPTIVE_MECHANISMS) persisted from the prior cycle with the stressor unresolved, or a stressor resolves while coping bands remain off baseline.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.

@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_RELATIONAL ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for affective valence, perceived-other-valence, cognitive complexity, encounter onboarding, and concern resolution. Valence fields are independent and evidence-specific.
+Immutable mechanics for affective valence, perceived-other-valence, cognitive complexity, trust, encounter onboarding, and concern resolution. Valence fields are independent and evidence-specific.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -130,7 +130,60 @@ ON_FORCED_RECATEGORIZATION:
 - Lowering usually requires explicit cue and override proof.
 
 DECOUPLING_RULE:
-- Movement on AFFECTIVE_VALENCE, PERCEIVED_OTHER_VALENCE, and COGNITIVE_COMPLEXITY requires independent justification.
+- Movement on AFFECTIVE_VALENCE, PERCEIVED_OTHER_VALENCE, COGNITIVE_COMPLEXITY, and TRUST requires independent justification.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRUST_DYNAMICS ===
+
+[[LLM_INSTRUCTION]]: TRUST moves on evidence of the entity's reliability, not on feeling or time. It never drifts toward baseline per SCHEME_RELATIONAL.TRUST_NOTE.
+
+EVIDENCE_TYPES:
+- Commitments kept or broken.
+- Confidences kept or exposed.
+- Reliability or abandonment when it cost the entity something.
+- Deception discovered or honesty demonstrated.
+- Use EPISTEMIC_TAG PERCEPTION for directly witnessed evidence and INFERENCE for reported or inferred evidence.
+
+ON_RELIABILITY_DEMONSTRATED:
+- If MEANINGFUL_INTERACTION_GATE is met:
+  - PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][TRUST]
+    PROPOSED_VALUE: ONE_STEP_UP
+    MECHANISM_TAG: RELIABILITY_EVIDENCE
+    JUSTIFICATION: entity proved reliable when it mattered
+
+ON_RELIABILITY_FAILURE:
+- If MEANINGFUL_INTERACTION_GATE is met:
+  - PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][TRUST]
+    PROPOSED_VALUE: ONE_STEP_DOWN
+    MECHANISM_TAG: RELIABILITY_FAILURE
+    JUSTIFICATION: entity failed a reliance the character placed on them
+
+ON_BETRAYAL_EVENT:
+- A betrayal is a deliberate violation of trust the character had extended.
+- If TRUST is GUARDED, TRUSTING, or IMPLICIT:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][TRUST]
+    PROPOSED_VALUE: BETRAYED
+    MECHANISM_TAG: TRUST_RUPTURE
+    JUSTIFICATION: deliberate violation of extended trust
+- If TRUST is DISTRUSTFUL, the act confirms an existing expectation; it is not a rupture. Record it through memory or AFFECTIVE_VALENCE as warranted.
+- Entering BETRAYED is one SET per CANONICAL_TOKEN_DICTIONARY.OFF_LADDER_MOVEMENT_RULE; no override proof is needed for the rupture itself.
+- Betrayal usually also warrants a separate AFFECTIVE_VALENCE proposal and a memory candidate; each needs its own justification under DECOUPLING_RULE.
+
+ON_REPAIR_EVENT:
+- Leaving BETRAYED requires a meaningful repair act by the entity, such as restitution, sacrifice, or sustained proof of change. Time alone never repairs it.
+- PROPOSE SET:
+  TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][TRUST]
+  PROPOSED_VALUE: DISTRUSTFUL
+  MECHANISM_TAG: TRUST_REPAIR
+  JUSTIFICATION: meaningful repair act after betrayal
+- Further recovery proceeds one step at a time through ON_RELIABILITY_DEMONSTRATED.
+
+ATTACHMENT_BIAS:
+- Attachment style may bias how readily trust is extended or withdrawn per COT_ATTACHMENT_BEHAVIORAL_MAPPING. It never moves TRUST without reliability evidence.
 
 === SECTION_BREAK ===
 
@@ -150,6 +203,7 @@ DEFAULT_NEW_ENTITY_VALUES:
 - AFFECTIVE_VALENCE: NEUTRAL
 - PERCEIVED_OTHER_VALENCE: NEUTRAL
 - COGNITIVE_COMPLEXITY: ONE_DIMENSIONAL
+- TRUST: GUARDED, unless a same-cycle cue or SCHEME_BACKGROUND.OUTLOOK_ON_OUTSIDERS_AND_STRANGERS supports DISTRUSTFUL or TRUSTING
 - INTERACTION_FREQUENCY_ESTIMATE: derived from cue
 - CURRENT_CONCERN: derived from cue or NONE
 
@@ -173,7 +227,8 @@ ON_CONCERN_REFRESH:
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- The three relational ladders have independent evidence types.
+- The four relational ladders have independent evidence types.
+- TRUST moves only on reliability evidence; BETRAYED is an off-ladder rupture entered and left by SET.
 - One-step law applies; multi-step shifts require override proof.
 - PERCEIVED_OTHER_VALENCE is inference-based by default.
 - Persistent AFFECTIVE_VALENCE movement requires MEANINGFUL_INTERACTION_GATE.
