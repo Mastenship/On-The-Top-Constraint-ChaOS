@@ -47,6 +47,7 @@ TIE_BREAKERS:
 
 SELECTION_OUTCOME:
 - Selected mechanism is the cycle's effective coping route.
+- The route reaches behavior through the executing COT's COPE impulse per COT_STRESS_CASCADE_RESOLUTION.COPE_IMPULSE_RULE, weighed by COT_DECISION_SYNTHESIS like any other impulse.
 - If selection differs from PRIMARY_MECHANISM and persists across cues:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_COPE][ACTIVE_COPE_CONFIGURATION][PRIMARY_MECHANISM]

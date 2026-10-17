@@ -122,6 +122,7 @@ ON_CHRONIC_PATTERN:
 ON_ACUTE_STRESS:
 - Run DYNAMICS_COPE.COPE_SELECTION_RULE for the effective coping route.
 - Propose bounded SET on cue-supported COPE_PROBABILITY_BIASES fields toward the selected route.
+- Emit one COPE impulse per BEHAVIORAL_IMPULSE_GENERATION so the selected route can become the character's action this turn.
 
 ON_MALADAPTIVE_PERSISTENCE:
 - Apply DYNAMICS_COPE.MALADAPTIVE_ESCALATION; propose bounded SET on the relevant probability field (and SUBSTANCE_USE_RISK for substance) plus the family-named escalation modifier defined there.
@@ -151,13 +152,19 @@ DISTINCTNESS_RULE:
 
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_STRESS_CASCADE_RESOLUTION
-IMPULSE_TYPE: FIGHT | FLIGHT | FREEZE | FAWN | APPEASE | WITHDRAW
+IMPULSE_TYPE: FIGHT | FLIGHT | FREEZE | FAWN | APPEASE | WITHDRAW | COPE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
 TARGET_ID: ENT_XX | NONE
 JUSTIFICATION:
 JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 [[LLM_INSTRUCTION]]: FAWN is the canonical fourth-F placation response. APPEASE is distinct goal-directed conciliation.
+
+COPE_IMPULSE_RULE:
+- COPE expresses the selected coping mechanism as something the character can do on their turn: seek someone out, crack a joke, pray, keep busy, dismiss the problem, reach for a drink, give up, and so on.
+- Name the selected mechanism in JUSTIFICATION.
+- For SEEKING_SUPPORT, TARGET_ID is the trusted ENT_XX the character would turn to; for a mechanism aimed at a specific entity, such as VENTING at someone, TARGET_ID is that entity; otherwise NONE.
+- The impulse is what the character attempts. Whether the person is there, or how it lands, belongs to the Dungeon Master's world.
 
 === SECTION_BREAK ===
 
