@@ -36,4 +36,4 @@ OPENNESS_TO_EXPERIENCE: Aesthetic appreciation, inquisitiveness, creativity, unc
 
 === SECTION_BREAK ===
 
-[KEY_TERM: Document Complete]
+[KEY_TERM: Document Complete]

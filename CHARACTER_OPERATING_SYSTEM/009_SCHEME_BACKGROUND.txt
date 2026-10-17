@@ -74,4 +74,4 @@ WORLDVIEW_PRIOR_RULE:
 
 === SECTION_BREAK ===
 
-[KEY_TERM: Document Complete]
+[KEY_TERM: Document Complete]
