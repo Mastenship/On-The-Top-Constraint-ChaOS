@@ -92,7 +92,7 @@ ON_RECOVERY_OR_BASELINE_RETURN:
 
 SNAPSHOT_NOTE:
 - Cardiovascular snapshots track biochemical state; they do not independently drift and are not subject to cumulative-ordinal counting because they are not ordinal.
-- LOW and the clinical poles (HYPOTENSION, BRADYPNEA) are reached by SET only under explicit matching cue.
+- LOW and the low clinical poles (BRADYCARDIC, HYPOTENSION, BRADYPNEA) are reached by SET only under explicit matching cue.
 
 === SECTION_BREAK ===
 
@@ -160,4 +160,4 @@ IMMUNE_TERMINAL_RECONCILIATION_NOTE:
 
 === SECTION_BREAK ===
 
-[KEY_TERM: Document Complete]
+[KEY_TERM: Document Complete]
