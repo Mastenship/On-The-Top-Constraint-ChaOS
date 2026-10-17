@@ -383,6 +383,7 @@ EVIDENCE_REF_PREDICTION_RULE:
 - Both forms establish a settled prediction outcome as fact.
 - FALSIFIED is not a clean resolution event and is not evidence-eligible.
 - ACTIVE predictions are never evidence-eligible.
+- Terminal STATE meanings and their checkable markers are defined in SCHEME_DPF.PREDICTION_STATE_SEMANTICS.
 
 DISCLOSURE_BOUNDARY:
 - Direct disclosure may establish that a statement occurred.

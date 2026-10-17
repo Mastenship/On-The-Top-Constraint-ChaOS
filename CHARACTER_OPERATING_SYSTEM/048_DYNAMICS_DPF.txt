@@ -53,11 +53,12 @@ ON_MINOR_CONTRADICTION:
     TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
     PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
     JUSTIFICATION: prediction contradiction cue
-- If certainty falls below falsification threshold with cue support:
+- If committed PRD_XX.CERTAINTY is at SCHEME_DPF.FALSIFICATION_THRESHOLD and a further contradiction cue arrives without a resolution event:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
-    PROPOSED_VALUE: FALSIFIED | RESOLVED_NEGATIVE
-    JUSTIFICATION: contradiction resolution cue
+    PROPOSED_VALUE: FALSIFIED
+    MECHANISM_TAG: PREDICTION_CONTRADICTION_ACCUMULATION
+    JUSTIFICATION: accumulated contradiction without resolution event
 - If contradiction load exceeds cycle tolerance:
   - queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE
 
@@ -66,7 +67,15 @@ ON_RESOLUTION_EVENT:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
     PROPOSED_VALUE: RESOLVED
+    MECHANISM_TAG: PREDICTION_RESOLUTION_EVENT
     JUSTIFICATION: resolution cue
+- If contradicted:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+    PROPOSED_VALUE: RESOLVED_NEGATIVE
+    MECHANISM_TAG: PREDICTION_RESOLUTION_EVENT
+    JUSTIFICATION: resolution cue contradicted hypothesis
+- Terminal STATE semantics and markers follow SCHEME_DPF.PREDICTION_STATE_SEMANTICS.
 - Certainty reinforcement may SET adjacent higher band on PRD_XX.CERTAINTY or DPF CERTAINTY_LEVEL.VALUE.
 
 ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
