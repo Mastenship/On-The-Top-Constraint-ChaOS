@@ -38,6 +38,14 @@ NON_ADMISSION_CASES:
 ADMISSION_RESULT:
 - If not admitted, keep interpretation in [COGNITIVE_SCRATCHPAD][CURRENT_DPF] or temporary modifier.
 - If admitted, use SET pair and respect MAX_ACTIVE_PREDICTIONS.
+- If admitted at MAX_ACTIVE_PREDICTIONS, the new prediction may displace the lowest-certainty ACTIVE prediction:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+    PROPOSED_VALUE: FALSIFIED
+    MECHANISM_TAG: PREDICTION_CAP_DISPLACEMENT
+    JUSTIFICATION: newer expectation displaces the stalest active prediction
+  - The displacement and the new creation pair are one linked unit per SCHEME_DPF.PREDICTION_STATE_SEMANTICS.
+  - Time decay per COT_TEMPORAL_DECAY_RESOLUTION is what lets stale, unconfirmed predictions sink to lowest certainty.
 
 === SECTION_BREAK ===
 

@@ -43,7 +43,7 @@ ON_PREDICTION_CANDIDATE:
   - PROPOSE SET pair:
     - [STATE_DPF][PREDICTION_REGISTRY] append PRD_XX
     - [STATE_DPF][PRD_XX] schema-valid prediction record
-  - respect MAX_ACTIVE_PREDICTIONS.
+  - respect MAX_ACTIVE_PREDICTIONS. At the cap, pair the creation with a cap-displacement SET on the lowest-certainty active prediction per DYNAMICS_DPF.ADMISSION_RESULT.
 - If gate fails:
   - keep interpretation in CURRENT_DPF or temporary modifier.
 

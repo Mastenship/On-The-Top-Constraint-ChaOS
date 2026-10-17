@@ -91,18 +91,22 @@ RESOLVED_NEGATIVE:
 - Marker: proposal MECHANISM_TAG is PREDICTION_RESOLUTION_EVENT.
 
 FALSIFIED:
-- Meaning: the prediction was abandoned because accumulated contradiction cues wore its certainty down, without a decisive resolution event. No clean test occurred.
-- Marker: proposal MECHANISM_TAG is PREDICTION_CONTRADICTION_ACCUMULATION, and the committed [STATE_DPF][PRD_XX][CERTAINTY] is already at FALSIFICATION_THRESHOLD.
+- Meaning: the prediction was abandoned without a decisive resolution event. No clean test occurred. It ends one of two ways, each with its own marker.
+- Contradiction marker: proposal MECHANISM_TAG is PREDICTION_CONTRADICTION_ACCUMULATION, and the committed [STATE_DPF][PRD_XX][CERTAINTY] is already at FALSIFICATION_THRESHOLD. Accumulated contradiction wore the prediction down.
+- Displacement marker: proposal MECHANISM_TAG is PREDICTION_CAP_DISPLACEMENT, the target is the lowest-certainty ACTIVE prediction (any one of those tied for lowest), and the same cycle carries a new PRD_XX creation pair at MAX_ACTIVE_PREDICTIONS. A newer expectation pushed out the stalest one. FALSIFICATION_THRESHOLD does not apply to displacement.
 
 FALSIFICATION_THRESHOLD: MINIMAL
 
 EVIDENCE_CONSEQUENCE:
 - RESOLVED and RESOLVED_NEGATIVE are settled outcomes and are evidence-eligible per CANONICAL_TOKEN_DICTIONARY.EVIDENCE_REF_PREDICTION_RULE.
 - FALSIFIED is not evidence-eligible because no resolution event tested the HYPOTHESIS.
+- A cap displacement is bookkeeping for a stale expectation, not a narrative event. It does not by itself warrant memory formation or a DPF contrast.
 
 ENFORCEMENT:
-- Terminal STATE SET whose MECHANISM_TAG does not match the marker for that STATE: SCHEME_INVARIANT_VIOLATION.
-- FALSIFIED SET while committed PRD_XX.CERTAINTY is above FALSIFICATION_THRESHOLD: SCHEME_INVARIANT_VIOLATION.
+- Terminal STATE SET whose MECHANISM_TAG does not match a marker for that STATE: SCHEME_INVARIANT_VIOLATION.
+- FALSIFIED with PREDICTION_CONTRADICTION_ACCUMULATION while committed PRD_XX.CERTAINTY is above FALSIFICATION_THRESHOLD: SCHEME_INVARIANT_VIOLATION.
+- FALSIFIED with PREDICTION_CAP_DISPLACEMENT on a prediction that is not lowest-certainty, or without a same-cycle creation pair at the cap: SCHEME_INVARIANT_VIOLATION.
+- A displacement and its paired creation are a linked unit; neither commits without the other.
 
 === SECTION_BREAK ===
 
@@ -114,7 +118,7 @@ ENFORCEMENT:
 - No duplicate PREDICTION_ID.
 - New prediction insertion follows strict SET pair contract.
 - Active prediction count is governance-capped per STATE_GOVERNANCE_OVERLAY.MAX_ACTIVE_PREDICTIONS.
-- Excess creations are suppressed with DPF_PREDICTION_CAP_EXCEEDED unless override proof concurrently resolves or falsifies the lowest-certainty existing prediction.
+- Excess creations are suppressed with DPF_PREDICTION_CAP_EXCEEDED unless the same cycle lawfully closes an active prediction, per STATE_GOVERNANCE_OVERLAY.PREDICTION_LIMITS: by resolution, by contradiction falsification, or by cap displacement of the lowest-certainty prediction per PREDICTION_STATE_SEMANTICS.
 
 === SECTION_BREAK ===
 

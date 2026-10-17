@@ -22,7 +22,7 @@ Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF
 ANCHOR_CUES:
 - Narrative input contains high-emotional-arousal, novelty, or consequence event.
 - Salient state change occurred this cycle.
-- Prediction was resolved, resolved negatively, or falsified.
+- Prediction was resolved, resolved negatively, or falsified by contradiction. A cap displacement alone is not an anchor.
 - Flashbulb-class event is present.
 - Existing MEM_XX has reconsolidation pressure.
 - Current cue may contribute to persistence cluster.
