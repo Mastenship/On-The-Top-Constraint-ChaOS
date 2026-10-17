@@ -554,7 +554,7 @@ IMMUTABLE_BASELINE_BEARING_MODULES:
 RUNTIME_RULES:
 - STATE_ modules store mutable runtime values.
 - SCHEME_ modules are read-only during runtime.
-- Immutable baseline-bearing SCHEME values may be set during instantiation only, or by explicit architecture-level watershed-equivalent override.
+- Immutable baseline-bearing SCHEME values may be set during instantiation only: first-time seeding, or an out-of-character baseline revision per COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION. No in-play event, override proof, or INVOKED_RULE_NAME changes them.
 - Runtime write to immutable baseline-bearing SCHEME outside instantiation: SCHEME_IMMUTABLE_BASELINE_WRITE.
 
 === SECTION_BREAK ===
