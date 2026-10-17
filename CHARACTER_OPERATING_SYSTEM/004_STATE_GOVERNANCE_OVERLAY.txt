@@ -74,6 +74,7 @@ COUPLED_MOVEMENT_REGISTRY:
 - A coupled set counts once only when every member moves one step in the same ladder direction in the same cycle under aligned mechanism.
 - Members moving independently, in opposite directions, or beyond one step each count separately and are not collapsed.
 - Coupling never raises a member above its own one-step-per-field limit.
+- Entry to or exit from an off-ladder member has no ladder direction and never forms part of a coupled set.
 - Additions require constitutional update.
 
 MEMORY_LIMITS:

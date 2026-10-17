@@ -21,7 +21,7 @@ Is Informed By: STATE_MEMORY, personality schemes, STATE_RELATIONAL, STATE_COPE,
 
 ANCHOR_CUES:
 - Narrative input describes ACUTE_PHYSICAL_THREAT, ACUTE_SOCIAL_THREAT, CHRONIC_OVERLOAD, LOSS_OR_GRIEF, UNCERTAINTY_OR_AMBIGUITY, or EXISTENTIAL stressor.
-- STATE_BODY biochemical markers are above baseline.
+- STATE_BODY biochemical markers are not at baseline, including arc phases per SCHEME_BODY.ARC_PHASE_NOTE.
 - Active modifier targets HYPERVIGILANCE or CHRONIC_LOAD_NUMBING.
 - SIGNIFICANT or CLINICAL MMPI scale interacts with moderate cue per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
 - Substance-use event relevant to coping is present.
@@ -69,8 +69,9 @@ ON_SUSTAINED_OR_REPEATED_STRESS:
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: sustained stress cue
 
-ON_CHRONIC_PATTERN:
-- Propose chronic-state movement only if step limits or override rules permit.
+ON_PEAK_OR_SUSTAINED_PATTERN:
+- ONE_STEP_UP above applies only below the ladder top: ADRENALINE below PEAK, CORTISOL below SPIKE.
+- At the ladder top, or for comedown, exhaustion, chronic load, and recovery, propose arc-phase SETs per DYNAMICS_BODY.BIOCHEMICAL_ARC_PHASES.
 
 === SECTION_BREAK ===
 
