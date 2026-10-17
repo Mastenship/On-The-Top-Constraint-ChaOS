@@ -99,4 +99,4 @@ DEADLINE_RESPONSE: ENUM [ENERGIZED, PARALYZED, STEADY]
 
 === SECTION_BREAK ===
 
-[KEY_TERM: Document Complete]
+[KEY_TERM: Document Complete]

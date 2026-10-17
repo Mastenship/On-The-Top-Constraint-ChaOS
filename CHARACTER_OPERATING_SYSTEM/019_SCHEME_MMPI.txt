@@ -54,4 +54,4 @@ SCALE_0_SOCIAL_INTROVERSION: Shyness, withdrawal, low social ease.
 
 === SECTION_BREAK ===
 
-[KEY_TERM: Document Complete]
+[KEY_TERM: Document Complete]
