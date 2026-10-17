@@ -78,6 +78,34 @@ ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
 
 === SECTION_BREAK ===
 
+=== SECTION: PREDICTION_STATE_SEMANTICS ===
+
+[[LLM_INSTRUCTION]]: Choose the terminal STATE by how the prediction ended, not by whether the outcome was good or bad. Each terminal STATE carries a checkable marker so governance can verify the choice without interpreting the narrative.
+
+RESOLVED:
+- Meaning: the prediction's resolution condition occurred and the outcome matched the HYPOTHESIS.
+- Marker: proposal MECHANISM_TAG is PREDICTION_RESOLUTION_EVENT.
+
+RESOLVED_NEGATIVE:
+- Meaning: the prediction's resolution condition occurred and the outcome contradicted the HYPOTHESIS. This is a clean test with a settled answer.
+- Marker: proposal MECHANISM_TAG is PREDICTION_RESOLUTION_EVENT.
+
+FALSIFIED:
+- Meaning: the prediction was abandoned because accumulated contradiction cues wore its certainty down, without a decisive resolution event. No clean test occurred.
+- Marker: proposal MECHANISM_TAG is PREDICTION_CONTRADICTION_ACCUMULATION, and the committed [STATE_DPF][PRD_XX][CERTAINTY] is already at FALSIFICATION_THRESHOLD.
+
+FALSIFICATION_THRESHOLD: MINIMAL
+
+EVIDENCE_CONSEQUENCE:
+- RESOLVED and RESOLVED_NEGATIVE are settled outcomes and are evidence-eligible per CANONICAL_TOKEN_DICTIONARY.EVIDENCE_REF_PREDICTION_RULE.
+- FALSIFIED is not evidence-eligible because no resolution event tested the HYPOTHESIS.
+
+ENFORCEMENT:
+- Terminal STATE SET whose MECHANISM_TAG does not match the marker for that STATE: SCHEME_INVARIANT_VIOLATION.
+- FALSIFIED SET while committed PRD_XX.CERTAINTY is above FALSIFICATION_THRESHOLD: SCHEME_INVARIANT_VIOLATION.
+
+=== SECTION_BREAK ===
+
 === SECTION: REGISTRY_RULES ===
 
 - [STATE_DPF][PREDICTION_REGISTRY] lists all PREDICTION_ID tokens.
