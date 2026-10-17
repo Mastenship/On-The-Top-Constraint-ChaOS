@@ -278,6 +278,14 @@ ORDINAL_DECLARATION_RULE:
 - BASELINE_ANCHOR defaults to the first bracket member; a field whose baseline differs declares BASELINE_ANCHOR <member> inline after the bracket.
 - ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL resolve toward BASELINE_ANCHOR.
 - A field may declare OFF_LADDER <member>; an off-ladder member is reached only by SET, never by relative transition.
+- An off-ladder member may declare EXIT <member> inline: the on-ladder member that a recovery SET returns to.
+
+OFF_LADDER_MOVEMENT_RULE:
+- A SET entering or leaving an off-ladder member counts as one step for per-field and cumulative movement limits.
+- The owning DYNAMICS module defines when entry is lawful.
+- Exit targets the declared EXIT member, or any on-ladder member when no EXIT is declared. Any other exit target requires complete override proof.
+- Relative transition directives are unlawful while the field holds an off-ladder member.
+- Ladder comparisons such as "X or higher" refer to on-ladder positions only and never include off-ladder members.
 - A field treated as ordinal by any DYNAMICS module without an ORDINAL declaration in its owning SCHEME surfaces as SCHEME_INVARIANT_VIOLATION.
 
 NO_BASELINE_DRIFT_MARKER:

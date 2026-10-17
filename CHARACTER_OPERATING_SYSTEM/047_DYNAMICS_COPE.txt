@@ -34,7 +34,7 @@ SELECTION_PROCEDURE:
 1) Read all five COPE_PROBABILITY_BIASES.
 2) Apply situational filters:
    - If SUBSTANCE_USE_RISK = MINIMAL, treat SUBSTANCE_USE_PROBABILITY as one band lower for selection.
-   - If CORTISOL is SPIKE or higher, treat PLANNING_PROBABILITY as one band lower.
+   - If CORTISOL is SPIKE or CHRONIC, treat PLANNING_PROBABILITY as one band lower.
    - If fatigue is SEVERE_FATIGUE or EXHAUSTED, treat ACTIVE_COPING_PROBABILITY as one band lower.
 3) Rank effective bands: EXTREME > HIGH > MODERATE > LOW > MINIMAL.
 4) Select highest-ranked mechanism.

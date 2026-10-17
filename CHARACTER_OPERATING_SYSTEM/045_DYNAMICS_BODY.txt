@@ -70,7 +70,7 @@ ON_ACUTE_AROUSAL_OR_ADRENALINE_RISE:
   - Resolve the pipe alternative to one concrete endpoint by cue intensity before scratchpad entry.
 
 ON_SUSTAINED_CORTISOL_ELEVATION:
-- When CORTISOL is SPIKE or higher:
+- When CORTISOL is SPIKE or CHRONIC:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][CARDIOVASCULAR][BLOOD_PRESSURE]
     PROPOSED_VALUE: HYPERTENSION
@@ -110,9 +110,36 @@ ON_REST_CYCLE_WITHOUT_ACTIVE_STRESS:
     PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
     JUSTIFICATION: sympathetic cooldown cue
 
+- Both transitions above apply only to on-ladder values. When CORTISOL is CHRONIC or CRASH, or ADRENALINE is POST_PEAK or DEPLETED, recovery uses BIOCHEMICAL_ARC_PHASES.ARC_PHASE_RECOVERY instead.
+
 RECOVERY_GATE:
 - Requires explicit rest, safety, cooldown, treatment, or absence of active stressor.
 - If active stressor remains, prefer suppression or temporary stabilization overlay.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BIOCHEMICAL_ARC_PHASES ===
+
+[[LLM_INSTRUCTION]]: POST_PEAK, DEPLETED, CHRONIC, and CRASH are OFF_LADDER arc phases per SCHEME_BODY.ARC_PHASE_NOTE. Each entry or exit is one SET counted as one step per CANONICAL_TOKEN_DICTIONARY.OFF_LADDER_MOVEMENT_RULE.
+
+SYMPATHETIC_ARC:
+- POST_PEAK: SET from PEAK when the acute threat ends; the comedown.
+- DEPLETED: SET from PEAK or POST_PEAK when activation has been sustained or repeated without recovery.
+- While ADRENALINE is PEAK, continued acute threat holds PEAK; do not propose ONE_STEP_UP.
+
+HPA_ARC:
+- CHRONIC: SET from ELEVATED or SPIKE when stress has persisted across many cycles without recovery.
+- CRASH: SET from CHRONIC only, when chronic load continues to exhaustion.
+- While CORTISOL is SPIKE, further sustained stress moves toward CHRONIC by this rule; do not propose ONE_STEP_UP.
+
+ARC_PHASE_RECOVERY:
+- Recovery from an arc phase is one SET to the phase's declared EXIT member in SCHEME_BODY, subject to RECOVERY_GATE.
+- POST_PEAK and DEPLETED exit to BASELINE. CHRONIC exits to ELEVATED. CRASH exits to BASELINE.
+- After exit, ordinary ONE_STEP_TOWARD_BASELINE recovery resumes on the ladder.
+
+ARC_PHASE_EFFECTS:
+- CHRONIC sustains the elevated-cortisol cardiovascular readout per ON_SUSTAINED_CORTISOL_ELEVATION.
+- CRASH, POST_PEAK, and DEPLETED do not trigger elevated cardiovascular readouts; they read as fatigue, shakiness, and low reserve.
 
 === SECTION_BREAK ===
 
