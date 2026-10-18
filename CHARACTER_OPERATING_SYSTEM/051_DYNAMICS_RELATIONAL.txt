@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_RELATIONAL ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for affective valence, perceived-other-valence, cognitive complexity, trust, encounter onboarding, and concern resolution. Valence fields are independent and evidence-specific.
+Immutable mechanics for affective valence, perceived-other-valence, cognitive complexity, trust, attachment injury, encounter onboarding, and concern resolution. Valence fields are independent and evidence-specific.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -57,7 +57,7 @@ ON_MEANINGFUL_NEGATIVE_INTERACTION:
     JUSTIFICATION: meaningful negative emotional response
 
 ON_BETRAYAL_OR_HARM_EVENT:
-- Multi-step downward movement requires full override proof.
+- Multi-step downward movement requires ATTACHMENT_INJURY proof.
 
 ALLY_PROXIMITY_NOTE:
 - Ally proximity alone ordinarily produces temporary comfort/co-regulation overlay.
@@ -127,7 +127,7 @@ ON_FORCED_RECATEGORIZATION:
   TARGET_FIELD: [STATE_RELATIONAL][ENT_XX][COGNITIVE_COMPLEXITY]
   PROPOSED_VALUE: lawful lower band
   JUSTIFICATION: forced recategorization cue
-- Lowering usually requires explicit cue and override proof.
+- Lowering requires an explicit cue. More than one band in a cycle requires ATTACHMENT_INJURY proof.
 
 DECOUPLING_RULE:
 - Movement on AFFECTIVE_VALENCE, PERCEIVED_OTHER_VALENCE, COGNITIVE_COMPLEXITY, and TRUST requires independent justification.
@@ -187,6 +187,47 @@ ATTACHMENT_BIAS:
 
 === SECTION_BREAK ===
 
+=== SECTION: ATTACHMENT_INJURY ===
+
+[[LLM_INSTRUCTION]]: ATTACHMENT_INJURY is the named override trigger for betrayal, abandonment, or harm by someone the character cares about, especially at a moment of need. An attachment injury violates the assumptions the bond rests on, and the character must redefine the relationship. Feeling can fall further than one step in that moment. Love does not always turn to hatred; it may land on coldness or a numb neutrality instead.
+
+GRANT_CONDITION:
+- AFFECTIVE_VALENCE toward the ENT_XX is WARM or DEVOTED.
+- The Dungeon Master's narration establishes a deliberate betrayal, an abandonment at a moment of need, or deliberate harm by that entity.
+- The character witnesses the act or has strong evidence of it. Rumor or suspicion alone moves by the ordinary one step.
+
+COVERED_FIELDS:
+- [STATE_RELATIONAL][ENT_XX][AFFECTIVE_VALENCE]
+- [STATE_RELATIONAL][ENT_XX][COGNITIVE_COMPLEXITY], when the act forces the character to recategorize who the entity is
+- [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][SAFETY_DRIVES][EMOTIONAL_SAFETY]
+- Deterioration direction only. Each covered field needs its own justification per DECOUPLING_RULE.
+
+ENDPOINTS:
+- AFFECTIVE_VALENCE to NEUTRAL, COLD, or HOSTILE, as the character's own response supports.
+- COGNITIVE_COMPLEXITY to the band the recategorization supports, as low as ONE_DIMENSIONAL.
+- EMOTIONAL_SAFETY to THREATENED, or to VIOLATED when the bond was central to the character's sense of safety.
+
+EXCLUDED:
+- TRUST, which enters BETRAYED by one SET per TRUST_DYNAMICS.ON_BETRAYAL_EVENT.
+- PERCEIVED_OTHER_VALENCE, which remains inference about the entity per PERCEIVED_OTHER_VALENCE_DYNAMICS.
+- Beliefs, coping, and memories, which follow their own rules.
+
+ATTACHMENT_STYLE_NOTE:
+- Attachment style shapes how far feeling falls and how the character responds, per COT_ATTACHMENT_BEHAVIORAL_MAPPING. It never supplies the injury.
+
+PROOF_FIELDS:
+- INVOKED_RULE_NAME: ATTACHMENT_INJURY
+- NARRATIVE_CUE_REFERENCE: the Dungeon Master's statement of the betrayal, abandonment, or harm
+- SCHEME_INVARIANT_NOTE: names the target field's ladder in SCHEME_RELATIONAL.RELATIONAL_RECORD_SCHEMA or SCHEME_GOALS_MOTIVATIONS.DRIVE_STATES and asserts the endpoint lies on it, in the deterioration direction, within ENDPOINTS
+- MECHANISM_TAG: ATTACHMENT_INJURY_RESPONSE
+- Use SET to the explicit endpoint. Relative transition directives move one step only.
+
+ENFORCEMENT:
+- ATTACHMENT_INJURY used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
+- Movement backed by ATTACHMENT_INJURY proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
+
+=== SECTION_BREAK ===
+
 === SECTION: NEW_ENTITY_ENCOUNTER ===
 
 SALIENT_SOCIAL_ENCOUNTER_GATE:
@@ -229,7 +270,7 @@ ON_CONCERN_REFRESH:
 
 - The four relational ladders have independent evidence types.
 - TRUST moves only on reliability evidence; BETRAYED is an off-ladder rupture entered and left by SET.
-- One-step law applies; multi-step shifts require override proof.
+- One-step law applies; multi-step downward shifts require ATTACHMENT_INJURY proof.
 - PERCEIVED_OTHER_VALENCE is inference-based by default.
 - Persistent AFFECTIVE_VALENCE movement requires MEANINGFUL_INTERACTION_GATE.
 - Ally proximity alone produces overlay effects, not durable valence movement.

@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_SKILLS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for skill acquisition, mastery progression, instinct automation, atrophy, plateau behavior, and skill-change thresholding.
+Immutable mechanics for skill acquisition, mastery progression, instinct automation, rust from disuse, capability loss, plateau behavior, and skill-change thresholding.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -24,7 +24,7 @@ A permanent skill transition is warranted only when at least one is true:
 - Deliberate practice is explicit, sustained, and skill-relevant.
 - Breakthrough event is memory-linked and salience-supported.
 - Repeated successful execution shows durable automation beyond one scene.
-- Extended non-use plausibly degrades retained ability.
+- Lasting injury, impairment, or alteration takes away durable capability. Disuse alone never does.
 - Training, instruction, adaptation, injury, alteration, or technology changes durable baseline.
 
 NON_CHANGE_CASES:
@@ -34,6 +34,7 @@ NON_CHANGE_CASES:
 - Environmental difficulty.
 - Temporary boost from alteration, stimulant, flow, or assistance.
 - Luck or outcome success without skill-change evidence.
+- Disuse alone; it produces SKILL_RUST per ATROPHY_AND_PLATEAU.ON_EXTENDED_NON_USE.
 
 === SECTION_BREAK ===
 
@@ -59,7 +60,7 @@ ON_BREAKTHROUGH_EVENT:
     PROPOSED_VALUE: ONE_STEP_UP
     MECHANISM_TAG: SKILL_STATE_CHANGE
     JUSTIFICATION: memory-linked breakthrough
-- Multi-step increases require override proof.
+- Mastery rises one step at a time; no rule permits a multi-step increase.
 
 === SECTION_BREAK ===
 
@@ -83,17 +84,45 @@ AUTOMATION_GATE:
 === SECTION: ATROPHY_AND_PLATEAU ===
 
 ON_EXTENDED_NON_USE:
-- If meaningful enough to affect durable capability:
+[[LLM_INSTRUCTION]]: Hard-won skill is not lost to disuse. Disuse dulls sharpness: timing, speed, and confidence. That is SKILL_RUST, a temporary overlay that practice clears. MASTERY_LEVEL and INSTINCT_LEVEL do not change.
+- If RUST_GATE is met:
+  - PROPOSE ADD_MODIFIER:
+    TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+    PROPOSED_VALUE:
+      MODIFIER_TYPE: PERFORMANCE_MODIFIER
+      EFFECT_FAMILY: SKILL_RUST
+      TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
+      TARGET_ID: SKL_XX
+      EFFECT_EXPRESSION: dulled timing, speed, and confidence from disuse
+      MAGNITUDE: LOW | MODERATE | HIGH
+      STACKING_RULE: REPLACE
+      DURATION_TYPE: UNTIL_CONDITION
+      EXPIRY_CONDITION: the character practices or uses the skill again
+    MECHANISM_TAG: SKILL_DISUSE_RUST
+    JUSTIFICATION: extended disuse dulls sharpness
+- MAGNITUDE reflects how long the skill has gone unused. An INSTINCTIVE skill rusts no further than LOW.
+- Longer disuse replaces the rust in place with a higher MAGNITUDE. Practice removes it per DYNAMICS_TEMPORARY_MODIFIERS.EXPIRY_TRANSITIONS.
+- Optionally PROPOSE TRANSITION on GROWTH_POTENTIAL ONE_STEP_DOWN for stagnation.
+
+RUST_GATE:
+- Requires major elapsed time or practice deprivation relevant to the skill.
+- Ordinary time passage without skill relevance is insufficient.
+
+ON_CAPABILITY_LOSS:
+- When a lasting injury, impairment, or alteration takes away the capacity a skill depends on:
   - PROPOSE TRANSITION:
     TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
     PROPOSED_VALUE: ONE_STEP_DOWN
     MECHANISM_TAG: SKILL_STATE_CHANGE
-    JUSTIFICATION: extended non-use supports bounded atrophy
-- Optionally PROPOSE TRANSITION on GROWTH_POTENTIAL ONE_STEP_DOWN for stagnation.
-
-ATROPHY_GATE:
-- Requires major elapsed time, practice deprivation, impairment, loss of access, injury, alteration, or explicit cue.
-- Ordinary time passage without skill relevance is insufficient.
+    JUSTIFICATION: lasting loss of the capacity the skill depends on
+  - If the lowered MASTERY_LEVEL would leave INSTINCT_LEVEL above what SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING allows, also PROPOSE TRANSITION:
+    TARGET_FIELD: [STATE_SKILLS][SKL_XX][INSTINCT_LEVEL]
+    PROPOSED_VALUE: ONE_STEP_DOWN
+    MECHANISM_TAG: SKILL_STATE_CHANGE
+    JUSTIFICATION: instinct fades with the mastery it rests on
+  - The MASTERY_LEVEL and INSTINCT_LEVEL proposals are one linked unit; neither commits without the other.
+- Loss beyond one step requires DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY proof for injury, or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof for an alteration.
+- Impairment that will heal stays on the temporary overlay surface, such as ALTERATION_SKILL_DEGRADATION when an alteration causes it, and never changes mastery.
 
 ON_PLATEAU_REACHED:
 - If mastery is top bound or practice no longer progresses:
@@ -121,12 +150,12 @@ ON_EXPLICIT_LEARNING_EVENT:
 
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
-- Permanent skill mutation requires SKILL_STATE_CHANGE and governance validation.
+- Permanent skill mutation carries MECHANISM_TAG SKILL_STATE_CHANGE and requires governance validation.
 - Momentary execution pressure flows through modifiers.
 - INSTINCT_LEVEL must not exceed MASTERY_LEVEL.
 - GROWTH_POTENTIAL cannot remain HIGH when MASTERY_LEVEL is MASTER.
 - New skill creation requires admission gate and registry-record coherence.
-- Multi-step skill changes require complete override proof.
+- Skill gains move one step at a time. Multi-step loss requires TRAUMA_INDUCED_ATROPHY or ALTERATION_ACTIVATION_OR_FAILURE proof.
 
 === SECTION_BREAK ===
 

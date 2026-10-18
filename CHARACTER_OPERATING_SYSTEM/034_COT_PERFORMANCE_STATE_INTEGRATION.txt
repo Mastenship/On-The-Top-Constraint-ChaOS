@@ -7,7 +7,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: temporary performance overlays, DECISION impulses, memory cues, rare skill-state proposals.
-Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_TEMPORARY_MODIFIERS, narrative context.
+Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_BODY, DYNAMICS_ALTERATIONS, DYNAMICS_TEMPORARY_MODIFIERS, narrative context.
 
 === SECTION_BREAK ===
 
@@ -22,6 +22,7 @@ Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress casc
 ANCHOR_CUES:
 - Narrative input describes execution or attempt of SKL_XX.
 - Narrative input describes a newly acquired skill, practice, training, instruction, repeated execution, breakthrough, failure, or non-use relevant to SKL_XX.
+- Narrative input describes a lasting injury, impairment, or alteration that takes away a capacity a skill depends on.
 - STATE_BODY arousal is outside optimal execution band.
 - Environmental pressure affects skill execution.
 - Breakthrough/failure event with MEM_XX linkage candidate is present.
@@ -141,6 +142,22 @@ ON_ENVIRONMENTAL_PRESSURE:
 
 === SECTION_BREAK ===
 
+=== SECTION: SKILL_RUST_AND_CAPABILITY_LOSS ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_SKILLS.ATROPHY_AND_PLATEAU. Disuse produces SKILL_RUST and never lowers MASTERY_LEVEL or INSTINCT_LEVEL. Only lasting loss of capacity lowers mastery.
+
+ON_EXTENDED_DISUSE:
+- Apply ATROPHY_AND_PLATEAU.ON_EXTENDED_NON_USE when its RUST_GATE is met.
+
+ON_RENEWED_PRACTICE_OR_USE:
+- The SKILL_RUST overlay for that SKL_XX has met its expiry condition; removal follows DYNAMICS_TEMPORARY_MODIFIERS.EXPIRY_TRANSITIONS.
+
+ON_LASTING_CAPABILITY_LOSS:
+- Apply ATROPHY_AND_PLATEAU.ON_CAPABILITY_LOSS, including the linked INSTINCT_LEVEL step when the coupling requires it.
+- When DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE applies, SET MASTERY_LEVEL and INSTINCT_LEVEL to its endpoints with its proof fields instead of one step.
+
+=== SECTION_BREAK ===
+
 === SECTION: PERMANENT_SKILL_MUTATION ===
 
 [[LLM_INSTRUCTION]]: Apply DYNAMICS_SKILLS.SKILL_CHANGE_THRESHOLD_POLICY before any permanent skill proposal.
@@ -154,7 +171,7 @@ ON_SKILL_CHANGE_CANDIDATE:
 REQUIREMENTS:
 - MECHANISM_TAG: SKILL_STATE_CHANGE.
 - Preserve SCHEME_SKILLS invariants, including INSTINCT_MASTERY_COUPLING.
-- Major movement requires INVOKED_RULE_NAME: SKILL_STATE_CHANGE and full override proof.
+- Skill gains move one step at a time. Loss beyond one step requires DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof.
 - Momentary success, failure, stress, fatigue, flow, or environmental pressure is insufficient.
 
 === SECTION_BREAK ===
@@ -189,7 +206,7 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include performance modulation summary, new-skill admission gate YES/NO, skill-change gate YES/NO, permanent mutation admitted/rejected reason, modifier-first confirmation, impulses, proposal count, and SCHEME_SKILLS compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include performance modulation summary, rust added or cleared, capability loss YES/NO, new-skill admission gate YES/NO, skill-change gate YES/NO, permanent mutation admitted/rejected reason, modifier-first confirmation, impulses, proposal count, and SCHEME_SKILLS compliance.
 
 === SECTION_BREAK ===
 

@@ -11,7 +11,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
 [[LLM_INSTRUCTION]]: Memory creation uses SET pair: append MEM_XX to MEMORY_REGISTRY, then SET full MEM_XX record.
-[[LLM_INSTRUCTION]]: SALIENCE is QUALITATIVE_INTENSITY; SET changes remain one-band bounded unless override proof is complete.
+[[LLM_INSTRUCTION]]: SALIENCE is QUALITATIVE_INTENSITY; SET changes remain one-band bounded.
 
 === SECTION_BREAK ===
 
@@ -96,7 +96,7 @@ RETENTION_THRESHOLD_NOTE:
 
 - Memory formation requires admission gate and registry-record SET pair.
 - Reconsolidation is bounded.
-- SALIENCE movement is one-band bounded unless override proof is complete.
+- SALIENCE movement is one-band bounded.
 - Decay preserves auditability and record coherence.
 
 === SECTION_BREAK ===

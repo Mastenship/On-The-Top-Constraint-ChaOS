@@ -39,7 +39,7 @@ IMMUNE_MARKERS_NOTE:
 - Ladder ascends ROBUST < NORMAL < COMPROMISED < SUPPRESSED in declared bracket position; BASELINE_ANCHOR is NORMAL.
 - Ordinary movement is one band per cycle by SET or TRANSITION unless override proof is complete.
 - The terminal-state invariant is resolved by STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.IMMUNE_TERMINAL_STATE_RECONCILIATION, which moves IMMUNE_MARKERS one band off ROBUST toward NORMAL via INVARIANT_FORCED_CORRECTION.
-- A single-cycle drop greater than one band (for example ROBUST directly to COMPROMISED) requires override proof exactly like other multi-step physiological deterioration.
+- A single-cycle drop greater than one band (for example ROBUST directly to COMPROMISED) requires DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof.
 
 === SECTION_BREAK ===
 

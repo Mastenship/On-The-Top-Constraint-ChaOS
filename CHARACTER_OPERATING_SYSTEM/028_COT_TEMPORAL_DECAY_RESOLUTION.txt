@@ -43,7 +43,7 @@ ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
   JUSTIFICATION: time passage without reinforcement reduces retrieval salience
 
 CONDITIONS:
-- One-band bounded unless override proof applies.
+- One-band bounded.
 - Highly linked or recently reactivated memories decay more slowly.
 - Governance may suppress when linkage protection or recent retrieval justifies stability.
 

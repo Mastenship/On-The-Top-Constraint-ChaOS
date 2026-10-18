@@ -98,7 +98,8 @@ ON_INJURY_OR_ILLNESS_TYPE:
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: one-step immune deterioration supported by active alteration
-- A ROBUST-to-COMPROMISED jump is two steps and is forbidden without full constitutional override proof. Do not assume a severe description supplies that proof.
+- A ROBUST-to-COMPROMISED jump is two steps. It requires DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE: SET IMMUNE_MARKERS to COMPROMISED with its proof fields. A severe description alone does not meet its grant condition.
+- Lasting skill loss from an alteration belongs to COT_PERFORMANCE_STATE_INTEGRATION.
 - No change when alteration is no longer active; reversal to a healthier immune band needs independent recovery evidence under DYNAMICS_BODY and may not be inferred from the mere removal of an alteration.
 - This is distinct from governance's IMMUNE_TERMINAL_STATE_RECONCILIATION one-band forced correction.
 
@@ -168,7 +169,7 @@ ON_REJECTING_STANCE:
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include admission gate YES/NO, source ALT_XX list, separate status/stance/awareness proposal flags, source-field/proposal dependencies, functional and psychological cascade classes, expiry evaluation, proposal count, and SCHEME/DYNAMICS compliance. GENERATED_IMPULSES is [NONE].
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include admission gate YES/NO, source ALT_XX list, separate status/stance/awareness proposal flags, source-field/proposal dependencies, functional and psychological cascade classes, ALTERATION_ACTIVATION_OR_FAILURE applied YES/NO, expiry evaluation, proposal count, and SCHEME/DYNAMICS compliance. GENERATED_IMPULSES is [NONE].
 
 === SECTION_BREAK ===
 

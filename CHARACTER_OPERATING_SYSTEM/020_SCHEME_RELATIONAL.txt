@@ -40,7 +40,7 @@ COGNITIVE_COMPLEXITY_DIRECTION_NOTE:
 [[LLM_INSTRUCTION]]: COGNITIVE_COMPLEXITY accumulates with interaction depth; it does not drift toward baseline.
 - The NO_BASELINE_DRIFT marker declares that ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL are unlawful on this field.
 - Upward movement uses ONE_STEP_UP on accumulated interaction depth per DYNAMICS_RELATIONAL.
-- Downward movement is rare and uses explicit SET to a lower lawful band with cue support and usually override proof per DYNAMICS_RELATIONAL.
+- Downward movement is rare and uses explicit SET to a lower lawful band with cue support. More than one band in a cycle requires DYNAMICS_RELATIONAL.ATTACHMENT_INJURY proof.
 - No decay or toward-baseline directive may lower this field; the BASELINE_ANCHOR is declared only to satisfy ladder formality and must not be used as a drift target.
 
 === SECTION_BREAK ===

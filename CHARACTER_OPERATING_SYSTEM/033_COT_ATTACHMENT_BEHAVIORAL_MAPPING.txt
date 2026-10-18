@@ -90,6 +90,7 @@ ON_SALIENT_NEW_ENTITY:
 
 RELATIONAL_MOVEMENT:
 - Durable AFFECTIVE_VALENCE movement requires DYNAMICS_RELATIONAL.MEANINGFUL_INTERACTION_GATE.
+- When DYNAMICS_RELATIONAL.ATTACHMENT_INJURY applies, SET AFFECTIVE_VALENCE, and COGNITIVE_COMPLEXITY when recategorization is forced, to its endpoints with its proof fields. Its EMOTIONAL_SAFETY endpoint belongs to COT_GOAL_PURSUIT_OPTIMIZATION.
 - PERCEIVED_OTHER_VALENCE follows DYNAMICS_RELATIONAL.PERCEIVED_OTHER_VALENCE_DYNAMICS.
 - TRUST follows DYNAMICS_RELATIONAL.TRUST_DYNAMICS. Attachment style biases how readily trust is extended or withdrawn, never moves it without reliability evidence.
 - Direct disclosure may establish the statement occurred; internal state remains INFERENCE unless substrate grants direct access.
@@ -124,7 +125,7 @@ JUSTIFICATION_CATEGORY: TRAIT_GATED
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated attachment schema, impulses, proposal count, meaningful-interaction gate YES/NO, inference boundary YES/NO, and SCHEME_ASQ compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated attachment schema, impulses, proposal count, meaningful-interaction gate YES/NO, ATTACHMENT_INJURY applied YES/NO, inference boundary YES/NO, and SCHEME_ASQ compliance.
 
 === SECTION_BREAK ===
 
