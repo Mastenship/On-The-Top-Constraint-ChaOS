@@ -1,13 +1,13 @@
 === SECTION: COT_TEMPORAL_FLOW_PROCESSING ===
 
 [KEEP: Purpose & Role]
-Processes passage of time, circadian alignment, fatigue accumulation, routine pressure, and subjective time perception. Generates temporal proposals, temporary overlays, time-driven impulses, and decay-trigger signal when major skips occur.
+Processes passage of time, circadian alignment, fatigue accumulation, routine pressure, and subjective time perception. Generates temporal proposals, temporary overlays, and time-driven impulses. COT_TEMPORAL_DECAY_RESOLUTION responds to major time skips from the same narrative cue.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: STATE_TEMPORAL_DYNAMICS proposals, HUNGER and THIRST drive proposals, sustenance-related STATE_BODY proposals, temporary overlays, DECISION impulses.
-Is Informed By: narrative time cues, SCHEME_TEMPORAL_DYNAMICS, DYNAMICS_TEMPORAL_DYNAMICS, STATE_BODY, STATE_GOALS_MOTIVATIONS, DYNAMICS_GOALS_MOTIVATIONS, DYNAMICS_BODY, context signals.
+Is Informed By: narrative time cues, SCHEME_TEMPORAL_DYNAMICS, DYNAMICS_TEMPORAL_DYNAMICS, STATE_BODY, STATE_GOALS_MOTIVATIONS, DYNAMICS_GOALS_MOTIVATIONS, DYNAMICS_BODY, STATE_MEMORY, context signals.
 
 === SECTION_BREAK ===
 
@@ -24,6 +24,7 @@ ANCHOR_CUES:
 - Narrative input describes eating, drinking, or going without food or water.
 - STATE_TEMPORAL_DYNAMICS places the cycle inside/near peak window, energy dip, or routine boundary.
 - Active modifier targets temporal EFFECT_FAMILY: PEAK_ALERTNESS, FATIGUE_PENALTY, SECOND_WIND, or DISORIENTATION.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.

@@ -26,7 +26,7 @@ PSYCHOPATHY: Impulsivity, thrill-seeking, callousness, lack of remorse.
 === SECTION: INVARIANTS ===
 
 - Values are fixed during play. A change is exceptional and out-of-character: it requires explicit operator and player agreement and is applied only through COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION.
-- HIGH or VERY_HIGH traits gate MALEVOLENT_BEHAVIOR_SELECTION impulses when cue support exists.
+- HIGH or VERY_HIGH traits gate MALEVOLENT_BEHAVIOR_SELECTION impulses when cue support exists. HONESTY_HUMILITY modulates that gate per COT_MALEVOLENT_BEHAVIOR_SELECTION.HONESTY_HUMILITY_MODULATION.
 
 === SECTION_BREAK ===
 

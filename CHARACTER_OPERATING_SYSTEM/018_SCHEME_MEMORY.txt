@@ -59,6 +59,12 @@ OWNERSHIP_AND_LIFECYCLE:
 - If cap 3 is full, retain existing entries, do not silently drop a newly capacity-deferred cue; signal operator re-presentation instead. Do not breach cap.
 - Never narrate administrative queue metadata as a character memory; only its original experience may influence cognition.
 
+COT_RECONSIDERATION:
+- An entry is a lawful anchor cue for its SOURCE_COT only, even without a repeated Dungeon Master statement.
+- Re-evaluate the original event against current state, current SCHEME and DYNAMICS gates, and dependencies. The original proposal text is not executable.
+- Propose fresh only if the event still supports the change, with a new PROPOSAL_ID and ORIGIN_CYCLE_ID and ORIGIN_PROPOSAL_ID in NOTES. If it no longer does, propose nothing; the writer closes the entry.
+- An entry whose RECONSIDERATION_COUNT has reached 2 is not retried without materially fresh evidence.
+
 === SECTION_BREAK ===
 
 === SECTION: REGISTRY_RULES ===

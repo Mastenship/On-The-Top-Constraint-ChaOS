@@ -7,7 +7,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: DECISION synthesis, STATE_DPF proposals, prediction lifecycle/cap management.
-Is Informed By: narrative cues, active predictions, goals, drive pressure, beliefs, background priors, SCHEME_DPF, DYNAMICS_DPF, SCHEME_BACKGROUND.
+Is Informed By: narrative cues, active predictions, goals, drive pressure, beliefs, background priors, STATE_MEMORY, SCHEME_DPF, DYNAMICS_DPF, SCHEME_BACKGROUND.
 
 === SECTION_BREAK ===
 
@@ -23,6 +23,7 @@ CORE_ASSUMPTION_SYNTHESIS:
 - Integrate cues, active predictions, contradictions, drive urgency, goal pressure, belief priors, and background priors into CURRENT_DPF.
 - If durable contrast event exists, propose bounded persistent DPF SET updates.
 - If interpretation is transient, unresolved, or low-impact, keep it in CURRENT_DPF.
+- Reconsider any eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry naming this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 EMOTIONAL_VALENCE_AND_PACE:
 - Derive from arousal, threat interpretation, certainty pressure, goal urgency, time pressure, and active modifiers.

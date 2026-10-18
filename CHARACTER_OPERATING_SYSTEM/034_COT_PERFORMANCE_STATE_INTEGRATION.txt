@@ -7,7 +7,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: temporary performance overlays, DECISION impulses, memory cues, rare skill-state proposals.
-Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_BODY, DYNAMICS_ALTERATIONS, DYNAMICS_TEMPORARY_MODIFIERS, narrative context.
+Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_BODY, DYNAMICS_ALTERATIONS, DYNAMICS_TEMPORARY_MODIFIERS, STATE_MEMORY, narrative context.
 
 === SECTION_BREAK ===
 
@@ -27,6 +27,7 @@ ANCHOR_CUES:
 - Environmental pressure affects skill execution.
 - Breakthrough/failure event with MEM_XX linkage candidate is present.
 - Active modifier targets performance EFFECT_FAMILY requiring re-evaluation.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
