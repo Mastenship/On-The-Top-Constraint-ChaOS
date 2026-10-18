@@ -54,6 +54,7 @@ In long contexts, early instructions lose salience as attention distributes acro
 DESIGN CONSEQUENCES:
 - Every COT or proposer module must include its own WRITE_POLICY_OVERRIDE section that restates what it may and may not write.
 - The forbidden operation list must be locally present, not merely referenced.
+- A positive closed operation list at the proposal site may stand in for the forbidden list. Whether naming forbidden aliases suppresses or primes them is measured per substrate (BRIDGING_DOCUMENTS 01 Substrate Physics, section 5, Anti-Mass).
 - Canonical path format expectations must be locally reinforced adjacent to proposal generation instructions.
 - This repetition is not redundancy. It is an attention architecture decision that ensures governance competes for salience at the site where violations would otherwise occur.
 
