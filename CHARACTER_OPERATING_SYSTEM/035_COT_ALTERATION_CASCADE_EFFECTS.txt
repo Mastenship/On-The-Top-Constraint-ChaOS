@@ -23,6 +23,7 @@ ANCHOR_CUES:
 - One or more ALT_XX records have STATUS = ACTIVE.
 - Alteration operational status, psychological stance, or awareness has a change cue this cycle.
 - Narrative input establishes a newly acquired alteration or references alteration effect, reactivation, removal, rejection, or constraint change.
+- Narrative input describes an injury, disease, or other cause of pain that will still affect the character beyond the moment.
 - An ACTIVE alteration, an aware REJECTING stance with stress cues, or an attributable alteration modifier requires cascade/expiry evaluation.
 - An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
@@ -86,6 +87,7 @@ CASCADE_SOURCE_LINKAGE:
 ON_INJURY_OR_ILLNESS_TYPE:
 - Require operational eligibility from DYNAMICS_ALTERATIONS.CASCADE_EFFECT_CLASS_INFERENCE, irrespective of stance or awareness.
 - Apply DYNAMICS_BODY.STRESS_INJURY_ILLNESS and SCHEME_BODY.PHYSIOLOGICAL_HEALTH ordinal law before writing.
+- When the alteration records a wound narrated this cycle, that cycle's immune effect belongs to COT_STRESS_CASCADE_RESOLUTION; do not propose it again here.
 - Only when an active alteration's injury/illness class actually supports deterioration:
   - If IMMUNE_MARKERS is ROBUST: PROPOSE TRANSITION ONE_STEP_UP to NORMAL.
   - If IMMUNE_MARKERS is NORMAL: PROPOSE TRANSITION ONE_STEP_UP to COMPROMISED.

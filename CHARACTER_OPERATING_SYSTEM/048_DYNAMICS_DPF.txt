@@ -102,7 +102,8 @@ ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
 VALENCE_RULES:
 - Change EMOTIONAL_VALENCE only by SET to an explicit lawful endpoint with direct cue support.
 - No relative transition directive is lawful on EMOTIONAL_VALENCE.
-- Transient mood texture without a durable valence change uses an affect-scoped temporary modifier rather than a STATE_DPF write.
+- Transient mood texture without a durable valence change needs no write; it is read from the totality of current state.
+- CALM is set when nothing pending calls for feeling, such as when a threat has passed and the scene has settled. Like every valence it needs a cue; the frame does not drift to it.
 
 === SECTION_BREAK ===
 

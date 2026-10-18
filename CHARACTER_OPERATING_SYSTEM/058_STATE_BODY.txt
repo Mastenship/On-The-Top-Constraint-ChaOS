@@ -47,8 +47,8 @@ HAIR_DENSITY:
 === SECTION: STATE_INTERPRETATION_NOTE ===
 
 [[LLM_INSTRUCTION]]: Current committed values only. Empty-value forms follow CANONICAL_TOKEN_DICTIONARY.EMPTY_VALUE_FORMS.
-[[LLM_INSTRUCTION]]: Pain is not a STATE_BODY field: drive pressure uses PAIN_AVOIDANCE; acute/local pain uses modifiers; chronic pain conditions use ALT_XX.
-[[LLM_INSTRUCTION]]: Momentary performance, stress, fatigue, pain, and environmental effects generally use STATE_TEMPORARY_MODIFIERS.
+[[LLM_INSTRUCTION]]: Pain is not a STATE_BODY field: acute pain uses PAIN_AVOIDANCE; injuries, diseases, and lasting causes of pain use ALT_XX, per SCHEME_BODY.PAIN_REPRESENTATION_CONVENTION.
+[[LLM_INSTRUCTION]]: Momentary performance, stress, fatigue, and environmental effects generally use STATE_TEMPORARY_MODIFIERS.
 
 === SECTION_BREAK ===
 

@@ -75,9 +75,9 @@ HAIR_DENSITY: ORDINAL [FULL, THINNING, SPARSE, BALDING]
 [[LLM_INSTRUCTION]]: Pain is not represented as a persistent STATE_BODY field.
 
 PAIN_SURFACES:
-- Drive pressure: [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE]
-- Acute/localized pain: STATE_TEMPORARY_MODIFIERS overlay
-- Long-term chronic pain condition: STATE_ALTERATIONS ALT_XX
+- Acute pain pressure: [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE]
+- An injury, disease, or other lasting cause of pain: STATE_ALTERATIONS ALT_XX, ended by Dungeon Master adjudication
+- What pain does to attention and action is read from the totality of current state; it needs no separate overlay.
 
 RULE:
 - No ad-hoc pain field on STATE_BODY.

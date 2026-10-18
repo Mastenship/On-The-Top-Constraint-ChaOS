@@ -56,7 +56,7 @@ FORMATION_REQUIREMENTS:
 - At least one lawful canonical SYSTEM_LINKAGE path.
 - Schema-valid payload.
 - Per-cycle memory creation cap respected.
-- [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] is a separate capped processing-cue queue, not MEM_XX or an episodic memory; this COT may use it only when SOURCE_COT matches, per UPDATE_CASCADE_REGISTRY.DEFERRED_NARRATIVE_CUE_DISPATCH.
+- [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] is a processing-cue queue, not MEM_XX or an episodic memory; a queue entry never becomes a memory.
 - Preserve lawful memory-formation proposals for salient Dungeon Master events even when an unrelated domain's proposal is invalid; final independence and linked-unit validation remain with STATE_GOVERNANCE_AND_COMMIT per STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT.
 - If a systemic unisolatable fault prevents safe memory commitment, the governance band records the affected event cue for possible operator re-presentation; this COT must not read governance diagnostics or silently invent a durable memory.
 - INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact, not raw reasoning.

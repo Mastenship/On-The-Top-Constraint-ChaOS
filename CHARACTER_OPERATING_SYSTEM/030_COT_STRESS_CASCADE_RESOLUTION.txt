@@ -91,7 +91,7 @@ ON_REST_OR_RECOVERY_CUE:
 
 ON_INJURY_ILLNESS_OR_TREATMENT:
 - Apply STRESS_INJURY_ILLNESS for new injury, illness, or substance effects.
-- When DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY applies, SET IMMUNE_MARKERS to COMPROMISED with its proof fields. Its skill fields belong to COT_PERFORMANCE_STATE_INTEGRATION.
+- When DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY applies, SET IMMUNE_MARKERS to COMPROMISED with its proof fields. The lasting wound is admitted as an alteration by COT_ALTERATION_CASCADE_EFFECTS.
 - Apply HEALTH_RECOVERY to IMMUNE_MARKERS and NEUROCHEMICAL_BALANCE when its care condition is established.
 
 === SECTION_BREAK ===
