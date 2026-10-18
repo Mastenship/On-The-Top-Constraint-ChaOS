@@ -83,7 +83,6 @@ PROOF_FIELDS:
 
 ENFORCEMENT:
 - EXTENDED_REST used without a granting cue, on a field outside COVERED_FIELDS, in the deterioration direction, past ENDPOINTS, or with the SUSTENANCE_GATE failed: OVERRIDE_PROOF_INCOMPLETE.
-- Recovery backed by EXTENDED_REST proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
 
 === SECTION_BREAK ===
 

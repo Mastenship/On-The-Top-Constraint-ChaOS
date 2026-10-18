@@ -224,7 +224,6 @@ PROOF_FIELDS:
 
 ENFORCEMENT:
 - ATTACHMENT_INJURY used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
-- Movement backed by ATTACHMENT_INJURY proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
 
 === SECTION_BREAK ===
 

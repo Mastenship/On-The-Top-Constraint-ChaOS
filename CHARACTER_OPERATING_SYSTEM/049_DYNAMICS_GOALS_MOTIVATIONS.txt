@@ -28,6 +28,10 @@ ON_SAFETY_THREAT:
 - Betrayal, abandonment, or harm by someone the character cares about may SET EMOTIONAL_SAFETY beyond one step under DYNAMICS_RELATIONAL.ATTACHMENT_INJURY.
 - Higher-order drive suppression requires explicit governance-readable proposals.
 
+ON_PAIN_OR_EXPOSURE:
+- A new injury, an illness, or an ACTIVE alteration that hurts moves PAIN_AVOIDANCE one step more severe. Exposure to cold or heat moves TEMPERATURE one step more severe.
+- While ADRENALINE is PEAK, pain is blunted and PAIN_AVOIDANCE holds; it catches up one step per cycle once the surge ends.
+
 ON_ATTACHMENT_EVENT:
 - Positive cues may SET attachment drive fields less severe.
 - Negative cues may SET attachment drive fields more severe.

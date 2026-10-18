@@ -129,7 +129,6 @@ PROOF_FIELDS:
 
 ENFORCEMENT:
 - ACUTE_STRESS_RESPONSE used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
-- Movement backed by ACUTE_STRESS_RESPONSE proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
 
 === SECTION_BREAK ===
 
@@ -215,38 +214,33 @@ IMMUNE_TERMINAL_RECONCILIATION_NOTE:
 
 === SECTION: TRAUMA_INDUCED_ATROPHY ===
 
-[[LLM_INSTRUCTION]]: TRAUMA_INDUCED_ATROPHY is the named override trigger for grievous physical injury. Major trauma suppresses the immune system at once, and maiming, nerve damage, or brain injury can take away in a single moment the capacity a skill depends on. Neither waits for one step per cycle.
+[[LLM_INSTRUCTION]]: TRAUMA_INDUCED_ATROPHY is the named override trigger for the body's shock at the moment of grievous physical injury. Major trauma suppresses the immune system at once, faster than one step per cycle can show. The lasting wound itself is admitted as an alteration per DYNAMICS_ALTERATIONS.NEW_ALTERATION_ADMISSION, and any lasting loss of capacity follows that alteration under DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE.
 
 GRANT_CONDITION:
 - The Dungeon Master's narration establishes grievous physical injury: a severed or crushed limb, a deep penetrating wound, severe burns, nerve or spinal damage, or brain injury.
 - An ordinary wound, however painful, moves by STRESS_INJURY_ILLNESS one step at a time.
 
 COVERED_FIELDS:
-- [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS]
-- [STATE_SKILLS][SKL_XX][MASTERY_LEVEL] and [STATE_SKILLS][SKL_XX][INSTINCT_LEVEL], only for skills whose capacity the injury has lastingly taken away, per DYNAMICS_SKILLS.ATROPHY_AND_PLATEAU.ON_CAPABILITY_LOSS
+- [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS], in the cycle the injury is narrated
 - Deterioration direction only.
 
 ENDPOINTS:
 - IMMUNE_MARKERS to COMPROMISED.
-- MASTERY_LEVEL to the level the remaining capacity supports.
-- INSTINCT_LEVEL to the highest level SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING allows under the new MASTERY_LEVEL, when it would otherwise exceed it. The MASTERY_LEVEL and INSTINCT_LEVEL proposals are one linked unit.
 
 EXCLUDED:
-- Impairment that will heal, which stays on the temporary overlay surface and never changes mastery.
-- Skills the injury leaves intact.
+- Skills and any lasting impairment, which follow the alteration the wound creates.
 - ADRENALINE, which follows ACUTE_STRESS_RESPONSE when the injury comes from sudden danger.
 - Other health fields and everything mental.
 
 PROOF_FIELDS:
 - INVOKED_RULE_NAME: TRAUMA_INDUCED_ATROPHY
 - NARRATIVE_CUE_REFERENCE: the Dungeon Master's statement of the grievous injury
-- SCHEME_INVARIANT_NOTE: names the target field's ladder in SCHEME_BODY.PHYSIOLOGICAL_HEALTH or SCHEME_SKILLS.SKILL_RECORD_SCHEMA and asserts the endpoint lies on it, in the deterioration direction, within ENDPOINTS, with SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING preserved
-- MECHANISM_TAG: TRAUMATIC_INJURY on IMMUNE_MARKERS; SKILL_STATE_CHANGE on skill fields per DYNAMICS_SKILLS.GOVERNANCE_COMPATIBILITY_NOTE
+- SCHEME_INVARIANT_NOTE: names the IMMUNE_MARKERS ladder in SCHEME_BODY.PHYSIOLOGICAL_HEALTH and asserts the endpoint lies on it, in the deterioration direction, within ENDPOINTS
+- MECHANISM_TAG: TRAUMATIC_INJURY
 - Use SET to the explicit endpoint. Relative transition directives move one step only.
 
 ENFORCEMENT:
 - TRAUMA_INDUCED_ATROPHY used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
-- Movement backed by TRAUMA_INDUCED_ATROPHY proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
 
 === SECTION_BREAK ===
 

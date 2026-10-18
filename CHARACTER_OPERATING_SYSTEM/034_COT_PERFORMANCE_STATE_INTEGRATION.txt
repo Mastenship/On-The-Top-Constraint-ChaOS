@@ -7,7 +7,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: temporary performance overlays, DECISION impulses, memory cues, rare skill-state proposals.
-Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_BODY, DYNAMICS_ALTERATIONS, DYNAMICS_TEMPORARY_MODIFIERS, STATE_MEMORY, narrative context.
+Is Informed By: STATE_BODY, STATE_SKILLS, STATE_TEMPORARY_MODIFIERS, stress cascade, alteration cascade, SCHEME_SKILLS, DYNAMICS_SKILLS, DYNAMICS_ALTERATIONS, DYNAMICS_TEMPORARY_MODIFIERS, STATE_MEMORY, narrative context.
 
 === SECTION_BREAK ===
 
@@ -155,7 +155,7 @@ ON_RENEWED_PRACTICE_OR_USE:
 
 ON_LASTING_CAPABILITY_LOSS:
 - Apply ATROPHY_AND_PLATEAU.ON_CAPABILITY_LOSS, including the linked INSTINCT_LEVEL step when the coupling requires it.
-- When DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE applies, SET MASTERY_LEVEL and INSTINCT_LEVEL to its endpoints with its proof fields instead of one step.
+- When DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE applies, SET MASTERY_LEVEL and INSTINCT_LEVEL to its endpoints with its proof fields instead of one step.
 
 === SECTION_BREAK ===
 
@@ -172,7 +172,7 @@ ON_SKILL_CHANGE_CANDIDATE:
 REQUIREMENTS:
 - MECHANISM_TAG: SKILL_STATE_CHANGE.
 - Preserve SCHEME_SKILLS invariants, including INSTINCT_MASTERY_COUPLING.
-- Skill gains move one step at a time. Loss beyond one step requires DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof.
+- Skill gains move one step at a time. Loss beyond one step requires DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof.
 - Momentary success, failure, stress, fatigue, flow, or environmental pressure is insufficient.
 
 === SECTION_BREAK ===

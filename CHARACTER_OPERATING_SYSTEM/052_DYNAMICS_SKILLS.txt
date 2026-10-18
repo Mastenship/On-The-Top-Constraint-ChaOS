@@ -109,7 +109,7 @@ RUST_GATE:
 - Ordinary time passage without skill relevance is insufficient.
 
 ON_CAPABILITY_LOSS:
-- When a lasting injury, impairment, or alteration takes away the capacity a skill depends on:
+- When an alteration, including a lasting injury, takes away the capacity a skill depends on:
   - PROPOSE TRANSITION:
     TARGET_FIELD: [STATE_SKILLS][SKL_XX][MASTERY_LEVEL]
     PROPOSED_VALUE: ONE_STEP_DOWN
@@ -121,8 +121,8 @@ ON_CAPABILITY_LOSS:
     MECHANISM_TAG: SKILL_STATE_CHANGE
     JUSTIFICATION: instinct fades with the mastery it rests on
   - The MASTERY_LEVEL and INSTINCT_LEVEL proposals are one linked unit; neither commits without the other.
-- Loss beyond one step requires DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY proof for injury, or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof for an alteration.
-- Impairment that will heal stays on the temporary overlay surface, such as ALTERATION_SKILL_DEGRADATION when an alteration causes it, and never changes mastery.
+- Loss beyond one step requires DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof. A lasting injury is an alteration per DYNAMICS_ALTERATIONS.NEW_ALTERATION_ADMISSION.
+- Impairment that will heal is a TEMPORARY alteration. Its effect rides on ALTERATION_SKILL_DEGRADATION and never changes mastery.
 
 ON_PLATEAU_REACHED:
 - If mastery is top bound or practice no longer progresses:
@@ -155,7 +155,7 @@ ON_EXPLICIT_LEARNING_EVENT:
 - INSTINCT_LEVEL must not exceed MASTERY_LEVEL.
 - GROWTH_POTENTIAL cannot remain HIGH when MASTERY_LEVEL is MASTER.
 - New skill creation requires admission gate and registry-record coherence.
-- Skill gains move one step at a time. Multi-step loss requires TRAUMA_INDUCED_ATROPHY or ALTERATION_ACTIVATION_OR_FAILURE proof.
+- Skill gains move one step at a time. Multi-step loss requires ALTERATION_ACTIVATION_OR_FAILURE proof.
 
 === SECTION_BREAK ===
 

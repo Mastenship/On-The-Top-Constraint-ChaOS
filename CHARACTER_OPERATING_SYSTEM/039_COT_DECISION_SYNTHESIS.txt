@@ -28,7 +28,7 @@ FORBIDDEN_WRITES:
 
 WEIGHTING_FACTORS:
 - goal urgency
-- DPF certainty and valence
+- DPF certainty and valence; a CALM frame adds no lean
 - trait bias per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE
 - active temporary modifiers
 

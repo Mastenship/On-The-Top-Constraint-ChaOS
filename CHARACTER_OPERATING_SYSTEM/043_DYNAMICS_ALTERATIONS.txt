@@ -23,7 +23,8 @@ NEW_ALTERATION_GATE:
 - No existing ALT_XX adequately captures this change.
 - It materially affects body, skill capability, perceived identity, vulnerability, behavior, goals, or narrative continuity beyond a passing scene effect.
 - Enough evidence exists to populate a complete SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA, including independently grounded STATUS, AWARENESS_STATUS, and PSYCHOLOGICAL_STANCE.
-- A purely fleeting sensation, ordinary injury without alteration significance, or momentary performance shift is handled by body state or temporary modifier instead of inventing ALT_XX.
+- An injury, disease, or other cause of pain that will still affect the character beyond the moment is a TEMPORARY alteration, or PERMANENT when it will not heal. Its ending is adjudicated by the Dungeon Master per OPERATIONAL_EVIDENCE_GATE.
+- A passing hurt or fleeting sensation is carried by narration and the PAIN_AVOIDANCE drive, and a momentary performance shift by a temporary modifier, instead of inventing ALT_XX.
 
 ON_NEW_ALTERATION:
 - When gate passes, executing COT emits a linked SET pair:
@@ -72,7 +73,7 @@ STATUS_ENDPOINTS:
 
 === SECTION: ALTERATION_ACTIVATION_OR_FAILURE ===
 
-[[LLM_INSTRUCTION]]: ALTERATION_ACTIVATION_OR_FAILURE is the named override trigger for an alteration whose onset, activation, or failure strikes at once: a toxin or curse taking hold, an implant rejected, an augmentation failing. Its effect may exceed one step in that cycle.
+[[LLM_INSTRUCTION]]: ALTERATION_ACTIVATION_OR_FAILURE is the named override trigger for an alteration whose onset, activation, or failure strikes at once: a toxin or curse taking hold, an implant rejected, an augmentation failing, a maiming wound. Its effect may exceed one step in that cycle.
 
 GRANT_CONDITION:
 - A STATUS change this cycle per ACTIVATION_DEACTIVATION, or a new alteration admitted this cycle per NEW_ALTERATION_ADMISSION, meeting OPERATIONAL_EVIDENCE_GATE.
@@ -92,6 +93,7 @@ ENDPOINTS:
 EXCLUDED:
 - Enhancement and degradation effects, which stay on the temporary overlay surface per COT_ALTERATION_CASCADE_EFFECTS.
 - Reversal. Cessation or removal is not restoration; recovery follows DYNAMICS_BODY.HEALTH_RECOVERY.
+- The immune shock of a wound in the cycle it is narrated, which follows DYNAMICS_BODY.STRESS_INJURY_ILLNESS and DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY.
 - STATUS, PSYCHOLOGICAL_STANCE, and AWARENESS_STATUS, which are categorical and need no override.
 
 PROOF_FIELDS:
@@ -103,7 +105,6 @@ PROOF_FIELDS:
 
 ENFORCEMENT:
 - ALTERATION_ACTIVATION_OR_FAILURE used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
-- Movement backed by ALTERATION_ACTIVATION_OR_FAILURE proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
 
 === SECTION_BREAK ===
 
