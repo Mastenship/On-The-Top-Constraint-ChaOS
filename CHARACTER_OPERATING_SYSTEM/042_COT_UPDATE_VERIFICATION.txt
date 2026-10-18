@@ -63,7 +63,7 @@ FORBIDDEN_WRITES:
 - Verify EPISTEMIC_TAG, JUSTIFICATION_CATEGORY, mapping consistency, COMMITTED_FACT EVIDENCE_REF, disclosure boundary, and PERCEIVED_OTHER_VALENCE inference default. Impulse JUSTIFICATION_CATEGORY is advisory and exempt from mapping enforcement.
 
 09) OVERRIDE_PROOF
-- Verify override-gate proposals carry lawful INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG.
+- Verify override-gate proposals carry lawful INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG, and that each invocation falls within the scope CANONICAL_TOKEN_DICTIONARY.OVERRIDE_SCOPE_AUTHORITY assigns to the named rule.
 
 10) CANONICAL_FORM
 - Verify commit-bound artifacts normalized, write-surface tokens preserved, no non-canonical residue, EFFECT_FAMILY and MECHANISM_TAG within closed vocabularies, MODIFIER_TYPE non-reserved, modifier TARGET_FIELD a lawful form, and persistent modules declare READ_VISIBILITY_CLASS.

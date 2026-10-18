@@ -10,7 +10,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
-[[LLM_INSTRUCTION]]: QUALITATIVE_INTENSITY movement uses bounded SET to explicit adjacent endpoints unless override proof is complete.
+[[LLM_INSTRUCTION]]: QUALITATIVE_INTENSITY movement uses bounded SET to explicit adjacent endpoints.
 
 === SECTION_BREAK ===
 
@@ -62,7 +62,7 @@ SELECTION_OUTCOME:
 ON_ACUTE_STRESS:
 - Run COPE_SELECTION_RULE.
 - Propose bounded SET updates to relevant COPE_PROBABILITY_BIASES when cue support is sufficient.
-- Max one band per field per cycle unless override proof is complete.
+- Max one band per field per cycle.
 
 ON_SUBSTANCE_USE_EVENT:
 - Propose bounded SET to a higher SUBSTANCE_USE_RISK band, one band per cycle.
@@ -110,7 +110,7 @@ ON_STABILIZATION_WITHOUT_ACTIVE_STRESS:
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
 - COPE_SELECTION_RULE is deterministic and cycle-resolvable.
-- Probability and risk bands move one band per cycle unless override proof is complete.
+- Probability and risk bands move one band per cycle.
 - Every PRIMARY_MECHANISM SET preserves PRIMARY/SECONDARY distinctness via DISTINCTNESS_PRESERVATION_RULE.
 - Maladaptive escalation requires cross-cycle PRIMARY_MECHANISM continuity.
 - Stabilization is cue-supported, not automatic reset.

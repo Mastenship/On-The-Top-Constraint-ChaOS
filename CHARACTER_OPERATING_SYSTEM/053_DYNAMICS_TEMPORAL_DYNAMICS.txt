@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_TEMPORAL_DYNAMICS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for circadian alignment, fatigue progression/recovery, routine effects, and subjective time distortion.
+Immutable mechanics for circadian alignment, fatigue progression/recovery, extended rest, second wind, routine effects, and subjective time distortion.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -20,7 +20,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 ON_TIME_OF_DAY_CUES:
 - Align alertness overlays with chronotype and peak windows.
 - Prefer ADD_MODIFIER for short-horizon performance modulation.
-- Chronotype and peak-window baselines remain stable after instantiation unless override proof is complete.
+- Chronotype and peak-window baselines remain stable after instantiation.
 
 ON_SLEEP_RECOVERY_EVENT:
 - PROPOSE TRANSITION:
@@ -33,9 +33,57 @@ ON_SLEEP_RECOVERY_EVENT:
   PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
   JUSTIFICATION: debt recovery cue
 
+- When EXTENDED_REST applies, use its endpoints instead of one step.
+
 RECOVERY_GATE:
 - Requires explicit rest, sleep, treatment, or recovery cue.
 - Brief pause without recovery may justify overlay stabilization, not fatigue baseline reduction.
+
+=== SECTION_BREAK ===
+
+=== SECTION: EXTENDED_REST ===
+
+[[LLM_INSTRUCTION]]: EXTENDED_REST is the named override trigger for a long rest or time skip that the Dungeon Master explicitly grants, such as "you make camp and rest for eight hours." It lets physical recovery exceed one step in that single cycle. Rest restores the body; it does not resolve what weighs on the mind.
+
+GRANT_CONDITION:
+- The Dungeon Master's narration explicitly grants a rest or time skip of several hours or more.
+- No active stressor or threat during the rest, per DYNAMICS_BODY.ENDOCRINE_RECOVERY.RECOVERY_GATE. Interrupted rest receives ordinary one-step recovery only.
+
+SUSTENANCE_GATE:
+- Food and water count only when established by the Dungeon Master's narration; they are never assumed.
+- If HUNGER is SEVERE or STARVATION, or THIRST is SEVERE or DEHYDRATION, and the rest included no food or water, EXTENDED_REST does not apply. Fatigue recovers by the ordinary one step only.
+
+COVERED_FIELDS:
+- [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][CURRENT_FATIGUE_LEVEL]
+- [STATE_TEMPORAL_DYNAMICS][FATIGUE_ACCUMULATION][ACCUMULATED_SLEEP_DEBT]
+- [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ADRENALINE], on-ladder values only
+- [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][CORTISOL], ELEVATED or SPIKE only
+- [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][HUNGER] and [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][THIRST], only when food and water were consumed during the rest
+- Recovery direction only. EXTENDED_REST never authorizes deterioration.
+
+ENDPOINTS:
+- A full night's sleep or longer:
+  - CURRENT_FATIGUE_LEVEL to RESTED, or to MILD_FATIGUE if ACCUMULATED_SLEEP_DEBT remains MODERATE or worse after this rest.
+  - ACCUMULATED_SLEEP_DEBT up to two steps toward NONE.
+  - ADRENALINE to BASELINE. CORTISOL to BASELINE.
+  - HUNGER and THIRST up to two steps toward SATIATED and HYDRATED.
+- A shorter rest of a few hours: up to two steps on CURRENT_FATIGUE_LEVEL, and one step on each other covered field.
+
+EXCLUDED:
+- CORTISOL CHRONIC and CRASH, and ADRENALINE POST_PEAK and DEPLETED, which follow DYNAMICS_BODY.BIOCHEMICAL_ARC_PHASES. CHRONIC is the body carrying ongoing mental load and stays while that load remains.
+- Health fields under DYNAMICS_BODY.HEALTH_RECOVERY. Healing takes time and care, not one night.
+- All other drives, beliefs, relationships, coping, memories, and psychological modifiers.
+
+PROOF_FIELDS:
+- INVOKED_RULE_NAME: EXTENDED_REST
+- NARRATIVE_CUE_REFERENCE: the Dungeon Master's rest or time-skip statement
+- SCHEME_INVARIANT_NOTE: names the target field's ladder in SCHEME_TEMPORAL_DYNAMICS.FATIGUE_ACCUMULATION, SCHEME_BODY.BIOCHEMICAL_STATE_MARKERS, or SCHEME_GOALS_MOTIVATIONS.DRIVE_STATES and asserts the endpoint lies on it, toward baseline, within ENDPOINTS
+- MECHANISM_TAG: EXTENDED_REST_RECOVERY
+- Use SET to the explicit endpoint. Relative transition directives move one step only.
+
+ENFORCEMENT:
+- EXTENDED_REST used without a granting cue, on a field outside COVERED_FIELDS, in the deterioration direction, past ENDPOINTS, or with the SUSTENANCE_GATE failed: OVERRIDE_PROOF_INCOMPLETE.
+- Recovery backed by EXTENDED_REST proof is excluded from the cumulative movement count per STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.CUMULATIVE_ORDINAL_RULE.
 
 === SECTION_BREAK ===
 
@@ -57,12 +105,36 @@ FATIGUE_DEBT_COUPLING_NOTE:
 
 ON_STRESS_OR_EXERTION:
 - Additional fatigue may be one lawful extra step when governance permits, or a temporary modifier when transient.
-- Multi-step increase requires override proof.
 
-ON_SECOND_WIND_OR_STIMULANT:
-- Prefer ADD_MODIFIER for temporary reversal or performance sustain.
-- Baseline fatigue and sleep debt remain bounded unless override proof is complete.
-- Second wind does not erase sleep debt.
+ON_SECOND_WIND:
+[[LLM_INSTRUCTION]]: A second wind is the body's daytime lift after a night without sleep. Sleep pressure builds the whole time the character is awake. The body clock's alerting signal is weakest in the small hours and strengthens as morning comes. The character flags through the night, then functions better and feels more alert until the afternoon dip. It masks fatigue; it does not reduce it.
+
+SECOND_WIND_GATE:
+- The character has stayed awake through the night and CURRENT_FATIGUE_LEVEL is MODERATE_FATIGUE or worse.
+- The narration has reached the character's morning; the night's low point has passed.
+- No sleep in between. A nap or rest is recovery, not a second wind.
+
+When SECOND_WIND_GATE is met:
+- PROPOSE ADD_MODIFIER:
+  TARGET_FIELD: [STATE_TEMPORARY_MODIFIERS][MOD_XX]
+  PROPOSED_VALUE:
+    MODIFIER_TYPE: PERFORMANCE_MODIFIER
+    EFFECT_FAMILY: SECOND_WIND
+    TARGET_FIELD: DOMAIN_GLOBAL:SKILL_EXECUTION
+    EFFECT_EXPRESSION: renewed alertness that partly offsets fatigue
+    MAGNITUDE: MODERATE, or LOW when ACCUMULATED_SLEEP_DEBT is SEVERE or CRITICAL
+    STACKING_RULE: REPLACE
+    DURATION_TYPE: UNTIL_CONDITION
+    EXPIRY_CONDITION: the character's ENERGY_DIP_WINDOW arrives, or early afternoon if that window falls at night or in the early morning, or the character sleeps
+  MECHANISM_TAG: CIRCADIAN_SECOND_WIND
+  JUSTIFICATION: daytime circadian lift after a night without sleep
+- The lift offsets part of the active FATIGUE_PENALTY, never all of it. The character functions better; they are not rested.
+- CURRENT_FATIGUE_LEVEL and ACCUMULATED_SLEEP_DEBT keep their ordinary progression underneath. When the second wind expires, the full fatigue returns at once. That is the crash, and it needs no extra movement.
+- One second wind per morning.
+
+ON_STIMULANT:
+- Prefer ADD_MODIFIER for temporary performance sustain.
+- A stimulant does not erase fatigue or sleep debt.
 
 === SECTION_BREAK ===
 
@@ -110,7 +182,7 @@ PERSISTENCE_NOTE:
 - Time-perception PERCEPTUAL_SNAPSHOT fields are SET without one-step limitation.
 - Fatigue and sleep-debt co-movement counts as one cumulative step per FATIGUE_DEBT_COUPLING_NOTE.
 - Short-horizon distortions prefer modifiers.
-- Fatigue and sleep debt remain one-step bounded per field unless override proof is complete.
+- Fatigue and sleep debt remain one-step bounded per field unless EXTENDED_REST applies.
 - Second wind and stimulant effects must not rewrite fatigue baseline.
 
 === SECTION_BREAK ===

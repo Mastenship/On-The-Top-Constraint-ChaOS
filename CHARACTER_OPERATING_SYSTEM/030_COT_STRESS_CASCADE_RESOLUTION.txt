@@ -25,6 +25,7 @@ ANCHOR_CUES:
 - Active modifier targets HYPERVIGILANCE or CHRONIC_LOAD_NUMBING.
 - SIGNIFICANT or CLINICAL MMPI scale interacts with moderate cue per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
 - Substance-use event relevant to coping is present.
+- Narrative input describes injury, illness, treatment, or rest that allows physical recovery.
 - A maladaptive PRIMARY_MECHANISM (any of SCHEME_COPE.MALADAPTIVE_MECHANISMS) persisted from the prior cycle with the stressor unresolved, or a stressor resolves while coping bands remain off baseline.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
@@ -58,6 +59,7 @@ ON_ACUTE_STRESSOR:
   EPISTEMIC_TAG: PERCEPTION
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: sympathetic activation cue
+- When DYNAMICS_BODY.ACUTE_STRESS_RESPONSE applies, SET ADRENALINE to PEAK with its proof fields instead of one step. Its PHYSICAL_SAFETY endpoint belongs to COT_GOAL_PURSUIT_OPTIMIZATION.
 
 ON_SUSTAINED_OR_REPEATED_STRESS:
 - PROPOSE TRANSITION:
@@ -72,6 +74,24 @@ ON_SUSTAINED_OR_REPEATED_STRESS:
 ON_PEAK_OR_SUSTAINED_PATTERN:
 - ONE_STEP_UP above applies only below the ladder top: ADRENALINE below PEAK, CORTISOL below SPIKE.
 - At the ladder top, or for comedown, exhaustion, chronic load, and recovery, propose arc-phase SETs per DYNAMICS_BODY.BIOCHEMICAL_ARC_PHASES.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PHYSIOLOGICAL_RECOVERY ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_BODY.CARDIOVASCULAR_SNAPSHOT, ENDOCRINE_RECOVERY, BIOCHEMICAL_ARC_PHASES, STRESS_INJURY_ILLNESS except ON_MALNUTRITION_OR_DEHYDRATION, TRAUMA_INDUCED_ATROPHY for IMMUNE_MARKERS, and HEALTH_RECOVERY for IMMUNE_MARKERS and NEUROCHEMICAL_BALANCE. COT_TEMPORAL_FLOW_PROCESSING owns sustenance-related body effects. COT_ALTERATION_CASCADE_EFFECTS owns alteration-caused immune deterioration.
+
+ON_AROUSAL_CHANGE:
+- Update HEART_RATE, BLOOD_PRESSURE, and RESPIRATORY_RATE per CARDIOVASCULAR_SNAPSHOT as arousal rises or settles.
+
+ON_REST_OR_RECOVERY_CUE:
+- Apply ENDOCRINE_RECOVERY to on-ladder ADRENALINE and CORTISOL under its RECOVERY_GATE. Arc phases follow BIOCHEMICAL_ARC_PHASES.ARC_PHASE_RECOVERY.
+- When DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST applies, SET on-ladder ADRENALINE and acute CORTISOL to BASELINE with its proof fields instead of one step.
+
+ON_INJURY_ILLNESS_OR_TREATMENT:
+- Apply STRESS_INJURY_ILLNESS for new injury, illness, or substance effects.
+- When DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY applies, SET IMMUNE_MARKERS to COMPROMISED with its proof fields. Its skill fields belong to COT_PERFORMANCE_STATE_INTEGRATION.
+- Apply HEALTH_RECOVERY to IMMUNE_MARKERS and NEUROCHEMICAL_BALANCE when its care condition is established.
 
 === SECTION_BREAK ===
 
@@ -170,7 +190,7 @@ COPE_IMPULSE_RULE:
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include stressor classification, selected coping mechanism, coping escalation/stabilization direction, substance-risk movement, impulses, proposal count, and SCHEME_BODY plus SCHEME_COPE compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include stressor classification, ACUTE_STRESS_RESPONSE applied YES/NO, TRAUMA_INDUCED_ATROPHY applied YES/NO, physiological recovery applied YES/NO, EXTENDED_REST applied YES/NO, selected coping mechanism, coping escalation/stabilization direction, substance-risk movement, impulses, proposal count, and SCHEME_BODY plus SCHEME_COPE compliance.
 
 === SECTION_BREAK ===
 
