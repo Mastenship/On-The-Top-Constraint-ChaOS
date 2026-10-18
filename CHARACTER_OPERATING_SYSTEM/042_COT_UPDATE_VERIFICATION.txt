@@ -42,7 +42,7 @@ FORBIDDEN_WRITES:
 - Verify canonical roots, write-eligibility per CANONICAL_TOKEN_DICTIONARY.WRITE_ELIGIBILITY, TARGET_MODULE/TARGET_FIELD agreement, no legacy roots, no persistent write to IDENTITY_ONLY_ROOTS, no [NONE] as ID, no record stubs as concrete records.
 
 04) ORDINAL_BAND_AND_CUMULATIVE_LIMITS
-- Verify enum legality, one-step ordinal limits against declared ladders, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, categorical lifecycle SET usage, PERCEPTUAL_SNAPSHOT exemptions, and the cumulative ordinal movement limit (with COUPLED_MOVEMENT_REGISTRY collapsing) per STATE_GOVERNANCE_OVERLAY.
+- Verify enum legality, one-step ordinal limits against declared ladders, one-band qualitative limits, SET endpoint limits, lawful TRANSITION targets, categorical lifecycle SET usage, PERCEPTUAL_SNAPSHOT exemptions, off-ladder entry and exit as one step per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.OFF_LADDER_MOVEMENT_RULE, and the cumulative ordinal movement limit (with COUPLED_MOVEMENT_REGISTRY collapsing) per STATE_GOVERNANCE_OVERLAY.
 - A fully lawful movement suppressed solely by the two-step aggregate cap is an expected bounded throughput decision, not itself a committed movement-limit violation; verify it is either lawfully deferred under NARRATIVE_DEFERRAL_CONTINUITY or explicitly audited when queue capacity is full.
 - STEP_LIMIT_EXCEEDED is a FAIL when movement actually breaches the committed limit or when an invalid over-step escapes required suppression; a correctly suppressed, closed, capacity-deferred candidate is not an automatic new FAIL.
 

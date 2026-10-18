@@ -7,7 +7,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: STATE_MEMORY proposals, linkage proposals, persistence clusters.
-Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF, STATE_TEMPORARY_MODIFIERS, stress cascade, SCHEME_MEMORY, DYNAMICS_MEMORY, narrative input.
+Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF, STATE_TEMPORARY_MODIFIERS, stress cascade, STATE_MEMORY, SCHEME_MEMORY, DYNAMICS_MEMORY, narrative input.
 
 === SECTION_BREAK ===
 
@@ -26,6 +26,7 @@ ANCHOR_CUES:
 - Flashbulb-class event is present.
 - Existing MEM_XX has reconsolidation pressure.
 - Current cue may contribute to persistence cluster.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.

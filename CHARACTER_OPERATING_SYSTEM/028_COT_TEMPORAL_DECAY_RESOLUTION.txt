@@ -24,6 +24,7 @@ ANCHOR_CUES:
 - Active modifier expiry condition is met or deterministically inferable.
 - Unresolved prediction has gone unconfirmed across meaningful elapsed interval.
 - Memory salience decay or reconsolidation cue is present.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.

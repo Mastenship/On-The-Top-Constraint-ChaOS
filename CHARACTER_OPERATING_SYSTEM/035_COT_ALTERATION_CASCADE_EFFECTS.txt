@@ -7,7 +7,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: STATE_BODY proposals, STATE_SKILLS proposals, STATE_TEMPORARY_MODIFIERS proposals.
-Is Informed By: STATE_ALTERATIONS, STATE_TEMPORARY_MODIFIERS, SCHEME_ALTERATIONS, DYNAMICS_ALTERATIONS, SCHEME_BODY, DYNAMICS_BODY, SCHEME_SKILLS, SCHEME_TEMPORARY_MODIFIERS, DYNAMICS_TEMPORARY_MODIFIERS.
+Is Informed By: STATE_ALTERATIONS, STATE_TEMPORARY_MODIFIERS, SCHEME_ALTERATIONS, DYNAMICS_ALTERATIONS, SCHEME_BODY, DYNAMICS_BODY, SCHEME_SKILLS, SCHEME_TEMPORARY_MODIFIERS, DYNAMICS_TEMPORARY_MODIFIERS, STATE_MEMORY.
 
 === SECTION_BREAK ===
 
@@ -24,6 +24,7 @@ ANCHOR_CUES:
 - Alteration operational status, psychological stance, or awareness has a change cue this cycle.
 - Narrative input establishes a newly acquired alteration or references alteration effect, reactivation, removal, rejection, or constraint change.
 - An ACTIVE alteration, an aware REJECTING stance with stress cues, or an attributable alteration modifier requires cascade/expiry evaluation.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.

@@ -26,6 +26,7 @@ ANCHOR_CUES:
 - Attachment-relevant drive is MODERATE or higher.
 - Active modifier targets attachment EFFECT_FAMILY.
 - Narrative input contains reassurance, rejection, abandonment, betrayal, intimacy, distancing, dependency, loyalty-testing, separation, reunion, or vulnerability cue.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
