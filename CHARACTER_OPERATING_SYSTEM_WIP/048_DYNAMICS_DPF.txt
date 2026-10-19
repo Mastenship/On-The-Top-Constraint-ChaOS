@@ -38,6 +38,14 @@ NON_ADMISSION_CASES:
 ADMISSION_RESULT:
 - If not admitted, keep interpretation in [COGNITIVE_SCRATCHPAD][CURRENT_DPF] or temporary modifier.
 - If admitted, use SET pair and respect MAX_ACTIVE_PREDICTIONS.
+- If admitted at MAX_ACTIVE_PREDICTIONS, the new prediction may displace the lowest-certainty ACTIVE prediction:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+    PROPOSED_VALUE: FALSIFIED
+    MECHANISM_TAG: PREDICTION_CAP_DISPLACEMENT
+    JUSTIFICATION: newer expectation displaces the stalest active prediction
+  - The displacement and the new creation pair are one linked unit per SCHEME_DPF.PREDICTION_STATE_SEMANTICS.
+  - Time decay per COT_TEMPORAL_DECAY_RESOLUTION is what lets stale, unconfirmed predictions sink to lowest certainty.
 
 === SECTION_BREAK ===
 
@@ -53,11 +61,12 @@ ON_MINOR_CONTRADICTION:
     TARGET_FIELD: [STATE_DPF][PRD_XX][CERTAINTY]
     PROPOSED_VALUE: adjacent lower QUALITATIVE_INTENSITY band
     JUSTIFICATION: prediction contradiction cue
-- If certainty falls below falsification threshold with cue support:
+- If committed PRD_XX.CERTAINTY is at SCHEME_DPF.FALSIFICATION_THRESHOLD and a further contradiction cue arrives without a resolution event:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
-    PROPOSED_VALUE: FALSIFIED | RESOLVED_NEGATIVE
-    JUSTIFICATION: contradiction resolution cue
+    PROPOSED_VALUE: FALSIFIED
+    MECHANISM_TAG: PREDICTION_CONTRADICTION_ACCUMULATION
+    JUSTIFICATION: accumulated contradiction without resolution event
 - If contradiction load exceeds cycle tolerance:
   - queue [COGNITIVE_SCRATCHPAD][TEMPORARY_STATE_FLAGS][DPF_RECALC_QUEUED] = TRUE
 
@@ -66,7 +75,15 @@ ON_RESOLUTION_EVENT:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
     PROPOSED_VALUE: RESOLVED
+    MECHANISM_TAG: PREDICTION_RESOLUTION_EVENT
     JUSTIFICATION: resolution cue
+- If contradicted:
+  - PROPOSE SET:
+    TARGET_FIELD: [STATE_DPF][PRD_XX][STATE]
+    PROPOSED_VALUE: RESOLVED_NEGATIVE
+    MECHANISM_TAG: PREDICTION_RESOLUTION_EVENT
+    JUSTIFICATION: resolution cue contradicted hypothesis
+- Terminal STATE semantics and markers follow SCHEME_DPF.PREDICTION_STATE_SEMANTICS.
 - Certainty reinforcement may SET adjacent higher band on PRD_XX.CERTAINTY or DPF CERTAINTY_LEVEL.VALUE.
 
 ON_DRIVE_ACTIVATION_WITH_OBSTACLE_OR_OPPORTUNITY:
@@ -85,7 +102,8 @@ ON_TIME_DRIFT_WITHOUT_SIGNIFICANT_EVENTS:
 VALENCE_RULES:
 - Change EMOTIONAL_VALENCE only by SET to an explicit lawful endpoint with direct cue support.
 - No relative transition directive is lawful on EMOTIONAL_VALENCE.
-- Transient mood texture without a durable valence change uses an affect-scoped temporary modifier rather than a STATE_DPF write.
+- Transient mood texture without a durable valence change needs no write; it is read from the totality of current state.
+- CALM is set when nothing pending calls for feeling, such as when a threat has passed and the scene has settled. Like every valence it needs a cue; the frame does not drift to it.
 
 === SECTION_BREAK ===
 

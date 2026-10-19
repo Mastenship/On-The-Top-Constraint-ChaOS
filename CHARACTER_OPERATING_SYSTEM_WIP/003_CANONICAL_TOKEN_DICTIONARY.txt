@@ -278,6 +278,14 @@ ORDINAL_DECLARATION_RULE:
 - BASELINE_ANCHOR defaults to the first bracket member; a field whose baseline differs declares BASELINE_ANCHOR <member> inline after the bracket.
 - ONE_STEP_TOWARD_BASELINE and ONE_STEP_TOWARD_NEUTRAL resolve toward BASELINE_ANCHOR.
 - A field may declare OFF_LADDER <member>; an off-ladder member is reached only by SET, never by relative transition.
+- An off-ladder member may declare EXIT <member> inline: the on-ladder member that a recovery SET returns to.
+
+OFF_LADDER_MOVEMENT_RULE:
+- A SET entering or leaving an off-ladder member counts as one step for per-field and cumulative movement limits.
+- The owning DYNAMICS module defines when entry is lawful.
+- Exit targets the declared EXIT member, or any on-ladder member when no EXIT is declared. Any other exit target requires complete override proof.
+- Relative transition directives are unlawful while the field holds an off-ladder member.
+- Ladder comparisons such as "X or higher" refer to on-ladder positions only and never include off-ladder members.
 - A field treated as ordinal by any DYNAMICS module without an ORDINAL declaration in its owning SCHEME surfaces as SCHEME_INVARIANT_VIOLATION.
 
 NO_BASELINE_DRIFT_MARKER:
@@ -383,6 +391,7 @@ EVIDENCE_REF_PREDICTION_RULE:
 - Both forms establish a settled prediction outcome as fact.
 - FALSIFIED is not a clean resolution event and is not evidence-eligible.
 - ACTIVE predictions are never evidence-eligible.
+- Terminal STATE meanings and their checkable markers are defined in SCHEME_DPF.PREDICTION_STATE_SEMANTICS.
 
 DISCLOSURE_BOUNDARY:
 - Direct disclosure may establish that a statement occurred.
@@ -425,10 +434,11 @@ IMPULSE_JUSTIFICATION_RULE:
 INVOKED_RULE_NAME: ENUM [
   FLASHBULB_BREAKTHROUGH,
   TRAUMA_INDUCED_ATROPHY,
-  SECOND_WIND,
+  ACUTE_STRESS_RESPONSE,
+  EXTENDED_REST,
   ALTERATION_ACTIVATION_OR_FAILURE,
+  ATTACHMENT_INJURY,
   DPF_CONTRAST_EVENT,
-  SKILL_STATE_CHANGE,
   WATERSHED_BELIEF_SHIFT,
   EXISTENTIAL_CRISIS_OVERRIDE,
   PERSISTENT_EVIDENCE_ACCUMULATION,
@@ -447,6 +457,31 @@ REQUIRED_FIELDS_WHEN_OVERRIDE_GATE_TRIGGERED:
 
 ENFORCEMENT:
 - Missing or unlawful proof field: OVERRIDE_PROOF_INCOMPLETE
+
+=== SECTION_BREAK ===
+
+=== SECTION: OVERRIDE_SCOPE_AUTHORITY ===
+
+[[LLM_INSTRUCTION]]: Each INVOKED_RULE_NAME is lawful only within the scope its owning section declares: when it applies, which fields it may move, in which direction, and how far. A proof field invoking a rule outside that scope is unlawful.
+
+SCOPE_OWNERS:
+- FLASHBULB_BREAKTHROUGH: DYNAMICS_MEMORY.FORMATION_CRITERIA.FLASHBULB_GATE and STATE_GOVERNANCE_OVERLAY.STEP_LIMITS_PER_CYCLE.MEMORY_LIMITS
+- TRAUMA_INDUCED_ATROPHY: DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY
+- ACUTE_STRESS_RESPONSE: DYNAMICS_BODY.ACUTE_STRESS_RESPONSE
+- EXTENDED_REST: DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST
+- ALTERATION_ACTIVATION_OR_FAILURE: DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE
+- ATTACHMENT_INJURY: DYNAMICS_RELATIONAL.ATTACHMENT_INJURY
+- DPF_CONTRAST_EVENT: DYNAMICS_DPF.RECALCULATION_GUARD.ON_DPF_CONTRAST_EVENT
+- WATERSHED_BELIEF_SHIFT: DYNAMICS_BELIEF_SYSTEMS.OVERRIDE_APPLICABILITY
+- EXISTENTIAL_CRISIS_OVERRIDE: DYNAMICS_BELIEF_SYSTEMS.OVERRIDE_APPLICABILITY
+- PERSISTENT_EVIDENCE_ACCUMULATION: DYNAMICS_BELIEF_SYSTEMS.PERSISTENCE_TRIGGER_RULE and DYNAMICS_COMMUNICATION_DIALOGUE.PERSISTENCE_TRIGGER_RULE
+- GOVERNANCE_CORRECTIVE: STATE_GOVERNANCE_AND_COMMIT.TWO_PHASE_GOVERNANCE_EXECUTION.POST_VERIFICATION_GATE
+
+RULES:
+- A new INVOKED_RULE_NAME requires a SCOPE_OWNERS entry in the same constitutional update.
+
+ENFORCEMENT:
+- Invocation outside its owner's declared scope: OVERRIDE_PROOF_INCOMPLETE.
 
 === SECTION_BREAK ===
 
@@ -553,7 +588,7 @@ IMMUTABLE_BASELINE_BEARING_MODULES:
 RUNTIME_RULES:
 - STATE_ modules store mutable runtime values.
 - SCHEME_ modules are read-only during runtime.
-- Immutable baseline-bearing SCHEME values may be set during instantiation only, or by explicit architecture-level watershed-equivalent override.
+- Immutable baseline-bearing SCHEME values may be set during instantiation only: first-time seeding, or an out-of-character baseline revision per COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION. No in-play event, override proof, or INVOKED_RULE_NAME changes them.
 - Runtime write to immutable baseline-bearing SCHEME outside instantiation: SCHEME_IMMUTABLE_BASELINE_WRITE.
 
 === SECTION_BREAK ===

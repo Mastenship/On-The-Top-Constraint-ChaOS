@@ -9,7 +9,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 === SECTION: SCALE_NUMBERING_NOTE ===
 
-[[LLM_INSTRUCTION]]: Uses historical MMPI clinical scale numbering 1, 2, 3, 4, 6, 7, 8, 9, 10. SCALE_5 is deliberately omitted; SCALE_10 represents Social Introversion.
+[[LLM_INSTRUCTION]]: Uses historical MMPI clinical scale numbering 1, 2, 3, 4, 6, 7, 8, 9, 0. SCALE_5 is deliberately omitted; SCALE_0 is Social Introversion, historically numbered 0.
 
 OMISSION_RATIONALE:
 - Historical SCALE_5 is obsolete/problematic for this architecture.
@@ -28,7 +28,7 @@ SCALE_6_PARANOIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
 SCALE_7_PSYCHASTHENIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
 SCALE_8_SCHIZOPHRENIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
 SCALE_9_HYPOMANIA: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
-SCALE_10_SOCIAL_INTROVERSION: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
+SCALE_0_SOCIAL_INTROVERSION: QUALITATIVE_T_SCORE per CANONICAL_TOKEN_DICTIONARY
 
 === SECTION_BREAK ===
 
@@ -42,16 +42,15 @@ SCALE_6_PARANOIA: Suspiciousness, persecutory interpretation, delusional risk.
 SCALE_7_PSYCHASTHENIA: Obsessions, anxiety, doubts.
 SCALE_8_SCHIZOPHRENIA: Alienation, bizarre cognition, disorganization risk.
 SCALE_9_HYPOMANIA: Elevated mood, excitability, impulsive activation.
-SCALE_10_SOCIAL_INTROVERSION: Shyness, withdrawal, low social ease.
+SCALE_0_SOCIAL_INTROVERSION: Shyness, withdrawal, low social ease.
 
 === SECTION_BREAK ===
 
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation.
+- Values are fixed during play. A change is exceptional and out-of-character: it requires explicit operator and player agreement and is applied only through COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION.
 - Elevated scales bias stress response, perception, and relational interpretation per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
 - SCALE_5 must not be introduced.
-- Changes require extreme justification and are outside standard runtime mutation.
 
 === SECTION_BREAK ===
 

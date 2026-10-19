@@ -13,7 +13,12 @@ Is Informed By: STATE_MEMORY, STATE_DPF, STATE_TEMPORARY_MODIFIERS, STATE_TEMPOR
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+[[LLM_INSTRUCTION]]: This COT proposes; it never commits. STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] per COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulses go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- One trace entry is appended to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]; existing trace content is never read back.
+- OPERATION_TYPE is SET, TRANSITION, ADD_MODIFIER, or REMOVE_MODIFIER.
+- Every proposal carries one EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, or COMMITTED_FACT, which requires EVIDENCE_REF.
 
 === SECTION_BREAK ===
 
@@ -24,6 +29,7 @@ ANCHOR_CUES:
 - Active modifier expiry condition is met or deterministically inferable.
 - Unresolved prediction has gone unconfirmed across meaningful elapsed interval.
 - Memory salience decay or reconsolidation cue is present.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -43,7 +49,7 @@ ON_EXTENDED_TIME_WITHOUT_REINFORCEMENT:
   JUSTIFICATION: time passage without reinforcement reduces retrieval salience
 
 CONDITIONS:
-- One-band bounded unless override proof applies.
+- One-band bounded.
 - Highly linked or recently reactivated memories decay more slowly.
 - Governance may suppress when linkage protection or recent retrieval justifies stability.
 

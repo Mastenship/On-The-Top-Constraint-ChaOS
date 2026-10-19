@@ -68,10 +68,9 @@ WORLDVIEW_PRIOR_RULE:
 
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation.
+- Values are fixed during play. A change is exceptional and out-of-character: it requires explicit operator and player agreement and is applied only through COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION.
 - Consulted for initial seeding and ongoing interpretive bias.
 - May inform trait baselines, relational defaults, belief axes, skill contexts, physiological assumptions, and DPF grounding.
-- Changes require explicit override proof plus governance review.
 
 === SECTION_BREAK ===
 

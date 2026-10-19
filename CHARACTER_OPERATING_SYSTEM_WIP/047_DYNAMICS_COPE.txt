@@ -10,7 +10,7 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 === SECTION: OPERATION_POLICY ===
 
 [[LLM_INSTRUCTION]]: Use strict operation vocabulary per CANONICAL_TOKEN_DICTIONARY. Proposal patterns here are schematic directives per UPDATE_CASCADE_REGISTRY.
-[[LLM_INSTRUCTION]]: QUALITATIVE_INTENSITY movement uses bounded SET to explicit adjacent endpoints unless override proof is complete.
+[[LLM_INSTRUCTION]]: QUALITATIVE_INTENSITY movement uses bounded SET to explicit adjacent endpoints.
 
 === SECTION_BREAK ===
 
@@ -31,11 +31,12 @@ DISTINCTNESS_RULE:
 [[LLM_INSTRUCTION]]: Selection is deterministic. Bias bands rank mechanisms; ties resolve by cascade.
 
 SELECTION_PROCEDURE:
-1) Read all five COPE_PROBABILITY_BIASES.
+1) Read all COPE_PROBABILITY_BIASES.
 2) Apply situational filters:
    - If SUBSTANCE_USE_RISK = MINIMAL, treat SUBSTANCE_USE_PROBABILITY as one band lower for selection.
-   - If CORTISOL is SPIKE or higher, treat PLANNING_PROBABILITY as one band lower.
+   - If CORTISOL is SPIKE or CHRONIC, treat PLANNING_PROBABILITY as one band lower.
    - If fatigue is SEVERE_FATIGUE or EXHAUSTED, treat ACTIVE_COPING_PROBABILITY as one band lower.
+   - If no present or reachable ENT_XX holds TRUST at TRUSTING or IMPLICIT, treat SEEKING_SUPPORT_PROBABILITY as one band lower.
 3) Rank effective bands: EXTREME > HIGH > MODERATE > LOW > MINIMAL.
 4) Select highest-ranked mechanism.
 
@@ -46,6 +47,7 @@ TIE_BREAKERS:
 
 SELECTION_OUTCOME:
 - Selected mechanism is the cycle's effective coping route.
+- The route reaches behavior through the executing COT's COPE impulse per COT_STRESS_CASCADE_RESOLUTION.COPE_IMPULSE_RULE, weighed by COT_DECISION_SYNTHESIS like any other impulse.
 - If selection differs from PRIMARY_MECHANISM and persists across cues:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_COPE][ACTIVE_COPE_CONFIGURATION][PRIMARY_MECHANISM]
@@ -60,7 +62,7 @@ SELECTION_OUTCOME:
 ON_ACUTE_STRESS:
 - Run COPE_SELECTION_RULE.
 - Propose bounded SET updates to relevant COPE_PROBABILITY_BIASES when cue support is sufficient.
-- Max one band per field per cycle unless override proof is complete.
+- Max one band per field per cycle.
 
 ON_SUBSTANCE_USE_EVENT:
 - Propose bounded SET to a higher SUBSTANCE_USE_RISK band, one band per cycle.
@@ -76,7 +78,7 @@ ON_SUBSTANCE_USE_EVENT:
 === SECTION: MALADAPTIVE_ESCALATION ===
 
 ESCALATION_CONDITIONS:
-- Selected mechanism is DENIAL, SUBSTANCE_USE, or VENTING.
+- Selected mechanism is in SCHEME_COPE.MALADAPTIVE_MECHANISMS.
 - Underlying stressor remains unresolved.
 - Same maladaptive mechanism was PRIMARY_MECHANISM in the immediately prior cycle.
 - Continuity is inferred from PRIMARY_MECHANISM persistence; no separate counter exists.
@@ -85,6 +87,8 @@ ESCALATION_BEHAVIOR:
 - SUBSTANCE_USE: bounded SET upward on SUBSTANCE_USE_RISK and SUBSTANCE_USE_PROBABILITY.
 - DENIAL: bounded SET upward on DENIAL_PROBABILITY; optional REALITY_CONTACT_DEGRADATION modifier targeting DPF certainty.
 - VENTING: bounded SET upward on VENTING_PROBABILITY; optional RELATIONAL_FRICTION_AMPLIFICATION modifier targeting relevant relational field.
+- SELF_BLAME: bounded SET upward on SELF_BLAME_PROBABILITY.
+- BEHAVIORAL_DISENGAGEMENT: bounded SET upward on BEHAVIORAL_DISENGAGEMENT_PROBABILITY.
 
 ESCALATION_BOUNDS:
 - One band per field per cycle.
@@ -106,7 +110,7 @@ ON_STABILIZATION_WITHOUT_ACTIVE_STRESS:
 === SECTION: GOVERNANCE_COMPATIBILITY_NOTE ===
 
 - COPE_SELECTION_RULE is deterministic and cycle-resolvable.
-- Probability and risk bands move one band per cycle unless override proof is complete.
+- Probability and risk bands move one band per cycle.
 - Every PRIMARY_MECHANISM SET preserves PRIMARY/SECONDARY distinctness via DISTINCTNESS_PRESERVATION_RULE.
 - Maladaptive escalation requires cross-cycle PRIMARY_MECHANISM continuity.
 - Stabilization is cue-supported, not automatic reset.

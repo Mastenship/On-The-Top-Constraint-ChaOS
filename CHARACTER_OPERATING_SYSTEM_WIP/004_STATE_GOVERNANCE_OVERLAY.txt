@@ -74,6 +74,7 @@ COUPLED_MOVEMENT_REGISTRY:
 - A coupled set counts once only when every member moves one step in the same ladder direction in the same cycle under aligned mechanism.
 - Members moving independently, in opposite directions, or beyond one step each count separately and are not collapsed.
 - Coupling never raises a member above its own one-step-per-field limit.
+- Entry to or exit from an off-ladder member has no ladder direction and never forms part of a coupled set.
 - Additions require constitutional update.
 
 MEMORY_LIMITS:
@@ -98,10 +99,10 @@ GOAL_LIMITS:
 - Passing wants and single-turn intents remain impulses, selected actions, modifiers, or DPF interpretations.
 
 SKILL_LIMITS:
-- Permanent skill mutation requires SKILL_STATE_CHANGE support.
+- Permanent skill mutation carries MECHANISM_TAG SKILL_STATE_CHANGE and requires DYNAMICS_SKILLS support.
 - INSTINCT_LEVEL must satisfy SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING.
 - Momentary performance effects use modifiers.
-- Multi-step skill movement requires complete override proof.
+- Skill gains move one step at a time. Multi-step skill loss requires ALTERATION_ACTIVATION_OR_FAILURE proof.
 
 BELIEF_AND_COMMUNICATION_LIMITS:
 - Durable belief and communication baseline shifts require relevant DYNAMICS support.

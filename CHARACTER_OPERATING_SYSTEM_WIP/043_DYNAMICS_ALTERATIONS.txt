@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_ALTERATIONS ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for alteration activation, deactivation, removal, psychological stance, cascade-class inference, and cascade triggering. Defines lawful transition patterns only; never performs direct writes.
+Immutable mechanics for alteration activation, deactivation, removal, the ALTERATION_ACTIVATION_OR_FAILURE override, psychological stance, cascade-class inference, and cascade triggering. Defines lawful transition patterns only; never performs direct writes.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -23,7 +23,8 @@ NEW_ALTERATION_GATE:
 - No existing ALT_XX adequately captures this change.
 - It materially affects body, skill capability, perceived identity, vulnerability, behavior, goals, or narrative continuity beyond a passing scene effect.
 - Enough evidence exists to populate a complete SCHEME_ALTERATIONS.ALTERATION_RECORD_SCHEMA, including independently grounded STATUS, AWARENESS_STATUS, and PSYCHOLOGICAL_STANCE.
-- A purely fleeting sensation, ordinary injury without alteration significance, or momentary performance shift is handled by body state or temporary modifier instead of inventing ALT_XX.
+- An injury, disease, or other cause of pain that will still affect the character beyond the moment is a TEMPORARY alteration, or PERMANENT when it will not heal. Its ending is adjudicated by the Dungeon Master per OPERATIONAL_EVIDENCE_GATE.
+- A passing hurt or fleeting sensation is carried by narration and the PAIN_AVOIDANCE drive, and a momentary performance shift by a temporary modifier, instead of inventing ALT_XX.
 
 ON_NEW_ALTERATION:
 - When gate passes, executing COT emits a linked SET pair:
@@ -67,6 +68,43 @@ STATUS_ENDPOINTS:
 - DORMANT: present but inactive.
 - INACTIVE: present in history or identity but non-functional.
 - REMOVED: no longer present; may trigger cascade reversal.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ALTERATION_ACTIVATION_OR_FAILURE ===
+
+[[LLM_INSTRUCTION]]: ALTERATION_ACTIVATION_OR_FAILURE is the named override trigger for an alteration whose onset, activation, or failure strikes at once: a toxin or curse taking hold, an implant rejected, an augmentation failing, a maiming wound. Its effect may exceed one step in that cycle.
+
+GRANT_CONDITION:
+- A STATUS change this cycle per ACTIVATION_DEACTIVATION, or a new alteration admitted this cycle per NEW_ALTERATION_ADMISSION, meeting OPERATIONAL_EVIDENCE_GATE.
+- The Dungeon Master's narration establishes that the effect is immediate and severe. A severe description of the alteration alone does not meet this condition.
+- Psychological rejection, denial, or stance change never meets it.
+
+COVERED_FIELDS:
+- [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS], for an alteration of INJURY_OR_ILLNESS_CLASS
+- [STATE_SKILLS][SKL_XX][MASTERY_LEVEL] and [STATE_SKILLS][SKL_XX][INSTINCT_LEVEL], only where the alteration lastingly takes away the capacity a skill depends on, per DYNAMICS_SKILLS.ATROPHY_AND_PLATEAU.ON_CAPABILITY_LOSS
+- Deterioration direction only.
+
+ENDPOINTS:
+- IMMUNE_MARKERS to COMPROMISED.
+- MASTERY_LEVEL to the level the remaining capacity supports.
+- INSTINCT_LEVEL to the highest level SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING allows under the new MASTERY_LEVEL, when it would otherwise exceed it. The MASTERY_LEVEL and INSTINCT_LEVEL proposals are one linked unit.
+
+EXCLUDED:
+- Enhancement and degradation effects, which stay on the temporary overlay surface per COT_ALTERATION_CASCADE_EFFECTS.
+- Reversal. Cessation or removal is not restoration; recovery follows DYNAMICS_BODY.HEALTH_RECOVERY.
+- The immune shock of a wound in the cycle it is narrated, which follows DYNAMICS_BODY.STRESS_INJURY_ILLNESS and DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY.
+- STATUS, PSYCHOLOGICAL_STANCE, and AWARENESS_STATUS, which are categorical and need no override.
+
+PROOF_FIELDS:
+- INVOKED_RULE_NAME: ALTERATION_ACTIVATION_OR_FAILURE
+- NARRATIVE_CUE_REFERENCE: the objective mechanism or Dungeon Master statement of the alteration's immediate effect
+- SCHEME_INVARIANT_NOTE: names the target field's ladder in SCHEME_BODY.PHYSIOLOGICAL_HEALTH or SCHEME_SKILLS.SKILL_RECORD_SCHEMA and asserts the endpoint lies on it, in the deterioration direction, within ENDPOINTS, with SCHEME_SKILLS.INSTINCT_MASTERY_COUPLING preserved
+- MECHANISM_TAG: ALTERATION_PHYSIOLOGICAL_PROPAGATION on IMMUNE_MARKERS; SKILL_STATE_CHANGE on skill fields per DYNAMICS_SKILLS.GOVERNANCE_COMPATIBILITY_NOTE
+- Use SET to the explicit endpoint. Relative transition directives move one step only.
+
+ENFORCEMENT:
+- ALTERATION_ACTIVATION_OR_FAILURE used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
 
 === SECTION_BREAK ===
 

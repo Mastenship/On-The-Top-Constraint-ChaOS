@@ -19,16 +19,50 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 ON_PHYSIOLOGICAL_DEPRIVATION:
 - Propose SET to next more severe lawful drive value.
-- Stronger deterioration requires override proof or governance downgrade/suppression.
+- Elapsed time is deprivation: a long rest or time skip without food established by narration moves HUNGER one step more severe, and without water moves THIRST one step more severe.
+- Deprivation worsens one step per cycle; stronger proposals are downgraded or suppressed by governance.
 
 ON_SAFETY_THREAT:
 - Propose SET to next more severe lawful value in PHYSICAL_SAFETY and/or EMOTIONAL_SAFETY as cue type warrants.
+- Sudden physical danger may SET PHYSICAL_SAFETY beyond one step under DYNAMICS_BODY.ACUTE_STRESS_RESPONSE.
+- Betrayal, abandonment, or harm by someone the character cares about may SET EMOTIONAL_SAFETY beyond one step under DYNAMICS_RELATIONAL.ATTACHMENT_INJURY.
 - Higher-order drive suppression requires explicit governance-readable proposals.
+
+ON_PAIN_OR_EXPOSURE:
+- A new injury, an illness, or an ACTIVE alteration that hurts moves PAIN_AVOIDANCE one step more severe. Exposure to cold or heat moves TEMPERATURE one step more severe.
+- While ADRENALINE is PEAK, pain is blunted and PAIN_AVOIDANCE holds; it catches up one step per cycle once the surge ends.
 
 ON_ATTACHMENT_EVENT:
 - Positive cues may SET attachment drive fields less severe.
 - Negative cues may SET attachment drive fields more severe.
 - Minor social texture should not change durable drive fields unless attachment-relevant, repeated, or state-salient.
+
+=== SECTION_BREAK ===
+
+=== SECTION: DRIVE_RELIEF ===
+
+[[LLM_INSTRUCTION]]: Every drive that can escalate can also be relieved. Relief follows the specific need behind the drive being met in the story, one step less severe per cycle.
+
+ON_PHYSIOLOGICAL_NEED_MET:
+- A meal eases HUNGER; water eases THIRST; warmth or shelter eases TEMPERATURE; treatment or relief of pain eases PAIN_AVOIDANCE.
+- Propose SET to the next less severe lawful drive value.
+- A long rest with food and water may relieve HUNGER and THIRST further per DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST.
+
+ON_THREAT_PASSED:
+- When the threat behind PHYSICAL_SAFETY has passed and the character is somewhere safe, propose SET to the next less severe value.
+- EMOTIONAL_SAFETY eases only on reassurance, repair, or a lasting change in what threatened it, not on physical safety alone.
+
+ON_PSYCHOLOGICAL_NEED_MET:
+- Esteem, cognitive, and transcendence drives ease when their need is met in the story: success or mastery for COMPETENCE, regained freedom for AUTONOMY, respect for STATUS, discovery for CURIOSITY, understanding for MEANING_MAKING, progress for SELF_ACTUALIZATION, a secured legacy for LEGACY.
+- Propose SET to the next less severe lawful value.
+
+ON_GOAL_ACHIEVED:
+- When a GOAL_XX reaches STATUS = ACHIEVED, the drive named in its DRIVE_SERVED may ease one step.
+
+RELIEF_BOUNDS:
+- One step per drive per cycle, except physiological relief under EXTENDED_REST.
+- Rest and the passage of time never relieve psychological drives.
+- Relief requires the need to be met in the narrative, not merely anticipated.
 
 === SECTION_BREAK ===
 

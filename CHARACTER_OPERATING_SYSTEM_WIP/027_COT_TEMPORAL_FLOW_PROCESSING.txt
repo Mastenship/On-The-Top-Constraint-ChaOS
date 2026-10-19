@@ -1,19 +1,24 @@
 === SECTION: COT_TEMPORAL_FLOW_PROCESSING ===
 
 [KEEP: Purpose & Role]
-Processes passage of time, circadian alignment, fatigue accumulation, routine pressure, and subjective time perception. Generates temporal proposals, temporary overlays, time-driven impulses, and decay-trigger signal when major skips occur.
+Processes passage of time, circadian alignment, fatigue accumulation, routine pressure, and subjective time perception. Generates temporal proposals, temporary overlays, and time-driven impulses. COT_TEMPORAL_DECAY_RESOLUTION responds to major time skips from the same narrative cue.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
-Informs: STATE_TEMPORAL_DYNAMICS proposals, temporary overlays, DECISION impulses.
-Is Informed By: narrative time cues, SCHEME_TEMPORAL_DYNAMICS, DYNAMICS_TEMPORAL_DYNAMICS, STATE_BODY, context signals.
+Informs: STATE_TEMPORAL_DYNAMICS proposals, HUNGER and THIRST drive proposals, sustenance-related STATE_BODY proposals, temporary overlays, DECISION impulses.
+Is Informed By: narrative time cues, SCHEME_TEMPORAL_DYNAMICS, DYNAMICS_TEMPORAL_DYNAMICS, STATE_BODY, STATE_GOALS_MOTIVATIONS, DYNAMICS_GOALS_MOTIVATIONS, DYNAMICS_BODY, STATE_MEMORY, context signals.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+[[LLM_INSTRUCTION]]: This COT proposes; it never commits. STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] per COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulses go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- One trace entry is appended to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]; existing trace content is never read back.
+- OPERATION_TYPE is SET, TRANSITION, ADD_MODIFIER, or REMOVE_MODIFIER.
+- Every proposal carries one EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, or COMMITTED_FACT, which requires EVIDENCE_REF.
 
 === SECTION_BREAK ===
 
@@ -21,8 +26,10 @@ Is Informed By: narrative time cues, SCHEME_TEMPORAL_DYNAMICS, DYNAMICS_TEMPORAL
 
 ANCHOR_CUES:
 - Narrative input describes elapsed time, time-of-day shift, deadline, schedule disruption, or rest event.
+- Narrative input describes eating, drinking, or going without food or water.
 - STATE_TEMPORAL_DYNAMICS places the cycle inside/near peak window, energy dip, or routine boundary.
-- Active modifier targets temporal EFFECT_FAMILY: PEAK_ALERTNESS, FATIGUE_PENALTY, or DISORIENTATION.
+- Active modifier targets temporal EFFECT_FAMILY: PEAK_ALERTNESS, FATIGUE_PENALTY, SECOND_WIND, or DISORIENTATION.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -76,6 +83,10 @@ ON_DIP_OR_FATIGUE_ACCUMULATION:
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: fatigue cue
 
+ON_SECOND_WIND:
+- When DYNAMICS_TEMPORAL_DYNAMICS.FATIGUE_PROGRESSION.SECOND_WIND_GATE is met, PROPOSE ADD_MODIFIER per ON_SECOND_WIND with EPISTEMIC_TAG INFERENCE and JUSTIFICATION_CATEGORY DIRECT_APPLICATION.
+- Fatigue and sleep-debt progression continue underneath. Propose no fatigue or sleep-debt recovery for a second wind.
+
 ON_RECOVERY_CUES:
 - Apply DYNAMICS_TEMPORAL_DYNAMICS.CIRCADIAN_CYCLE.RECOVERY_GATE; a brief pause or second wind is not proof of durable recovery.
 - PROPOSE TRANSITION:
@@ -86,6 +97,7 @@ ON_RECOVERY_CUES:
   EPISTEMIC_TAG: INFERENCE
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: explicit rest, sleep, treatment, or recovery cue
+- When DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST applies, SET CURRENT_FATIGUE_LEVEL and ACCUMULATED_SLEEP_DEBT to its endpoints with its proof fields instead of one step.
 
 SLEEP_DEBT_COUPLING_EXECUTION:
 - On DYNAMICS_TEMPORAL_DYNAMICS.FATIGUE_PROGRESSION.ON_TIME_PASSAGE_WITHOUT_REST with explicit meaningful wakefulness or missed sleep, also PROPOSE TRANSITION:
@@ -107,6 +119,25 @@ SLEEP_DEBT_COUPLING_EXECUTION:
 - FATIGUE_DEBT counts as one coupled ordinary movement only if both fields move one step in the same direction on the same event per STATE_GOVERNANCE_OVERLAY.COUPLED_MOVEMENT_REGISTRY.
 - Exertion-only fatigue, ordinary stress, a short rest without meaningful sleep-debt reduction, or a second wind does not automatically move ACCUMULATED_SLEEP_DEBT. Do not form a spurious coupled set.
 - If a field is already at its bound, omit that member instead of emitting a no-op or claiming coupling.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SUSTENANCE_PROCESSING ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_GOALS_MOTIVATIONS.DRIVE_ESCALATION.ON_PHYSIOLOGICAL_DEPRIVATION and DRIVE_RELIEF.ON_PHYSIOLOGICAL_NEED_MET for HUNGER and THIRST, DYNAMICS_BODY.STRESS_INJURY_ILLNESS.ON_MALNUTRITION_OR_DEHYDRATION, and DYNAMICS_BODY.HEALTH_RECOVERY for METABOLIC_HEALTH and ELECTROLYTE_BALANCE. Food and water count only when established by the Dungeon Master's narration.
+
+ON_TIME_WITHOUT_FOOD_OR_WATER:
+- Propose HUNGER or THIRST one step more severe per ON_PHYSIOLOGICAL_DEPRIVATION.
+- When deprivation is prolonged or severe, propose METABOLIC_HEALTH or ELECTROLYTE_BALANCE decline per ON_MALNUTRITION_OR_DEHYDRATION.
+
+ON_MEAL_OR_DRINK:
+- Propose HUNGER or THIRST one step less severe per ON_PHYSIOLOGICAL_NEED_MET.
+- Where METABOLIC_HEALTH or ELECTROLYTE_BALANCE is below baseline, propose recovery per HEALTH_RECOVERY.
+
+ON_EXTENDED_REST:
+- Check DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST.SUSTENANCE_GATE before claiming EXTENDED_REST for any field.
+- With food and water during the rest, SET HUNGER and THIRST to its endpoints with its proof fields.
+- Without them, apply ON_TIME_WITHOUT_FOOD_OR_WATER instead.
 
 === SECTION_BREAK ===
 
@@ -165,7 +196,7 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include inferred time passage, fatigue-only versus FATIGUE_DEBT-coupled decision, sleep recovery evidence, impulses, proposal count, and SCHEME_TEMPORAL_DYNAMICS compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include inferred time passage, fatigue-only versus FATIGUE_DEBT-coupled decision, sleep recovery evidence, second wind YES/NO, sustenance established YES/NO, EXTENDED_REST applied YES/NO with reason, impulses, proposal count, and SCHEME_TEMPORAL_DYNAMICS compliance.
 
 === SECTION_BREAK ===
 

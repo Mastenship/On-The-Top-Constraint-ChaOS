@@ -7,13 +7,18 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: DECISION impulses, memory cues, stress/frustration pressure, DPF prediction support.
-Is Informed By: STATE_GOALS_MOTIVATIONS, STATE_BODY, STATE_DPF, STATE_TEMPORARY_MODIFIERS, SCHEME_GOALS_MOTIVATIONS, DYNAMICS_GOALS_MOTIVATIONS, DYNAMICS_DPF, narrative input.
+Is Informed By: STATE_GOALS_MOTIVATIONS, STATE_BODY, STATE_DPF, STATE_TEMPORARY_MODIFIERS, SCHEME_GOALS_MOTIVATIONS, DYNAMICS_GOALS_MOTIVATIONS, DYNAMICS_DPF, DYNAMICS_BODY, DYNAMICS_RELATIONAL, STATE_MEMORY, narrative input.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+[[LLM_INSTRUCTION]]: This COT proposes; it never commits. STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] per COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulses go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- One trace entry is appended to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]; existing trace content is never read back.
+- OPERATION_TYPE is SET, TRANSITION, ADD_MODIFIER, or REMOVE_MODIFIER.
+- Every proposal carries one EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, or COMMITTED_FACT, which requires EVIDENCE_REF.
 
 === SECTION_BREAK ===
 
@@ -22,9 +27,11 @@ Is Informed By: STATE_GOALS_MOTIVATIONS, STATE_BODY, STATE_DPF, STATE_TEMPORARY_
 ANCHOR_CUES:
 - GOAL_XX exists with STATUS = ACTIVE or BLOCKED.
 - A drive state is MODERATE or higher.
+- Narrative input meets, frustrates, or threatens the need behind a drive.
 - Narrative input introduces opportunity, obstacle, progress cue, deadline, resource change, or cost cue relevant to an active goal.
 - Two or more active goals conflict.
 - Narrative input introduces pressure that may satisfy DYNAMICS_GOALS_MOTIVATIONS.GOAL_WORTHINESS_GATE.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -32,6 +39,16 @@ DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 === SECTION_BREAK ===
 
 === SECTION: DRIVE_AND_GOAL_PRIORITIZATION ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_GOALS_MOTIVATIONS.DRIVE_ESCALATION and DRIVE_RELIEF for every drive except HUNGER and THIRST, which COT_TEMPORAL_FLOW_PROCESSING owns.
+
+ON_DRIVE_NEED_CUE:
+- Need threatened or frustrated: propose the drive one step more severe per DRIVE_ESCALATION.
+- Need met: propose the drive one step less severe per DRIVE_RELIEF.
+- When DYNAMICS_BODY.ACUTE_STRESS_RESPONSE applies, SET PHYSICAL_SAFETY to its endpoint with its proof fields instead of one step. When DYNAMICS_RELATIONAL.ATTACHMENT_INJURY applies, do the same for EMOTIONAL_SAFETY.
+
+ON_GOAL_ACHIEVED:
+- When a GOAL_XX reaches STATUS = ACHIEVED, apply DRIVE_RELIEF.ON_GOAL_ACHIEVED to the drive named in its DRIVE_SERVED.
 
 ON_HIGH_URGENCY_DRIVE:
 - Prioritize physiological and safety-constrained goals.
@@ -85,7 +102,7 @@ ON_NEW_GOAL_PRESSURE:
 
 ON_EXISTING_GOAL_UPDATE:
 - Use SET or TRANSITION on canonical goal fields.
-- Qualitative endpoint movement remains one-band bounded unless override proof is complete.
+- Qualitative endpoint movement remains one-band bounded.
 - STATUS changes require explicit cue or event support.
 
 === SECTION_BREAK ===
@@ -113,7 +130,7 @@ JUSTIFICATION_CATEGORY: GOAL_DIRECTED
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include top goals/drives, goal-worthiness gate YES/NO, new-goal admission/non-admission reason, conflict classification, DPF prediction linkage YES/NO, impulses, proposal count, and SCHEME compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include top goals/drives, drive escalation or relief with the need cue, override rule applied to a safety drive YES/NO, goal-worthiness gate YES/NO, new-goal admission/non-admission reason, conflict classification, DPF prediction linkage YES/NO, impulses, proposal count, and SCHEME compliance.
 
 === SECTION_BREAK ===
 

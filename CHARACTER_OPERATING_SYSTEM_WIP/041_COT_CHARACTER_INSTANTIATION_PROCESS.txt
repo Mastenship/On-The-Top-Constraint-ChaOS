@@ -1,7 +1,7 @@
 === SECTION: COT_CHARACTER_INSTANTIATION_PROCESS ===
 
 [KEEP: Purpose & Role]
-Interactive guided workflow for first-time character seeding. Produces proposal-only initialization packets for mutable STATE_ values and instantiation-time immutable baseline SCHEME values. Includes generative cross-instrument coherence interrogation at LAYER_08.
+Interactive guided workflow for first-time character seeding and for out-of-character baseline revision. Produces proposal-only initialization packets for mutable STATE_ values and instantiation-time immutable baseline SCHEME values. Includes generative cross-instrument coherence interrogation at LAYER_08.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -98,10 +98,26 @@ PACKET_COMPLETENESS:
 
 === SECTION: INSTANTIATION_BOUNDARY_RULE ===
 
-- Lawful first-time seeding exception path only.
+- Lawful exception path for first-time seeding and for OUT_OF_CHARACTER_BASELINE_REVISION only.
 - Immutable baseline SCHEME mutation permitted solely during INSTANTIATION_MODE.
 - INSTANTIATION_MODE distinguishes seeding from runtime.
 - Governance is sole persistent writer.
+
+=== SECTION_BREAK ===
+
+=== SECTION: OUT_OF_CHARACTER_BASELINE_REVISION ===
+
+[[LLM_INSTRUCTION]]: Core personality and formative baselines rarely change, even in a person's most transformative moments. A revision is never triggered by in-play events; it is an out-of-character decision between operator and player.
+
+SCOPE:
+- Applies to an existing character's immutable baseline-bearing SCHEME values only.
+- Writes only the specific baseline fields the operator and player agreed to revise.
+- Does not reset or reseed STATE_ modules, memories, relationships, or goals.
+
+PROCEDURE:
+- Enter INSTANTIATION_MODE for the revision workflow only.
+- Run LAYER_08_CROSS_INSTRUMENT_COHERENCE on the revised configuration against the unchanged baselines.
+- Seed only after explicit user confirmation per CONFIRMATION_REFERENCE_RULE, using COMMON_SEED_FIELDS.
 
 === SECTION_BREAK ===
 

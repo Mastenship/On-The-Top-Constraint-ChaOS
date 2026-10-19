@@ -31,9 +31,9 @@ OPENNESS_TO_EXPERIENCE: Aesthetic appreciation, inquisitiveness, creativity, unc
 
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation.
+- Values are fixed during play. A change is exceptional and out-of-character: it requires explicit operator and player agreement and is applied only through COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION.
 - Consulted for probability biases, weighting functions, and perception filters.
-- Changes require watershed-equivalent justification and are outside standard cycle mutation.
+- HONESTY_HUMILITY modulates COT_MALEVOLENT_BEHAVIOR_SELECTION gating: VERY_LOW lowers its cue threshold, and HIGH or VERY_HIGH opposes it per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
 
 === SECTION_BREAK ===
 

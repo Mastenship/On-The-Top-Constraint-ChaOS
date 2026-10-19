@@ -14,8 +14,11 @@ VALUE: STRING_DESCRIPTIVE
 SOURCE: STRING_DESCRIPTIVE
 
 EMOTIONAL_VALENCE:
-VALUE: ENUM [HOPEFUL, CAUTIOUS, ANXIOUS, DREAD, TERRIFIED, VENGEFUL, NUMB, GUILTY, ASHAMED, CRAVING]
+VALUE: ENUM [CALM, HOPEFUL, CAUTIOUS, ANXIOUS, DREAD, TERRIFIED, VENGEFUL, NUMB, GUILTY, ASHAMED, CRAVING]
 SOURCE: STRING_DESCRIPTIVE
+
+CALM_NOTE:
+[[LLM_INSTRUCTION]]: CALM is the frame that leans nowhere: the character expects the world to carry on as it is, with nothing pending and nothing braced for. It adds no lean to decisions, and against it a sudden event registers as full surprise.
 
 SOURCE_CAUSALITY:
 VALUE: ENUM [SCIENTIFIC, SUPERNATURAL, HUMAN_AGENCY, RANDOM]
@@ -78,6 +81,38 @@ ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
 
 === SECTION_BREAK ===
 
+=== SECTION: PREDICTION_STATE_SEMANTICS ===
+
+[[LLM_INSTRUCTION]]: Choose the terminal STATE by how the prediction ended, not by whether the outcome was good or bad. Each terminal STATE carries a checkable marker so governance can verify the choice without interpreting the narrative.
+
+RESOLVED:
+- Meaning: the prediction's resolution condition occurred and the outcome matched the HYPOTHESIS.
+- Marker: proposal MECHANISM_TAG is PREDICTION_RESOLUTION_EVENT.
+
+RESOLVED_NEGATIVE:
+- Meaning: the prediction's resolution condition occurred and the outcome contradicted the HYPOTHESIS. This is a clean test with a settled answer.
+- Marker: proposal MECHANISM_TAG is PREDICTION_RESOLUTION_EVENT.
+
+FALSIFIED:
+- Meaning: the prediction was abandoned without a decisive resolution event. No clean test occurred. It ends one of two ways, each with its own marker.
+- Contradiction marker: proposal MECHANISM_TAG is PREDICTION_CONTRADICTION_ACCUMULATION, and the committed [STATE_DPF][PRD_XX][CERTAINTY] is already at FALSIFICATION_THRESHOLD. Accumulated contradiction wore the prediction down.
+- Displacement marker: proposal MECHANISM_TAG is PREDICTION_CAP_DISPLACEMENT, the target is the lowest-certainty ACTIVE prediction (any one of those tied for lowest), and the same cycle carries a new PRD_XX creation pair at MAX_ACTIVE_PREDICTIONS. A newer expectation pushed out the stalest one. FALSIFICATION_THRESHOLD does not apply to displacement.
+
+FALSIFICATION_THRESHOLD: MINIMAL
+
+EVIDENCE_CONSEQUENCE:
+- RESOLVED and RESOLVED_NEGATIVE are settled outcomes and are evidence-eligible per CANONICAL_TOKEN_DICTIONARY.EVIDENCE_REF_PREDICTION_RULE.
+- FALSIFIED is not evidence-eligible because no resolution event tested the HYPOTHESIS.
+- A cap displacement is bookkeeping for a stale expectation, not a narrative event. It does not by itself warrant memory formation or a DPF contrast.
+
+ENFORCEMENT:
+- Terminal STATE SET whose MECHANISM_TAG does not match a marker for that STATE: SCHEME_INVARIANT_VIOLATION.
+- FALSIFIED with PREDICTION_CONTRADICTION_ACCUMULATION while committed PRD_XX.CERTAINTY is above FALSIFICATION_THRESHOLD: SCHEME_INVARIANT_VIOLATION.
+- FALSIFIED with PREDICTION_CAP_DISPLACEMENT on a prediction that is not lowest-certainty, or without a same-cycle creation pair at the cap: SCHEME_INVARIANT_VIOLATION.
+- A displacement and its paired creation are a linked unit; neither commits without the other.
+
+=== SECTION_BREAK ===
+
 === SECTION: REGISTRY_RULES ===
 
 - [STATE_DPF][PREDICTION_REGISTRY] lists all PREDICTION_ID tokens.
@@ -86,7 +121,7 @@ ASSOCIATED_MEMORY_ID: OPTIONAL_MEM_ID
 - No duplicate PREDICTION_ID.
 - New prediction insertion follows strict SET pair contract.
 - Active prediction count is governance-capped per STATE_GOVERNANCE_OVERLAY.MAX_ACTIVE_PREDICTIONS.
-- Excess creations are suppressed with DPF_PREDICTION_CAP_EXCEEDED unless override proof concurrently resolves or falsifies the lowest-certainty existing prediction.
+- Excess creations are suppressed with DPF_PREDICTION_CAP_EXCEEDED unless the same cycle lawfully closes an active prediction, per STATE_GOVERNANCE_OVERLAY.PREDICTION_LIMITS: by resolution, by contradiction falsification, or by cap displacement of the lowest-certainty prediction per PREDICTION_STATE_SEMANTICS.
 
 === SECTION_BREAK ===
 

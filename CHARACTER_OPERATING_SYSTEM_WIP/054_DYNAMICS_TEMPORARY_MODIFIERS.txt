@@ -26,6 +26,8 @@ PERFORMANCE_MODIFIER:
 - GROSS_MOTOR_BIAS
 - ALTERATION_SKILL_ENHANCEMENT
 - ALTERATION_SKILL_DEGRADATION
+- SKILL_RUST
+- SECOND_WIND
 
 COGNITIVE_MODIFIER:
 - COGNITIVE_OVERLOAD
@@ -150,7 +152,7 @@ STACKING_RULE_INTERPRETATION:
 - STACK: bounded concurrent overlays when materially different.
 - REPLACE: newer materially same payload supersedes existing in place.
 - CAP: aggregate effect cannot exceed qualitative ceiling.
-- MULTIPLY: rare; requires explicit bounded justification.
+- No multiplicative stacking: magnitudes are qualitative bands, not numbers. Intensification of a materially same effect uses REPLACE with a higher lawful MAGNITUDE.
 
 COEXISTENCE_RULE:
 - Concurrent modifiers require material difference, target compatibility, and governance cap compliance.

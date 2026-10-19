@@ -1,7 +1,7 @@
 === SECTION: DYNAMICS_BODY ===
 
 [KEEP: Purpose & Role]
-Immutable mechanics for physiological transitions, stress recovery, bounded biomedical drift, cardiovascular perceptual-snapshot derivation, and cross-scheme trait precedence. Defines lawful transition patterns only; never performs direct writes.
+Immutable mechanics for physiological transitions, acute stress response, traumatic injury, stress recovery, bounded biomedical drift, cardiovascular perceptual-snapshot derivation, and cross-scheme trait precedence. Defines lawful transition patterns only; never performs direct writes.
 
 READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
@@ -70,7 +70,7 @@ ON_ACUTE_AROUSAL_OR_ADRENALINE_RISE:
   - Resolve the pipe alternative to one concrete endpoint by cue intensity before scratchpad entry.
 
 ON_SUSTAINED_CORTISOL_ELEVATION:
-- When CORTISOL is SPIKE or higher:
+- When CORTISOL is SPIKE or CHRONIC:
   - PROPOSE SET:
     TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][CARDIOVASCULAR][BLOOD_PRESSURE]
     PROPOSED_VALUE: HYPERTENSION
@@ -92,7 +92,43 @@ ON_RECOVERY_OR_BASELINE_RETURN:
 
 SNAPSHOT_NOTE:
 - Cardiovascular snapshots track biochemical state; they do not independently drift and are not subject to cumulative-ordinal counting because they are not ordinal.
-- LOW and the clinical poles (HYPOTENSION, BRADYPNEA) are reached by SET only under explicit matching cue.
+- LOW and the low clinical poles (BRADYCARDIC, HYPOTENSION, BRADYPNEA) are reached by SET only under explicit matching cue.
+
+=== SECTION_BREAK ===
+
+=== SECTION: ACUTE_STRESS_RESPONSE ===
+
+[[LLM_INSTRUCTION]]: ACUTE_STRESS_RESPONSE is the named override trigger for the fight-or-flight response to sudden physical danger, such as an ambush. The sympathetic-adrenal-medullary surge reaches full strength within seconds, faster than one step per cycle can show. The HPA axis follows over minutes, so CORTISOL rises by the ordinary rule.
+
+GRANT_CONDITION:
+- The Dungeon Master's narration establishes sudden physical danger to the character: an attack without warning, a sudden fall or collapse, fire, or any immediate threat to life or limb.
+- The danger arrives at once. A threat that builds across cycles moves by the ordinary one step.
+- Physical danger only. Emotional and social threats follow their own rules, including DYNAMICS_RELATIONAL.ATTACHMENT_INJURY when someone the character cares about is behind them.
+- One invocation per onset. While the danger continues, PEAK holds per BIOCHEMICAL_ARC_PHASES.
+
+COVERED_FIELDS:
+- [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][ADRENALINE], from BASELINE only
+- [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][SAFETY_DRIVES][PHYSICAL_SAFETY]
+- Deterioration direction only.
+
+ENDPOINTS:
+- ADRENALINE to PEAK.
+- PHYSICAL_SAFETY to THREATENED, or to ENDANGERED when life or limb is at immediate risk.
+
+EXCLUDED:
+- CORTISOL, which follows COT_STRESS_CASCADE_RESOLUTION.ON_SUSTAINED_OR_REPEATED_STRESS.
+- ADRENALINE arc phases. A DEPLETED body cannot surge again until it recovers.
+- EMOTIONAL_SAFETY, coping, beliefs, relationships, and memories.
+
+PROOF_FIELDS:
+- INVOKED_RULE_NAME: ACUTE_STRESS_RESPONSE
+- NARRATIVE_CUE_REFERENCE: the Dungeon Master's statement of sudden physical danger
+- SCHEME_INVARIANT_NOTE: names the target field's ladder in SCHEME_BODY.BIOCHEMICAL_STATE_MARKERS or SCHEME_GOALS_MOTIVATIONS.DRIVE_STATES and asserts the endpoint lies on it, in the deterioration direction, within ENDPOINTS
+- MECHANISM_TAG: SYMPATHETIC_SURGE
+- Use SET to the explicit endpoint. Relative transition directives move one step only.
+
+ENFORCEMENT:
+- ACUTE_STRESS_RESPONSE used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
 
 === SECTION_BREAK ===
 
@@ -110,9 +146,37 @@ ON_REST_CYCLE_WITHOUT_ACTIVE_STRESS:
     PROPOSED_VALUE: ONE_STEP_TOWARD_BASELINE
     JUSTIFICATION: sympathetic cooldown cue
 
+- Both transitions above apply only to on-ladder values. When CORTISOL is CHRONIC or CRASH, or ADRENALINE is POST_PEAK or DEPLETED, recovery uses BIOCHEMICAL_ARC_PHASES.ARC_PHASE_RECOVERY instead.
+- When DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST applies, on-ladder ADRENALINE and acute CORTISOL may SET directly to BASELINE under its proof fields.
+
 RECOVERY_GATE:
 - Requires explicit rest, safety, cooldown, treatment, or absence of active stressor.
 - If active stressor remains, prefer suppression or temporary stabilization overlay.
+
+=== SECTION_BREAK ===
+
+=== SECTION: BIOCHEMICAL_ARC_PHASES ===
+
+[[LLM_INSTRUCTION]]: POST_PEAK, DEPLETED, CHRONIC, and CRASH are OFF_LADDER arc phases per SCHEME_BODY.ARC_PHASE_NOTE. Each entry or exit is one SET counted as one step per CANONICAL_TOKEN_DICTIONARY.OFF_LADDER_MOVEMENT_RULE.
+
+SYMPATHETIC_ARC:
+- POST_PEAK: SET from PEAK when the acute threat ends; the comedown.
+- DEPLETED: SET from PEAK or POST_PEAK when activation has been sustained or repeated without recovery.
+- While ADRENALINE is PEAK, continued acute threat holds PEAK; do not propose ONE_STEP_UP.
+
+HPA_ARC:
+- CHRONIC: SET from ELEVATED or SPIKE when stress has persisted across many cycles without recovery.
+- CRASH: SET from CHRONIC only, when chronic load continues to exhaustion.
+- While CORTISOL is SPIKE, further sustained stress moves toward CHRONIC by this rule; do not propose ONE_STEP_UP.
+
+ARC_PHASE_RECOVERY:
+- Recovery from an arc phase is one SET to the phase's declared EXIT member in SCHEME_BODY, subject to RECOVERY_GATE.
+- POST_PEAK and DEPLETED exit to BASELINE. CHRONIC exits to ELEVATED. CRASH exits to BASELINE.
+- After exit, ordinary ONE_STEP_TOWARD_BASELINE recovery resumes on the ladder.
+
+ARC_PHASE_EFFECTS:
+- CHRONIC sustains the elevated-cortisol cardiovascular readout per ON_SUSTAINED_CORTISOL_ELEVATION.
+- CRASH, POST_PEAK, and DEPLETED do not trigger elevated cardiovascular readouts; they read as fatigue, shakiness, and low reserve.
 
 === SECTION_BREAK ===
 
@@ -123,7 +187,7 @@ ON_SIGNIFICANT_INJURY_OR_ILLNESS:
   TARGET_FIELD: [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS]
   PROPOSED_VALUE: COMPROMISED
   JUSTIFICATION: injury or illness cue
-- IMMUNE_MARKERS is ordinal per SCHEME_BODY; a move from ROBUST to COMPROMISED is multi-step and requires override proof. From NORMAL, COMPROMISED is one lawful step.
+- IMMUNE_MARKERS is ordinal per SCHEME_BODY; a move from ROBUST to COMPROMISED is two steps and requires TRAUMA_INDUCED_ATROPHY. From NORMAL, COMPROMISED is one lawful step.
 
 ON_SUBSTANCE_USE_EVENT:
 - If NEUROCHEMICAL_BALANCE = BALANCED:
@@ -136,15 +200,75 @@ ON_SUBSTANCE_USE_EVENT:
     TARGET_FIELD: [STATE_BODY][BIOCHEMICAL_STATE_MARKERS][NEUROCHEMICAL_BALANCE]
     PROPOSED_VALUE: DYSREGULATED
     JUSTIFICATION: substance perturbation cue
-- Stronger deterioration requires override proof or governance downgrade/suppression.
+- Deterioration is one step per cycle; stronger proposals are downgraded or suppressed by governance.
 
 ON_MALNUTRITION_OR_DEHYDRATION:
 - METABOLIC_HEALTH may move one lawful step toward FAILING.
 - ELECTROLYTE_BALANCE may move one lawful step toward CRITICAL.
-- Stronger deterioration requires override proof or governance downgrade/suppression.
+- Deterioration is one step per cycle; stronger proposals are downgraded or suppressed by governance.
 
 IMMUNE_TERMINAL_RECONCILIATION_NOTE:
 [[LLM_INSTRUCTION]]: When two or more terminal biochemical states project concurrently with IMMUNE_MARKERS = ROBUST, governance applies IMMUNE_TERMINAL_STATE_RECONCILIATION: terminal-state transitions commit and IMMUNE_MARKERS is force-corrected one band off ROBUST toward NORMAL. DYNAMICS does not need to emit a separate immune-demotion proposal for this; the bounded correction is governance-side. DYNAMICS may still emit an explicit injury/illness IMMUNE_MARKERS proposal where a direct cue exists.
+
+=== SECTION_BREAK ===
+
+=== SECTION: TRAUMA_INDUCED_ATROPHY ===
+
+[[LLM_INSTRUCTION]]: TRAUMA_INDUCED_ATROPHY is the named override trigger for the body's shock at the moment of grievous physical injury. Major trauma suppresses the immune system at once, faster than one step per cycle can show. The lasting wound itself is admitted as an alteration per DYNAMICS_ALTERATIONS.NEW_ALTERATION_ADMISSION, and any lasting loss of capacity follows that alteration under DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE.
+
+GRANT_CONDITION:
+- The Dungeon Master's narration establishes grievous physical injury: a severed or crushed limb, a deep penetrating wound, severe burns, nerve or spinal damage, or brain injury.
+- An ordinary wound, however painful, moves by STRESS_INJURY_ILLNESS one step at a time.
+
+COVERED_FIELDS:
+- [STATE_BODY][PHYSIOLOGICAL_HEALTH][IMMUNE_MARKERS], in the cycle the injury is narrated
+- Deterioration direction only.
+
+ENDPOINTS:
+- IMMUNE_MARKERS to COMPROMISED.
+
+EXCLUDED:
+- Skills and any lasting impairment, which follow the alteration the wound creates.
+- ADRENALINE, which follows ACUTE_STRESS_RESPONSE when the injury comes from sudden danger.
+- Other health fields and everything mental.
+
+PROOF_FIELDS:
+- INVOKED_RULE_NAME: TRAUMA_INDUCED_ATROPHY
+- NARRATIVE_CUE_REFERENCE: the Dungeon Master's statement of the grievous injury
+- SCHEME_INVARIANT_NOTE: names the IMMUNE_MARKERS ladder in SCHEME_BODY.PHYSIOLOGICAL_HEALTH and asserts the endpoint lies on it, in the deterioration direction, within ENDPOINTS
+- MECHANISM_TAG: TRAUMATIC_INJURY
+- Use SET to the explicit endpoint. Relative transition directives move one step only.
+
+ENFORCEMENT:
+- TRAUMA_INDUCED_ATROPHY used without its grant condition, on a field outside COVERED_FIELDS, in the recovery direction, or past ENDPOINTS: OVERRIDE_PROOF_INCOMPLETE.
+
+=== SECTION_BREAK ===
+
+=== SECTION: HEALTH_RECOVERY ===
+
+[[LLM_INSTRUCTION]]: Health heals with time and care, never in a single night. Each field recovers one step per cycle toward its baseline, only while its care condition is established by narration and its cause has stopped. ENDOCRINE_RECOVERY.RECOVERY_GATE applies.
+
+IMMUNE_MARKERS:
+- Care: rest with treatment, or rest while the injury or illness is resolving.
+- From SUPPRESSED or COMPROMISED: PROPOSE TRANSITION ONE_STEP_TOWARD_BASELINE.
+- From NORMAL to ROBUST: PROPOSE SET ROBUST only after sustained recovery across many cycles, with good sustenance and no terminal biochemical state.
+
+NEUROCHEMICAL_BALANCE:
+- Care: abstinence from the disrupting substance, with rest or treatment.
+- PROPOSE TRANSITION ONE_STEP_TOWARD_BASELINE.
+
+METABOLIC_HEALTH:
+- Care: adequate food established by narration.
+- PROPOSE TRANSITION ONE_STEP_TOWARD_BASELINE.
+
+ELECTROLYTE_BALANCE:
+- Care: adequate water established by narration.
+- PROPOSE TRANSITION ONE_STEP_TOWARD_BASELINE.
+
+HEALTH_RECOVERY_BOUNDS:
+- One step per field per cycle. DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST does not apply to these fields.
+- No recovery while the cause continues: ongoing deprivation, continued substance use, or untreated worsening illness.
+- Alteration-caused immune change follows COT_ALTERATION_CASCADE_EFFECTS; its recovery uses this section.
 
 === SECTION_BREAK ===
 
@@ -153,7 +277,7 @@ IMMUNE_TERMINAL_RECONCILIATION_NOTE:
 - Physiological drift resolves to canonical TRANSITION directives or explicit lawful SET endpoints.
 - Cardiovascular PERCEPTUAL_SNAPSHOT fields are SET from biochemical/arousal state and are limit-exempt.
 - SET endpoint proposals on bounded ordinal fields remain step-, band-, and invariant-limited.
-- Multi-step deterioration requires override proof.
+- Multi-step deterioration requires ACUTE_STRESS_RESPONSE, TRAUMA_INDUCED_ATROPHY, or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof.
 - The immune/terminal cross-field invariant is resolved by bounded force-correction, not by suppressing physiological decline.
 - Trait modulation respects CROSS_SCHEME_TRAIT_PRECEDENCE.
 - Dynamics may describe degradation conceptually; proposals must resolve to concrete lawful values.

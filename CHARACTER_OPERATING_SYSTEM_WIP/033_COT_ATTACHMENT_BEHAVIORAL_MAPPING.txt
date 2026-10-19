@@ -13,7 +13,12 @@ Is Informed By: SCHEME_ASQ, STATE_RELATIONAL, STATE_MEMORY, STATE_GOALS_MOTIVATI
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+[[LLM_INSTRUCTION]]: This COT proposes; it never commits. STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] per COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulses go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- One trace entry is appended to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]; existing trace content is never read back.
+- OPERATION_TYPE is SET, TRANSITION, ADD_MODIFIER, or REMOVE_MODIFIER.
+- Every proposal carries one EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, or COMMITTED_FACT, which requires EVIDENCE_REF.
 
 === SECTION_BREAK ===
 
@@ -26,6 +31,7 @@ ANCHOR_CUES:
 - Attachment-relevant drive is MODERATE or higher.
 - Active modifier targets attachment EFFECT_FAMILY.
 - Narrative input contains reassurance, rejection, abandonment, betrayal, intimacy, distancing, dependency, loyalty-testing, separation, reunion, or vulnerability cue.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -90,7 +96,9 @@ ON_SALIENT_NEW_ENTITY:
 
 RELATIONAL_MOVEMENT:
 - Durable AFFECTIVE_VALENCE movement requires DYNAMICS_RELATIONAL.MEANINGFUL_INTERACTION_GATE.
+- When DYNAMICS_RELATIONAL.ATTACHMENT_INJURY applies, SET AFFECTIVE_VALENCE, and COGNITIVE_COMPLEXITY when recategorization is forced, to its endpoints with its proof fields. Its EMOTIONAL_SAFETY endpoint belongs to COT_GOAL_PURSUIT_OPTIMIZATION.
 - PERCEIVED_OTHER_VALENCE follows DYNAMICS_RELATIONAL.PERCEIVED_OTHER_VALENCE_DYNAMICS.
+- TRUST follows DYNAMICS_RELATIONAL.TRUST_DYNAMICS. Attachment style biases how readily trust is extended or withdrawn, never moves it without reliability evidence.
 - Direct disclosure may establish the statement occurred; internal state remains INFERENCE unless substrate grants direct access.
 
 ON_POSITIVE_SOCIAL_CUE:
@@ -103,6 +111,7 @@ ON_NEGATIVE_SOCIAL_CUE:
 
 ON_ATTACHMENT_TRIGGER:
 - Propose bounded COPE_PROBABILITY_BIASES movement on attachment cue support only, one band per field per cycle.
+- SEEKING_SUPPORT_PROBABILITY is the field most directly shaped by attachment: ANXIOUS_PREOCCUPIED favors upward movement, AVOIDANT_DISMISSIVE favors downward movement, and FEARFUL_AVOIDANT may move either way with the cue.
 - Coping selection, PRIMARY/SECONDARY mechanism, escalation, stabilization, and substance handling are owned by COT_STRESS_CASCADE_RESOLUTION and are not proposed here.
 - Prefer temporary overlays for acute attachment threat, reassurance need, distancing pressure, or loyalty-testing pressure.
 
@@ -122,7 +131,7 @@ JUSTIFICATION_CATEGORY: TRAIT_GATED
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated attachment schema, impulses, proposal count, meaningful-interaction gate YES/NO, inference boundary YES/NO, and SCHEME_ASQ compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include activated attachment schema, impulses, proposal count, meaningful-interaction gate YES/NO, ATTACHMENT_INJURY applied YES/NO, inference boundary YES/NO, and SCHEME_ASQ compliance.
 
 === SECTION_BREAK ===
 

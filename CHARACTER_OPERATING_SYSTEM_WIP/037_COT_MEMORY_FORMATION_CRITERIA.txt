@@ -7,13 +7,18 @@ READ_VISIBILITY_CLASS: CHARACTER_VISIBLE
 
 [KEEP: Relationship to Other Modules]
 Informs: STATE_MEMORY proposals, linkage proposals, persistence clusters.
-Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF, STATE_TEMPORARY_MODIFIERS, stress cascade, SCHEME_MEMORY, DYNAMICS_MEMORY, narrative input.
+Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF, STATE_TEMPORARY_MODIFIERS, stress cascade, STATE_MEMORY, SCHEME_MEMORY, DYNAMICS_MEMORY, narrative input.
 
 === SECTION_BREAK ===
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+[[LLM_INSTRUCTION]]: This COT proposes; it never commits. STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] per COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulses go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- One trace entry is appended to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]; existing trace content is never read back.
+- OPERATION_TYPE is SET, TRANSITION, ADD_MODIFIER, or REMOVE_MODIFIER.
+- Every proposal carries one EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, or COMMITTED_FACT, which requires EVIDENCE_REF.
 
 === SECTION_BREAK ===
 
@@ -22,10 +27,11 @@ Is Informed By: STATE_BODY, STATE_RELATIONAL, STATE_GOALS_MOTIVATIONS, STATE_DPF
 ANCHOR_CUES:
 - Narrative input contains high-emotional-arousal, novelty, or consequence event.
 - Salient state change occurred this cycle.
-- Prediction was resolved, resolved negatively, or falsified.
+- Prediction was resolved, resolved negatively, or falsified by contradiction. A cap displacement alone is not an anchor.
 - Flashbulb-class event is present.
 - Existing MEM_XX has reconsolidation pressure.
 - Current cue may contribute to persistence cluster.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -55,7 +61,7 @@ FORMATION_REQUIREMENTS:
 - At least one lawful canonical SYSTEM_LINKAGE path.
 - Schema-valid payload.
 - Per-cycle memory creation cap respected.
-- [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] is a separate capped processing-cue queue, not MEM_XX or an episodic memory; this COT may use it only when SOURCE_COT matches, per UPDATE_CASCADE_REGISTRY.DEFERRED_NARRATIVE_CUE_DISPATCH.
+- [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] is a processing-cue queue, not MEM_XX or an episodic memory; a queue entry never becomes a memory.
 - Preserve lawful memory-formation proposals for salient Dungeon Master events even when an unrelated domain's proposal is invalid; final independence and linked-unit validation remain with STATE_GOVERNANCE_AND_COMMIT per STATE_GOVERNANCE_OVERLAY.NARRATIVE_CONTINUITY_INVARIANT.
 - If a systemic unisolatable fault prevents safe memory commitment, the governance band records the affected event cue for possible operator re-presentation; this COT must not read governance diagnostics or silently invent a durable memory.
 - INTERNAL_MONOLOGUE_EXCERPT is stylized remembered artifact, not raw reasoning.

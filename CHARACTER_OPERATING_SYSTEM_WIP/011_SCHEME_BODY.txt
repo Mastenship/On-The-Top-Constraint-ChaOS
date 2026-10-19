@@ -21,9 +21,13 @@ BODY_COMPOSITION: ENUM [LEAN, AVERAGE, MUSCULAR, STOCKY, FRAIL]
 [[LLM_INSTRUCTION]]: Cardiovascular fields are PERCEPTUAL_SNAPSHOT categorical readings per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. They represent an instantaneous clinical snapshot driven by current arousal/biochemical state and may SET to any lawful endpoint in one cycle. They are exempt from one-step movement limits by design.
 
 CARDIOVASCULAR:
-HEART_RATE: ENUM [LOW, NORMAL, ELEVATED, TACHYCARDIC] PERCEPTUAL_SNAPSHOT
-BLOOD_PRESSURE: ENUM [LOW, NORMAL, HYPOTENSION, HYPERTENSION] PERCEPTUAL_SNAPSHOT
-RESPIRATORY_RATE: ENUM [LOW, NORMAL, ELEVATED, BRADYPNEA, TACHYPNEA] PERCEPTUAL_SNAPSHOT
+HEART_RATE: ENUM [BRADYCARDIC, LOW, NORMAL, ELEVATED, TACHYCARDIC] PERCEPTUAL_SNAPSHOT
+BLOOD_PRESSURE: ENUM [HYPOTENSION, LOW, NORMAL, ELEVATED, HYPERTENSION] PERCEPTUAL_SNAPSHOT
+RESPIRATORY_RATE: ENUM [BRADYPNEA, LOW, NORMAL, ELEVATED, TACHYPNEA] PERCEPTUAL_SNAPSHOT
+
+CARDIOVASCULAR_VALUE_GLOSS:
+- All three fields share one pattern: clinical low, LOW, NORMAL, ELEVATED, clinical high.
+- LOW and ELEVATED are mild deviations. BRADYCARDIC, HYPOTENSION, BRADYPNEA, TACHYCARDIC, HYPERTENSION, and TACHYPNEA are severe, clinically significant readings.
 
 CARDIOVASCULAR_DERIVATION_NOTE:
 [[LLM_INSTRUCTION]]: Cardiovascular fields are not free-floating. They are perceptual readouts of arousal and biochemical state and are written by DYNAMICS_BODY.CARDIOVASCULAR_SNAPSHOT in response to ADRENALINE and CORTISOL movement, acute-stress cues, or recovery cues. They do not require persistence evidence and do not carry durable identity meaning.
@@ -35,16 +39,24 @@ IMMUNE_MARKERS_NOTE:
 - Ladder ascends ROBUST < NORMAL < COMPROMISED < SUPPRESSED in declared bracket position; BASELINE_ANCHOR is NORMAL.
 - Ordinary movement is one band per cycle by SET or TRANSITION unless override proof is complete.
 - The terminal-state invariant is resolved by STATE_GOVERNANCE_OVERLAY.CROSS_FIELD_INVARIANT_TIMING.IMMUNE_TERMINAL_STATE_RECONCILIATION, which moves IMMUNE_MARKERS one band off ROBUST toward NORMAL via INVARIANT_FORCED_CORRECTION.
-- A single-cycle drop greater than one band (for example ROBUST directly to COMPROMISED) requires override proof exactly like other multi-step physiological deterioration.
+- A single-cycle drop greater than one band (for example ROBUST directly to COMPROMISED) requires DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY or DYNAMICS_ALTERATIONS.ALTERATION_ACTIVATION_OR_FAILURE proof.
 
 === SECTION_BREAK ===
 
 === SECTION: BIOCHEMICAL_STATE_MARKERS ===
 
-[[LLM_INSTRUCTION]]: Ordinal per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. Bracket order ascends from baseline to terminal.
+[[LLM_INSTRUCTION]]: Ordinal per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY. Bracket order ascends by intensity.
 
-CORTISOL: ORDINAL [BASELINE, ELEVATED, SPIKE, CHRONIC, CRASH]
-ADRENALINE: ORDINAL [BASELINE, HEIGHTENED, PEAK, POST_PEAK, DEPLETED]
+CORTISOL: ORDINAL [BASELINE, ELEVATED, SPIKE] OFF_LADDER CHRONIC EXIT ELEVATED OFF_LADDER CRASH EXIT BASELINE
+ADRENALINE: ORDINAL [BASELINE, HEIGHTENED, PEAK] OFF_LADDER POST_PEAK EXIT BASELINE OFF_LADDER DEPLETED EXIT BASELINE
+
+ARC_PHASE_NOTE:
+[[LLM_INSTRUCTION]]: CHRONIC, CRASH, POST_PEAK, and DEPLETED are phases of a stress arc, not higher intensities. They are OFF_LADDER members per CANONICAL_TOKEN_DICTIONARY.OFF_LADDER_MOVEMENT_RULE: entered and left by SET under DYNAMICS_BODY.BIOCHEMICAL_ARC_PHASES, never by relative transition.
+- POST_PEAK: the comedown after peak activation.
+- DEPLETED: sympathetic exhaustion after prolonged activation.
+- CHRONIC: sustained elevation over time.
+- CRASH: HPA exhaustion after prolonged chronic load.
+- Recovery leaves each phase by SET to its declared EXIT member, never by walking back through PEAK or SPIKE.
 NEUROCHEMICAL_BALANCE: ORDINAL [BALANCED, STRAINED, DYSREGULATED, BREAKDOWN]
 METABOLIC_HEALTH: ORDINAL [OPTIMAL, STRAINED, FAILING]
 ELECTROLYTE_BALANCE: ORDINAL [BALANCED, IMBALANCED, CRITICAL]
@@ -63,9 +75,9 @@ HAIR_DENSITY: ORDINAL [FULL, THINNING, SPARSE, BALDING]
 [[LLM_INSTRUCTION]]: Pain is not represented as a persistent STATE_BODY field.
 
 PAIN_SURFACES:
-- Drive pressure: [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE]
-- Acute/localized pain: STATE_TEMPORARY_MODIFIERS overlay
-- Long-term chronic pain condition: STATE_ALTERATIONS ALT_XX
+- Acute pain pressure: [STATE_GOALS_MOTIVATIONS][DRIVE_STATES][PHYSIOLOGICAL_DRIVES][PAIN_AVOIDANCE]
+- An injury, disease, or other lasting cause of pain: STATE_ALTERATIONS ALT_XX, ended by Dungeon Master adjudication
+- What pain does to attention and action is read from the totality of current state; it needs no separate overlay.
 
 RULE:
 - No ad-hoc pain field on STATE_BODY.

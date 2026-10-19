@@ -138,6 +138,7 @@ STEP_04_SCHEME_AND_OPERATION_VALIDATION:
 - Validate operation vocabulary, enum legality, ordinal ladder legality, transition-directive binding, record schema, single-proposal invariants, qualitative band membership, immutable-baseline rules, and operation semantics.
 - Ordinal step legality evaluates against the field's declared ladder per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.
 - PERCEPTUAL_SNAPSHOT categorical fields are exempt from one-step limits.
+- Entering or leaving an OFF_LADDER member is one SET counted as one step for per-field and cumulative limits per CANONICAL_TOKEN_DICTIONARY.ORDINAL_LADDER_AUTHORITY.OFF_LADDER_MOVEMENT_RULE.
 - Validate alteration record payloads and field SETs under SCHEME_ALTERATIONS and CANONICAL_TOKEN_DICTIONARY.ALTERATION_FIELD_ROLE_CONTRACT; reject legacy STATUS = REJECTED with INVALID_ENUM_VALUE and missing required stance with SCHEME_INVARIANT_VIOLATION. Do not silently migrate or synthesize companion writes.
 - Suppress with OPERATION_TYPE_INVALID, INVALID_ENUM_VALUE, INVALID_ORDINAL_TRANSITION, REGISTRY_RECORD_PAIR_VIOLATION, SCHEME_INVARIANT_VIOLATION, SCHEME_IMMUTABLE_BASELINE_WRITE, MODIFIER_SCHEMA_VIOLATION, LINKAGE_REFERENCE_VIOLATION, or IMMUNE_TERMINAL_STATE_CONFLICT.
 
@@ -178,6 +179,7 @@ STEP_07_EVIDENCE_REF_VALIDATION:
 
 STEP_08_OVERRIDE_PROOF_VALIDATION:
 - For override-gate proposals, verify INVOKED_RULE_NAME, NARRATIVE_CUE_REFERENCE, SCHEME_INVARIANT_NOTE, and MECHANISM_TAG.
+- Verify the invocation falls within the scope CANONICAL_TOKEN_DICTIONARY.OVERRIDE_SCOPE_AUTHORITY assigns to the named rule.
 - Suppress incomplete proof with OVERRIDE_PROOF_INCOMPLETE.
 
 STEP_09_CONFLICT_RECONCILIATION:

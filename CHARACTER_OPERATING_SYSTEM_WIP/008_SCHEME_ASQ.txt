@@ -25,9 +25,8 @@ FEARFUL_AVOIDANT: Desire intimacy but fear hurt.
 
 === SECTION: INVARIANTS ===
 
-- Values fixed post-instantiation.
+- Values are fixed during play. A change is exceptional and out-of-character: it requires explicit operator and player agreement and is applied only through COT_CHARACTER_INSTANTIATION_PROCESS.OUT_OF_CHARACTER_BASELINE_REVISION.
 - ATTACHMENT_SECURITY biases attachment impulses.
-- Shifts require prolonged corrective experience or explicit instantiation-time override.
 
 === SECTION_BREAK ===
 

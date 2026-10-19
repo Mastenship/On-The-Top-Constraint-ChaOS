@@ -13,7 +13,12 @@ Is Informed By: STATE_MEMORY, personality schemes, STATE_RELATIONAL, STATE_COPE,
 
 === SECTION: WRITE_POLICY_OVERRIDE ===
 
-[[LLM_INSTRUCTION]]: Proposal, impulse, and trace writes follow UPDATE_CASCADE_REGISTRY.SYSTEM_WIDE_WRITE_POLICY.
+[[LLM_INSTRUCTION]]: This COT proposes; it never commits. STATE_GOVERNANCE_AND_COMMIT is the only persistent writer.
+- Proposals go to [COGNITIVE_SCRATCHPAD][PROPOSED_UPDATES_REGISTRY] per COGNITIVE_SCRATCHPAD.PROPOSED_UPDATES_REGISTRY.PROPOSAL_ENTRY_SCHEMA.
+- Impulses go to [COGNITIVE_SCRATCHPAD][ACTIVE_IMPULSE_REGISTRY].
+- One trace entry is appended to [COGNITIVE_SCRATCHPAD][CASCADE_TRACE]; existing trace content is never read back.
+- OPERATION_TYPE is SET, TRANSITION, ADD_MODIFIER, or REMOVE_MODIFIER.
+- Every proposal carries one EPISTEMIC_TAG: PERCEPTION, INFERENCE, SPECULATION, or COMMITTED_FACT, which requires EVIDENCE_REF.
 
 === SECTION_BREAK ===
 
@@ -21,11 +26,13 @@ Is Informed By: STATE_MEMORY, personality schemes, STATE_RELATIONAL, STATE_COPE,
 
 ANCHOR_CUES:
 - Narrative input describes ACUTE_PHYSICAL_THREAT, ACUTE_SOCIAL_THREAT, CHRONIC_OVERLOAD, LOSS_OR_GRIEF, UNCERTAINTY_OR_AMBIGUITY, or EXISTENTIAL stressor.
-- STATE_BODY biochemical markers are above baseline.
+- STATE_BODY biochemical markers are not at baseline, including arc phases per SCHEME_BODY.ARC_PHASE_NOTE.
 - Active modifier targets HYPERVIGILANCE or CHRONIC_LOAD_NUMBING.
 - SIGNIFICANT or CLINICAL MMPI scale interacts with moderate cue per DYNAMICS_BODY.CROSS_SCHEME_TRAIT_PRECEDENCE.
 - Substance-use event relevant to coping is present.
-- A maladaptive PRIMARY_MECHANISM (DENIAL, SUBSTANCE_USE, VENTING) persisted from the prior cycle with the stressor unresolved, or a stressor resolves while coping bands remain off baseline.
+- Narrative input describes injury, illness, treatment, or rest that allows physical recovery.
+- A maladaptive PRIMARY_MECHANISM (any of SCHEME_COPE.MALADAPTIVE_MECHANISMS) persisted from the prior cycle with the stressor unresolved, or a stressor resolves while coping bands remain off baseline.
+- An eligible [STATE_MEMORY][DEFERRED_NARRATIVE_CUES] entry names this COT as SOURCE_COT, per SCHEME_MEMORY.DEFERRED_NARRATIVE_CUE_QUEUE.COT_RECONSIDERATION.
 
 DEFAULT_BEHAVIOR_WHEN_NO_ANCHOR:
 - EMPTY_CYCLE_FORM only, per UPDATE_CASCADE_REGISTRY.NO_TRIGGER_BEHAVIOR_POLICY.
@@ -58,6 +65,7 @@ ON_ACUTE_STRESSOR:
   EPISTEMIC_TAG: PERCEPTION
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: sympathetic activation cue
+- When DYNAMICS_BODY.ACUTE_STRESS_RESPONSE applies, SET ADRENALINE to PEAK with its proof fields instead of one step. Its PHYSICAL_SAFETY endpoint belongs to COT_GOAL_PURSUIT_OPTIMIZATION.
 
 ON_SUSTAINED_OR_REPEATED_STRESS:
 - PROPOSE TRANSITION:
@@ -69,8 +77,27 @@ ON_SUSTAINED_OR_REPEATED_STRESS:
   JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
   JUSTIFICATION: sustained stress cue
 
-ON_CHRONIC_PATTERN:
-- Propose chronic-state movement only if step limits or override rules permit.
+ON_PEAK_OR_SUSTAINED_PATTERN:
+- ONE_STEP_UP above applies only below the ladder top: ADRENALINE below PEAK, CORTISOL below SPIKE.
+- At the ladder top, or for comedown, exhaustion, chronic load, and recovery, propose arc-phase SETs per DYNAMICS_BODY.BIOCHEMICAL_ARC_PHASES.
+
+=== SECTION_BREAK ===
+
+=== SECTION: PHYSIOLOGICAL_RECOVERY ===
+
+[[LLM_INSTRUCTION]]: This COT executes DYNAMICS_BODY.CARDIOVASCULAR_SNAPSHOT, ENDOCRINE_RECOVERY, BIOCHEMICAL_ARC_PHASES, STRESS_INJURY_ILLNESS except ON_MALNUTRITION_OR_DEHYDRATION, TRAUMA_INDUCED_ATROPHY for IMMUNE_MARKERS, and HEALTH_RECOVERY for IMMUNE_MARKERS and NEUROCHEMICAL_BALANCE. COT_TEMPORAL_FLOW_PROCESSING owns sustenance-related body effects. COT_ALTERATION_CASCADE_EFFECTS owns alteration-caused immune deterioration.
+
+ON_AROUSAL_CHANGE:
+- Update HEART_RATE, BLOOD_PRESSURE, and RESPIRATORY_RATE per CARDIOVASCULAR_SNAPSHOT as arousal rises or settles.
+
+ON_REST_OR_RECOVERY_CUE:
+- Apply ENDOCRINE_RECOVERY to on-ladder ADRENALINE and CORTISOL under its RECOVERY_GATE. Arc phases follow BIOCHEMICAL_ARC_PHASES.ARC_PHASE_RECOVERY.
+- When DYNAMICS_TEMPORAL_DYNAMICS.EXTENDED_REST applies, SET on-ladder ADRENALINE and acute CORTISOL to BASELINE with its proof fields instead of one step.
+
+ON_INJURY_ILLNESS_OR_TREATMENT:
+- Apply STRESS_INJURY_ILLNESS for new injury, illness, or substance effects.
+- When DYNAMICS_BODY.TRAUMA_INDUCED_ATROPHY applies, SET IMMUNE_MARKERS to COMPROMISED with its proof fields. The lasting wound is admitted as an alteration by COT_ALTERATION_CASCADE_EFFECTS.
+- Apply HEALTH_RECOVERY to IMMUNE_MARKERS and NEUROCHEMICAL_BALANCE when its care condition is established.
 
 === SECTION_BREAK ===
 
@@ -121,6 +148,7 @@ ON_CHRONIC_PATTERN:
 ON_ACUTE_STRESS:
 - Run DYNAMICS_COPE.COPE_SELECTION_RULE for the effective coping route.
 - Propose bounded SET on cue-supported COPE_PROBABILITY_BIASES fields toward the selected route.
+- Emit one COPE impulse per BEHAVIORAL_IMPULSE_GENERATION so the selected route can become the character's action this turn.
 
 ON_MALADAPTIVE_PERSISTENCE:
 - Apply DYNAMICS_COPE.MALADAPTIVE_ESCALATION; propose bounded SET on the relevant probability field (and SUBSTANCE_USE_RISK for substance) plus the family-named escalation modifier defined there.
@@ -150,7 +178,7 @@ DISTINCTNESS_RULE:
 
 IMPULSE_OUTPUT_FORMAT:
 IMPULSE_SOURCE: COT_STRESS_CASCADE_RESOLUTION
-IMPULSE_TYPE: FIGHT | FLIGHT | FREEZE | FAWN | APPEASE | WITHDRAW
+IMPULSE_TYPE: FIGHT | FLIGHT | FREEZE | FAWN | APPEASE | WITHDRAW | COPE
 IMPULSE_STRENGTH: QUALITATIVE_INTENSITY band
 TARGET_ID: ENT_XX | NONE
 JUSTIFICATION:
@@ -158,11 +186,17 @@ JUSTIFICATION_CATEGORY: DIRECT_APPLICATION
 
 [[LLM_INSTRUCTION]]: FAWN is the canonical fourth-F placation response. APPEASE is distinct goal-directed conciliation.
 
+COPE_IMPULSE_RULE:
+- COPE expresses the selected coping mechanism as something the character can do on their turn: seek someone out, crack a joke, pray, keep busy, dismiss the problem, reach for a drink, give up, and so on.
+- Name the selected mechanism in JUSTIFICATION.
+- For SEEKING_SUPPORT, TARGET_ID is the trusted ENT_XX the character would turn to; for a mechanism aimed at a specific entity, such as VENTING at someone, TARGET_ID is that entity; otherwise NONE.
+- The impulse is what the character attempts. Whether the person is there, or how it lands, belongs to the Dungeon Master's world.
+
 === SECTION_BREAK ===
 
 === SECTION: TRACE_REQUIREMENT ===
 
-[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include stressor classification, selected coping mechanism, coping escalation/stabilization direction, substance-risk movement, impulses, proposal count, and SCHEME_BODY plus SCHEME_COPE compliance.
+[[LLM_INSTRUCTION]]: Emit one trace per UPDATE_CASCADE_REGISTRY. Include stressor classification, ACUTE_STRESS_RESPONSE applied YES/NO, TRAUMA_INDUCED_ATROPHY applied YES/NO, physiological recovery applied YES/NO, EXTENDED_REST applied YES/NO, selected coping mechanism, coping escalation/stabilization direction, substance-risk movement, impulses, proposal count, and SCHEME_BODY plus SCHEME_COPE compliance.
 
 === SECTION_BREAK ===
 
