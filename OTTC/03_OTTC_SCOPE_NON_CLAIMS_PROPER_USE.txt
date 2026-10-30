@@ -152,7 +152,7 @@ OTTC favors semantic governance at the model interface:
 
 Numeric encoding, indexing, and cross-cycle comparisons are performed downstream in deterministic governance after audit and verification pass.
 
-This architecture allows mathematics to emerge from governed semantics rather than requiring numeric authority inside stochastic generation.
+This architecture allows mathematics to emerge from governed semantics rather than requiring numeric authority inside stochastic generation. The explicitly typed epistemic record is a necessary measurement input for independent claim-level longitudinal audit; implicit model reasoning is not a substitute for an inspectable contemporaneous declaration. See OTTC/09_OTTC_SPECIFICATION_DRAFT.txt for the normative measurement contract.
 
 PRACTICAL BENEFITS:
 - reduced numeric brittleness in model output
@@ -219,7 +219,7 @@ And critically:
 Use OTTC when you need one or more of:
 - long-horizon stability (reduced drift and thrash)
 - explicit authority boundaries (propose vs commit)
-- bounded epistemics (observation vs inference vs committed state; mandatory as kernel INVARIANT 10 when the system must function as a hypothesis machine, optional structuring otherwise)
+- bounded epistemics (observation vs inference vs committed state; EPISTEMIC_TAG is invariant 10 in the current full OTTC kernel; nine invariants describe the narrower conceptual governability floor, not a license to omit the tenth while claiming full compliance)
 - auditable state evolution (post-hoc accountability)
 - tool safety framed as sensor/actuator governance
 - pre-build coupling classification to guide DSL and governance engineering choices
