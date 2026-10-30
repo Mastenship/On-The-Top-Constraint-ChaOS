@@ -80,6 +80,7 @@ Typical integration:
 - AUDIT: records each proposal's accountable closure and actual write lineage.
 - VERIFIER: independently inspects committed state and trace; returns findings or new proposals to the writer, never silently changes state.
 - STORE: holds durable committed state; the model's exploratory context is not the source of record.
+- SEMANTIC_ABACUS (Stage 2/3 measurement): reads retained, post-audit canonical semantic events with original epistemic tags, tool-return lineage, dispositions, and verified state changes; deterministically encodes and compares them across cycles without write authority. OTTC/09 owns this contract; OTTC/10 owns its validation experiments.
 
 STAGES:
 - Stage 1 — qualify the candidate first, then discover and build its lawful model-facing interface in context.
@@ -99,9 +100,9 @@ OTTC gives developers concrete assertions to test:
 - state deltas and audit dispositions reproducibly linked
 - external gate accepts mandatory lawful cases while blocking illegal ones
 - verifier catches planted violations without becoming a second writer
-- evidence tags and source permissions survive replay; no speculation silently promoted to fact
+- contemporaneous epistemic tags, evidence sources, authorized tool requests/actual returns, and governed outcomes survive replay; no speculation silently promoted to fact
 - post-build regressions following changes to prompts, DSL, model, tools, or schemas
-- longitudinal scenarios that detect unjustified change *without* rewarding complete refusal to update
+- longitudinal Semantic Abacus scenarios that measure counterevidence correction, claim-kind attribution, and unjustified change *without* rewarding complete refusal to update
 - input-framing comparisons to measure ingress contamination and the effects of context isolation
 
 Compare against realistic alternatives. Report failure signatures and evidence rather than advertising unmeasured drift reductions.
