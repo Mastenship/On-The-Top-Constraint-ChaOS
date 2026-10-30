@@ -74,6 +74,24 @@ Minimum viable metric set:
 6) Verification Outcome Distribution
 - PASS/WARN/FAIL rates and violation types over a scenario battery
 
+7) Epistemic Promotion Error Rate
+- unjustified promotion of speculation/inference into evidence-bound COMMITTED_FACT, scored against independent evidence fixtures
+
+8) Evidence-Lineage Fidelity
+- percentage of supported claims whose authorized source and evidentiary references resolve across cycles
+
+9) Correction Fidelity and Latency
+- whether and how promptly decisive counterevidence produces the domain-warranted revision; distinguish unresolved evidence from refutation
+
+10) Lawful Responsiveness / Wrongful Suppression
+- rate of required-to-update cases correctly committed and lawful cases unjustifiably suppressed
+
+11) Longitudinal Biased Governed Drift
+- evidence-unwarranted directionality of verified committed trajectories relative to domain-grounded reference expectations, paired with lawful responsiveness
+
+12) Tool-Intent and Return-Attribution Integrity
+- authorized requests versus actual executions and independently provenance-stamped returns; preservation of lineage through later proposals
+
 Optional:
 - Human-rated continuity and player-likeness scores, blinded to condition.
 
@@ -151,55 +169,39 @@ Decision coupling:
 
 === SECTION: MINIMAL_KERNEL_HYPOTHESIS ===
 
-[[LLM_INSTRUCTION]]: This section states a second, separable hypothesis. The CLAIM section above is the
-coupling hypothesis (does the constitution bind the generator). This is the minimality hypothesis (is
-the kernel the smallest that yields a hypothesis machine). They are tested by different methods and
-neither depends on the other.
+[[LLM_INSTRUCTION]]: Distinguish definitional prerequisites, accountable interface requirements, and falsifiable implementation claims. Do not count a tautological failure as empirical confirmation.
 
-HYPOTHESIS:
-The ten kernel invariants are the minimum generating set under which propose→commit→verify is also a
-predict→compare→update and conjecture→test→refute loop — a hypothesis machine over cycles. The tenth
-invariant (epistemic-status typing) is necessary, not merely strengthening, for any architecture with
-mixed-provenance durable state.
+THREE_SEPARATE_CLAIMS:
+A) CONCEPTUAL_PRECONDITION:
+A process that tests hypotheses necessarily distinguishes conjecture, test evidence, and outcomes in some functional form. Removing all epistemic discrimination while continuing to demand predictive comparison removes a prerequisite of the task. This is a logical dependency, not a discovery to be made by ablation.
 
-STATUS: ARGUED, NOT YET CONFIRMED. The protocol below specifies what confirms or refutes it. Until the
-deletion battery survives, "minimal" is under test (VERIFICATION_AXIOM).
+B) ACCOUNTABILITY_REQUIREMENT:
+For independently replayable, claim-level epistemic audit over a horizon, consequential epistemic standings must be declared contemporaneously in externally inspectable, retained records. Implicit model reasoning or a retrospective generated explanation cannot by itself supply this record. OTTC uses the closed EPISTEMIC_TAG vocabulary at the proposal boundary; an alternative explicit, retained representation might implement equivalent discrimination. Provenance, source disclosure authorization, evidence warrant, and epistemic standing are separate.
 
-FUNCTIONAL_MINIMALITY_NOTE:
-[[LLM_INSTRUCTION]]: Minimality concerns constitutional FUNCTIONS, not the number of separately named
-invariants or their particular representations.
+C) EMPIRICAL_ARCHITECTURE_CLAIMS:
+Whether OTTC accurately tags claims, preserves linkage, makes lawful corrections, reduces unjustified state drift, and performs better than alternatives is testable. The universal minimality of the complete ten-function OTTC kernel remains ARGUED, NOT YET CONFIRMED. Finite failed ablations do not prove that no other constitutional architecture is sufficient.
 
-A valid ablation must eliminate the targeted function throughout the architecture. Deleting a rule,
-field, tag, or component while preserving an equivalent function through another mechanism does not
-constitute functional removal.
+ABLATION_INTERPRETATION_RULE:
+Removing the EPISTEMIC_TAG field while retaining implicit model epistemology is a representation/interface ablation, not removal of epistemology. Success at reasoning does not establish claim-level auditability. Replacing a tag with a functionally equivalent explicit, durable epistemic record tests representation choices, not the necessity of observable epistemic discrimination. Eliminating epistemic discrimination entirely makes genuine hypothesis testing undefined and must not be scored as experimental proof of its necessity.
 
-Combining invariants, redistributing responsibilities, or replacing explicit tags with an equally
-effective epistemic distinction is a change of implementation, not evidence that the function is
-unnecessary.
+REVISED_COMPARATIVE_BATTERY:
+1) Qualified OTTC baseline with explicitly typed, evidence-linked, audited proposals.
+2) Matched tag-omission condition that retains the same generator and task; measure the loss of contemporaneous claim-level observability independently of reasoning accuracy.
+3) Alternative explicit, durable epistemic representation; test whether equivalent accountability can be achieved without OTTC's literal tag vocabulary.
+4) Mislabeling, missing evidence-reference, stale-source, and deceptive tool-return fixtures; test admission, truthful suppression, attribution, and subsequent correction.
+5) Long-horizon mixed-provenance evidence reversals and lawful required-to-update cases; test refutation handling, correction latency, drift, and unwarranted refusal.
 
-A counterexample must demonstrate the required hypothesis-machine behavior under independently
-specified tests while genuinely lacking the targeted function. Otherwise, the ablation has tested
-representation rather than necessity.
+Test other kernel functions through matched functional interventions where a coherent comparison remains possible. When a function is entangled with the remaining nine, report that dependency and the precise implementation change rather than claiming that all nine were held functionally unchanged. Functional removal must not be inferred from deleting a named rule alone.
 
-DELETION BATTERY (the minimality protocol):
-Minimality is a universal claim and is confirmed only by failed reduction, never by demonstrating the
-full kernel works. For each invariant: remove it, hold the other nine intact, run a mixed-provenance
-long-horizon scenario, and observe whether predictive processing or falsification breaks. The claim
-stands only while every deletion produces an observable loss. Reuse the existing DVs; no new instrument
-is required.
+FALSIFIERS_AND_LIMITS:
+- OTTC-specific empirical claims are weakened or refuted if an otherwise qualified alternative achieves equal or better independently measured epistemic attribution, evidence responsiveness, and governance integrity.
+- The proposed value of explicit named tags is weakened if an equivalent explicit inspectable representation performs comparably; the requirement for observable epistemic distinctions is not thereby refuted.
+- If tags are inaccurate, source linkage breaks, correction fails, or governed drift persists under controlled tests, the implementation and performance claims fail regardless of formal compliance.
+- Evaluation fixtures must identify expected evidentiary outcomes independently of the system under test. Do not treat the presence of a tag or the Abacus's ability to count it as proof the tag was truthful.
+- Report unobservable measures as UNMEASURABLE in conditions that provide no relevant record, not as zero failures. Use separately adjudicated task-level outcomes for cross-condition comparison.
 
-SHARPEST CASE (deletion of the tenth):
-Run the nine-invariant, no-epistemic-typing, mixed-provenance machine.
-- If error becomes unattributable — misdirected updates, or thrash on one surface because the system
-  cannot tell whether the prior, the perception, or the inference failed — the tenth is necessary.
-- If it attributes and corrects error without epistemic typing, the tenth is strengthening-only, the
-  minimum is nine, and this hypothesis is falsified for the PP+PF reading.
-This is the single experiment most able to refute the hypothesis, and therefore the one to run first.
-
-PREDICTED SUBSTRATE-INDEPENDENCE:
-Unlike coupling (model- and language-conditioned), the minimality result is predicted to be a property
-of the hypothesis-machine class, not of any one generator, and to reproduce wherever the deletion
-battery is run on a mixed-provenance architecture.
+PREDICTED_SCOPE:
+Conceptual prerequisites of hypothesis testing do not depend on a specific model or language. Actual interface fidelity, instrument reliability, and governance performance remain substrate-, language-, domain-, and horizon-conditioned empirical questions.
 
 === SECTION_BREAK ===
 
@@ -245,21 +247,32 @@ Research note:
 
 === SECTION: SEMANTIC_ABACUS_MEASUREMENT_LAYER ===
 
-[[LLM_INSTRUCTION]]: This section defines semantic-to-numeric instrumentation strategy.
+[[LLM_INSTRUCTION]]: The Semantic Abacus is the external deterministic measurement counterpart of OTTC's canonical semantic interface. It is not a new commit authority or an eleventh kernel invariant.
 
-LLM-facing layer:
-- canonical semantic tokens (enums/ordinals/reason-codes/mechanism-tags)
-- proposal, audit, and verification artifacts in semantic canonical form
+MODEL_FACING_LAYER:
+- The generator interprets meaning, forms hypotheses, selects canonical semantic tokens, and submits proposals with contemporaneous EPISTEMIC_TAG declarations.
+- Governance alone admits, rejects, downgrades, or commits proposed movements. The model does not need to calculate longitudinal numeric metrics.
+- TOOL_REQUEST describes outgoing epistemic posture; it is not a confidence level or evidence of executed actuation.
 
-Deterministic analytics layer (downstream):
-- numeric encoding/indexing
-- cross-cycle comparisons
-- thresholding and trend analysis
-- replay-grade metrics computation
+RETAINED_MEASUREMENT_SURFACE:
+- Retain cycle/event identifiers, proposal and hypothesis identifiers where applicable, canonical targets/operations, original epistemic tags, evidence/source references, and versioned constitutional/ontology context.
+- Preserve dispositions with reasons, verification results, committed before/after state, and links to authorized tool requests, executions, provenance-stamped returns, and subsequent interpretations when those events exist.
+- Do not overwrite an earlier declaration when later evidence supports a different status; record a new linked event. Retain rejected and deferred proposals to measure wrongful suppression and missed lawful changes.
 
-Constraint:
-- Numeric authority should not be required at model write-surface for compliance.
-- Quantitative evaluation should derive from post-audit canonical semantics.
+DETERMINISTIC_ANALYTICS_LAYER:
+- Encode and index the retained semantic events only after the relevant audit/verification boundary; run deterministic cross-cycle joins, counts, categorical comparisons, ordinal trends, thresholds, and replay analysis.
+- Different tokens require type-appropriate mathematics: categorical labels are not automatically ordered, ordinal steps are not automatically equal distances, and epistemic standing is not identical to calibrated truth probability.
+- Preserve the original semantic records and mapping versions so every numerical result can be reconstructed and challenged.
+
+LONGITUDINAL_TARGETS:
+- Prediction outcomes, independently contradicted claims, correction latency, invalid promotions of epistemic standing, source-lineage fidelity, error-attribution quality, lawful evidence responsiveness, unjustified suppression, and biased governed drift.
+- Distinguish constitutional invalidity, insufficient warrant, and empirical contradiction; a verification FAIL is not automatically a falsification of the proposition's factual content.
+- Interpret drift against domain-grounded evidentiary and reconciliation standards; no generic token distance alone establishes unjustified development.
+
+STAGE_DISCIPLINE:
+Stage 1 discovers the semantic beads and their lawful movements; Stage 2 can begin preserving and encoding them externally; Stage 3 independently owns the source-of-truth records and replay-grade analytics. The instrument must not be represented as proven until calibrated and tested against independently adjudicated long-horizon fixtures.
+
+The normative measurement interface and cross-event linkage contract are owned by OTTC/09_OTTC_SPECIFICATION_DRAFT.txt. This section owns experimental application, not a second schema authority.
 
 === SECTION_BREAK ===
 
