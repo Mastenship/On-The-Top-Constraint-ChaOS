@@ -164,8 +164,11 @@ verify cycle is simultaneously conjecture→test→refute (falsification) and pr
 (predictive processing). Epistemic typing also upgrades the step-limit precision gate (INVARIANT 6) from
 a binary proof/no-proof threshold to an ordinal precision lattice (SPECULATION < INFERENCE < PERCEPTION <
 evidence-bound COMMITTED_FACT), and supplies the discrete semantic units from which downstream
-deterministic governance (the Semantic Abacus) estimates continuous, channel-conditioned precision over
-the horizon.
+deterministic governance (the Semantic Abacus) may estimate channel-conditioned precision over
+the horizon. This ordering describes a declared evidentiary precedence policy, not universal
+per-claim accuracy or a calibrated probability scale. TOOL_REQUEST is an outgoing interaction
+posture and does not belong on that ladder. The Abacus must retain original tags and evidence
+lineage before converting categorical and ordinal semantics into numerical measurements.
 
 [KEEP: Necessity note]
 This invariant is strictly necessary for any architecture with mixed-provenance durable state — that is,
@@ -202,10 +205,10 @@ STATEMENT:
 Tool calls (if present) must be proposed in the proposal registry and only actuated post-commit by the single writer, with the same audit trail as any other mutation.
 
 ENFORCEMENT:
-Tool intent is treated as a proposal with OPERATION_TYPE TOOL_REQUEST. Actuation occurs only after commit and verification. Unauthorized tool calls are suppressed with reason code TOOL_ACTUATION_VIOLATION.
+The outgoing proposal declares EPISTEMIC_TAG TOOL_REQUEST: it requests an external interaction but does not assert that one occurred. A separate, governed tool-intent interface specifies tool identity, parameters, scope, and approval requirements. Only authorized, verified requests may be executed by the external actuation authority; unauthorized execution is a TOOL_ACTUATION_VIOLATION.
 
 INTEGRATION:
-TOOL_REQUEST is a member of the EPISTEMIC_TAG enum defined in INVARIANT 10. Extend the verification checklist to include tool-actuation provenance.
+TOOL_REQUEST is a member of the EPISTEMIC_TAG enum defined in INVARIANT 10, not a seventh OPERATION_TYPE in the closed state-mutation vocabulary. Record request, adjudication, actual execution, returned source provenance, receiving-domain evidence admission, and subsequent interpretation as separately linkable events. A successful tool return is not automatically COMMITTED_FACT. ChaOS Stage 1 reserves and suppresses tool actuation until separately activated.
 
 === SECTION_BREAK ===
 
