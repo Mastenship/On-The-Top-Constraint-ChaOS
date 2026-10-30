@@ -203,7 +203,7 @@ The invariant set is normative for OTTC; irreducible universal minimality remain
 === SECTION: EXTENSION_EXPLICIT_TOOL_ACTUATION_BOUNDARY ===
 
 STATEMENT:
-Tool calls (if present) must be proposed in the proposal registry and only actuated post-commit by the single writer, with the same audit trail as any other mutation.
+Tool calls (if present) must begin as governed, epistemically typed proposals. The single commit authority approves the lawful tool intent; a separately authorized executor may then perform the interaction after the requisite governance/verification gate. Preserve linked request, authorization, execution, return, and subsequent claim records.
 
 ENFORCEMENT:
 The outgoing proposal declares EPISTEMIC_TAG TOOL_REQUEST: it requests an external interaction but does not assert that one occurred. A separate, governed tool-intent interface specifies tool identity, parameters, scope, and approval requirements. Only authorized, verified requests may be executed by the external actuation authority; unauthorized execution is a TOOL_ACTUATION_VIOLATION.
