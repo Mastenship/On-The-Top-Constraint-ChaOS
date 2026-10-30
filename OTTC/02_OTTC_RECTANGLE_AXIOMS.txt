@@ -155,7 +155,7 @@ by resolvable, verified evidence linkage. Proposals with invalid, missing, or mi
 suppressed with explicit reason code EPISTEMIC_TAG_VIOLATION.
 
 WHY_IT_MATTERS:
-This invariant is what makes an OTTC machine a hypothesis machine. Without epistemic typing, a
+This invariant makes the epistemic footing of OTTC proposals observable and auditable, which is necessary for the framework's accountable hypothesis-machine objective. Tags alone do not generate predictions, independent tests, or lawful correction. Without epistemic typing, a
 verification FAIL types the operation (which kind of mutation) but not the assertion (which kind of
 claim about reality) — and predictive processing requires the latter to direct an update. An untyped
 error signal collapses every failure to "revise something," with no way to route the correction to the
@@ -184,10 +184,11 @@ agent, this invariant is treated as kernel.
 === SECTION: WHAT_THIS_BUYS_YOU ===
 
 STATEMENT:
-The ten invariants together create a minimal constitutional shape that any long-horizon agent can
-inhabit. The first nine make the mutation boundary governable. The tenth makes it a
-predictive-falsificationist system: it can predict, be refuted, and attribute its own errors over
-cycles. They are deliberately terse so the kernel remains universal.
+The ten invariants together prescribe OTTC's constitutional shape for accountable long-horizon agents.
+The first nine define its governability floor; the tenth makes epistemic claims explicit for
+independent audit and longitudinal measurement. Actual prediction, independent contradiction,
+correction, and truthfulness remain behaviors to test, not guaranteed consequences of naming tags.
+The invariant set is normative for OTTC; irreducible universal minimality remains unconfirmed.
 
 [KEEP: Two-tier summary]
 - Nine invariants: a governable mutation boundary (durable state cannot be changed without canonical
