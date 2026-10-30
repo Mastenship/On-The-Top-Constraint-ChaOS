@@ -35,7 +35,7 @@ OTTC provides **testable requirements** to address these problems. A design cont
 
 [[LLM_INSTRUCTION]]: Describe the current TEN-invariant kernel, not an old nine-invariant cut.
 
-A full OTTC square instantiates all ten prescribed invariants. Invariants 1–9 provide the proposed governability floor; invariant 10 protects epistemic standing. Their irreducible minimality is ARGUED, NOT YET CONFIRMED pending OTTC 10's deletion battery.
+A full OTTC square instantiates all ten prescribed invariants. Invariants 1–9 provide the proposed governability floor; invariant 10 protects epistemic standing. Their irreducible minimality is ARGUED, NOT YET CONFIRMED; OTTC 10 now separates empirical interface ablations from logical prerequisites and universal minimality claims.
 
 1) Canonical state addresses
 - One identity for each consequential mutable target; canonical bracket, JSON Pointer, or other surface chosen through substrate/language qualification.
