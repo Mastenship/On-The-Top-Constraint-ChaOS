@@ -89,9 +89,7 @@ continuity emerges without requiring full observability of the generator’s int
 [KEEP: Corollary — predictive-falsificationist reading]
 When, in addition, every proposal is typed by epistemic status, the propose→commit→verify cycle
 becomes simultaneously a conjecture→test→refute loop (Popperian falsification) and a
-predict→compare→update loop (predictive processing). The ten kernel invariants are the minimal
-conditions under which these two loops are the same loop, executed over cycles and inspectable
-after the fact.
+predict→compare→update loop (predictive processing). The proposed ten-invariant kernel is OTTC's normative architecture for making these loops jointly accountable across cycles. Whether these ten functions are universally minimal is an open architectural claim, not established by defining the loop or by finite deletion tests.
 
 === SECTION_BREAK ===
 
