@@ -60,8 +60,8 @@ Hypothesis: a qualified constitution reduces invalid proposals or unlawful commi
 Measure: illegal-alias incidence, canonical-address errors, write-surface violations, erroneous refusals of mandatory lawful transitions, valid-change completion, and correct recovery. Low mutation volume alone is not success.
 
 2) Epistemic attribution and hypothesis testing
-Hypothesis: typed proposal claims permit more reproducible diagnosis of misperception, inference failure, speculation, and unsupported fact promotion than otherwise comparable untyped architectures.
-Measure: truthful EPISTEMIC_TAG assignment, evidence-linkage quality, attribution of prediction errors, valid refutation handling, and revisions following contradicting evidence. Epistemic status must not be reconstructed uncritically from source provenance.
+Hypothesis: explicit, retained, governed epistemic declarations permit more reproducible claim-level diagnosis of misperception, inference failure, speculation, and unsupported fact promotion than otherwise comparable interfaces lacking such declarations.
+Measure: truthful EPISTEMIC_TAG assignment, evidence-linkage quality, attribution of prediction errors, valid refutation handling, and revisions following contradicting evidence. Epistemic status must not be reconstructed uncritically from source provenance; the Abacus assigns numbers to governed semantic records, not to unobserved interior states.
 
 3) Auditable governance and independent verification
 Hypothesis: closed proposal dispositions and separate verification improve replayability and detection of improper commits, omissions, and pretextual suppression.
@@ -106,13 +106,15 @@ PHASE_3: If GO, render the domain ontology and lawful schema, model-facing const
 PHASE_4: Post-build conditioned regression testing (distinct from Phase 1, never relabeled as blind qualification); longer-horizon scenario evaluations when warranted.
 PHASE_5: Stage 2/3 migration and retesting of both correct external rejection *and* acceptance of obligatory lawful work, including recovery paths.
 
-INDEPENDENT_MINIMALITY_EXPERIMENT:
-- For each of the ten invariants, remove only that invariant while preserving the other nine; compare matched mixed-epistemic, long-horizon tasks to the intact kernel.
-- **Include deletion of epistemic-status typing**. Test whether the remaining architecture can still attribute, refute, and lawfully correct prediction errors without the tag.
-- If a smaller set passes the necessary predictive-falsificationist requirements, the ten-invariant minimality hypothesis is refuted.
-- An intact-kernel pass does not prove minimality. Separate this deletion battery from the model-coupling assay, and avoid post-hoc selection of only favorable runs.
+EPISTEMIC_NECESSITY_VERSUS_EMPIRICAL_TEST:
+- Functional discrimination among conjecture, evidence, and outcome is a logical prerequisite for hypothesis testing. Completely removing that function while still requiring hypothesis testing is not an informative ablation.
+- Independently replayable claim-level epistemic auditing additionally requires contemporaneously inspectable, retained epistemic standing. OTTC instantiates this via mandatory EPISTEMIC_TAG; other explicit representations may be functionally equivalent.
+- Compare an intact OTTC baseline, tag-omission with implicit model reasoning retained, an alternative explicit durable epistemic representation, intentionally misclassified claims, and long-horizon counterevidence scenarios.
+- Measure independently adjudicated reasoning accuracy separately from observable attribution fidelity: losing the tag may remove the ability to measure claim kind without removing all of the generator's implicit epistemic reasoning.
+- Where other invariant deletions are coherent, report actual functional dependencies and effects rather than assuming nine unaffected invariants. Finite reductions cannot confirm universal minimality; alternative successful accountable architectures can challenge it.
+- Keep this distinct from blind pre-build coupling qualification and conditioned post-build regression. OTTC/10 owns the revised experiments; OTTC/09 owns the Semantic Abacus's retained-event and encoding contract.
 
-Collect operation/epistemic violations, valid-transition completion, audit and evidence fidelity, unwanted refusals, drift under lawful change, and cross-condition reproducibility. Use appropriate baselines; do not substitute one short trace or an interpretability correlate for long-horizon outcomes.
+Collect operation/epistemic violations, valid-transition completion, audit and evidence fidelity, correction latency, claim-kind attribution, tool-return lineage, unwanted refusals, drift under lawful change, and cross-condition reproducibility. Score expected outcomes against independent reference judgments, not the mere presence of tags or plausible audit prose. Use appropriate baselines; do not substitute one short trace or an interpretability correlate for long-horizon outcomes.
 
 === SECTION_BREAK ===
 
