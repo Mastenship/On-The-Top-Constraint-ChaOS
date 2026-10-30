@@ -152,7 +152,7 @@ Mathematics and metrics can be treated as an emergent representation of governed
 - The model manipulates stable semantic “beads” lawfully (canonical addresses + explicit ops + reasons).
 - External systems translate those beads into numbers for analytics, thresholds, and comparisons over cycles.
 
-This reduces pressure on the model to “be good at numbers” at the write surface and improves replayability and determinism of evaluation.
+This reduces pressure on the model to “be good at numbers” at the write surface and improves replayability and determinism of evaluation. Stage 1 assays qualify the model-facing semantic interface; they do not by themselves establish longitudinal correction behavior. A Stage 2/3 Semantic Abacus study requires retained, contemporaneously typed and evidence-linked events under the OTTC/09 measurement contract, with tests governed by OTTC/10.
 
 === SECTION_BREAK ===
 
