@@ -88,8 +88,10 @@ continuity emerges without requiring full observability of the generator’s int
 
 [KEEP: Corollary — predictive-falsificationist reading]
 When, in addition, every proposal is typed by epistemic status, the propose→commit→verify cycle
-becomes simultaneously a conjecture→test→refute loop (Popperian falsification) and a
-predict→compare→update loop (predictive processing). The proposed ten-invariant kernel is OTTC's normative architecture for making these loops jointly accountable across cycles. Whether these ten functions are universally minimal is an open architectural claim, not established by defining the loop or by finite deletion tests.
+has an accountable interface capable of supporting both conjecture→test→refute (Popperian
+falsification) and predict→compare→update (predictive processing), when genuine predictions,
+independent evidence, and evidence-responsive revisions occur. Typing is necessary for the specified
+claim-level audit, but does not by itself cause a genuine empirical test. The proposed ten-invariant kernel is OTTC's normative architecture for making these loops jointly accountable across cycles. Whether these ten functions are universally minimal is an open architectural claim, not established by defining the loop or by finite deletion tests.
 
 === SECTION_BREAK ===
 
