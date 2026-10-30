@@ -373,8 +373,10 @@ What changes is:
 Stage progression changes where authority lives; at the terminal stage it also changes what the
 generator's inputs are. In-model, the generator's "world" is partly its own representation, so the
 predictive-falsificationist loop runs against a partially self-authored exterior. As state, commit, and
-verification externalize, the generator's inputs become progressively incorrigible to it, until at Stage 3
-they are world-truth in full (see WHY_STAGE_3_IS_NECESSARY). The ten invariants persist across every stage;
+verification externalize, the generator's inputs become progressively independent of its unilateral
+control; at Stage 3, the governed transaction and return records are authoritative accounts of what
+the boundary did and returned, not guarantees of the factual truth of every external source (see
+WHY_STAGE_3_IS_NECESSARY). The ten invariants persist across every stage;
 what deepens is both the enforcement of those invariants and the independence of the exterior the loop is
 tested against. Enforcement depth and epistemic closure rise together, by the same migration.
 
