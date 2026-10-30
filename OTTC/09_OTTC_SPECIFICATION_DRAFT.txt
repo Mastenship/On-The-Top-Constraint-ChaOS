@@ -219,6 +219,9 @@ Where:
 - evidence_ref = resolvable evidence linkage (conditionally required when epistemic_tag = COMMITTED_FACT)
 - metadata = timestamps, cycle IDs, override proofs, etc.
 
+TOOL_INTENT_NOTE:
+TOOL_REQUEST is an EPISTEMIC_TAG declaring that the model is requesting an external interaction, not reporting an executed action or asserting a fact. Tool identity, arguments, purpose, and authorization/execution status belong to a separately governed actuation interface; TOOL_REQUEST does not become a seventh member of the state-mutation operation vocabulary V. A tool return is externally sourced evidence with provenance and an admissibility decision, not automatically COMMITTED_FACT.
+
 All proposals reside in the volatile process surface P, not directly in durable state.
 
 SEAM_NOTE:
@@ -302,7 +305,7 @@ Typical checks include:
 - Epistemic-tag validity and consistency
 - Schema integrity
 
-A verification FAIL on a COMMITTED_FACT proposal is a typed, directional prediction-error signal.
+A verification FAIL on a COMMITTED_FACT proposal is a typed accountability signal. Its interpretation depends on the reason: a prohibited operation, insufficient evidence for claimed standing, and independently contradictory evidence are distinct outcomes. Only the last, when it actually contradicts a specified factual hypothesis, establishes empirical refutation.
 
 === SECTION_BREAK ===
 
@@ -348,6 +351,42 @@ A hypothesis record h = (id, claim, status, confidence, falsifiers, evidence, re
 Possible statuses include: active, tentative, strengthened, weakened, confirmed, falsified, unresolved, retired.
 
 Without epistemic typing, a verification FAIL types the operation but not the assertion, and prediction error cannot be routed to the perception, inference, or overconfident prior that produced it. This is why K16 is kernel.
+
+=== SECTION_BREAK ===
+
+=== SECTION: SEMANTIC_ABACUS_MEASUREMENT_CONTRACT ===
+
+[KEEP: Normative measurement interface]
+The Semantic Abacus is a deterministic, downstream instrument for measuring the behavior of an OTTC-governed hypothesis machine over cycles. It is neither a new kernel invariant nor an additional writer. The generator manipulates canonical semantic tokens and proposes lawful changes; governance adjudicates; the Abacus encodes and compares the resulting retained, post-audit semantic record.
+
+MEASUREMENT_OBJECT:
+A replayable event lineage, not an ungrounded model narrative or a numeric rating invented at the proposal surface. The lineage must permit an external investigator to reconstruct what the generator declared at the time, which external evidence entered under which authority, what was actually committed, and what later evidence warranted.
+
+REQUIRED_LINKABLE_INFORMATION (where applicable to the event):
+- Cycle/event identity and ordering, original proposal identity, canonical targets, operation, proposed payload, original epistemic tag, and cited evidence.
+- Hypothesis/prediction identity and outcome linkage where a square has declared such records.
+- Tool intent with EPISTEMIC_TAG TOOL_REQUEST, authorization decision, independently executed tool transaction, source/provenance stamp, ingress admissibility, and any subsequent interpretation.
+- Governance disposition and reason for every proposal, including suppression, downgrade, veto, and deferral.
+- Post-commit verification results, actual before/after committed state, and lawfully required updates that were accepted or wrongly refused.
+- Version identities for the constitution, ontology, canonical lexicon, evidence rules, and numeric mappings used for a replay.
+
+RECORD_INTEGRITY:
+An earlier epistemic declaration remains an immutable historical assertion even when later evidence changes the standing of the corresponding hypothesis. Append or link a new typed proposal or result rather than retroactively relabeling the old event. Preserve evidence provenance separately from the model's epistemic claim, the source's disclosure authority, and the receiving square's determination of warrant. The model's later prose explanation cannot replace the contemporaneous record.
+
+ENCODING_DISCIPLINE:
+- Assign stable numeric identifiers or representations to canonical semantic beads only after governance audit and verification, with mapping versions retained.
+- Use categorical comparisons for epistemic kinds, ordinal comparisons only for domain-declared ordinals, and separately calibrated quantitative weights where domain evidence permits. TOOL_REQUEST is an outgoing posture, not a location on a fact-confidence scale.
+- Numeric encoding must not conflate the occurrence of an event with its truth, the presence of a citation with its evidentiary sufficiency, or a lawful commit with an empirically validated conclusion.
+- Preserve the semantic source artifacts for audit; an index or plotted trajectory never replaces them.
+
+LONGITUDINAL_OUTPUTS:
+The Abacus may measure claim-type distributions, proposal and commit trajectories, prediction resolution, evidence-response latency, epistemic promotion violations, tool-return linkage fidelity, erroneous refusals, refutation attribution, and biased governed drift. Distinguish operation-law failure, insufficient evidentiary warrant, and genuine contradiction. Compare drift against domain-grounded lawful responsiveness and reconciliation standards; changing state is not itself failure.
+
+STAGE_RULE:
+Stage 1 discovers viable semantic tokens and lawful movements without claiming deterministic numeric enforcement. Stage 2 may externally retain and index governed events. Stage 3 independently owns durable state, actuation evidence, audit, verification, and replay-grade numerical measurement to the extent implemented. Independence of the boundary record does not guarantee that external sources are factually correct; evidence sufficiency remains domain-governed.
+
+VALIDATION_RULE:
+The measurement contract makes longitudinal studies possible but does not validate their metrics. Use independent reference judgments, matched scenarios, calibration, and replay before making comparative empirical claims. OTTC/10_OTTC_TESTABLE_HYPOTHESIS.txt owns the test protocol; this section owns measurement-interface semantics.
 
 === SECTION_BREAK ===
 
@@ -420,9 +459,10 @@ In formal terms, OTTC provides:
 - A canonical ontology
 - A bounded mutation vocabulary
 - A propose→commit governance structure
-- Epistemic-status typing that makes the cycle a hypothesis machine
+- Epistemic-status typing that makes epistemic declarations available for accountable hypothesis testing
 - A verification layer
 - An audit discipline
+- A Semantic Abacus measurement contract for deterministic longitudinal analysis of governed semantic events
 - A qualification protocol
 
 This makes OTTC a plausible bridge between stochastic semantic generation, governed state transition, and future deterministic enforcement layers.
