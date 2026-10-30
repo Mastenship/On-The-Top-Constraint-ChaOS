@@ -104,7 +104,7 @@ The philosophical point is that **governability does not require exhaustive inte
 
 ### The 10 Rectangle Axioms
 
-These are OTTC's **ten prescribed kernel invariants**. The first nine specify the lawful mutation machinery — state addresses, operations, single-writer authority, bounds, conflicts, audits, and verification. The tenth governs the **epistemic standing asserted by claims** used in those mutations. The specific necessity argument is strongest when claims of different epistemic kinds can affect durable state across cycles or authority boundaries; a consequential single-mode transactional workflow is not thereby "trivial." Ten remain the framework's normative kernel, while whether all ten form an **irreducible minimum** awaits OTTC 10's deletion battery (status: **ARGUED, NOT YET CONFIRMED**).
+These are OTTC's **ten prescribed kernel invariants**. The first nine specify the lawful mutation machinery — state addresses, operations, single-writer authority, bounds, conflicts, audits, and verification. The tenth governs the **epistemic standing asserted by claims** used in those mutations. The specific necessity argument is strongest when claims of different epistemic kinds can affect durable state across cycles or authority boundaries; a consequential single-mode transactional workflow is not thereby "trivial." Ten remain the framework's normative kernel, while whether all ten form an **irreducible minimum** remains an open comparative architecture claim, not something finite deletion trials alone can prove (status: **ARGUED, NOT YET CONFIRMED**).
 
 1. **Canonical Address Space** — One canonical way to refer to any state element. No synonyms at the write surface.
 2. **Propose-Commit Separation** — All mutation is expressed as proposals first; persistent state changes only at commit boundaries.
@@ -203,7 +203,7 @@ ChaOS is a **narrative architecture and construction demonstration, not a qualif
 
 Full renderings for each audience are in `AUDIENCE_RENDERINGS/`.
 
-**ML/LLM Researchers** — Testable hypotheses about constitutional conditioning, the proposed ten-function kernel, longitudinal drift, and the value of externalized enforcement. The [minimality deletion battery](OTTC/10_OTTC_TESTABLE_HYPOTHESIS.txt) remains an open test, not a confirmed result. Controlled comparisons can examine where governed and alternative architectures differ and what would refute OTTC's expectations.
+**ML/LLM Researchers** — Testable hypotheses about constitutional conditioning, the proposed ten-function kernel, longitudinal drift, and the value of externalized enforcement. The [revised accountability and ablation experiments](OTTC/10_OTTC_TESTABLE_HYPOTHESIS.txt) distinguish logical prerequisites from empirical implementation performance; irreducible minimality remains unconfirmed. Controlled comparisons can examine where governed and alternative architectures differ and what would refute OTTC's expectations.
 
 **Agent Framework Developers** — A protocol, not a framework. OTTC plugs into existing orchestration rather than replacing it. The result is agent state that is inspectable, testable, and auditable — with epistemic typing as a first-class field at the propose→commit seam, not a black box that might be doing something reasonable.
 
