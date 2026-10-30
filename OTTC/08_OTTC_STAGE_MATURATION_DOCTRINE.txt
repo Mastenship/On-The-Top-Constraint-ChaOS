@@ -289,13 +289,15 @@ The deterministic layer becomes:
 second, epistemic rationale that the enforcement framing leaves unstated. Hold both: Stage 3 hardens the
 boundary AND constitutes the generator's world.
 
-[KEEP: The epistemic closure — externalized inputs are world-truth for the generator]
+[KEEP: The epistemic closure — independent authoritative boundary records]
 Externalizing persistent state, commit authority, and verification does more than harden enforcement. It
-changes the generator's epistemic situation. Once the deterministic layer is the source of truth, the
-inputs returning across the boundary — committed state, verification verdicts, tool returns, the next
-cycle's world — are no longer authored or editable by the generator. From the generator's position they
-are incorrigible: world-truth, full stop, in exactly the sense sensory input is incorrigible to an
-organism. The model is now a proposer facing a world it cannot rewrite.
+changes the generator's epistemic situation. Once the deterministic layer owns the source of record,
+the inputs returning across the boundary — committed state, verification verdicts, authenticated tool
+execution/return records, and the next cycle's governed world — are no longer authored or editable by
+the generator. To the generator, these are authoritative records of what the boundary did and what
+external sources returned, not self-generated revisions. The generator faces an exterior it cannot
+rewrite. A provenance-stamped tool return can nevertheless be stale, incomplete, or wrong about the
+external world: independence of the return is not a guarantee of the truth of every statement inside it.
 
 This is the condition that makes the propose→commit→verify cycle a real predictive-falsificationist loop
 rather than a self-ratifying one. Falsification requires a test the conjecturer did not author; predictive
@@ -305,35 +307,35 @@ is that exterior:
   become durable state.
 - The externalized commit and verification return the actual outcome — what did become state, what the
   evidence permitted — from outside the generator.
-- The gap between proposed and committed is prediction error arriving from an exterior, the only place
-  prediction error can legitimately originate.
-- A verification FAIL on a COMMITTED_FACT is a refutation: an assertion offered as settled, refused by a
-  test the generator could not author. Kernel INVARIANT 10 (epistemic-status typing) is what makes that
-  refutation directional rather than undifferentiated — the FAIL is routed to the perception, the
-  inference, or the overconfident prior that produced it.
+- The gap between proposed and committed is an externally determined governance-outcome difference,
+  which can be measured independently of the generator. It can inform predictive correction, but is
+  not necessarily empirical prediction error about external facts.
+- A verification FAIL on a COMMITTED_FACT is a typed accountability signal. It may record illegal
+  operation, insufficient evidentiary warrant, or actual independent contradiction of a specified
+  factual hypothesis. Only the latter is empirical refutation. Kernel INVARIANT 10 permits the
+  failure to be attributed to the originally declared epistemic standing rather than left undifferentiated.
 - The next cycle's inputs are the updated world the generator must now predict against.
 
-Therefore the same event at the Stage 3 boundary is simultaneously the compare step of predictive
-processing and the test step of Popperian falsification — one loop satisfying both definitions, because
-both describe a generator corrected by an exterior it cannot author. Stages 1 and 2 have the loop's shape
-but not its engine: while the generator still controls or shares the boundary, the test is not independent
-of the tested, and refutation collapses toward self-confirmation. Stage 3 supplies the independent
-exterior. This is why Stage 3 is not merely the safest configuration but the configuration in which the
-hypothesis machine becomes a hypothesis machine at all. The demotion of the model to proposer is not only
-a safety move; it is the move that constitutes a world for the generator, and only a constituted,
-incorrigible world can be predicted and be refuted rather than predicted and self-ratified.
+Therefore Stage 3 permits one externally governed evidence-and-commit history to support both
+predict→compare→update and conjecture→test→refute when the recorded event actually supplies a test
+of the specified hypothesis. The resulting loop can be independently measured instead of merely
+narrated by its proposer. Stages 1 and 2 can encounter genuine external contradictions — for
+example, an independently governed game master's world event — but cannot guarantee separation
+of all model-operated commit and verification surfaces. Stage 3 systematically hardens that
+independence and makes the complete governed history available for deterministic replay. The move
+to proposer-only authority is both an enforcement move and an epistemic move: the generator must
+respond to consequences it did not have the power to author.
 
-[KEEP: Status of the closure — structurally entailed, behaviorally confirmed over the horizon]
-This closure is structurally entailed by the Stage 3 architecture: the model is a proposer and cannot
-author its inputs, so those inputs are incorrigible to it by construction. Whether a given generator
-reliably treats the externalized feedback as world-truth — rather than confabulating around it under
-pressure — is a coupling question, not a structural one, and is governed by the same discipline as every
-other coupling claim in this doctrine: measure, do not assume (RULE_3, RULE_4). The instrument is the same
-long-horizon, post-audit measurement the doctrine already prescribes. Per RELATION_TO_SEMANTIC_ABACUS, the
-Semantic Abacus reads, across cycles and under varying context load, whether prediction error resolves and
-whether refutations attribute to a kind of claim — i.e., whether the generator is in fact predicting its
-constituted world and being corrected by it. The closure is the entailment; the Abacus under load is its
-confirmation.
+[KEEP: Status of the closure — independent records structurally guaranteed; correction empirically tested]
+A correctly implemented Stage 3 boundary makes recorded commit, verification, and tool-execution
+outcomes independent of the generator's unilateral authorship. That is a structural property of the
+authority split, not proof that each source claim is true or that the generator responds correctly.
+Whether a given generator reliably updates its hypotheses and proposals in response to the feedback,
+rather than confabulating around it under pressure, remains a coupling question: measure, do not
+assume (RULE_3, RULE_4). The long-horizon, post-audit Semantic Abacus is the proposed instrument for
+measuring evidentiary correction and the attribution of failed claims across cycles and context loads.
+See OTTC/09_OTTC_SPECIFICATION_DRAFT.txt for its retained-event measurement contract and OTTC/10
+for the experimental outcomes.
 
 === SECTION_BREAK ===
 
@@ -566,16 +568,18 @@ Thus:
 Semantic Abacus is not a Stage 3 replacement for Stage 1.
 It depends on Stage 1 having first discovered stable semantic units worth encoding.
 
-[KEEP: The Abacus is the instrument that reads the Stage 3 loop over the horizon]
-Because Stage 3 constitutes an incorrigible exterior the generator predicts against (see
-WHY_STAGE_3_IS_NECESSARY), the Semantic Abacus is not only downstream analytics — it is the measurement
-layer of the predictive-falsificationist loop. Numbering the canonical, typed, per-cycle outputs and
-diffing them across cycles yields prediction error and refutation as dimensioned quantities in a canonical
-address space; the epistemic tag gives those quantities a direction (which kind of claim was refused).
-Varying context load extends the horizon. The Abacus therefore reads whether prediction error resolves and
-whether refutations attribute to a kind of claim under load — i.e., whether the generator is genuinely
-being corrected by its constituted world. This is the instrument by which the closure of
-WHY_STAGE_3_IS_NECESSARY is confirmed rather than assumed.
+[KEEP: The Abacus is the instrument that reads Stage 3 epistemic behavior over the horizon]
+Because Stage 3 retains independently governed outcomes, the Semantic Abacus is more than generic
+downstream analytics: it measures the proposed hypothesis machine's evidence-and-correction behavior.
+Canonical, contemporaneously typed semantic proposals are the beads; governance decides the permitted
+movements; external deterministic processing assigns numeric representations and compares the
+post-audit event lineage across cycles. The original tags, evidence/provenance links, rejected proposals,
+actual tool outcomes, and committed state transitions must remain available for replay.
+Typed comparisons can distinguish source of error, warrant failures, genuine contradictory tests, and
+lawful corrections. Numeric encoding alone does not prove refutation, truth, or drift; measurements must
+be evaluated against domain evidence and independently specified reference outcomes.
+Varying context load and horizon length tests whether the model remains responsive rather than
+self-ratifying. OTTC/09 owns the measurement contract; OTTC/10 owns its empirical tests.
 
 === SECTION_BREAK ===
 
