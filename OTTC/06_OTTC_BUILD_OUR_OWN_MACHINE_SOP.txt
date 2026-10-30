@@ -353,8 +353,9 @@ PROCEDURE:
 - use ONE_STEP transitions unless override proven
 
 4) Semantic Abacus alignment:
-- keep proposal semantics human/audit legible
-- defer numeric encoding/indexing/comparison to external deterministic governance after commit + verification
+- keep proposal semantics human/audit legible, with original EPISTEMIC_TAG declarations and evidence links preserved at the write surface
+- retain stable identifiers for proposals, evidence, governed tool interactions (where active), audit dispositions, and actual commits, so Stage 2/3 can reconstruct cross-cycle event lineage
+- defer numeric encoding/indexing/comparison to external deterministic governance after commit + verification; OTTC/09_OTTC_SPECIFICATION_DRAFT.txt owns the measurement contract
 
 OUTPUT_ARTIFACTS:
 - COT_* modules for:
